@@ -14,6 +14,7 @@ This is strategic game implemented in C++. This project is part of informatics l
     3. The path where you want MinGW to live
     4. The default value
     5. "C Compiler", "C++ Compiler" and further below: "MinGW Developer Toolkit"
+    6. Install the Boost Libraries. Download them from http://sourceforge.net/projects/boost/files/boost/1.52.0/boost_1_52_0.zip/download and unpack it. Then move the directory "boost" from the extraced directory to "<MinGW-Root>/include/".
 2. **Install CMake**. This is the build system. It makes it easier to compile all the files needed. The download is located at http://www.cmake.org/files/v2.8/cmake-2.8.9-win32-x86.exe and more information about CMake is at http://en.wikipedia.org/wiki/CMake. Install it with default options.
 3. **Install Eclipse CDT**. Download it from http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/juno/SR1/eclipse-cpp-juno-SR1-win32.zip and unpack it somewhere where you'll find it.
 
