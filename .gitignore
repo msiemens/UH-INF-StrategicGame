@@ -19,7 +19,7 @@ cmake_install.cmake
 install_manifest.txt
 
 *.pydevproject
-.project
+# .project
 .metadata
 bin/**
 tmp/**
