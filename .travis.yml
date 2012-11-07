@@ -1,0 +1,13 @@
+# Compiling options:
+language: cpp
+compiler:
+  - gcc
+# Change this to your needs
+script: cmake . && make
+
+# Travis options
+
+# Whitelist
+branches:
+  only:
+    - prototype/from-uml
