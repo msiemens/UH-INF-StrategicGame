@@ -1,2 +1,2 @@
 file(GLOB this "*.h" "*.cpp")
-add_library(gamemodel.actions, ${this})
+set(source_utils this PARENT_SCOPE)
