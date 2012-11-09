@@ -1,2 +1,2 @@
-file(GLOB_RECURSE this "*.h" "*.cpp")
+file(GLOB_RECURSE this "*.cpp")
 # add_library(server ${this})
