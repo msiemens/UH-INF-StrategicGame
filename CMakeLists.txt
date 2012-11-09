@@ -7,3 +7,5 @@ add_subdirectory(gamemodel)
 add_subdirectory(network)
 add_subdirectory(server)
 add_subdirectory(client)
+
+# Change by Henrik.
