@@ -9,14 +9,28 @@
 #define ETROOPS_H_
 
 #include <gamemodel/GameEntity.h>
+#include <string>
 
 class ETroops: public GameEntity {
 public:
 	ETroops();
 	virtual ~ETroops();
 
-	int xp;
-	int moral;
+	std::string name;
+	int EXP;
+	int cost;
+
+	//Attributes
+	int MOR;
+	int ATK;
+	int DEF;
+	int PAC;
+
+	int amount;
+
+	//int HP_Max;
+	//int HP;
+
 };
 
 #endif /* ETROOPS_H_ */
