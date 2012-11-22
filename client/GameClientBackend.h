@@ -13,6 +13,8 @@ namespace std {
 class GameClientBackend {
 public:
 	GameClientBackend();
+	void OnPlayerAction(Player who, GameAction what);
+	void OnGameStateMessage(); // NEED A UPDATE!
 	virtual ~GameClientBackend();
 };
 

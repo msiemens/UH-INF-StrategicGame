@@ -11,11 +11,21 @@ namespace std {
 
 GameClient::GameClient() {
 	// TODO Auto-generated constructor stub
-
+	this->inGame = true;
 }
 
 GameClient::~GameClient() {
 	// TODO Auto-generated destructor stub
 }
 
+int GameClient::main(){
+
+	while(inGame){
+
+		GS.aktivGS;
+
+	}
+
+	return 0;
+}
 } /* namespace std */
