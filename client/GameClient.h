@@ -15,6 +15,11 @@ public:
 	GameClient();
 	virtual ~GameClient();
 	int main();				//Everthing starts here!
+private:
+	bool inGame;
+	GameState GS;
+	string ServerAddress;
+	GameNetwork Network;
 };
 
 } /* namespace std */

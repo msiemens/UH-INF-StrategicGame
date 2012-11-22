@@ -6,6 +6,7 @@
  */
 
 #include "client/GameClient.h"
+#include "gamemodel/GameState.h"
 
 #ifndef GAMEUI_H_
 #define GAMEUI_H_
@@ -16,6 +17,11 @@ class GameUI: public GameClient {
 public:
 	GameUI();
 	virtual ~GameUI();
+	void ShowGamestate(GameState GS);
+	void ShowMap();
+	void ShowSquads();
+	void markSquad(ETroops Squad);
+	void HandleMouseInput(int MousePosX, int MousePosY);
 };
 
 } /* namespace std */

@@ -18,4 +18,10 @@ GameClientBackend::~GameClientBackend() {
 	// TODO Auto-generated destructor stub
 }
 
+void GameClientBackend::OnPlayerAction(Player who, GameAction what){
+
+}
+void GameClientBackend::OnGameStateMessage(){
+
+}
 } /* namespace std */
