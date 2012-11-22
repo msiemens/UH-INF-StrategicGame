@@ -5,12 +5,14 @@
  *      Author: Armend
  */
 
+#include "client/GameClient.h"
+
 #ifndef GAMECLIENTBACKEND_H_
 #define GAMECLIENTBACKEND_H_
 
 namespace std {
 
-class GameClientBackend {
+class GameClientBackend: public GameClient {
 public:
 	GameClientBackend();
 	virtual ~GameClientBackend();

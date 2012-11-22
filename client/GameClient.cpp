@@ -18,4 +18,8 @@ GameClient::~GameClient() {
 	// TODO Auto-generated destructor stub
 }
 
+int GameClient::main(){
+
+	return 0;
+}
 } /* namespace std */

@@ -5,12 +5,14 @@
  *      Author: Armend
  */
 
+#include "client/GameClient.h"
+
 #ifndef GAMEUI_H_
 #define GAMEUI_H_
 
 namespace std {
 
-class GameUI {
+class GameUI: public GameClient {
 public:
 	GameUI();
 	virtual ~GameUI();
