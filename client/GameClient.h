@@ -20,6 +20,7 @@ private:
 	GameState GS;
 	string ServerAddress;
 	GameNetwork Network;
+	GameClientBackend ClientBackend;
 };
 
 } /* namespace std */
