@@ -5,6 +5,9 @@
  *      Author: Armend
  */
 
+#include "client/GameClient.h"
+#include "gamemodel/Player.h"
+
 #ifndef GAMECLIENTBACKEND_H_
 #define GAMECLIENTBACKEND_H_
 
