@@ -6,13 +6,14 @@
  */
 
 #include "client/GameClient.h"
+#include "gamemodel/Player.h"
 
 #ifndef GAMECLIENTBACKEND_H_
 #define GAMECLIENTBACKEND_H_
 
 namespace std {
 
-class GameClientBackend: public GameClient {
+class GameClientBackend {
 public:
 	GameClientBackend();
 	void OnPlayerAction(Player who, GameAction what);
