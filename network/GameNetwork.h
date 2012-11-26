@@ -12,12 +12,6 @@ class GameNetwork {
 public:
 	GameNetwork();
 	virtual ~GameNetwork();
-
-	void launchServer();
-	void launchClient();
-
-	void sendMessage();
-	void broadcastMessage();
 };
 
 #endif /* GAMENETWORK_H_ */
