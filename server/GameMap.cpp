@@ -32,6 +32,7 @@ void GameMap::setArmy(coordinates coords){
 
 void GameMap::setArmy(int x,int y){
 	map[y][x]=map[y][x]|army;
+	int f=0;
 }
 
 void GameMap::setPlace(coordinates coords){
