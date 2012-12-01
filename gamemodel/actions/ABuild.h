@@ -8,10 +8,10 @@
 #ifndef ABUILD_H_
 #define ABUILD_H_
 
-#include <gamemodel/utils/coordinates.h>
-#include <gamemodel/entities/EBuilding.h>
+#include "gamemodel/entities/EPlace.h"
+#include "gamemodel/entities/EBuilding.h"
 
-#include <gamemodel/GameAction.h>
+#include "gamemodel/GameAction.h"
 
 class ABuild: public GameAction {
 public:
@@ -19,7 +19,7 @@ public:
 	virtual ~ABuild();
 
 	EBuilding what;
-	coordinates where;
+	EPlace where;
 };
 
 #endif /* ABUILD_H_ */

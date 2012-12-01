@@ -12,6 +12,10 @@ class GameServer {
 public:
 	GameServer();
 	virtual ~GameServer();
+
+	bool callNetwork();
+
+	GameEngine engine;
 };
 
 #endif /* GAMESERVER_H_ */

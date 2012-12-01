@@ -11,7 +11,7 @@ namespace std {
 
 ESettlement::ESettlement() {
 	// TODO Auto-generated constructor stub
-
+	mininhabitans=0;
 }
 
 ESettlement::~ESettlement() {

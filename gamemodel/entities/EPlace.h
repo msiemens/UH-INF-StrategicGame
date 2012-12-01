@@ -8,10 +8,11 @@
 #ifndef EPLACE_H_
 #define EPLACE_H_
 
-#include <GameEntity.h>
+#include "gamemodel/GameEntity.h"
 #include "EBuilding.h"
+#include <list>
 
-namespace std {
+using namespace std;
 
 class EPlace: public GameEntity {
 public:
@@ -19,8 +20,9 @@ public:
 	virtual ~EPlace();
 
 	int inhabitans;
-	list<EBuilding> buildinglist;
+	int mininhabitans;
+
+	//list<EBuilding> buildinglist;
 };
 
-} /* namespace std */
 #endif /* EPLACE_H_ */

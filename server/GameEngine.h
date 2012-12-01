@@ -27,7 +27,7 @@ public:
 	bool onPlayerConnect(Player player);
 	void onPlayerDisconnect(Player player);
 	void onPlayerAction(Player player,GameAction action);
-	void createObject(Player player,GameEntity action);
+	void doAction(Player player,GameAction action);
 
 	GameLogic logic;
 

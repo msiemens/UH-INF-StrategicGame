@@ -1,22 +1,20 @@
 /*
- * EPlace.cpp
+ * ROre.cpp
  *
  *  Created on: 23.11.2012
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/EPlace.h"
+#include "gamemodel/ressources/ROre.h"
 
 namespace std {
 
-EPlace::EPlace() {
+ROre::ROre() {
 	// TODO Auto-generated constructor stub
-	inhabitans=0;
-	mininhabitans=0;
 
 }
 
-EPlace::~EPlace() {
+ROre::~ROre() {
 	// TODO Auto-generated destructor stub
 }
 

@@ -25,11 +25,10 @@ public:
 	int ATK;
 	int DEF;
 	int PAC;
+	int TAC;
 
 	int amount;
 
-	//int HP_Max;
-	//int HP;
 
 };
 

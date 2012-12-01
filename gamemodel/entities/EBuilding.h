@@ -8,12 +8,18 @@
 #ifndef EBUILDING_H_
 #define EBUILDING_H_
 
-#include <gamemodel/GameEntity.h>
+#include "gamemodel/GameEntity.h"
+#include "gamemodel/entities/EPlace.h"
+
+using namespace std;
 
 class EBuilding: public GameEntity {
 public:
 	EBuilding();
 	virtual ~EBuilding();
+
+
+	//EPlace where;
 };
 
 #endif /* EBUILDING_H_ */

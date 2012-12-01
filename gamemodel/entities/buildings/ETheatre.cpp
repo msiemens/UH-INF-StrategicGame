@@ -1,22 +1,20 @@
 /*
- * EPlace.cpp
+ * ETheatre.cpp
  *
  *  Created on: 23.11.2012
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/EPlace.h"
+#include "gamemodel/entities/buildings/ETheatre.h"
 
 namespace std {
 
-EPlace::EPlace() {
+ETheatre::ETheatre() {
 	// TODO Auto-generated constructor stub
-	inhabitans=0;
-	mininhabitans=0;
 
 }
 
-EPlace::~EPlace() {
+ETheatre::~ETheatre() {
 	// TODO Auto-generated destructor stub
 }
 

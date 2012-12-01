@@ -1,22 +1,20 @@
 /*
- * EPlace.cpp
+ * AAttack.cpp
  *
- *  Created on: 23.11.2012
+ *  Created on: 30.11.2012
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/EPlace.h"
+#include "gamemodel/actions/AAttack.h"
 
 namespace std {
 
-EPlace::EPlace() {
+AAttack::AAttack() {
 	// TODO Auto-generated constructor stub
-	inhabitans=0;
-	mininhabitans=0;
 
 }
 
-EPlace::~EPlace() {
+AAttack::~AAttack() {
 	// TODO Auto-generated destructor stub
 }
 

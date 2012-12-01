@@ -1,22 +1,20 @@
 /*
- * EPlace.cpp
+ * EStable.cpp
  *
  *  Created on: 23.11.2012
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/EPlace.h"
+#include "gamemodel/entities/buildings/EStable.h"
 
 namespace std {
 
-EPlace::EPlace() {
+EStable::EStable() {
 	// TODO Auto-generated constructor stub
-	inhabitans=0;
-	mininhabitans=0;
 
 }
 
-EPlace::~EPlace() {
+EStable::~EStable() {
 	// TODO Auto-generated destructor stub
 }
 

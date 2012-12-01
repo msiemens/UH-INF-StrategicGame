@@ -34,12 +34,36 @@ void GameEngine::onPlayerDisconnect(Player player){
 void GameEngine::onPlayerAction(Player player,GameAction action){
 
 	if(logic.checkPlayerAction(player,action)==true){
-		createObject(player,action.what);
+		doAction(player,action);
 	}
 
 }
 
-void GameEngine::createObject(Player player,GameEntity object){
-	player.addEntity(entity);
+void GameEngine::doAction(Player player,GameAction action){
+	ARecruit* recruit = dynamic_cast<ARecruit>(action);
+	AMove* move = dynamic_cast<AMove>(action);
+	ABuild* build = dynamic_cast<ABuild>(action);
+	AAttack* attack=dynamic_cast<AAttack>(action);
+
+	if(recruit!=0){
+		player.addEntity(recruit->what);
+
+		ARecruit recruit;
+
+	}
+	if(move!=0){
+		EArmy* army=dynamic_cast<EArmy>(move->what);
+		army->setPosition(move->to.x,move->to.y);
+	}
+	if(build!=0){
+		GameEntity* building=build->what;
+		player.addEntity(build->what);
+	}
+	if(attack!=0){
+
+	}
+
+	//GameNetwork.broadcast(action);
+
 }
 

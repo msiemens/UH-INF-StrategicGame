@@ -5,7 +5,7 @@
  *      Author: Armend
  */
 
-#include "C:/GameDev/Projekte/UH-INF-StrategicGame/server/GameServer.h"
+#include "server/GameServer.h"
 
 GameServer::GameServer() {
 	// TODO Auto-generated constructor stub
