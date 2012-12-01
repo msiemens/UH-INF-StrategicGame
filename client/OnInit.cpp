@@ -16,9 +16,9 @@ bool GameClient::OnInit() {
 //        return false;
 //    }
 
-    if(CArea::AreaControl.OnLoad((char*)"client/maps/1.area") == false) {
-        return false;
-    }
+    //if(CArea::AreaControl.OnLoad((char*)"client/maps/1.area") == false) {
+    //    return false;
+    //}
 
     SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
 

@@ -18,7 +18,7 @@
 #include "client/CSurface.h"
 #include "client/Define.h"
 #include "client/CCamera.h"
-#include "client/CArea.h"
+
 
 using namespace std;
 
