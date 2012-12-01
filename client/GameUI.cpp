@@ -22,7 +22,7 @@ void GameUI::ShowGamestate(GameState GS){
 
 }
 
-void GameUI::ShowMap(){+
+void GameUI::ShowMap(){
 
 }
 

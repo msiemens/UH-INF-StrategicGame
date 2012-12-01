@@ -7,7 +7,7 @@
 
 #include "gamemodel/GameState.h"
 
-namespace std {
+using namespace std;
 
 GameState::GameState() {
 	// TODO Auto-generated constructor stub
@@ -24,5 +24,4 @@ int GameState::GET_GameState(){
 void GameState::SET_GameState(int GS){
 	this->aktivGS = GS;		//set aktiv GameState
 }
-} /* namespace std */
 

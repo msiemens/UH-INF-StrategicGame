@@ -5,8 +5,9 @@
  *      Author: Armend
  */
 
-#include "client/GameClient.h"
-#include "gamemodel/GameState.h"
+#include <client/GameClient.h>
+#include <gamemodel/entities/ETroops.h>
+#include <gamemodel/GameState.h>
 
 #ifndef GAMEUI_H_
 #define GAMEUI_H_
