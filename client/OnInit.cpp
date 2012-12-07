@@ -8,7 +8,8 @@ bool GameClient::OnInit() {
 		return true;
 	}
 
-	if((Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER)) == NULL){
+	//startscreen solution
+	if((Surf_Display = SDL_SetVideoMode(515, 352, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER)) == NULL){
 		return false;
 	}
 
@@ -16,9 +17,22 @@ bool GameClient::OnInit() {
 //        return false;
 //    }
 
-    //if(CArea::AreaControl.OnLoad((char*)"client/maps/1.area") == false) {
-    //    return false;
-    //}
+	//StartScreen
+
+	//load Background
+    if((SurfStartscreenBackground = CSurface::OnLoad((char*)"client/gfx/gui/menu/background.bmp")) == NULL) {
+        return false;
+    }
+    //Button SSExit
+    if((SurfButtonSSExit = CSurface::OnLoad((char*)"client/gfx/gui/menu/buttons/exit_norm.bmp")) == NULL) {
+        return false;
+    }
+
+
+	//load MapSurface
+    if((SurfMap = CSurface::OnLoad((char*)"client/maps/map1.bmp")) == NULL) {
+        return false;
+    }
 
     SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
 

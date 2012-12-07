@@ -2,8 +2,14 @@
 
 using namespace std;
 void GameClient::OnCleanup() {
-	SDL_FreeSurface(Surf_Test);
+	SDL_FreeSurface(SurfMap);
 	SDL_FreeSurface(Surf_Display);
-	//CArea::AreaControl.OnCleanup();
+	SDL_FreeSurface(SurfStartscreenBackground);
+	SDL_FreeSurface(SurfButtonSSStart);
+	SDL_FreeSurface(SurfButtonSSOption);
+	SDL_FreeSurface(SurfButtonSSServer);
+	SDL_FreeSurface(SurfButtonSSExit);
+
+
 	SDL_Quit();
 }

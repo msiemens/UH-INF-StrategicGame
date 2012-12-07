@@ -17,10 +17,15 @@
 #include "client/CEvent.h"
 #include "client/CSurface.h"
 #include "client/Define.h"
-#include "client/CCamera.h"
+#include "client/CMap.h"
 
 
 using namespace std;
+
+
+enum {
+	START_SCREEN = 0, STARTUP_GAME, OPTIONS, INGAME, SS_OPTION,SS_SERVERCONFIG
+};
 
 class GameClient  : public CEvent{
 public:
@@ -29,20 +34,29 @@ public:
 	int OnExecute();
 
 private:
-	bool Running;
+	bool running;
 
 	GameState GS;
+
 	string ServerAddress;
 	GameNetwork Network;
 	GameClientBackend ClientBackend;
 
 	SDL_Surface* Surf_Display;
-	SDL_Surface* Surf_Test;
 
+	SDL_Surface* SurfStartscreenBackground;
+	SDL_Surface* SurfMap;
+
+	SDL_Surface* SurfButtonSSStart;
+	SDL_Surface* SurfButtonSSOption;
+	SDL_Surface* SurfButtonSSServer;
+	SDL_Surface* SurfButtonSSExit;
 public:
 	bool OnInit();
 	void OnEvent(SDL_Event* Event);
 	void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
+	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right, bool Middle);
+	void OnLButtonDown(int mX, int mY);
 	void OnExit();
 	void OnLoop();
 	void OnRender();

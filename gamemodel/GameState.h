@@ -8,17 +8,16 @@
 #ifndef GAMESTATE_H_
 #define GAMESTATE_H_
 
-namespace std {
+using namespace std;
 
 class GameState {
-	public:
-		GameState();
-		int GET_GameState();
-		void SET_GameState(int GS);
-		virtual ~GameState();
-	private:
-		int aktivGS;
+public:
+	GameState();
+	int GET_GameState();
+	void SET_GameState(int GS);
+	virtual ~GameState();
+private:
+	int aktivGS;
 };
 
-} /* namespace std */
 #endif /* GAMESTATE_H_ */
