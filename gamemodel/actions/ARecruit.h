@@ -19,7 +19,7 @@ public:
 	virtual ~ARecruit();
 
 	ETroops what;
-	EBuilding base;
+	EPlace base;
 };
 
 #endif /* ARECRUIT_H_ */

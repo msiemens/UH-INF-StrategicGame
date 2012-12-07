@@ -15,7 +15,7 @@
 
 class GameLogic {
 public:
-	GameLogic(GameMap *m,list<Player> *p);
+	GameLogic(GameMap m,list<Player> p);
 	virtual ~GameLogic();
 
 	bool checkPlayerAction(Player player,GameAction action);
@@ -25,8 +25,8 @@ public:
 
 
 private:
-	GameMap &map;
-	list<Player> &playerlist;
+	GameMap map;
+	list<Player> playerlist;
 };
 
 #endif /* GAMELOGIC_H_ */

@@ -9,7 +9,8 @@
 #define EPLACE_H_
 
 #include "gamemodel/GameEntity.h"
-#include "EBuilding.h"
+#include "gamemodel/entities/EArmy.h"
+#include "gamemodel/entities/EBuilding.h"
 #include <list>
 
 using namespace std;
@@ -25,6 +26,8 @@ public:
 	void addBuilding(EBuilding building);
 
 	list<EBuilding> buildinglist;
+
+	EArmy positionedarmy;
 };
 
 #endif /* EPLACE_H_ */

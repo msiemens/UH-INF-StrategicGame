@@ -8,13 +8,17 @@
 #include "server/GameEngine.h"
 #include "gamemodel/Player.h"
 #include "gamemodel/GameAction.h"
+#include "gamemodel/entities/EPlace.h"
 
 using namespace std;
 
-GameEngine::GameEngine(GameMap *m) {
+GameEngine::GameEngine(GameMap m) {
 	// TODO Auto-generated constructor stub
 	isRunning=true;
-	map=*m;
+	map=m;
+	logic(map,playerlist);
+
+	test();
 }
 
 GameEngine::~GameEngine() {
@@ -47,25 +51,128 @@ void GameEngine::doAction(Player player,GameAction action){
 	if(recruit!=0){
 
 		ARecruit recruit;
+		ETroops troops=recruit.what;
+		EPlace base=recruit.base;
+
+		player.addTroops(troops);
+		base.positionedarmy.addTroop(troops,0);
 
 	}
 	if(move!=0){
 		EArmy* army=dynamic_cast<EArmy>(move->what);
-
 		army->setPosition(move->to);
-
 		map.setArmy(move->to);
 	}
 	if(build!=0){
 		GameEntity building=build->what;
 		EPlace where=build->where;
-		where.addBuilding(building);
+		//where.addBuilding(building);
 	}
 	if(attack!=0){
 
 	}
 
 	//GameNetwork.broadcast(action);
+
+}
+
+void GameEngine::test(){
+	Player henrik(0);
+	Player armend(1);
+	onPlayerConnect(henrik);
+	onPlayerConnect(armend);
+
+	EMetropolis rome;
+	EMetropolis athens;
+
+	rome.coords=coordinates(0,0);
+	athens.coords=coordinates(3,3);
+	rome.inhabitans=100;
+	athens.inhabitans=100;
+
+	henrik.addPlace(rome);
+	armend.addPlace(athens);
+
+	map.setPlace(rome.coords);
+	map.setPlace(athens.coords);
+
+	//H baut Kaserne in place rome
+
+	ABuild buildcinrome;
+	buildcinrome.where=rome;
+
+	ECasern casernir;
+	buildcinrome.what=casernir;
+
+	onPlayerAction(henrik,buildcinrome);
+
+	//A baut Kaserne in place athens
+
+	ABuild buildcinathens;
+	buildcinathens.where=athens;
+
+	ECasern casernia;
+	buildcinathens.what=casernia;
+	onPlayerAction(armend,buildcinathens);
+
+	//H rekrutiert Infantrie in place rome
+
+	ARecruit recruiti;
+	recruiti.base=rome;
+
+	EInfantry infantry;
+	recruiti.what=infantry;
+	RWood wood;
+	recruiti.costs=wood;
+
+	onPlayerAction(henrik,recruiti);
+
+	//A rekrutiert Bauern in place athens
+
+	ARecruit recruitp;
+	recruitp.base=athens;
+
+	EPawn pawn;
+	recruitp.what=pawn;
+
+	recruitp.costs=wood;
+
+	onPlayerAction(armend,recruitp);
+
+	//armies werden erstellt und zugewiesen
+
+	EArmy harmy;
+	henrik.addArmy(harmy);
+
+	EArmy aarmy;
+	armend.addArmy(aarmy);
+
+	harmy.addTroop(infantry,0);
+	aarmy.addTroop(pawn,0);
+
+	harmy.setPosition(rome.coords);
+	aarmy.setPosition(athens.coords);
+
+	//harmy wird bewegt
+
+	AMove moveh;
+	moveh.what=harmy;
+	moveh.to=coordinates(2,2);
+
+	onPlayerAction(henrik,moveh);
+
+	//aarmy wird bewegt
+
+	AMove movea;
+	movea.what=aarmy;
+	movea.to=coordinates(0,3);
+
+	onPlayerAction(armend,movea);
+
+	onPlayerDisconnect(armend);
+	onPlayerDisconnect(henrik);
+
+
 
 }
 

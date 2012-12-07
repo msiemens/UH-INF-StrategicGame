@@ -31,6 +31,7 @@ public:
 	int getPlayerId();
 	void addArmy(EArmy army);
 	void addPlace(EPlace place);
+	void addTroops(ETroops troops);
 
 	int playerid;
 };

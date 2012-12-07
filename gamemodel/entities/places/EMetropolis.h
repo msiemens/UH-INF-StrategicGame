@@ -8,11 +8,11 @@
 #ifndef EMETROPOLIS_H_
 #define EMETROPOLIS_H_
 
-#include <EPlace.h>
+#include "EPlace.h"
 
 namespace std {
 
-class EMetropolis: public std::EPlace {
+class EMetropolis: public EPlace {
 public:
 	EMetropolis();
 	virtual ~EMetropolis();

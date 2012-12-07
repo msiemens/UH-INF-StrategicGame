@@ -27,4 +27,8 @@ void Player::addPlace(EPlace place){
 	places.insert(places.begin(),place);
 }
 
+void Player::addTroops(ETroops troops){
+//	owns.insert(owns.begin(),troops);
+}
+
 

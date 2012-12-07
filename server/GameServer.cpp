@@ -6,13 +6,12 @@
  */
 
 #include "server/GameServer.h"
+#include "server/GameMap.h"
 
 GameServer::GameServer() {
 	// TODO Auto-generated constructor stub
-
-
-	logic(map);
-	engine(logic,map);
+	GameMap map;
+	engine(map);
 }
 
 GameServer::~GameServer() {

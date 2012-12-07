@@ -19,7 +19,7 @@ using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap *m,GameLogic *logic);
+	GameEngine(GameMap m);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
@@ -29,6 +29,8 @@ public:
 	void onPlayerDisconnect(Player player);
 	void onPlayerAction(Player player,GameAction action);
 	void doAction(Player player,GameAction action);
+
+	void test();
 
 
 	GameMap &map;

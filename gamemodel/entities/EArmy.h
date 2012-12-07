@@ -8,9 +8,9 @@
 #ifndef EARMY_H_
 #define EARMY_H_
 
-#include <GameEntity.h>
-#include <gamemodel/utils/coordinates.h>
-#include "gamemodel/entities/ATroops.h"
+#include "gamemodel/GameEntity.h"
+#include "gamemodel/utils/coordinates.h"
+#include "gamemodel/entities/ETroops.h"
 #include <list>
 
 namespace std {

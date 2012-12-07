@@ -11,7 +11,14 @@ namespace std {
 
 GameMap::GameMap() {
 	// TODO Auto-generated constructor stub
+	for(int i=0;i<4;i++){
+		for(int u=0;u<4;u++){
+			setWalkable(i,u);
+		}
+	}
 
+	setArmy(2,3);
+	setPlace(1,2);
 }
 
 GameMap::~GameMap() {

@@ -17,9 +17,6 @@ public:
 
 
 	GameEngine engine;
-	GameLogic logic;
-
-	GameMap map;
 };
 
 #endif /* GAMESERVER_H_ */
