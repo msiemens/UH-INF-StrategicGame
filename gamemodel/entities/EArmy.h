@@ -23,6 +23,9 @@ public:
 	coordinates position;
 
 	void setPosition(int x,int y);
+	void setPosition(coordinates coords);
+
+	coordinates getPosition();
 
 	int getAtk();
 	int getDef();

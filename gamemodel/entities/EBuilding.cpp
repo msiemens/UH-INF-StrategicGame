@@ -6,3 +6,8 @@
  */
 
 #include "EBuilding.h"
+
+EBuilding::EBuilding(){
+
+}
+

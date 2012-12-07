@@ -7,6 +7,7 @@
 
 #include "gamemodel/entities/EArmy.h"
 #include "gamemodel/entities/ETroops.h"
+#include "gamemodel/utils/coordinates.h"
 
 namespace std {
 
@@ -26,6 +27,10 @@ EArmy::~EArmy() {
 void EArmy::setPosition(int x,int y){
 	position.x=x;
 	position.y=y;
+}
+
+void EArmy::setPosition(coordinates coords){
+	setPosition(coords.x,coords.y);
 }
 
 void EArmy::addTroop(ETroops troop,int slot){
@@ -95,6 +100,10 @@ int EArmy::getMor(){
 
 int EArmy::getTac(){
 	return tac;
+}
+
+coordinates EArmy::getPosition(){
+	return position;
 }
 
 } /* namespace std */

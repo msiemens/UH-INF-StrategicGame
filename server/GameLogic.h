@@ -11,10 +11,11 @@
 #include "gamemodel/Player.h"
 #include "gamemodel/GameAction.h"
 #include "server/GameMap.h"
+#include "gamemodel/Player.h"
 
 class GameLogic {
 public:
-	GameLogic();
+	GameLogic(GameMap *m,list<Player> *p);
 	virtual ~GameLogic();
 
 	bool checkPlayerAction(Player player,GameAction action);
@@ -24,7 +25,8 @@ public:
 
 
 private:
-	GameMap map;
+	GameMap &map;
+	list<Player> &playerlist;
 };
 
 #endif /* GAMELOGIC_H_ */

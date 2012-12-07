@@ -12,6 +12,10 @@ class coordinates {
 public:
 	coordinates();
 	virtual ~coordinates();
+
+	int x;
+	int y;
 };
+
 
 #endif /* COORDINATES_H_ */

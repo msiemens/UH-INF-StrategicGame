@@ -20,4 +20,8 @@ EPlace::~EPlace() {
 	// TODO Auto-generated destructor stub
 }
 
+void EPlace::addBuilding(EBuilding building){
+	buildinglist.insert(buildinglist.begin(),building);
+}
+
 } /* namespace std */

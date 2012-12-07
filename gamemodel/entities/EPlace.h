@@ -22,7 +22,9 @@ public:
 	int inhabitans;
 	int mininhabitans;
 
-	//list<EBuilding> buildinglist;
+	void addBuilding(EBuilding building);
+
+	list<EBuilding> buildinglist;
 };
 
 #endif /* EPLACE_H_ */

@@ -12,24 +12,42 @@
 #include "server/GameMap.h"
 #include <string>
 
-GameLogic::GameLogic() {
+GameLogic::GameLogic(GameMap *m,list<Player> *p) {
 	// TODO Auto-generated constructor stub
+	map=*m;
+	playerlist=*p;
 }
 
 GameLogic::~GameLogic() {
 	// TODO Auto-generated destructor stub
 }
 
+//returns whose Army is positioned at coords
 int GameLogic::whoseArmy(coordinates coords){
-	return 0;
+	int playerid;
+	for(Player p:playerlist){
+		for(EArmy a:p.armies){
+			if(a.getPosition()==coords){
+				playerid=p.getPlayerId();
+			}
+		}
+	}
+	return playerid;
 }
 
+//return whose Place is at coords
 int GameLogic::whosePlace(coordinates coords){
-	return 0;
-}
+	int playerid;
+	for(Player p:playerlist){
+		for(EPlace pl:p.places){
 
+		}
+	}
+	return playerid;
+}
+//checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(Player player, GameAction action) {
-	bool ret = false;
+	bool valid = false;
 
 	ARecruit* recruit = dynamic_cast<ARecruit>(action);
 	AMove* move = dynamic_cast<AMove>(action);
@@ -37,13 +55,14 @@ bool GameLogic::checkPlayerAction(Player player, GameAction action) {
 	AAttack* attack = dynamic_cast<AAttack>(action);
 //recruit
 	if (recruit != 0) {
-		ret = (player.has[0] > recruit->costs) ? true : false;
+		valid = (player.has[0] > recruit->costs) ? true : false;
 	}
 //move
 	else if (move != 0) {
 		coordinates coords = move->to;
 
-		ret = map.isMovable(coords);
+		valid = *map.isWalkable(coords);
+
 	}
 //build
 	else if (build != 0) {
@@ -52,13 +71,14 @@ bool GameLogic::checkPlayerAction(Player player, GameAction action) {
 	}
 //attack
 	else if (attack != 0) {
-		coordinates coords;
-		if(map.isArmyPositioned(coords)){
-			ret=(whoseArmy()==player->id)?false:true;
+		coordinates coords=attack->where;
+		if(*map.isArmyPositioned(coords)){
+			int playerid=whoseArmy(coords);
+			valid=(playerid!=player.getPlayerId())?true:false;
 		}
 	}
 
-	return ret;
+	return valid;
 }
 
 

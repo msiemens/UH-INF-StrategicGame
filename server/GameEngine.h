@@ -12,13 +12,14 @@
 #include "gamemodel/Player.h"
 #include "gamemodel/GameAction.h"
 #include "GameLogic.h"
+#include "GameMap.h"
 
 
 using namespace std;
 
 class GameEngine {
 public:
-	GameEngine();
+	GameEngine(GameMap *m,GameLogic *logic);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
@@ -29,13 +30,13 @@ public:
 	void onPlayerAction(Player player,GameAction action);
 	void doAction(Player player,GameAction action);
 
-	GameLogic logic;
 
+	GameMap &map;
+	GameLogic logic;
 
 private:
 	bool isRunning;
 	list<Player> playerlist;
-	int playercount;
 };
 
 #endif /* GAMEENGINE_H_ */

@@ -8,14 +8,18 @@
 #ifndef GAMESERVER_H_
 #define GAMESERVER_H_
 
+#include "server/GameMap.h"
+
 class GameServer {
 public:
 	GameServer();
 	virtual ~GameServer();
 
-	bool callNetwork();
 
 	GameEngine engine;
+	GameLogic logic;
+
+	GameMap map;
 };
 
 #endif /* GAMESERVER_H_ */

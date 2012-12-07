@@ -11,10 +11,10 @@
 
 using namespace std;
 
-GameEngine::GameEngine() {
+GameEngine::GameEngine(GameMap *m) {
 	// TODO Auto-generated constructor stub
 	isRunning=true;
-	playercount=0;
+	map=*m;
 }
 
 GameEngine::~GameEngine() {
@@ -23,7 +23,6 @@ GameEngine::~GameEngine() {
 
 bool GameEngine::onPlayerConnect(Player player){
 	playerlist.insert(playerlist.begin(),player);
-	playercount++;
 	return true;
 }
 
@@ -46,18 +45,21 @@ void GameEngine::doAction(Player player,GameAction action){
 	AAttack* attack=dynamic_cast<AAttack>(action);
 
 	if(recruit!=0){
-		player.addEntity(recruit->what);
 
 		ARecruit recruit;
 
 	}
 	if(move!=0){
 		EArmy* army=dynamic_cast<EArmy>(move->what);
-		army->setPosition(move->to.x,move->to.y);
+
+		army->setPosition(move->to);
+
+		map.setArmy(move->to);
 	}
 	if(build!=0){
-		GameEntity* building=build->what;
-		player.addEntity(build->what);
+		GameEntity building=build->what;
+		EPlace where=build->where;
+		where.addBuilding(building);
 	}
 	if(attack!=0){
 

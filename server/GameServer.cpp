@@ -10,9 +10,16 @@
 GameServer::GameServer() {
 	// TODO Auto-generated constructor stub
 
+
+	logic(map);
+	engine(logic,map);
 }
 
 GameServer::~GameServer() {
 	// TODO Auto-generated destructor stub
+}
+
+int main(){
+	GameServer server;
 }
 

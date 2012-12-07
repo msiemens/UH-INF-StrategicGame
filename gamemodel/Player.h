@@ -14,14 +14,25 @@
 
 #include "GameEntity.h"
 #include "GameRessource.h"
+#include "EArmy.h"
+#include "EPlace.h"
 
 class Player {
 public:
-	Player();
+	Player(int id);
 	virtual ~Player();
 
 	std::list<count<GameEntity> > owns;
 	std::list<count<GameRessource> > has;
+
+	std::list<EArmy> armies;
+	std::list<EPlace> places;
+
+	int getPlayerId();
+	void addArmy(EArmy army);
+	void addPlace(EPlace place);
+
+	int playerid;
 };
 
 #endif /* PLAYER_H_ */

@@ -30,9 +30,9 @@ void GameUI::ShowSquads(){
 
 
 }
-void GameUI::markSquad(ETroops Squad){
+/*void GameUI::markSquad(ETroops Squad){
 
-}
+}*/
 void GameUI::HandleMouseInput(int MousePosX, int MousePosY){
 
 }
