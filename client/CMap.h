@@ -13,6 +13,7 @@
 
 #include "CTile.h"
 #include "CSurface.h"
+#include "Define.h"
 
 class CMap {
 public:

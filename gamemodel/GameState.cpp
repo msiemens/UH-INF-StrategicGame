@@ -21,6 +21,7 @@ GameState::~GameState() {
 int GameState::GET_GameState(){
 	return this->aktivGS;	//get aktiv GameState
 }
+
 void GameState::SET_GameState(int GS){
 	this->aktivGS = GS;		//set aktiv GameState
 }

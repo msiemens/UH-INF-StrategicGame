@@ -14,9 +14,14 @@
 using namespace std;
 
 GameClient::GameClient() {
-	Surf_Test = NULL;
+	SurfMap = NULL;
 	Surf_Display = NULL;
-	this->Running = true;
+	SurfStartscreenBackground = NULL;
+	this->running = true;
+	SurfButtonSSStart = NULL;
+	SurfButtonSSOption = NULL;
+	SurfButtonSSServer = NULL;
+	SurfButtonSSExit = NULL;
 }
 
 GameClient::~GameClient() {
@@ -30,7 +35,7 @@ int GameClient::OnExecute() {
 
 	SDL_Event Event;
 
-	while (Running) {
+	while (running) {
 		while (SDL_PollEvent(&Event)) { //Eventqueue
 			OnEvent(&Event);
 		}
