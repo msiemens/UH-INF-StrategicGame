@@ -13,6 +13,9 @@ bool GameClient::OnInit() {
 		return false;
 	}
 
+	//Set the window caption
+	SDL_WM_SetCaption( "Startegic Game", NULL );
+
 //    if((Surf_Test = CSurface::OnLoad((char*)"client/gfx/tileset.bmp")) == NULL) {
 //        return false;
 //    }
