@@ -6,6 +6,8 @@
  */
 
 #include "CSurface.h"
+#include "SDL/SDL_image.h"
+#include <string>
 
 using namespace std;
 
@@ -18,11 +20,13 @@ CSurface::~CSurface() {
 	// TODO Auto-generated destructor stub
 }
 
+
+
 SDL_Surface* CSurface::OnLoad(char* File) {
 	SDL_Surface* Surf_Temp = NULL;
 	SDL_Surface* Surf_Return = NULL;
 
-	if ((Surf_Temp = SDL_LoadBMP(File)) == NULL) {
+	if ((Surf_Temp = IMG_Load(File)) == NULL) {
 		return NULL;
 	}
 

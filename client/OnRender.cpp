@@ -1,4 +1,6 @@
 #include "client/GameClient.h"
+#include "SDL/SDL_image.h"
+
 #include <iostream>
 
 using namespace std;
