@@ -19,10 +19,11 @@ using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap m);
+	GameEngine(GameMap map);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
+
 
 
 	bool onPlayerConnect(Player player);
@@ -33,7 +34,7 @@ public:
 	void test();
 
 
-	GameMap &map;
+	GameMap map;
 	GameLogic logic;
 
 private:

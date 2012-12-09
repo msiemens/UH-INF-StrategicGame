@@ -9,6 +9,7 @@
 #define GAMESERVER_H_
 
 #include "server/GameMap.h"
+#include "server/GameEngine.h"
 
 class GameServer {
 public:
@@ -16,7 +17,6 @@ public:
 	virtual ~GameServer();
 
 
-	GameEngine engine;
 };
 
 #endif /* GAMESERVER_H_ */

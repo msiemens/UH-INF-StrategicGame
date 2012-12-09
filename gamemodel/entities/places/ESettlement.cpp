@@ -5,12 +5,10 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/ESettlement.h"
-
-namespace std {
+#include "ESettlement.h"
 
 ESettlement::ESettlement() {
-	// TODO Auto-generated constructor stub
+	// TODO Auto-generate d constructor stub
 	mininhabitans=0;
 }
 
@@ -18,4 +16,3 @@ ESettlement::~ESettlement() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace std */

@@ -5,7 +5,7 @@
  *      Author: Armend
  */
 
-#include "gamemodel/entities/EPawn.h"
+#include "EPawn.h"
 
 EPawn::EPawn() {
 

@@ -14,8 +14,8 @@
 
 #include "GameEntity.h"
 #include "GameRessource.h"
-#include "EArmy.h"
-#include "EPlace.h"
+#include "entities/EArmy.h"
+#include "entities/EPlace.h"
 
 class Player {
 public:

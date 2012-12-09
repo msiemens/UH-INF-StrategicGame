@@ -8,15 +8,13 @@
 #ifndef ECAMP_H_
 #define ECAMP_H_
 
-#include <EPlace.h>
+#include "../EPlace.h"
 
-namespace std {
 
-class ECamp: public std::EPlace {
+class ECamp: public EPlace {
 public:
 	ECamp();
 	virtual ~ECamp();
 };
 
-} /* namespace std */
 #endif /* ECAMP_H_ */

@@ -5,7 +5,7 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/EProvincialTown.h"
+#include "EProvincialTown.h"
 
 namespace std {
 

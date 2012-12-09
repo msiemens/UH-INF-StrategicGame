@@ -8,7 +8,7 @@
 #ifndef RWOOD_H_
 #define RWOOD_H_
 
-#include <GameRessource.h>
+#include "../GameRessource.h"
 
 namespace std {
 

@@ -8,7 +8,7 @@
 #ifndef EMINE_H_
 #define EMINE_H_
 
-#include <EBuilding.h>
+#include "../EBuilding.h"
 
 namespace std {
 

@@ -5,7 +5,7 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/places/ELargeTown.h"
+#include "ELargeTown.h"
 
 namespace std {
 

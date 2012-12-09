@@ -8,14 +8,15 @@
 #include "server/GameLogic.h"
 #include "gamemodel/GameAction.h"
 #include "gamemodel/actions/AMove.h"
+#include "gamemodel/actions/ARecruit.h"
+#include "gamemodel/actions/ABuild.h"
 #include "gamemodel/actions/AAttack.h"
 #include "server/GameMap.h"
 #include <string>
+#include <list>
 
-GameLogic::GameLogic(GameMap *m,list<Player> *p) {
+GameLogic::GameLogic(GameMap map,list<Player> playerlist):map(map), playerlist(playerlist)  {
 	// TODO Auto-generated constructor stub
-	map=*m;
-	playerlist=*p;
 }
 
 GameLogic::~GameLogic() {
@@ -23,63 +24,59 @@ GameLogic::~GameLogic() {
 }
 
 //returns whose Army is positioned at coords
-int GameLogic::whoseArmy(coordinates coords){
+int GameLogic::whoseArmy(coordinates coords) {
 	int playerid;
-	for(Player p:playerlist){
-		for(EArmy a:p.armies){
-			if(a.getPosition()==coords){
-				playerid=p.getPlayerId();
-			}
-		}
-	}
+	/* for (Player p : playerlist) {
+	 for (EArmy a : p.armies) {
+	 if (a.getPosition() == coords) {
+	 playerid = p.getPlayerId();
+	 }
+	 }
+	 } */ // C++ is not Java ;)
 	return playerid;
 }
 
 //return whose Place is at coords
-int GameLogic::whosePlace(coordinates coords){
+int GameLogic::whosePlace(coordinates coords) {
 	int playerid;
-	for(Player p:playerlist){
-		for(EPlace pl:p.places){
+	/* for (Player p : playerlist) {
+	 for (EPlace pl : p.places) {
 
-		}
-	}
+	 }
+	 } */
 	return playerid;
 }
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(Player player, GameAction action) {
 	bool valid = false;
 
-	ARecruit* recruit = dynamic_cast<ARecruit>(action);
-	AMove* move = dynamic_cast<AMove>(action);
-	ABuild* build = dynamic_cast<ABuild>(action);
-	AAttack* attack = dynamic_cast<AAttack>(action);
+	ARecruit* recruit = dynamic_cast<ARecruit*>(&action);
+	AMove* move = dynamic_cast<AMove*>(&action);
+	ABuild* build = dynamic_cast<ABuild*>(&action);
+	AAttack* attack = dynamic_cast<AAttack*>(&action);
 //recruit
 	if (recruit != 0) {
-		valid = (player.has[0] > recruit->costs) ? true : false;
+		 valid = (player.has[RMoney] >= recruit->costs) ? true : false;
 	}
 //move
 	else if (move != 0) {
 		coordinates coords = move->to;
-
-		valid = *map.isWalkable(coords);
+		valid = map.isWalkable(coords);
 
 	}
 //build
 	else if (build != 0) {
-		if (player.has[0] > build->costs) {
-		}
+		 valid=(player.has[RMoney] >= build->costs)?true:false;
 	}
 //attack
 	else if (attack != 0) {
-		coordinates coords=attack->where;
-		if(*map.isArmyPositioned(coords)){
-			int playerid=whoseArmy(coords);
-			valid=(playerid!=player.getPlayerId())?true:false;
-		}
+		coordinates coords = attack->where;
+		/* if (*map.isArmyPositioned(coords)) {
+			int playerid = whoseArmy(coords);
+			valid = (playerid != player.getPlayerId()) ? true : false;
+		} */
 	}
 
 	return valid;
 }
-
-
 

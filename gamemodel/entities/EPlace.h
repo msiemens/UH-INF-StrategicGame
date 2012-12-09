@@ -8,9 +8,9 @@
 #ifndef EPLACE_H_
 #define EPLACE_H_
 
-#include "gamemodel/GameEntity.h"
-#include "gamemodel/entities/EArmy.h"
-#include "gamemodel/entities/EBuilding.h"
+#include <gamemodel/GameEntity.h>
+#include <gamemodel/entities/EArmy.h>
+#include <gamemodel/entities/EBuilding.h>
 #include <list>
 
 using namespace std;
@@ -23,9 +23,9 @@ public:
 	int inhabitans;
 	int mininhabitans;
 
-	void addBuilding(EBuilding building);
+	// void addBuilding(EBuilding building);
 
-	list<EBuilding> buildinglist;
+	// list<EBuilding> buildinglist;
 
 	EArmy positionedarmy;
 };

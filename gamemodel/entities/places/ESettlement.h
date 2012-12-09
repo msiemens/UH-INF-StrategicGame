@@ -8,15 +8,16 @@
 #ifndef ESETTLEMENT_H_
 #define ESETTLEMENT_H_
 
-#include <EPlace.h>
+#include "../EPlace.h"
 
-namespace std {
 
-class ESettlement: public std::EPlace {
+class ESettlement: public EPlace {
 public:
 	ESettlement();
 	virtual ~ESettlement();
+
+private:
+	int mininhabitants;
 };
 
-} /* namespace std */
 #endif /* ESETTLEMENT_H_ */

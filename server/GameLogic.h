@@ -15,14 +15,13 @@
 
 class GameLogic {
 public:
-	GameLogic(GameMap m,list<Player> p);
+	GameLogic(GameMap map,list<Player> playerlist);
 	virtual ~GameLogic();
 
-	bool checkPlayerAction(Player player,GameAction action);
+	bool checkPlayerAction(Player player, GameAction action);
 
 	int whoseArmy(coordinates coords);
 	int whosePlace(coordinates coords);
-
 
 private:
 	GameMap map;

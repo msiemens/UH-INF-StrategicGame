@@ -8,7 +8,7 @@
 #ifndef RMONEY_H_
 #define RMONEY_H_
 
-#include <gamemodel/GameRessource.h>
+#include "../GameRessource.h"
 
 class RMoney: public GameRessource {
 public:

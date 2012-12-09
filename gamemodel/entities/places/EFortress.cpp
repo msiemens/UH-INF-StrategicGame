@@ -5,7 +5,7 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/EFortress.h"
+#include "EFortress.h"
 
 namespace std {
 

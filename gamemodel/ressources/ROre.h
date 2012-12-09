@@ -8,7 +8,7 @@
 #ifndef RORE_H_
 #define RORE_H_
 
-#include <GameRessource.h>
+#include "../GameRessource.h"
 
 namespace std {
 

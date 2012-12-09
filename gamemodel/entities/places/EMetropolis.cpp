@@ -5,7 +5,7 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/places/EMetropolis.h"
+#include "EMetropolis.h"
 
 namespace std {
 

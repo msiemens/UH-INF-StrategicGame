@@ -8,7 +8,7 @@
 #ifndef EINFANTRY_H_
 #define EINFANTRY_H_
 
-#include <ETroops.h>
+#include "../ETroops.h"
 
 namespace std {
 

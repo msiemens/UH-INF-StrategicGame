@@ -10,8 +10,6 @@
 
 #include "gamemodel/utils/coordinates.h"
 
-namespace std {
-
 class GameMap {
 public:
 	GameMap();
@@ -47,5 +45,4 @@ public:
 
 };
 
-} /* namespace std */
 #endif /* GAMEMAP_H_ */

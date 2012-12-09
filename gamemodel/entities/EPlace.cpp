@@ -7,8 +7,6 @@
 
 #include "gamemodel/entities/EPlace.h"
 
-namespace std {
-
 EPlace::EPlace() {
 	// TODO Auto-generated constructor stub
 	inhabitans=0;
@@ -20,8 +18,7 @@ EPlace::~EPlace() {
 	// TODO Auto-generated destructor stub
 }
 
-void EPlace::addBuilding(EBuilding building){
-	buildinglist.insert(buildinglist.begin(),building);
-}
+// void EPlace::addBuilding(EBuilding building){
+	// buildinglist.insert(buildinglist.begin(),building);
+// }
 
-} /* namespace std */

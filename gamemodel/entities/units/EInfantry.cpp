@@ -5,7 +5,7 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/units/EInfantry.h"
+#include "EInfantry.h"
 
 namespace std {
 

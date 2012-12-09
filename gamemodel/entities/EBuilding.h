@@ -8,8 +8,8 @@
 #ifndef EBUILDING_H_
 #define EBUILDING_H_
 
-#include "gamemodel/GameEntity.h"
-#include "gamemodel/entities/EPlace.h"
+#include <gamemodel/GameEntity.h>
+#include <gamemodel/entities/EPlace.h>
 
 using namespace std;
 

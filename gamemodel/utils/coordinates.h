@@ -10,6 +10,7 @@
 
 class coordinates {
 public:
+	coordinates();
 	coordinates(int x,int y);
 	virtual ~coordinates();
 

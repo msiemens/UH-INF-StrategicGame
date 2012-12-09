@@ -5,9 +5,7 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/places/ECamp.h"
-
-namespace std {
+#include "ECamp.h"
 
 ECamp::ECamp() {
 	// TODO Auto-generated constructor stub
@@ -18,4 +16,3 @@ ECamp::~ECamp() {
 	// TODO Auto-generated destructor stub
 }
 
-} /* namespace std */

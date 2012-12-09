@@ -5,7 +5,7 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/actions/AAttack.h"
+#include "AAttack.h"
 
 namespace std {
 

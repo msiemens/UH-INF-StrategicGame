@@ -7,8 +7,11 @@
 
 #include "coordinates.h"
 
+coordinates::coordinates(): x(0), y(0) {
 
-coordinates::coordinates(int x,int y){
-	this->x=x;
-	this->y=y;
+}
+
+// Such mal im Netz nach "c++ initialization list"
+coordinates::coordinates(int x, int y): x(x), y(y) {
+
 }

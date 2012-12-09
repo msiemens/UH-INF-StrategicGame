@@ -8,7 +8,7 @@
 #ifndef ESTABLE_H_
 #define ESTABLE_H_
 
-#include <EBuilding.h>
+#include "../EBuilding.h"
 
 namespace std {
 

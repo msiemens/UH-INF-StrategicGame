@@ -8,7 +8,7 @@
 #ifndef EFORTRESS_H_
 #define EFORTRESS_H_
 
-#include "gamemodel/entities/EPlace.h"
+#include "../EPlace.h"
 
 namespace std {
 

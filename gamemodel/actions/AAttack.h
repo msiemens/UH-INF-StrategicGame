@@ -8,9 +8,9 @@
 #ifndef AATTACK_H_
 #define AATTACK_H_
 
-#include <GameAction.h>
-#include "gamemodel/entities/EPlace.h"
-#include "gamemodel/utils/coordinates.h"
+#include "../GameAction.h" // <-- Mit "" sucht der Compiler immer von der aktuellen Datei aus
+#include <gamemodel/entities/EPlace.h> // <-- Mit <> immer im Include-Path, also C:/MinGW/include oder auch ...../UH-Inf-StrategicGame/
+#include <gamemodel/utils/coordinates.h>
 
 namespace std {
 
@@ -19,7 +19,9 @@ public:
 	AAttack();
 	virtual ~AAttack();
 
-	coordinates where;
+	coordinates where; // Ich weiﬂ, wo das Problem liegt: Der versucht immer 'where' zu initialisieren. Da der
+	// Compiler nichts weiter dazu weiﬂ, versucht er es mit eine Konstruktor ohne Argumente. Was aber nicht geht
+	// weil:
 };
 
 } /* namespace std */
