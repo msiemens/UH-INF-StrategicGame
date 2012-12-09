@@ -5,7 +5,8 @@
  *      Author: markus
  */
 
-#include "network/ClientNetwork.h"
+#include "GameNetwork.h"
+#include "ClientNetwork.h"
 
 ClientNetwork::ClientNetwork() {
 	// TODO Auto-generated constructor stub

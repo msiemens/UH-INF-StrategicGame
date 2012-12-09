@@ -11,11 +11,10 @@
 #include <gamemodel/Player.h>
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameStateMessage.h>
-#include <GameNetwork.h>
 
 using namespace std;
 
-class ServerNetwork: public GameNetwork {
+class ServerNetwork {
 public:
 	ServerNetwork();
 	virtual ~ServerNetwork();

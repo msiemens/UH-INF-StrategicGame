@@ -8,15 +8,12 @@
 #ifndef CLIENTNETWORK_H_
 #define CLIENTNETWORK_H_
 
-#include <string>
-
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameMetaMessage.h>
-#include <GameNetwork.h>
 
 using namespace std;
 
-class ClientNetwork: public GameNetwork {
+class ClientNetwork {
 public:
 	ClientNetwork();
 	virtual ~ClientNetwork();
