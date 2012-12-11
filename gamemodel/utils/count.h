@@ -11,8 +11,13 @@
 template<class T_VALUE>
 class count {
 public:
-	count(int count);
-	virtual ~count();
+	count(int count): how_many(count) {
+
+	}
+
+	virtual ~count() {
+
+	}
 
 	int how_many;
 };

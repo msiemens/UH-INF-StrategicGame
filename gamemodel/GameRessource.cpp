@@ -6,3 +6,7 @@
  */
 
 #include "GameRessource.h"
+
+GameRessource::GameRessource() {}
+
+GameRessource::~GameRessource() {}

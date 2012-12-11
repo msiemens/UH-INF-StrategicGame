@@ -6,3 +6,7 @@
  */
 
 #include "ETroops.h"
+
+ETroops::ETroops() {}
+
+ETroops::~ETroops() {}

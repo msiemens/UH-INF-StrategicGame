@@ -5,9 +5,9 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/EArmy.h"
-#include "gamemodel/entities/ETroops.h"
-#include "gamemodel/utils/coordinates.h"
+#include <gamemodel/entities/EArmy.h>
+#include <gamemodel/entities/ETroops.h>
+#include <gamemodel/utils/coordinates.h>
 
 namespace std {
 

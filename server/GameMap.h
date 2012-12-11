@@ -8,7 +8,7 @@
 #ifndef GAMEMAP_H_
 #define GAMEMAP_H_
 
-#include "gamemodel/utils/coordinates.h"
+#include <gamemodel/utils/coordinates.h>
 
 class GameMap {
 public:

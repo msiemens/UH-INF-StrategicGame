@@ -7,3 +7,6 @@
 
 #include "AMove.h"
 
+AMove::AMove() {}
+
+AMove::~AMove() {}

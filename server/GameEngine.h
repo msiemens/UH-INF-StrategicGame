@@ -9,8 +9,8 @@
 #define GAMEENGINE_H_
 
 #include <list>
-#include "gamemodel/Player.h"
-#include "gamemodel/GameAction.h"
+#include <gamemodel/Player.h>
+#include <gamemodel/GameAction.h>
 #include "GameLogic.h"
 #include "GameMap.h"
 

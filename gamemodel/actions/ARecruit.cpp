@@ -6,3 +6,7 @@
  */
 
 #include "ARecruit.h"
+
+ARecruit::ARecruit() {}
+
+ARecruit::~ARecruit() {}

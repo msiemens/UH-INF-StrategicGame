@@ -5,17 +5,10 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/ressources/RWood.h"
-
-namespace std {
+#include "RWood.h"
 
 RWood::RWood() {
-	// TODO Auto-generated constructor stub
-
 }
 
 RWood::~RWood() {
-	// TODO Auto-generated destructor stub
 }
-
-} /* namespace std */

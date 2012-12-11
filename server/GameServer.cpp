@@ -7,9 +7,7 @@
 
 #include <iostream>
 
-#include "server/GameServer.h"
-#include "server/GameMap.h"
-#include "server/GameEngine.h"
+#include "GameServer.h"
 
 GameServer::GameServer() {
 	// TODO Auto-generated constructor stub
@@ -21,8 +19,8 @@ GameServer::~GameServer() {
 	// TODO Auto-generated destructor stub
 }
 
-int main(int argc, char* argv[]){
-	std::cout<<"start";
+int main(int argc, char* argv[]) {
+	std::cout << "start";
 	GameServer server;
 	GameMap map;
 	GameEngine engine(map);

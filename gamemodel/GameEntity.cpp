@@ -6,3 +6,7 @@
  */
 
 #include "GameEntity.h"
+
+GameEntity::GameEntity() : cost(0) {}
+
+GameEntity::~GameEntity() {}

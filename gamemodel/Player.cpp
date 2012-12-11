@@ -15,6 +15,8 @@ Player::Player(int id){
 	playerid=id;
 }
 
+Player::~Player() {}
+
 int Player::getPlayerId(){
 	return playerid;
 }

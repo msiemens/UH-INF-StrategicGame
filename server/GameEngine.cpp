@@ -6,28 +6,28 @@
  */
 #include <iostream>
 
-#include "server/GameEngine.h"
-#include "gamemodel/Player.h"
-#include "gamemodel/GameAction.h"
-#include "gamemodel/entities/EPlace.h"
+#include <server/GameEngine.h>
+#include <gamemodel/Player.h>
+#include <gamemodel/GameAction.h>
+#include <gamemodel/entities/EPlace.h>
 
-#include "gamemodel/actions/ARecruit.h"
-#include "gamemodel/actions/AMove.h"
-#include "gamemodel/actions/ABuild.h"
-#include "gamemodel/actions/AAttack.h"
+#include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/AMove.h>
+#include <gamemodel/actions/ABuild.h>
+#include <gamemodel/actions/AAttack.h>
 
-#include "gamemodel/entities/units/EInfantry.h"
-#include "gamemodel/entities/units/EPawn.h"
-#include "gamemodel/entities/buildings/ECasern.h"
-#include "gamemodel/entities/places/EMetropolis.h"
+#include <gamemodel/entities/units/EInfantry.h>
+#include <gamemodel/entities/units/EPawn.h>
+#include <gamemodel/entities/buildings/ECasern.h>
+#include <gamemodel/entities/places/EMetropolis.h>
 
-#include "gamemodel/ressources/RWood.h"
+#include <gamemodel/ressources/RWood.h>
 
 using namespace std;
 
-GameEngine::GameEngine(GameMap map):map(map),isRunning(true){
+GameEngine::GameEngine(GameMap map) :
+		map(map), isRunning(true), logic(map, playerlist) {
 	std::cout << "Engine started";
-	logic(map,playerlist);
 }
 
 GameEngine::~GameEngine() {
@@ -58,7 +58,6 @@ void GameEngine::doAction(Player player, GameAction action) {
 	AAttack* attack = dynamic_cast<AAttack*>(&action);
 
 	if (recruit != 0) {
-
 
 		ARecruit recruit;
 		ETroops troops = recruit.what;
@@ -92,7 +91,7 @@ void GameEngine::doAction(Player player, GameAction action) {
 
 void GameEngine::test() {
 
-	std::cout <<"Test started";
+	std::cout << "Test started";
 	Player henrik(0);
 	Player armend(1);
 	onPlayerConnect(henrik);

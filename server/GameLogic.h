@@ -8,10 +8,10 @@
 #ifndef GAMELOGIC_H_
 #define GAMELOGIC_H_
 
-#include "gamemodel/Player.h"
-#include "gamemodel/GameAction.h"
-#include "server/GameMap.h"
-#include "gamemodel/Player.h"
+#include <gamemodel/Player.h>
+#include <gamemodel/GameAction.h>
+#include <gamemodel/Player.h>
+#include "GameMap.h"
 
 class GameLogic {
 public:

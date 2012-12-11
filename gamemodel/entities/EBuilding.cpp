@@ -11,3 +11,7 @@ EBuilding::EBuilding(){
 
 }
 
+EBuilding::~EBuilding() {
+
+}
+

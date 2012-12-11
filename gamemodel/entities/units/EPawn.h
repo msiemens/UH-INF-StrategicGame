@@ -8,8 +8,9 @@
 #ifndef EPAWN_H_
 #define EPAWN_H_
 
-#include "../ETroops.h"
 #include <string>
+
+#include <gamemodel/entities/ETroops.h>
 
 class EPawn: public ETroops {
 public:

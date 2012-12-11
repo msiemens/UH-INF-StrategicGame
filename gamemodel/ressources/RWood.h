@@ -10,13 +10,10 @@
 
 #include "../GameRessource.h"
 
-namespace std {
-
 class RWood: public GameRessource {
 public:
 	RWood();
 	virtual ~RWood();
 };
 
-} /* namespace std */
 #endif /* RWOOD_H_ */

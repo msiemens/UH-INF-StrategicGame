@@ -8,12 +8,8 @@
 #include "EPawn.h"
 
 EPawn::EPawn() {
-
-	// TODO Auto-generated constructor stub
-
 }
 
 EPawn::~EPawn() {
-	// TODO Auto-generated destructor stub
 }
 

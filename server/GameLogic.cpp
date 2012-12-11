@@ -11,11 +11,13 @@
 #include "gamemodel/actions/ARecruit.h"
 #include "gamemodel/actions/ABuild.h"
 #include "gamemodel/actions/AAttack.h"
+#include "gamemodel/ressources/RMoney.h"
 #include "server/GameMap.h"
 #include <string>
 #include <list>
 
-GameLogic::GameLogic(GameMap map,list<Player> playerlist):map(map), playerlist(playerlist)  {
+GameLogic::GameLogic(GameMap map, list<Player> playerlist) :
+		map(map), playerlist(playerlist) {
 	// TODO Auto-generated constructor stub
 }
 
@@ -56,7 +58,8 @@ bool GameLogic::checkPlayerAction(Player player, GameAction action) {
 	AAttack* attack = dynamic_cast<AAttack*>(&action);
 //recruit
 	if (recruit != 0) {
-		 valid = (player.has[RMoney] >= recruit->costs) ? true : false;
+		// valid = (player.has(RMoney) >= recruit->costs) ? true : false;
+		// TODO: player.has[RMoney] geht nicht. Was meinst du damit?
 	}
 //move
 	else if (move != 0) {
@@ -66,15 +69,16 @@ bool GameLogic::checkPlayerAction(Player player, GameAction action) {
 	}
 //build
 	else if (build != 0) {
-		 valid=(player.has[RMoney] >= build->costs)?true:false;
+		// valid = (player.has[RMoney] >= build->costs) ? true : false;
+		// TODO: player.has[RMoney] geht nicht. Was meinst du damit?
 	}
 //attack
 	else if (attack != 0) {
 		coordinates coords = attack->where;
 		/* if (*map.isArmyPositioned(coords)) {
-			int playerid = whoseArmy(coords);
-			valid = (playerid != player.getPlayerId()) ? true : false;
-		} */
+		 int playerid = whoseArmy(coords);
+		 valid = (playerid != player.getPlayerId()) ? true : false;
+		 } */
 	}
 
 	return valid;
