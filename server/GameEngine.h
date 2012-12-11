@@ -9,11 +9,11 @@
 #define GAMEENGINE_H_
 
 #include <list>
-#include <gamemodel/Player.h>
-#include <gamemodel/GameAction.h>
 #include "GameLogic.h"
-#include "GameMap.h"
 
+class Player;
+class GameAction;
+class GameMap;
 
 using namespace std;
 
@@ -24,15 +24,12 @@ public:
 
 	bool gameIsRunning();
 
-
-
 	bool onPlayerConnect(Player player);
 	void onPlayerDisconnect(Player player);
-	void onPlayerAction(Player player,GameAction action);
-	void doAction(Player player,GameAction action);
+	void onPlayerAction(Player player, GameAction action);
+	void doAction(Player player, GameAction action);
 
 	void test();
-
 
 	GameMap map;
 	GameLogic logic;

@@ -17,4 +17,4 @@ add_subdirectory(client)
 
 # Executables
 add_executable(xserver server/GameServer)
-target_link_libraries(xserver gamemodel network ${LINK_WIN32})
+target_link_libraries(xserver server gamemodel network ${LINK_WIN32})

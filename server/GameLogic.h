@@ -8,14 +8,19 @@
 #ifndef GAMELOGIC_H_
 #define GAMELOGIC_H_
 
-#include <gamemodel/Player.h>
-#include <gamemodel/GameAction.h>
-#include <gamemodel/Player.h>
+#include <list>
+
 #include "GameMap.h"
+
+class GameAction;
+class Player;
+class coordinates;
+
+using namespace std;
 
 class GameLogic {
 public:
-	GameLogic(GameMap map,list<Player> playerlist);
+	GameLogic(GameMap map, list<Player> playerlist);
 	virtual ~GameLogic();
 
 	bool checkPlayerAction(Player player, GameAction action);

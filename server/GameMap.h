@@ -17,27 +17,21 @@ public:
 
 	unsigned char map[4][4];
 
-
-	enum attributes{
-			walkable= 0x01,
-			blocked= 0x02,
-			place= 0x04,
-			army=0x08
-		};
+	enum attributes {
+		walkable = 0x01, blocked = 0x02, place = 0x04, army = 0x08
+	};
 
 	void setWalkable(coordinates coords);
-	void setWalkable(int x,int y);
-
+	void setWalkable(int x, int y);
 
 	void setArmy(coordinates coords);
-	void setArmy(int x,int y);
-
+	void setArmy(int x, int y);
 
 	void setPlace(coordinates coords);
-	void setPlace(int x,int y);
+	void setPlace(int x, int y);
 
 	void setBlocked(coordinates coords);
-	void setBlocked(int x,int y);
+	void setBlocked(int x, int y);
 
 	bool isWalkable(coordinates coords);
 	bool isArmyPositioned(coordinates coords);

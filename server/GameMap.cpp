@@ -5,11 +5,10 @@
  *      Author: Henrik
  */
 
-#include "server/GameMap.h"
+#include "GameMap.h"
 #include <iostream>
 
 GameMap::GameMap() {
-	// TODO Auto-generated constructor stub
 	std::cout << "map loaded";
 	for (int i = 0; i < 4; i++) {
 		for (int u = 0; u < 4; u++) {
@@ -22,7 +21,6 @@ GameMap::GameMap() {
 }
 
 GameMap::~GameMap() {
-	// TODO Auto-generated destructor stub
 }
 
 void GameMap::setWalkable(coordinates coords) {

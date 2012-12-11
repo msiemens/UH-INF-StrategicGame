@@ -5,16 +5,18 @@
  *      Author: Armend
  */
 
-#include "server/GameLogic.h"
-#include "gamemodel/GameAction.h"
-#include "gamemodel/actions/AMove.h"
-#include "gamemodel/actions/ARecruit.h"
-#include "gamemodel/actions/ABuild.h"
-#include "gamemodel/actions/AAttack.h"
-#include "gamemodel/ressources/RMoney.h"
-#include "server/GameMap.h"
-#include <string>
 #include <list>
+#include <string>
+
+#include <server/GameLogic.h>
+#include <server/GameMap.h>
+#include <gamemodel/Player.h>
+#include <gamemodel/GameAction.h>
+#include <gamemodel/actions/AMove.h>
+#include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/ABuild.h>
+#include <gamemodel/actions/AAttack.h>
+#include <gamemodel/ressources/RMoney.h>
 
 GameLogic::GameLogic(GameMap map, list<Player> playerlist) :
 		map(map), playerlist(playerlist) {

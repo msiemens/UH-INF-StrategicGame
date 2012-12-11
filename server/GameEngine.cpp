@@ -6,7 +6,6 @@
  */
 #include <iostream>
 
-#include <server/GameEngine.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/GameAction.h>
 #include <gamemodel/entities/EPlace.h>
@@ -22,6 +21,8 @@
 #include <gamemodel/entities/places/EMetropolis.h>
 
 #include <gamemodel/ressources/RWood.h>
+
+#include "GameEngine.h"
 
 using namespace std;
 
