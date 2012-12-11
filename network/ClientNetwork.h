@@ -8,6 +8,8 @@
 #ifndef CLIENTNETWORK_H_
 #define CLIENTNETWORK_H_
 
+#include <string>
+
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameMetaMessage.h>
 
