@@ -10,6 +10,7 @@
 
 #include <gamemodel/entities/ETroops.h>
 #include <gamemodel/entities/EBuilding.h>
+#include <gamemodel/entities/EPlace.h>
 
 #include <gamemodel/GameAction.h>
 

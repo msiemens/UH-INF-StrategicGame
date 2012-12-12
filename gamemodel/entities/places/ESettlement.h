@@ -17,7 +17,7 @@ public:
 	virtual ~ESettlement();
 
 private:
-	int mininhabitants;
+	//int mininhabitants;
 };
 
 #endif /* ESETTLEMENT_H_ */

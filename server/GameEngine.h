@@ -19,19 +19,19 @@ using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap map);
+	GameEngine(GameMap *map);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
 
 	bool onPlayerConnect(Player player);
 	void onPlayerDisconnect(Player player);
-	void onPlayerAction(Player player, GameAction action);
-	void doAction(Player player, GameAction action);
+	void onPlayerAction(Player player, GameAction *action);
+	void doAction(Player player, GameAction *action);
 
 	void test();
 
-	GameMap map;
+	GameMap *map;
 	GameLogic logic;
 
 private:

@@ -9,11 +9,13 @@
 
 #include "GameEngine.h"
 #include "GameMap.h"
+#include <gamemodel/Player.h>
+#include <list>
 
 int main(int argc, char* argv[]) {
-	std::cout << "start";
+	std::cout << "start\n";
 	GameMap map;
-	GameEngine engine(map);
+	GameEngine engine(&map);
 	return 0;
 }
 

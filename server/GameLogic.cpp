@@ -7,6 +7,7 @@
 
 #include <list>
 #include <string>
+#include <iostream>
 
 #include <server/GameLogic.h>
 #include <server/GameMap.h>
@@ -18,9 +19,9 @@
 #include <gamemodel/actions/AAttack.h>
 #include <gamemodel/ressources/RMoney.h>
 
-GameLogic::GameLogic(GameMap map, list<Player> playerlist) :
+GameLogic::GameLogic(GameMap *map, list<Player> *playerlist) :
 		map(map), playerlist(playerlist) {
-	// TODO Auto-generated constructor stub
+	std::cout << "\nlogic loaded";
 }
 
 GameLogic::~GameLogic() {
@@ -30,57 +31,51 @@ GameLogic::~GameLogic() {
 //returns whose Army is positioned at coords
 int GameLogic::whoseArmy(coordinates coords) {
 	int playerid;
-	/* for (Player p : playerlist) {
-	 for (EArmy a : p.armies) {
-	 if (a.getPosition() == coords) {
-	 playerid = p.getPlayerId();
-	 }
-	 }
-	 } */ // C++ is not Java ;)
 	return playerid;
 }
 
 //return whose Place is at coords
 int GameLogic::whosePlace(coordinates coords) {
 	int playerid;
-	/* for (Player p : playerlist) {
-	 for (EPlace pl : p.places) {
-
-	 }
-	 } */
 	return playerid;
 }
 //checks whether PlacerAction is valid or not
-bool GameLogic::checkPlayerAction(Player player, GameAction action) {
-	bool valid = false;
+bool GameLogic::checkPlayerAction(Player player, GameAction *action) {
 
-	ARecruit* recruit = dynamic_cast<ARecruit*>(&action);
-	AMove* move = dynamic_cast<AMove*>(&action);
-	ABuild* build = dynamic_cast<ABuild*>(&action);
-	AAttack* attack = dynamic_cast<AAttack*>(&action);
+	bool valid = true;
+
+	ARecruit* recruit = dynamic_cast<ARecruit*>(action);
+	AMove* move = dynamic_cast<AMove*>(action);
+	ABuild* build = dynamic_cast<ABuild*>(action);
+	AAttack* attack = dynamic_cast<AAttack*>(action);
+
 //recruit
-	if (recruit != 0) {
-		// valid = (player.has(RMoney) >= recruit->costs) ? true : false;
-		// TODO: player.has[RMoney] geht nicht. Was meinst du damit?
+	if (recruit != NULL) {
+		GameRessource ressource=recruit->costs;
+		ETroops troops=recruit->what;
+		EPlace base=recruit->base;
+
+		valid=true;
+
+		std::cout << "\nRecruit-Befehl an Logic übergeben.";
 	}
 //move
-	else if (move != 0) {
-		coordinates coords = move->to;
-		valid = map.isWalkable(coords);
+	else if (move != NULL) {
 
+		std::cout << "\nMove-Befehl an Logic übergeben.";
 	}
 //build
-	else if (build != 0) {
-		// valid = (player.has[RMoney] >= build->costs) ? true : false;
-		// TODO: player.has[RMoney] geht nicht. Was meinst du damit?
+	else if (build != NULL) {
+		GameRessource costs=build->costs;
+		EBuilding building=build->what;
+		EPlace where=build->where;
+		RMoney money;
+		valid=true;
+		std::cout << "\nBuild-Befehl an Logic übergeben.";
 	}
 //attack
-	else if (attack != 0) {
-		coordinates coords = attack->where;
-		/* if (*map.isArmyPositioned(coords)) {
-		 int playerid = whoseArmy(coords);
-		 valid = (playerid != player.getPlayerId()) ? true : false;
-		 } */
+	else if (attack != NULL) {
+		std::cout << "\nAttack-Befehl an Logic übergeben.";
 	}
 
 	return valid;

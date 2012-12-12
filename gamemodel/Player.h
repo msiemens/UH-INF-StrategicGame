@@ -32,6 +32,7 @@ public:
 	void addArmy(EArmy army);
 	void addPlace(EPlace place);
 	void addTroops(ETroops troops);
+	void addRessource(GameRessource ressource);
 
 	int playerid;
 };

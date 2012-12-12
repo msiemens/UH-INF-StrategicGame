@@ -23,9 +23,9 @@ public:
 	int inhabitans;
 	int mininhabitans;
 
-	// void addBuilding(EBuilding building);
+	 void addBuilding(EBuilding building);
 
-	// list<EBuilding> buildinglist;
+	 list<EBuilding> buildinglist;
 
 	EArmy positionedarmy;
 };

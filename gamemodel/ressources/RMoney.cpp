@@ -7,3 +7,10 @@
 
 #include "RMoney.h"
 
+RMoney::RMoney(){
+
+}
+
+RMoney::~RMoney(){
+
+}

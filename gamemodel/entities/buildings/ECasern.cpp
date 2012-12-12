@@ -9,9 +9,8 @@
 
 namespace std {
 
-ECasern::ECasern() {
+ECasern::ECasern(){
 	// TODO Auto-generated constructor stub
-
 }
 
 ECasern::~ECasern() {

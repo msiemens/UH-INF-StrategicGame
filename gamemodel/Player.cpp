@@ -33,4 +33,7 @@ void Player::addTroops(ETroops troops){
 //	owns.insert(owns.begin(),troops);
 }
 
+void Player::addRessource(GameRessource ressource){
+}
+
 
