@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 2.6 FATAL_ERROR)
 project (StrategicGame)
 
+## COMPILER OPTIONS
+add_definitions(-std=gnu++0x)
+
 ## INCLUDE BOOST
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON) 

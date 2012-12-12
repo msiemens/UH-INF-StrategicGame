@@ -25,8 +25,7 @@ void NetPlayer::Start() {
 
 // Send a message to a player
 void NetPlayer::Send(const NetworkMessage& msg) {
-	cout << "Delivering message... " << msg.data() << " (" << msg.body_length()
-			<< ")" << endl;
+	cout << "Delivering message..." << endl;
 
 	bool write_in_progress = !m_write_msgs.empty();
 	m_write_msgs.push_back(msg);
@@ -37,7 +36,7 @@ void NetPlayer::Send(const NetworkMessage& msg) {
 
 // Handle an incoming header
 void NetPlayer::OnHeader(const boost::system::error_code& error) {
-	cout << "Recieving message... " << endl;
+	cout << "Recieving message..." << endl;
 
 	if (!error && m_read_msg.DecodeHeader()) {
 		_ReadBody();
@@ -60,8 +59,7 @@ void NetPlayer::OnBody(const boost::system::error_code& error) {
 
 // OnWriteHandler
 void NetPlayer::OnWrite(const boost::system::error_code& error) {
-	cout << "Message delivered: " << m_write_msgs.front().data() << " ("
-			<< m_write_msgs.front().body_length() << ")" << endl;
+	cout << "Message delivered" << endl;
 	if (!error) {
 		m_write_msgs.pop_front();
 		if (!m_write_msgs.empty()) {

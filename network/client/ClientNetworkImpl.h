@@ -55,17 +55,22 @@ private:
 	// Process a written message: Remove it from the queue and proceed to the next one
 	void OnWrite(const boost::system::error_code& error);
 
-private:
 	// Process the next waiting message and call HandleWrite, when done
 	void _Write();
 
 	// Do any cleanup stuff and close the connection
 	void _Close();
 
+	//
+	void OnConnectionTimeout(const boost::system::error_code& error);
+
+private:
+
 	boost::thread m_thread;
 
 	boost::asio::io_service m_io_service;
 	tcp::socket m_socket;
+	boost::asio::deadline_timer m_timer;
 
 	tcp::resolver m_tcp_resolver;
 	tcp::resolver::query m_tcp_query;

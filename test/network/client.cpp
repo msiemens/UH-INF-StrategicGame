@@ -37,6 +37,8 @@ int main(int argc, char* argv[]) {
 		c.thread()->join();
 	} catch (std::exception& e) {
 		std::cerr << "Exception: " << e.what() << "\n";
+	} catch (boost::system::error_code& e) {
+		std::cerr << "Exception " << e.value() << ": " << e.message() << "\n";
 	}
 
 	return 0;
