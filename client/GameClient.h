@@ -17,7 +17,6 @@
 #include "client/CEvent.h"
 #include "client/CSurface.h"
 #include "client/Define.h"
-#include "client/CMap.h"
 
 
 using namespace std;
