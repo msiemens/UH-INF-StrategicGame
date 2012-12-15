@@ -20,7 +20,7 @@ void NetGame::Leave(NetClientPtr participant) {
 	m_players.erase(participant);
 }
 
-void NetGame::Broadcast(const NetworkMessage& msg) {
+void NetGame::Broadcast(NetworkMessagePtr msg) {
 	std::for_each(m_players.begin(), m_players.end(),
 			boost::bind(&NetConnection::Send, _1, boost::ref(msg)));
 }

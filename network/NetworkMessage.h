@@ -12,6 +12,8 @@
 #include <cstring>
 #include <algorithm>
 
+#include <boost/shared_ptr.hpp>
+
 using namespace std;
 
 class NetworkMessage {
@@ -49,4 +51,7 @@ private:
 	char m_data[header_length + max_body_length];
 	size_t m_body_length;
 };
+
+typedef boost::shared_ptr<NetworkMessage> NetworkMessagePtr;
+
 #endif /* NETWORKMESSAGE_H_ */

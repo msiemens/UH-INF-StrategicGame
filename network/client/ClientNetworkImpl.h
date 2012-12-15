@@ -9,25 +9,32 @@
 #define CLIENTNETWORKIMPL_H_
 
 #include <deque>
+
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
+#include <boost/signals2.hpp>
 
 #include "../NetworkMessage.h"
 
 using boost::asio::ip::tcp;
 
-typedef std::deque<NetworkMessage> MessageQueue;
+typedef std::deque<NetworkMessagePtr> MessageQueue;
 
 class ClientNetworkImpl {
 public:
-	ClientNetworkImpl(char* host, char* port);
+	typedef boost::signals2::signal<void(char*, int)> signal_t;
+
+	ClientNetworkImpl(const char* host, const char* port);
 
 	// Write a message to the server
-	void Write(const NetworkMessage& msg);
+	void Write(NetworkMessagePtr msg);
 
 	// Close the connection
 	void Close();
+
+	// Signals connectors
+	void ConnectOnMessage(const signal_t::slot_type &subscriber);
 
 	// Getter for the thread
 	boost::shared_ptr<boost::thread> thread();
@@ -50,7 +57,7 @@ private:
 	void ReadBody();
 
 	// Send a message to the server
-	void Send(NetworkMessage msg);
+	void Send(NetworkMessagePtr msg);
 
 	// Process a written message: Remove it from the queue and proceed to the next one
 	void OnWrite(const boost::system::error_code& error);
@@ -78,6 +85,8 @@ private:
 
 	NetworkMessage m_read_msg; // The last message being read
 	MessageQueue m_write_msgs; // A queue for running write operations
+
+	signal_t m_signal_on_message;
 };
 
 #endif /* CLIENTNETWORKIMPL_H_ */

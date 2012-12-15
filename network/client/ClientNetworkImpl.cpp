@@ -6,12 +6,13 @@
  */
 
 #include <iostream>
+#include <functional>
 
 #include "../constants.h"
 
 #include "ClientNetworkImpl.h"
 
-ClientNetworkImpl::ClientNetworkImpl(char* host, char* port) :
+ClientNetworkImpl::ClientNetworkImpl(const char* host, const char* port) :
 		m_io_service(),
 		m_socket(m_io_service),
 		m_tcp_resolver(m_io_service),
@@ -30,12 +31,18 @@ ClientNetworkImpl::ClientNetworkImpl(char* host, char* port) :
 
 	// Start connection timeout timer
 	m_timer.expires_from_now(boost::posix_time::seconds(kConnectionTimeout));
-	m_timer.async_wait(boost::bind(&ClientNetworkImpl::OnConnectionTimeout, this,
-			boost::asio::placeholders::error));
+	m_timer.async_wait(
+			boost::bind(&ClientNetworkImpl::OnConnectionTimeout, this,
+					boost::asio::placeholders::error));
+}
+
+void ClientNetworkImpl::ConnectOnMessage(
+		const signal_t::slot_type &subscriber) {
+	// m_signal_onmessage.connect(handler);
 }
 
 // Write a message to the server
-void ClientNetworkImpl::Write(const NetworkMessage& msg) {
+void ClientNetworkImpl::Write(NetworkMessagePtr msg) {
 	m_io_service.post(boost::bind(&ClientNetworkImpl::Send, this, msg));
 }
 
@@ -55,6 +62,8 @@ void ClientNetworkImpl::OnConnect(const boost::system::error_code& error) {
 		m_timer.cancel(); // Cancel connection timeout timer
 		std::cout << ":: Connected!" << std::endl;
 		ReadHeader();
+	} else {
+		// TODO: Throw error!
 	}
 }
 
@@ -75,9 +84,7 @@ void ClientNetworkImpl::OnHeader(const boost::system::error_code& error) {
 void ClientNetworkImpl::OnBody(const boost::system::error_code& error) {
 	std::cout << "// Reading the message" << std::endl;
 	if (!error) {
-		// TODO: Handle the message
-		std::cout.write(m_read_msg.body(), m_read_msg.body_length());
-		std::cout << "\n";
+		m_signal_on_message(m_read_msg.body(), m_read_msg.body_length());
 
 		// Go back to read header
 		ReadHeader();
@@ -105,12 +112,12 @@ void ClientNetworkImpl::ReadBody() {
 }
 
 // Send a message to the server
-void ClientNetworkImpl::Send(NetworkMessage msg) {
+void ClientNetworkImpl::Send(NetworkMessagePtr msg) {
 	std::cout << ":::: Sending message" << std::endl;
 	bool write_in_progress = !m_write_msgs.empty();
 	m_write_msgs.push_back(msg);
 
-// If not already writing: Write message and call HandleWrite
+	// If not already writing: Write message and call HandleWrite
 	_Write();
 }
 
@@ -137,10 +144,10 @@ void ClientNetworkImpl::OnConnectionTimeout(
 // Process the next waiting message and call HandleWrite, when done
 void ClientNetworkImpl::_Write() {
 	if (!m_write_msgs.empty()) {
-		NetworkMessage msg = m_write_msgs.front();
+		NetworkMessagePtr msg = m_write_msgs.front();
 
 		boost::asio::async_write(m_socket,
-				boost::asio::buffer(msg.data(), msg.length()),
+				boost::asio::buffer(msg->data(), msg->length()),
 				boost::bind(&ClientNetworkImpl::OnWrite, this,
 						boost::asio::placeholders::error));
 	}

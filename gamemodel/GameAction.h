@@ -8,6 +8,8 @@
 #ifndef GAMEACTION_H_
 #define GAMEACTION_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include "GameEntity.h"
 #include "GameRessource.h"
 
@@ -19,5 +21,7 @@ public:
 	GameEntity what;
 	GameRessource costs;
 };
+
+typedef boost::shared_ptr<GameAction> GameActionPtr;
 
 #endif /* GAMEACTION_H_ */

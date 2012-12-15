@@ -22,7 +22,7 @@
 using boost::asio::ip::tcp;
 using namespace std;
 
-typedef std::deque<NetworkMessage> MessageQueue;
+typedef std::deque<NetworkMessagePtr> MessageQueue;
 
 class NetPlayer: public NetConnection, public boost::enable_shared_from_this<
 		NetPlayer> {
@@ -35,7 +35,7 @@ public:
 	void Start();
 
 	// Send a message to a player
-	void Send(const NetworkMessage& msg);
+	void Send(NetworkMessagePtr msg);
 
 	// Handle an incoming header
 	void OnHeader(const boost::system::error_code& error);
@@ -49,10 +49,10 @@ public:
 private:
 	tcp::socket m_socket;
 	NetGame& m_game;
-	NetworkMessage m_read_msg;
+	NetworkMessagePtr m_read_msg;
 	MessageQueue m_write_msgs;
 
-	void _Write(NetworkMessage msg);
+	void _Write(NetworkMessagePtr msg);
 
 	void _ReadHeader();
 

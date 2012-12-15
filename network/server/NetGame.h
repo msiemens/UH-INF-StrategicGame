@@ -12,7 +12,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-class NetworkMessage;
+#include "../NetworkMessage.h"
 
 class NetConnection;
 typedef boost::shared_ptr<NetConnection> NetClientPtr;
@@ -26,9 +26,12 @@ public:
 	void Leave(NetClientPtr participant);
 
 	// Broadcast a message to all clients
-	void Broadcast(const NetworkMessage& msg);
+	void Broadcast(NetworkMessagePtr msg);
 
 private:
 	std::set<NetClientPtr> m_players;
 };
+
+typedef boost::shared_ptr<NetGame> NetGamePtr;
+
 #endif /* NETGAME_H_ */

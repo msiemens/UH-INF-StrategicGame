@@ -17,20 +17,24 @@ ServerNetworkImpl::ServerNetworkImpl(int port) :
 	m_io_service.run();
 }
 
+NetGamePtr ServerNetworkImpl::game() {
+	return NetGamePtr(&m_room);
+}
+
 // Start accepting new connections
 void ServerNetworkImpl::StartAccept() {
 	// Wait asynchronously for new connections
-	NetPlayerPtr new_session(new NetPlayer(m_io_service, m_room));
-	m_acceptor.async_accept(new_session->socket(),
-			boost::bind(&ServerNetworkImpl::HandleAccept, this, new_session,
+	NetPlayerPtr player(new NetPlayer(m_io_service, m_room));
+	m_acceptor.async_accept(player->socket(),
+			boost::bind(&ServerNetworkImpl::HandleAccept, this, player,
 					boost::asio::placeholders::error));
 }
 
 // Handle an incomming connection
-void ServerNetworkImpl::HandleAccept(NetPlayerPtr session,
+void ServerNetworkImpl::HandleAccept(NetPlayerPtr player,
 		const boost::system::error_code& error) {
 	if (!error) {
-		session->Start();
+		player->Start();
 	}
 
 	// Listen for more connections

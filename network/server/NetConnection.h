@@ -10,13 +10,13 @@
 
 #include <boost/shared_ptr.hpp>
 
-class NetworkMessage;
+#include "../NetworkMessage.h"
 
 class NetConnection {
 public:
 	virtual ~NetConnection() {
 	}
-	virtual void Send(const NetworkMessage& msg) = 0;
+	virtual void Send(NetworkMessagePtr) = 0;
 };
 
 typedef boost::shared_ptr<NetConnection> NetClientPtr;

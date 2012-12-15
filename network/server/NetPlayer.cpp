@@ -24,7 +24,7 @@ void NetPlayer::Start() {
 }
 
 // Send a message to a player
-void NetPlayer::Send(const NetworkMessage& msg) {
+void NetPlayer::Send(NetworkMessagePtr msg) {
 	cout << "Delivering message..." << endl;
 
 	bool write_in_progress = !m_write_msgs.empty();
@@ -38,7 +38,7 @@ void NetPlayer::Send(const NetworkMessage& msg) {
 void NetPlayer::OnHeader(const boost::system::error_code& error) {
 	cout << "Recieving message..." << endl;
 
-	if (!error && m_read_msg.DecodeHeader()) {
+	if (!error && m_read_msg->DecodeHeader()) {
 		_ReadBody();
 	} else {
 		m_game.Leave(shared_from_this());
@@ -70,16 +70,16 @@ void NetPlayer::OnWrite(const boost::system::error_code& error) {
 	}
 }
 
-void NetPlayer::_Write(NetworkMessage msg) {
+void NetPlayer::_Write(NetworkMessagePtr msg) {
 	boost::asio::async_write(m_socket,
-			boost::asio::buffer(msg.data(), msg.length()),
+			boost::asio::buffer(msg->data(), msg->length()),
 			boost::bind(&NetPlayer::OnWrite, shared_from_this(),
 					boost::asio::placeholders::error));
 }
 
 void NetPlayer::_ReadHeader() {
 	boost::asio::async_read(m_socket,
-			boost::asio::buffer(m_read_msg.data(),
+			boost::asio::buffer(m_read_msg->data(),
 					NetworkMessage::header_length),
 			boost::bind(&NetPlayer::OnHeader, shared_from_this(),
 					boost::asio::placeholders::error));
@@ -87,7 +87,7 @@ void NetPlayer::_ReadHeader() {
 
 void NetPlayer::_ReadBody() {
 	boost::asio::async_read(m_socket,
-			boost::asio::buffer(m_read_msg.body(), m_read_msg.body_length()),
+			boost::asio::buffer(m_read_msg->body(), m_read_msg->body_length()),
 			boost::bind(&NetPlayer::OnBody, shared_from_this(),
 					boost::asio::placeholders::error));
 }

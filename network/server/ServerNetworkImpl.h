@@ -9,12 +9,16 @@
 #define SERVERNETWORKIMPL_H_
 
 #include <deque>
+#include <unordered_map>
 #include <iostream>
 
+#include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <boost/asio.hpp>
+#include <boost/signals2.hpp>
+
+#include <gamemodel/Player.h>
 
 #include "../NetworkMessage.h"
 #include "NetConnection.h"
@@ -24,11 +28,16 @@
 using boost::asio::ip::tcp;
 using namespace std;
 
-typedef std::deque<NetworkMessage> MessageQueue;
-
 class ServerNetworkImpl {
 public:
+	typedef boost::signals2::signal<void(NetPlayerPtr)> signal_t;
+
 	ServerNetworkImpl(int port);
+
+	NetGamePtr game();
+
+	// Connect to onPlayerConnect signal
+	void ConnectOnPlayerConnect(const signal_t::slot_type &handler);
 
 	// Start accepting new connections
 	void StartAccept();
@@ -42,6 +51,9 @@ private:
 	boost::asio::io_service m_io_service;
 	tcp::acceptor m_acceptor;
 	NetGame m_room;
+
+	signal_t m_signal_on_player_connect;
+
 };
 
 #endif /* SERVERNETWORKIMPL_H_ */

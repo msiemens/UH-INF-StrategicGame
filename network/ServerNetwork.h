@@ -12,20 +12,29 @@
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameStateMessage.h>
 
+#include "server/ServerNetworkImpl.h"
+
 using namespace std;
 
 class ServerNetwork {
 public:
-	ServerNetwork();
+	ServerNetwork(int port);
 	virtual ~ServerNetwork();
 
-	void startServer(int port);
+	void SendAction(PlayerPtr dest, GameActionPtr action);
+	void BroadcastAction(GameActionPtr action);
 
-	void sendAction(Player dest, GameAction action);
-	void broadcastAction(GameAction action);
+	void SendMessage(PlayerPtr dest, GameStateMessagePtr message);
+	void BroadcastMessage(GameStateMessagePtr message);
 
-	void sendMessage(Player dest, GameStateMessage message);
-	void broadcastMessage(GameStateMessage message);
+private:
+	void OnPlayerConnect(NetPlayerPtr netplayer);
+
+	ServerNetworkImpl m_network;
+
+	std::unordered_map<PlayerPtr, NetPlayerPtr> m_players;
+
+	// TODO: Handle incomming messages
 };
 
 #endif /* SERVERNETWORK_H_ */

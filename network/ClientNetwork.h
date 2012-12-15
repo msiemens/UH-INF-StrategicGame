@@ -13,16 +13,22 @@
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameMetaMessage.h>
 
+#include "client/ClientNetworkImpl.h"
+
 using namespace std;
 
 class ClientNetwork {
 public:
-	ClientNetwork();
+	ClientNetwork(string hostname, int port);
 	virtual ~ClientNetwork();
 
-	void connectToServer(string hostname, int port);
-	void sendAction(GameAction action);
-	void sendMetaMessage(GameMetaMessage message);
+	void SendAction(GameActionPtr action);
+	void SendMetaMessage(GameMetaMessagePtr message);
+
+private:
+	ClientNetworkImpl m_network;
+
+	void OnMessage(char* msg, int length);
 };
 
 #endif /* CLIENTNETWORK_H_ */
