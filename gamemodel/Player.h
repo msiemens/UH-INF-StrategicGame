@@ -11,6 +11,8 @@
 #include <list>
 
 #include "utils/count.h"
+#include <string>
+
 
 #include "GameEntity.h"
 #include "GameRessource.h"
@@ -22,19 +24,26 @@ public:
 	Player(int id);
 	virtual ~Player();
 
-	std::list<count<GameEntity> > owns;
-	std::list<count<GameRessource> > has;
-
-	std::list<EArmy> armies;
-	std::list<EPlace> places;
 
 	int getPlayerId();
 	void addArmy(EArmy army);
 	void addPlace(EPlace place);
 	void addTroops(ETroops troops);
+
 	void addRessource(GameRessource ressource);
 
+	int getRessourceCount(GameRessource ressource);
+
 	int playerid;
+
+private:
+
+	std::list<count<GameEntity> > owns;
+	std::list<count<GameRessource> > has;
+
+
+	std::list<EArmy> armies;
+	std::list<EPlace> places;
 };
 
 #endif /* PLAYER_H_ */

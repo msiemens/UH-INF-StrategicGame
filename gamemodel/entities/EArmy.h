@@ -12,6 +12,7 @@
 #include "gamemodel/utils/coordinates.h"
 #include "gamemodel/entities/ETroops.h"
 #include <list>
+#include <vector>
 
 namespace std {
 
@@ -20,12 +21,6 @@ public:
 	EArmy();
 	virtual ~EArmy();
 
-	coordinates position;
-
-	void setPosition(int x, int y);
-	void setPosition(coordinates coords);
-
-	coordinates getPosition();
 
 	int getAtk();
 	int getDef();
@@ -39,12 +34,10 @@ public:
 	void setMor();
 	void setTac();
 
-	void addTroop(ETroops troop, int slot);
+	void addTroop(ETroops troop);
 
 private:
-	// ETroops troops[]; // Nimm bitte lieber "vector". Ist deutlich einfacher und sicherer von der Handhabung.
-	// Hier kannst du aus versehen in falsche Speicherbereiche reinschreiben und dann Happy Debugging.
-	//
+	vector<ETroops> troops;
 
 	int atk, def, pac, mor, tac;
 };

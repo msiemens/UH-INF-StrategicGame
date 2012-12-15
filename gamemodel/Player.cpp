@@ -5,35 +5,43 @@
  *      Author: markus
  */
 
+#include <typeinfo>
+
 #include "Player.h"
 #include "gamemodel/entities/EArmy.h"
 #include "gamemodel/entities/EPlace.h"
 
 using namespace std;
 
-Player::Player(int id){
-	playerid=id;
+Player::Player(int id) {
+	playerid = id;
 }
 
-Player::~Player() {}
+Player::~Player() {
+}
 
-int Player::getPlayerId(){
+int Player::getPlayerId() {
 	return playerid;
 }
 
-void Player::addArmy(EArmy army){
-	armies.insert(armies.begin(),army);
+void Player::addArmy(EArmy army) {
+	armies.insert(armies.begin(), army);
 }
 
-void Player::addPlace(EPlace place){
-	places.insert(places.begin(),place);
+void Player::addPlace(EPlace place) {
+	places.insert(places.begin(), place);
 }
 
-void Player::addTroops(ETroops troops){
-//	owns.insert(owns.begin(),troops);
+void Player::addTroops(ETroops troops) {
+
 }
 
-void Player::addRessource(GameRessource ressource){
+void Player::addRessource(GameRessource ressource) {
+
+
 }
 
+int Player::getRessourceCount(GameRessource ressource) {
+	return 0;
+}
 

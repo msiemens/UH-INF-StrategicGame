@@ -5,6 +5,8 @@
  *      Author: Henrik
  */
 
+#include <iostream>
+
 #include <gamemodel/entities/EArmy.h>
 #include <gamemodel/entities/ETroops.h>
 #include <gamemodel/utils/coordinates.h>
@@ -24,25 +26,16 @@ EArmy::~EArmy() {
 	// TODO Auto-generated destructor stub
 }
 
-void EArmy::setPosition(int x, int y) {
-	position.x = x;
-	position.y = y;
-}
 
-void EArmy::setPosition(coordinates coords) {
-	setPosition(coords.x, coords.y);
-}
 
-void EArmy::addTroop(ETroops troop, int slot) {
-	// troops[slot] = troop;
+void EArmy::addTroop(ETroops troop) {
+	int troop_count=troops.size();
+	if(troop_count<11){
+		troops.insert(troops.begin(),troop);
+	}
 }
 
 void EArmy::setAtk() {
-	/* for (ETroops t : troops) {
-		if (t != 0) {
-			atk += t.ATK;
-		}
-	}*/
 }
 
 void EArmy::setDef() {
@@ -100,10 +93,6 @@ int EArmy::getMor() {
 
 int EArmy::getTac() {
 	return tac;
-}
-
-coordinates EArmy::getPosition() {
-	return position;
 }
 
 } /* namespace std */

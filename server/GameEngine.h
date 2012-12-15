@@ -19,7 +19,7 @@ using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap *map);
+	GameEngine(GameMap *map,list<Player> *playerlist);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
@@ -27,7 +27,7 @@ public:
 	bool onPlayerConnect(Player player);
 	void onPlayerDisconnect(Player player);
 	void onPlayerAction(Player player, GameAction *action);
-	void doAction(Player player, GameAction *action);
+	void doAction(Player *player, GameAction *action);
 
 	void test();
 
@@ -36,7 +36,7 @@ public:
 
 private:
 	bool isRunning;
-	list<Player> playerlist;
+	list<Player> *playerlist;
 };
 
 #endif /* GAMEENGINE_H_ */

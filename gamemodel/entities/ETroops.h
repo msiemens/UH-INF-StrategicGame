@@ -16,17 +16,11 @@ public:
 	ETroops();
 	virtual ~ETroops();
 
-	std::string name;
 	int EXP;
-	int cost;
+	//int cost;
 
 	//Attributes
-	int MOR;
-	int ATK;
-	int DEF;
-	int PAC;
-	int TAC;
-
+	int ATK,DEF,PAC,MOR,TAC;
 	int amount;
 
 

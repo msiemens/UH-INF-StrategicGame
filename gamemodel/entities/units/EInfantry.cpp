@@ -11,6 +11,12 @@ namespace std {
 
 EInfantry::EInfantry() {
 	// TODO Auto-generated constructor stub
+	ATK=30;
+	DEF=30;
+	PAC=30;
+	MOR=30;
+	TAC=30;
+
 
 }
 

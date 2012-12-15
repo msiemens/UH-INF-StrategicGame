@@ -26,9 +26,8 @@
 
 using namespace std;
 
-GameEngine::GameEngine(GameMap *map) :
-		map(map), isRunning(true),logic(map,&playerlist) {
-	std::cout << "\nEngine started";
+GameEngine::GameEngine(GameMap *map,list<Player> *playerlist) :
+		map(map), playerlist(playerlist),isRunning(true),logic(map,playerlist) {
 	test();
 }
 
@@ -37,24 +36,22 @@ GameEngine::~GameEngine() {
 }
 
 bool GameEngine::onPlayerConnect(Player player) {
-	std::cout << "\nMethodenaufruf: onPlayerConnect() von";
-	playerlist.insert(playerlist.begin(), player);
+	std::cout << "\nSpieler mit ID "<< player.getPlayerId() << " hat sich connected";
+	playerlist->insert(playerlist->begin(), player);
 	return true;
 }
 
 void GameEngine::onPlayerDisconnect(Player player) {
-	// playerlist.remove(&player);
 }
 
 void GameEngine::onPlayerAction(Player player, GameAction *action) {
-	std::cout << "\nMethodenaufruf onPlayerAction()";
-	if (logic.checkPlayerAction(player, action) == true) {
-		doAction(player, action);
+	if (logic.checkPlayerAction(&player, action) == true) {
+		doAction(&player, action);
 	}
 
 }
 
-void GameEngine::doAction(Player player, GameAction *action) {
+void GameEngine::doAction(Player *player, GameAction *action) {
 
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action);
 	AMove* move = dynamic_cast<AMove*>(action);
@@ -66,69 +63,107 @@ void GameEngine::doAction(Player player, GameAction *action) {
 
 		ETroops troops = recruit->what;
 		EPlace base = recruit->base;
+		GameRessource costs=recruit->costs;
 
-		player.addTroops(troops);
-		base.positionedarmy.addTroop(troops, 0);
+		player->addTroops(troops);
+		base.positionedarmy.addTroop(troops);
 
-		std::cout << "\nEngine führt Recruit-Befehl aus. \n";
+		std::cout << "\nSpieler "<< player->getPlayerId() << " rekrutiert " << troops.getName() << " in " <<
+				base.getName();
+
 
 	}
 	if (move != NULL) {
 		GameEntity what=move->what;
-		//EArmy* army=dynamic_cast<EArmy*>(&what);
-		coordinates coords=move->to;
+		coordinates from=what.getCoords();
 
-		map->setArmy(coords);
-		map->isWalkable(coords);
+		coordinates to=move->to;
 
-		//army->setPosition(coords);
+		std::cout << "\n";
+		map->printMapStatus();
 
-		std::cout << "\nEngine führt Move-Befehl aus.\n";
+		map->setArmy(to);
+		map->isWalkable(from);
+
+		std::cout << "\nSpieler " <<player->getPlayerId() << " bewegt " << what.getName() << " von "
+				<< from.x <<","<< from.y<< " nach " << to.x << "," << to.y;
+
+		std::cout << "\n";
+		map->printMapStatus();
+
+
 	}
 	if (build != NULL) {
 		EBuilding building = build->what;
 		EPlace where = build->where;
 		where.addBuilding(building);
-		std::cout << "\nEngine führt Build-Befehl aus.\n";
+
+		std::cout << "\nSpieler "<<player->getPlayerId() << " baut " << building.getName() << " in "
+				<< where.getName();
+
 	}
-	if (attack != NULL) {
-		std::cout << "\nEngine führt Attack-Befehl aus.\n";
+	if (attack != NULL) {/*
+		EArmy what=attack->what;
+		coordinates where=attack->where;
+		EArmy who;
+
+		for(int i=0;i<2;i++){
+			Player p=playerlist[i];
+			EArmy parmy=p.armies[0];
+			if(parmy.getCoords()==where){
+				std::cout << "attack army";
+			}
+		}*/
+
+
 	}
 
 	//GameNetwork.broadcast(action);
 
 }
 
+
+
 void GameEngine::test() {
 
-	std::cout << "\nTest started\n\n\n";
+
+	//map->printMapStatus();
+
 	Player player1(0);
 	Player player2(1);
 	onPlayerConnect(player1);
-	std::cout << " player1\n";
+
 	onPlayerConnect(player2);
-	std::cout << " player2\n";
+
 
 	EMetropolis rome;
 	EMetropolis athens;
 
-	rome.coords = coordinates(0, 0);
-	athens.coords = coordinates(3, 3);
+	rome.setName("Rom");
+	athens.setName("Athen");
+
+	rome.setCoords(coordinates(0, 0));
+	athens.setCoords(coordinates(3, 3));
 	rome.inhabitans = 100;
 	athens.inhabitans = 100;
 
 	player1.addPlace(rome);
 	player2.addPlace(athens);
 
-	map->setPlace(rome.coords);
-	map->setPlace(athens.coords);
+	map->setPlace(rome.getCoords());
+	map->setPlace(athens.getCoords());
+
+
+
+	//map->printMapStatus();
 
 	//P1 baut Kaserne in place rome
-	std::cout << "\nBuild Befehl von player1";
+
 	ABuild buildcinrome;
 	buildcinrome.where = rome;
 
 	ECasern casernir;
+	casernir.setName("Kaserne");
 	buildcinrome.what = casernir;
 
 	RMoney money;
@@ -137,35 +172,37 @@ void GameEngine::test() {
 	onPlayerAction(player1, &buildcinrome);
 
 	//P2 baut Kaserne in place athens
-	std::cout << "\nBuild Befehl von player2";
+
 	ABuild buildcinathens;
 	buildcinathens.where = athens;
 
 	ECasern casernia;
+	casernia.setName("Kaserne");
 	buildcinathens.what = casernia;
 
-	buildcinathens.costs=money;
 
 	onPlayerAction(player2, &buildcinathens);
 
 	//P1 rekrutiert Infantrie in place rome
-	std::cout << "\nRecruit-Befehl von player1";
+
 	ARecruit recruiti;
 	recruiti.base = rome;
 
 	EInfantry infantry;
+	infantry.setName("Infantrie");
 	recruiti.what = infantry;
 
-	recruiti.costs = money;
+
 
 	onPlayerAction(player1, &recruiti);
 
 	//P2 rekrutiert Bauern in place athens
-	std::cout << "Recruit-Befehl von player2";
+
 	ARecruit recruitp;
 	recruitp.base = athens;
 
 	EPawn pawn;
+	pawn.setName("Bauern");
 	recruitp.what = pawn;
 
 	recruitp.costs = money;
@@ -175,19 +212,29 @@ void GameEngine::test() {
 	//armies werden erstellt und zugewiesen
 
 	EArmy army1;
+	army1.setName("Armee Spieler 1");
 	player1.addArmy(army1);
 
 	EArmy army2;
+	army2.setName("Armee Spieler 2");
 	player2.addArmy(army2);
 
-	army1.addTroop(infantry, 0);
-	army2.addTroop(pawn, 0);
+	army1.addTroop(infantry);
+	army1.addTroop(pawn);
+	army2.addTroop(pawn);
+	army2.addTroop(infantry);
 
-	army1.setPosition(rome.coords);
-	army2.setPosition(athens.coords);
+	army1.setCoords(rome.getCoords());
+	army2.setCoords(athens.getCoords());
+
+	army1.setAtk();
+
+
+
+	//map->printMapStatus();
 
 	//army1 wird bewegt
-	std::cout << "\nMove-Befehl von player1";
+
 	AMove move1;
 	move1.what = army1;
 	move1.to = coordinates(2, 2);
@@ -195,17 +242,23 @@ void GameEngine::test() {
 	onPlayerAction(player1, &move1);
 
 	//army2 wird bewegt
-	std::cout << "\nMove-Befehl von player2";
+
 	AMove move2;
 	move2.what = army2;
 	move2.to = coordinates(0, 3);
 
 	onPlayerAction(player2, &move2);
 
+
+	AAttack attack1;
+	attack1.what=army1;
+	attack1.where=coordinates(0,3);
+
+	onPlayerAction(player1,&attack1);
+
 	onPlayerDisconnect(player1);
 	onPlayerDisconnect(player2);
 
-	std::cout << "\n\n\nTest ended";
 
 }
 

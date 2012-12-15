@@ -20,6 +20,8 @@ public:
 	}
 
 	int how_many;
+
+	typedef T_VALUE type;
 };
 
 #endif /* COUNT_H_ */

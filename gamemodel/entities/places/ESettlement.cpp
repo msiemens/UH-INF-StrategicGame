@@ -9,7 +9,6 @@
 
 ESettlement::ESettlement() {
 	// TODO Auto-generate d constructor stub
-	mininhabitans=0;
 }
 
 ESettlement::~ESettlement() {

@@ -16,9 +16,6 @@ class EBuilding: public GameEntity {
 public:
 	EBuilding();
 	virtual ~EBuilding();
-
-
-	//EPlace where;
 };
 
 #endif /* EBUILDING_H_ */

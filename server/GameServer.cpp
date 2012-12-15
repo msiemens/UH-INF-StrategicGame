@@ -13,9 +13,9 @@
 #include <list>
 
 int main(int argc, char* argv[]) {
-	std::cout << "start\n";
 	GameMap map;
-	GameEngine engine(&map);
+	list<Player> playerlist;
+	GameEngine engine(&map,&playerlist);
 	return 0;
 }
 

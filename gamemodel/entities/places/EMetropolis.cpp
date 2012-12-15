@@ -11,6 +11,7 @@ namespace std {
 
 EMetropolis::EMetropolis() {
 	// TODO Auto-generated constructor stub
+	inhabitans=30000;
 
 }
 

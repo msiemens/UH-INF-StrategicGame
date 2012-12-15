@@ -17,11 +17,11 @@
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/ABuild.h>
 #include <gamemodel/actions/AAttack.h>
+
 #include <gamemodel/ressources/RMoney.h>
 
 GameLogic::GameLogic(GameMap *map, list<Player> *playerlist) :
 		map(map), playerlist(playerlist) {
-	std::cout << "\nlogic loaded";
 }
 
 GameLogic::~GameLogic() {
@@ -30,7 +30,9 @@ GameLogic::~GameLogic() {
 
 //returns whose Army is positioned at coords
 int GameLogic::whoseArmy(coordinates coords) {
-	int playerid;
+	int playerid=99;
+
+
 	return playerid;
 }
 
@@ -40,9 +42,9 @@ int GameLogic::whosePlace(coordinates coords) {
 	return playerid;
 }
 //checks whether PlacerAction is valid or not
-bool GameLogic::checkPlayerAction(Player player, GameAction *action) {
+bool GameLogic::checkPlayerAction(Player *player, GameAction *action) {
 
-	bool valid = true;
+	bool valid = false;
 
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action);
 	AMove* move = dynamic_cast<AMove*>(action);
@@ -51,31 +53,37 @@ bool GameLogic::checkPlayerAction(Player player, GameAction *action) {
 
 //recruit
 	if (recruit != NULL) {
-		GameRessource ressource=recruit->costs;
+		GameRessource costs=recruit->costs;
 		ETroops troops=recruit->what;
 		EPlace base=recruit->base;
 
 		valid=true;
-
-		std::cout << "\nRecruit-Befehl an Logic übergeben.";
 	}
 //move
 	else if (move != NULL) {
+		GameEntity what=move->what;
+		coordinates to=move->to;
 
-		std::cout << "\nMove-Befehl an Logic übergeben.";
+		valid=(map->isWalkable(to))?true:false;
 	}
 //build
 	else if (build != NULL) {
 		GameRessource costs=build->costs;
 		EBuilding building=build->what;
 		EPlace where=build->where;
-		RMoney money;
+
 		valid=true;
-		std::cout << "\nBuild-Befehl an Logic übergeben.";
 	}
 //attack
 	else if (attack != NULL) {
-		std::cout << "\nAttack-Befehl an Logic übergeben.";
+		GameEntity what=attack->what;
+		coordinates where=attack->where;
+
+		if(map->isArmyPositioned(where)){
+			valid=(player->getPlayerId()!=whoseArmy(where))?true:false;
+		}
+
+
 	}
 
 	return valid;

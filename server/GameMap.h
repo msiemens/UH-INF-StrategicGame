@@ -37,6 +37,8 @@ public:
 	bool isArmyPositioned(coordinates coords);
 	bool isPlace(coordinates coords);
 
+	void printMapStatus();
+
 };
 
 #endif /* GAMEMAP_H_ */

@@ -9,15 +9,12 @@
 #include <iostream>
 
 GameMap::GameMap() {
-	std::cout << "map loaded";
 	for (int i = 0; i < 4; i++) {
 		for (int u = 0; u < 4; u++) {
 			setWalkable(i, u);
 		}
 	}
 
-	setArmy(2, 3);
-	setPlace(1, 2);
 }
 
 GameMap::~GameMap() {
@@ -28,11 +25,11 @@ void GameMap::setWalkable(coordinates coords) {
 }
 
 void GameMap::setWalkable(int x, int y) {
-	map[y][x] = map[y][x] | walkable;
+	map[y][x] = /*map[y][x]*/  walkable;
 }
 
 void GameMap::setArmy(int x, int y) {
-	map[y][x] = map[y][x] | army;
+	map[y][x] =  army;
 }
 
 void GameMap::setArmy(coordinates coords) {
@@ -40,7 +37,7 @@ void GameMap::setArmy(coordinates coords) {
 }
 
 void GameMap::setPlace(int x, int y) {
-	map[y][x] = map[y][x] | place;
+	map[y][x] =  place;
 }
 
 void GameMap::setPlace(coordinates coords) {
@@ -65,4 +62,22 @@ bool GameMap::isArmyPositioned(coordinates coords) {
 
 bool GameMap::isPlace(coordinates coords) {
 	return (map[coords.x][coords.y] & place) ? true : false;
+}
+
+void GameMap::printMapStatus(){
+	coordinates coords;
+	for(int i=0;i<4;i++){
+		for(int u=0;u<4;u++){
+			coords.x=u;
+			coords.y=i;
+			if(isArmyPositioned(coords)){
+				std::cout << "a ";
+			}else if(isWalkable(coords)){
+				std::cout << "w ";
+			}else if(isPlace(coords)){
+				std::cout << "p ";
+			}
+		}
+		std::cout << "\n";
+	}
 }

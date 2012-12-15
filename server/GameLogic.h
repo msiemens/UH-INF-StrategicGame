@@ -23,7 +23,7 @@ public:
 	GameLogic(GameMap *map, list<Player> *playerlist);
 	virtual ~GameLogic();
 
-	bool checkPlayerAction(Player player, GameAction *action);
+	bool checkPlayerAction(Player *player, GameAction *action);
 
 	int whoseArmy(coordinates coords);
 	int whosePlace(coordinates coords);

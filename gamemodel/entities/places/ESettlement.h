@@ -15,9 +15,6 @@ class ESettlement: public EPlace {
 public:
 	ESettlement();
 	virtual ~ESettlement();
-
-private:
-	//int mininhabitants;
 };
 
 #endif /* ESETTLEMENT_H_ */

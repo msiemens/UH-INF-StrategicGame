@@ -21,13 +21,13 @@ public:
 	virtual ~EPlace();
 
 	int inhabitans;
-	int mininhabitans;
+	int minInhabitans;
+
 
 	 void addBuilding(EBuilding building);
-
 	 list<EBuilding> buildinglist;
 
-	EArmy positionedarmy;
+	 EArmy positionedarmy;
 };
 
 #endif /* EPLACE_H_ */

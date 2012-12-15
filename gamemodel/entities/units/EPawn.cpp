@@ -8,6 +8,12 @@
 #include "EPawn.h"
 
 EPawn::EPawn() {
+	ATK=10;
+	DEF=10;
+	PAC=10;
+	MOR=10;
+	TAC=10;
+
 }
 
 EPawn::~EPawn() {

@@ -10,8 +10,7 @@
 EPlace::EPlace() {
 	// TODO Auto-generated constructor stub
 	inhabitans=0;
-	mininhabitans=0;
-
+	minInhabitans=0;
 }
 
 EPlace::~EPlace() {
@@ -21,4 +20,5 @@ EPlace::~EPlace() {
  void EPlace::addBuilding(EBuilding building){
 	 buildinglist.insert(buildinglist.begin(),building);
  }
+
 
