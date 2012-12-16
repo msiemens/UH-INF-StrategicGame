@@ -5,6 +5,8 @@
  *      Author: markus
  */
 
+#include <iostream>
+
 #include "network/NetworkMessage.h"
 
 NetworkMessage::NetworkMessage() :
@@ -14,6 +16,7 @@ NetworkMessage::NetworkMessage() :
 NetworkMessage::NetworkMessage(const char* body_) {
 	body_length(strlen(body_));
 	memcpy(body(), body_, body_length());
+	EncodeHeader();
 }
 
 const char* NetworkMessage::data() const {
@@ -52,6 +55,9 @@ bool NetworkMessage::DecodeHeader() {
 	char header[header_length + 1] = "";
 	strncat(header, m_data, header_length);
 	m_body_length = atoi(header);
+
+	std::cout << "Decoding Header: body length " << m_body_length << " (from: " << header << ")" << std::endl;
+
 	if (m_body_length > max_body_length) {
 		m_body_length = 0;
 		return false;
@@ -66,4 +72,6 @@ void NetworkMessage::EncodeHeader() {
 	char header[header_length + 1] = "";
 	sprintf(header, "%4d", m_body_length);
 	memcpy(m_data, header, header_length);
+
+	std::cout << "Encoding Header: body length " << m_body_length << " (from: " << header << ")" << std::endl;
 }

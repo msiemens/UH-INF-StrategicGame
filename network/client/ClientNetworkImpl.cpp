@@ -62,7 +62,7 @@ void ClientNetworkImpl::OnConnect(const boost::system::error_code& error) {
 		std::cout << ":: Connected!" << std::endl;
 		ReadHeader();
 	} else {
-		std::cout << "Error:" << error.message() << std::endl;
+		std::cout << "Error: " << error.message() << std::endl;
 	}
 }
 
@@ -75,7 +75,7 @@ void ClientNetworkImpl::OnHeader(const boost::system::error_code& error) {
 		ReadBody();
 	} else {
 		_Close();
-		std::cout << "Error:" << error.message() << std::endl;
+		std::cout << "Error: " << error.message() << std::endl;
 	}
 }
 
@@ -89,7 +89,7 @@ void ClientNetworkImpl::OnBody(const boost::system::error_code& error) {
 		ReadHeader();
 	} else {
 		_Close();
-		std::cout << "Error:" << error.message() << std::endl;
+		std::cout << "Error: " << error.message() << std::endl;
 	}
 }
 

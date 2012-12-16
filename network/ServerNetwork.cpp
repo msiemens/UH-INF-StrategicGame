@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <string>
 
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
@@ -118,9 +119,11 @@ void ServerNetwork::OnMessage(char* message, int length) {
 
 	std::stringstream buffer;
 
-	std::cout << "Writing message to buffer" << std::endl;
+	std::cout << "Writing message to buffer: " << string(message, length) << "  (" << length << ")" << std::endl;
 	// Write message object to buffer
 	buffer.write(message, length);
+
+	std::cout << "Message we got: " << buffer.str() << std::endl;
 
 	std::cout << "Initializing deserialization" << std::endl;
 	// Initialize Deserialization

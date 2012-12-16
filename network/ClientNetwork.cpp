@@ -19,6 +19,8 @@
 
 #include "ClientNetwork.h"
 
+using namespace std;
+
 ClientNetwork::ClientNetwork(string hostname, int port) :
 		m_network(hostname.c_str(), boost::lexical_cast<string>(port).c_str()) {
 	// Connect OnMessage to recieve messages
@@ -45,13 +47,13 @@ void ClientNetwork::SendAction(GameActionPtr action) {
 	buffer << message_types::action;
 	buffer << action;
 
-	std::cout << "Creating networkmessage" << std::endl;
+	std::cout << "Creating networkmessage: " << buffer.str() << std::endl;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
 
 	std::cout << "Message:" << std::endl;
-	std::cout.write(msg->data(), msg->length());
+	std::cout.write(msg->body(), msg->body_length());
 	std::cout << std::endl;
 
 	std::cout << "Writing message" << std::endl;

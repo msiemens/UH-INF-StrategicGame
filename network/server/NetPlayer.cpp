@@ -6,11 +6,14 @@
  */
 
 #include <iostream>
+#include <string>
 
 #include "NetPlayer.h"
 
 NetPlayer::NetPlayer(boost::asio::io_service& io_service, NetGame& game) :
-		m_socket(io_service), m_game(game), m_read_msg(new NetworkMessage) {
+		m_socket(io_service),
+		m_game(game),
+		m_read_msg(new NetworkMessage) {
 }
 
 void NetPlayer::ConnectOnMessage(const signal_t::slot_type &handler) {
@@ -58,6 +61,9 @@ void NetPlayer::OnBody(const boost::system::error_code& error) {
 	cout << "Message recieved. Calling signal. " << endl;
 
 	if (!error) {
+		cout << "Message: "
+				<< string(m_read_msg->body(), m_read_msg->body_length()) << " ("
+				<< m_read_msg->body_length() << ")" << endl;
 		m_signal_on_message(m_read_msg->body(), m_read_msg->body_length());
 		_ReadHeader();
 	} else {
