@@ -8,17 +8,27 @@
 #ifndef GAMEENTITY_H_
 #define GAMEENTITY_H_
 
-#include "utils/count.h"
+#include <boost/serialization/access.hpp>
+
+#include "utils/counter.h"
 #include "utils/coordinates.h"
 #include "GameRessource.h"
 
 class GameEntity {
 public:
-	GameEntity(); // abstract class
-	virtual ~GameEntity();
+	GameEntity();
 
-	count<GameRessource> cost;
+	counter<GameRessource> cost;
 	coordinates coords;
+
+private:
+	friend class boost::serialization::access;
+
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & cost;
+		ar & coords;
+	}
 };
 
 #endif /* GAMEENTITY_H_ */

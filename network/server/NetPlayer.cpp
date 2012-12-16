@@ -5,10 +5,16 @@
  *      Author: markus
  */
 
+#include <iostream>
+
 #include "NetPlayer.h"
 
 NetPlayer::NetPlayer(boost::asio::io_service& io_service, NetGame& game) :
-		m_socket(io_service), m_game(game) {
+		m_socket(io_service), m_game(game), m_read_msg(new NetworkMessage) {
+}
+
+void NetPlayer::ConnectOnMessage(const signal_t::slot_type &handler) {
+	m_signal_on_message.connect(handler);
 }
 
 tcp::socket& NetPlayer::socket() {
@@ -18,9 +24,10 @@ tcp::socket& NetPlayer::socket() {
 // Start listening on our socket
 void NetPlayer::Start() {
 	cout << ":: Connection established" << endl;
-
 	m_game.Join(shared_from_this());
+	cout << "Player joined" << endl;
 	_ReadHeader();
+	cout << "Waiting for header" << endl;
 }
 
 // Send a message to a player
@@ -41,18 +48,20 @@ void NetPlayer::OnHeader(const boost::system::error_code& error) {
 	if (!error && m_read_msg->DecodeHeader()) {
 		_ReadBody();
 	} else {
+		cout << "Error: " << error.message() << endl;
 		m_game.Leave(shared_from_this());
 	}
 }
 
 // Handle incoming body
 void NetPlayer::OnBody(const boost::system::error_code& error) {
-	cout << "Message recieved. Broadcasting it. " << endl;
+	cout << "Message recieved. Calling signal. " << endl;
 
 	if (!error) {
-		m_game.Broadcast(m_read_msg);
+		m_signal_on_message(m_read_msg->body(), m_read_msg->body_length());
 		_ReadHeader();
 	} else {
+		cout << "Error: " << error.message() << endl;
 		m_game.Leave(shared_from_this());
 	}
 }
@@ -66,6 +75,7 @@ void NetPlayer::OnWrite(const boost::system::error_code& error) {
 			_Write(m_write_msgs.front());
 		}
 	} else {
+		cout << "Error: " << error.message() << endl;
 		m_game.Leave(shared_from_this());
 	}
 }

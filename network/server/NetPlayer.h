@@ -10,10 +10,12 @@
 
 #include <deque>
 
+#include <boost/asio.hpp>
+#include <boost/signals2.hpp>
+
 #include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <boost/asio.hpp>
 
 #include "../NetworkMessage.h"
 #include "NetConnection.h"
@@ -27,7 +29,11 @@ typedef std::deque<NetworkMessagePtr> MessageQueue;
 class NetPlayer: public NetConnection, public boost::enable_shared_from_this<
 		NetPlayer> {
 public:
+	typedef boost::signals2::signal<void(char*, int)> signal_t;
+
 	NetPlayer(boost::asio::io_service& io_service, NetGame& game);
+
+	void ConnectOnMessage(const signal_t::slot_type &handler);
 
 	tcp::socket& socket();
 
@@ -51,6 +57,8 @@ private:
 	NetGame& m_game;
 	NetworkMessagePtr m_read_msg;
 	MessageQueue m_write_msgs;
+
+	signal_t m_signal_on_message;
 
 	void _Write(NetworkMessagePtr msg);
 

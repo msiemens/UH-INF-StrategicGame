@@ -6,7 +6,6 @@
  */
 
 #include <iostream>
-#include <functional>
 
 #include "../constants.h"
 
@@ -63,7 +62,7 @@ void ClientNetworkImpl::OnConnect(const boost::system::error_code& error) {
 		std::cout << ":: Connected!" << std::endl;
 		ReadHeader();
 	} else {
-		// TODO: Throw error!
+		std::cout << "Error:" << error.message() << std::endl;
 	}
 }
 
@@ -71,12 +70,12 @@ void ClientNetworkImpl::OnConnect(const boost::system::error_code& error) {
 void ClientNetworkImpl::OnHeader(const boost::system::error_code& error) {
 	std::cout << "// Recieving a message" << std::endl;
 
-// Decode the header
+	// Decode the header
 	if (!error && m_read_msg.DecodeHeader()) {
 		ReadBody();
 	} else {
 		_Close();
-		throw error;
+		std::cout << "Error:" << error.message() << std::endl;
 	}
 }
 
@@ -90,7 +89,7 @@ void ClientNetworkImpl::OnBody(const boost::system::error_code& error) {
 		ReadHeader();
 	} else {
 		_Close();
-		throw error;
+		std::cout << "Error:" << error.message() << std::endl;
 	}
 }
 

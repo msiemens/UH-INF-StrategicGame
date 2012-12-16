@@ -17,7 +17,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "utils/count.h"
+#include "utils/counter.h"
 
 #include "GameEntity.h"
 #include "GameRessource.h"
@@ -27,8 +27,8 @@ public:
 	Player();
 	virtual ~Player();
 
-	std::list<count<GameEntity> > owns;
-	std::list<count<GameRessource> > has;
+	std::list<counter<GameEntity> > owns;
+	std::list<counter<GameRessource> > has;
 
 	boost::uuids::uuid id;
 };

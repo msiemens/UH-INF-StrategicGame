@@ -7,9 +7,9 @@
 
 #include <iostream>
 
-#include <network/client/ClientNetworkImpl.h>
-
-using namespace std;
+#include <gamemodel/GameRessource.h>
+#include <gamemodel/GameEntity.h>
+#include <network/ClientNetwork.h>
 
 int main(int argc, char* argv[]) {
 	try {
@@ -19,21 +19,23 @@ int main(int argc, char* argv[]) {
 		}
 
 		std::cout << ":: Initializing the client..." << std::endl;
-		ClientNetworkImpl c(argv[1], argv[2]);
+		ClientNetwork c(argv[1], atoi(argv[2]));
 
-		char line[NetworkMessage::max_body_length + 1];
+		GameActionPtr action(new GameAction);
 
-		std::cout << ":: Now in read loop..." << std::endl;
+		GameRessource res;
+		res.count = 200;
+		counter<GameRessource> price(200);
 
-		while (std::cin.getline(line, NetworkMessage::max_body_length + 1)) {
-			std::cout << ":: Got input" << std::endl;
+		GameEntity entity;
+		coordinates coords(5, 5);
+		entity.coords = coords;
+		entity.cost = price;
 
-			NetworkMessage msg((const char*) line);
-			msg.EncodeHeader();
-			c.Write(msg);
-		}
+		action->what = entity;
 
-		c.Close();
+		c.SendAction(action);
+
 		c.thread()->join();
 	} catch (std::exception& e) {
 		std::cerr << "Exception: " << e.what() << "\n";

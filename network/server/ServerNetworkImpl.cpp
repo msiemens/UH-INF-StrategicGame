@@ -5,20 +5,39 @@
  *      Author: markus
  */
 
+#include <iostream>
+
 #include "ServerNetworkImpl.h"
 
 ServerNetworkImpl::ServerNetworkImpl(int port) :
-		m_io_service(), m_endpoint(tcp::v4(), port), m_acceptor(m_io_service,
-				m_endpoint) {
+		m_io_service(),
+		m_endpoint(tcp::v4(), port),
+		m_acceptor(m_io_service, m_endpoint) {
 	// Start accepting connections
 	StartAccept();
 
-	// Run the IO service
-	m_io_service.run();
+	// Start the IO thread
+	m_thread = boost::thread(
+			boost::bind(&boost::asio::io_service::run, &m_io_service));
 }
 
 NetGamePtr ServerNetworkImpl::game() {
 	return NetGamePtr(&m_room);
+}
+
+// Getter for the thread
+boost::shared_ptr<boost::thread> ServerNetworkImpl::thread() {
+	return boost::shared_ptr<boost::thread>(&m_thread);
+}
+
+void ServerNetworkImpl::ConnectOnPlayerConnect(
+		const signal_t::slot_type &handler) {
+	m_signal_on_player_connect.connect(handler);
+}
+
+void ServerNetworkImpl::ConnectOnMessage(
+		const NetPlayer::signal_t::slot_type &handler) {
+	m_signals_on_message.push_back(handler);
 }
 
 // Start accepting new connections
@@ -34,9 +53,19 @@ void ServerNetworkImpl::StartAccept() {
 void ServerNetworkImpl::HandleAccept(NetPlayerPtr player,
 		const boost::system::error_code& error) {
 	if (!error) {
+		// Connect all onMessage handlers to the current player
+		for (auto handler : m_signals_on_message) {
+			std::cout << "Registring OnMessag handler" << std::endl;
+			player->ConnectOnMessage(handler);
+		}
+		std::cout << "Calling player->Start()" << std::endl;
 		player->Start();
 	}
 
+	std::cout << "Running onPlayerConnect handler" << std::endl;
+	m_signal_on_player_connect(player);
+
 	// Listen for more connections
+	std::cout << "Starting accepting more for more clients" << std::endl;
 	StartAccept();
 }

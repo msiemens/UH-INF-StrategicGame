@@ -6,3 +6,8 @@
  */
 
 #include "GameEntity.h"
+
+GameEntity::GameEntity() :
+		cost(0) {
+
+}

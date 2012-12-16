@@ -11,6 +11,7 @@
 #include <gamemodel/Player.h>
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameStateMessage.h>
+#include <network/messages/GameMetaMessage.h>
 
 #include "server/ServerNetworkImpl.h"
 
@@ -21,6 +22,8 @@ public:
 	ServerNetwork(int port);
 	virtual ~ServerNetwork();
 
+	boost::shared_ptr<boost::thread> thread();
+
 	void SendAction(PlayerPtr dest, GameActionPtr action);
 	void BroadcastAction(GameActionPtr action);
 
@@ -29,12 +32,11 @@ public:
 
 private:
 	void OnPlayerConnect(NetPlayerPtr netplayer);
+	void OnMessage(char* message, int length);
 
 	ServerNetworkImpl m_network;
 
 	std::unordered_map<PlayerPtr, NetPlayerPtr> m_players;
-
-	// TODO: Handle incomming messages
 };
 
 #endif /* SERVERNETWORK_H_ */

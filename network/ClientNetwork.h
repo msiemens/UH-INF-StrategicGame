@@ -10,8 +10,11 @@
 
 #include <string>
 
+#include <boost/thread.hpp>
+
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameMetaMessage.h>
+#include <network/messages/GameStateMessage.h>
 
 #include "client/ClientNetworkImpl.h"
 
@@ -25,6 +28,7 @@ public:
 	void SendAction(GameActionPtr action);
 	void SendMetaMessage(GameMetaMessagePtr message);
 
+	boost::shared_ptr<boost::thread> thread();
 private:
 	ClientNetworkImpl m_network;
 

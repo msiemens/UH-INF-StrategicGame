@@ -8,10 +8,25 @@
 #ifndef COORDINATES_H_
 #define COORDINATES_H_
 
+#include <boost/serialization/access.hpp>
+
 class coordinates {
 public:
 	coordinates();
+	coordinates(int x, int y);
 	virtual ~coordinates();
+
+	int x;
+	int y;
+
+private:
+	friend class boost::serialization::access;
+
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & x;
+		ar & y;
+	}
 };
 
 #endif /* COORDINATES_H_ */

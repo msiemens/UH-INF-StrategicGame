@@ -9,17 +9,22 @@
 #define GAMEACTION_H_
 
 #include <boost/shared_ptr.hpp>
+#include <boost/serialization/access.hpp>
 
 #include "GameEntity.h"
 #include "GameRessource.h"
 
 class GameAction {
 public:
-	GameAction();
-	virtual ~GameAction();
-
 	GameEntity what;
-	GameRessource costs;
+
+private:
+	friend class boost::serialization::access;
+
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & what;
+	}
 };
 
 typedef boost::shared_ptr<GameAction> GameActionPtr;

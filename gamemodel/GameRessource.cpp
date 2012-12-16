@@ -6,3 +6,10 @@
  */
 
 #include "GameRessource.h"
+
+GameRessource::GameRessource() :
+		count(0) {
+}
+
+GameRessource::~GameRessource() {
+}

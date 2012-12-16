@@ -7,6 +7,12 @@
 
 #include "Player.h"
 
-Player::Player(): id(boost::uuids::random_generator()()) {
+Player::Player() :
+		id(boost::uuids::random_generator()()) {
 
 }
+
+Player::~Player() {
+
+}
+

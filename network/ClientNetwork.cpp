@@ -10,12 +10,12 @@
 
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
+
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
 #include "messages/message_types.h"
-#include "messages/GameStateMessage.h"
 
 #include "ClientNetwork.h"
 
@@ -29,17 +29,32 @@ ClientNetwork::ClientNetwork(string hostname, int port) :
 ClientNetwork::~ClientNetwork() {
 }
 
+boost::shared_ptr<boost::thread> ClientNetwork::thread() {
+	return m_network.thread();
+}
+
 void ClientNetwork::SendAction(GameActionPtr action) {
+	std::cout << "Preparing for sending action" << std::endl;
+
 	std::stringstream buffer;
 	boost::archive::text_oarchive archive(buffer);
 
+	std::cout << "Serializing message" << std::endl;
+
 	// Serialize object
 	buffer << message_types::action;
-	// buffer << action;
+	buffer << action;
+
+	std::cout << "Creating networkmessage" << std::endl;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
 
+	std::cout << "Message:" << std::endl;
+	std::cout.write(msg->data(), msg->length());
+	std::cout << std::endl;
+
+	std::cout << "Writing message" << std::endl;
 	// Pass message to m_network.send
 	m_network.Write(msg);
 }
@@ -75,7 +90,7 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 	switch (message_type) {
 	case message_types::action:
 		GameActionPtr* action;
-		// archive >> action;
+		archive >> action;
 		// TODO: Call Client OnPlayerAction
 		break;
 	case message_types::statemessage:
