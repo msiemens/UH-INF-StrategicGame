@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include <gamemodel/entities/ETroops.h>
+#include "../ETroops.h"
 
 class EPawn: public ETroops {
 public:

@@ -8,11 +8,11 @@
 #ifndef AATTACK_H_
 #define AATTACK_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include "../GameAction.h" // <-- Mit "" sucht der Compiler immer von der aktuellen Datei aus
 #include <gamemodel/entities/EPlace.h> // <-- Mit <> immer im Include-Path, also C:/MinGW/include oder auch ...../UH-Inf-StrategicGame/
 #include <gamemodel/utils/coordinates.h>
-
-namespace std {
 
 class AAttack: public GameAction {
 public:
@@ -24,5 +24,6 @@ public:
 	// weil:
 };
 
-} /* namespace std */
+typedef boost::shared_ptr<AAttack> AAttackPtr;
+
 #endif /* AATTACK_H_ */

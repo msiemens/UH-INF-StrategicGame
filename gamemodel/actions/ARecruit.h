@@ -8,6 +8,8 @@
 #ifndef ARECRUIT_H_
 #define ARECRUIT_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include <gamemodel/entities/ETroops.h>
 #include <gamemodel/entities/EBuilding.h>
 #include <gamemodel/entities/EPlace.h>
@@ -19,8 +21,10 @@ public:
 	ARecruit();
 	virtual ~ARecruit();
 
-	ETroops what;
-	EPlace base;
+	ETroopsPtr what;
+	EPlacePtr base;
 };
+
+typedef boost::shared_ptr<ARecruit> ARecruitPtr;
 
 #endif /* ARECRUIT_H_ */

@@ -8,6 +8,8 @@
 #ifndef EPLACE_H_
 #define EPLACE_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include <gamemodel/GameEntity.h>
 #include <gamemodel/entities/EArmy.h>
 #include <gamemodel/entities/EBuilding.h>
@@ -24,10 +26,12 @@ public:
 	int minInhabitans;
 
 
-	 void addBuilding(EBuilding building);
-	 list<EBuilding> buildinglist;
+	 void addBuilding(EBuildingPtr building);
+	 list<EBuildingPtr> buildinglist;
 
-	 EArmy positionedarmy;
+	 EArmyPtr positionedarmy;
 };
+
+typedef boost::shared_ptr<EPlace> EPlacePtr;
 
 #endif /* EPLACE_H_ */

@@ -5,7 +5,7 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/units/ECavalry.h"
+#include "ECavalry.h"
 
 ECavalry::ECavalry() {
 	// TODO Auto-generated constructor stub

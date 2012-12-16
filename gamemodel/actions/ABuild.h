@@ -8,6 +8,8 @@
 #ifndef ABUILD_H_
 #define ABUILD_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include "gamemodel/entities/EPlace.h"
 #include "gamemodel/entities/EBuilding.h"
 
@@ -18,8 +20,10 @@ public:
 	ABuild();
 	virtual ~ABuild();
 
-	EBuilding what;
-	EPlace where;
+	EBuildingPtr what;
+	EPlacePtr where;
 };
+
+typedef boost::shared_ptr<ABuild> ABuildPtr;
 
 #endif /* ABUILD_H_ */

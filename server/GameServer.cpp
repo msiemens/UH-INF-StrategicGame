@@ -14,8 +14,8 @@
 
 int main(int argc, char* argv[]) {
 	GameMap map;
-	list<Player*> playerlist;
-	GameEngine engine(&map,&playerlist);
+	list<PlayerPtr> playerlist;
+	GameEngine engine(&map, playerlist);
 	return 0;
 }
 

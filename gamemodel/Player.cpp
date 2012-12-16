@@ -25,23 +25,23 @@ int Player::getPlayerId() {
 	return playerId;
 }
 
-void Player::addArmy(EArmy army) {
+void Player::addArmy(EArmyPtr army) {
 	armies.insert(armies.end(), army);
 }
 
-void Player::addPlace(EPlace place) {
+void Player::addPlace(EPlacePtr place) {
 	places.insert(places.end(), place);
 }
 
-void Player::addTroops(ETroops troops) {
+void Player::addTroops(ETroopsPtr troops) {
 
 }
 
-void Player::addRessource(GameRessource ressource) {
+void Player::addRessource(GameRessourcePtr ressource) {
 
 }
 
-int Player::getRessourceCount(GameRessource ressource) {
+int Player::getRessourceCount(GameRessourcePtr ressource) {
 	return 0;
 }
 

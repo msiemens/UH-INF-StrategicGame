@@ -8,7 +8,7 @@
 #ifndef EARCHER_H_
 #define EARCHER_H_
 
-#include <ETroops.h>
+#include "../ETroops.h"
 
 class EArcher: public ETroops {
 public:

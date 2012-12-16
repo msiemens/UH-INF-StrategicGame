@@ -11,8 +11,6 @@
 #include <gamemodel/entities/ETroops.h>
 #include <gamemodel/utils/coordinates.h>
 
-namespace std {
-
 EArmy::EArmy() {
 	// TODO Auto-generated constructor stub
 	atk = 0;
@@ -28,7 +26,7 @@ EArmy::~EArmy() {
 
 
 
-void EArmy::addTroop(ETroops troop) {
+void EArmy::addTroop(ETroopsPtr troop) {
 	int troop_count=troops.size();
 	if(troop_count<11){
 		troops.insert(troops.begin(),troop);
@@ -94,5 +92,3 @@ int EArmy::getMor() {
 int EArmy::getTac() {
 	return tac;
 }
-
-} /* namespace std */

@@ -8,6 +8,8 @@
 #ifndef COORDINATES_H_
 #define COORDINATES_H_
 
+#include <boost/shared_ptr.hpp>
+
 class coordinates {
 public:
 	coordinates();
@@ -17,6 +19,8 @@ public:
 	int x;
 	int y;
 };
+
+typedef boost::shared_ptr<coordinates> coordinatesPtr;
 
 
 #endif /* COORDINATES_H_ */

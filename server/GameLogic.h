@@ -10,27 +10,29 @@
 
 #include <list>
 
+#include <gamemodel/GameAction.h>
+#include <gamemodel/Player.h>
+#include <gamemodel/utils/coordinates.h>
+
+
 #include "GameMap.h"
 
-class GameAction;
-class Player;
-class coordinates;
 
 using namespace std;
 
 class GameLogic {
 public:
-	GameLogic(GameMap *map, list<Player*> *playerlist);
+	GameLogic(GameMap *map, list<PlayerPtr> playerlist);
 	virtual ~GameLogic();
 
-	bool checkPlayerAction(Player *player, GameAction *action);
+	bool checkPlayerAction(PlayerPtr player, GameActionPtr action);
 
 	int whoseArmy(coordinates coords);
 	int whosePlace(coordinates coords);
 
 private:
 	GameMap *map;
-	list<Player*> *playerlist;
+	list<PlayerPtr> playerlist;
 };
 
 #endif /* GAMELOGIC_H_ */

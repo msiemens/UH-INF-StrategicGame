@@ -25,13 +25,13 @@ void GameMap::setWalkable(coordinates coords) {
 }
 
 void GameMap::setWalkable(int x, int y) {
-	if(isPlace(coordinates(x,y))==false){
-		map[y][x] = /*map[y][x]*/  walkable;
+	if (isPlace(coordinates(x, y)) == false) {
+		map[y][x] = walkable;
 	}
 }
 
 void GameMap::setArmy(int x, int y) {
-	map[y][x] =  army;
+	map[y][x] = army;
 }
 
 void GameMap::setArmy(coordinates coords) {
@@ -39,7 +39,7 @@ void GameMap::setArmy(coordinates coords) {
 }
 
 void GameMap::setPlace(int x, int y) {
-	map[y][x] =  place;
+	map[y][x] = place;
 }
 
 void GameMap::setPlace(coordinates coords) {
@@ -55,12 +55,14 @@ void GameMap::setBlocked(coordinates coords) {
 }
 
 bool GameMap::isWalkable(coordinates coords) {
+	std::cout << coords.x << "/" << coords.y << " is walkable: "
+			<< (map[coords.x][coords.y] & walkable) << std::endl;
 	return (map[coords.x][coords.y] & walkable) ? true : false;
 }
 
 bool GameMap::isArmyPositioned(coordinates coords) {
-	if(map[coords.x][coords.y] & army){
-	std::cout << "isArmyasda";
+	if (map[coords.x][coords.y] & army) {
+		std::cout << "isArmyasda";
 	}
 	return (map[coords.x][coords.y] & army) ? true : false;
 }
@@ -69,17 +71,17 @@ bool GameMap::isPlace(coordinates coords) {
 	return (map[coords.x][coords.y] & place) ? true : false;
 }
 
-void GameMap::printMapStatus(){
+void GameMap::printMapStatus() {
 	coordinates coords;
-	for(int i=0;i<4;i++){
-		for(int u=0;u<4;u++){
-			coords.x=u;
-			coords.y=i;
-			if(isArmyPositioned(coords)){
+	for (int i = 0; i < 4; i++) {
+		for (int u = 0; u < 4; u++) {
+			coords.x = u;
+			coords.y = i;
+			if (isArmyPositioned(coords)) {
 				std::cout << "a ";
-			}else if(isWalkable(coords)){
+			} else if (isWalkable(coords)) {
 				std::cout << "w ";
-			}else if(isPlace(coords)){
+			} else if (isPlace(coords)) {
 				std::cout << "p ";
 			}
 		}

@@ -9,13 +9,13 @@
 #define COUNT_H_
 
 template<class T_VALUE>
-class count {
+class counter {
 public:
-	count(int count): how_many(count) {
+	counter(int count): how_many(count) {
 
 	}
 
-	virtual ~count() {
+	virtual ~counter() {
 
 	}
 

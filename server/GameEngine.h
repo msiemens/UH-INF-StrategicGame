@@ -9,25 +9,25 @@
 #define GAMEENGINE_H_
 
 #include <list>
+
 #include "GameLogic.h"
 
 class Player;
-class GameAction;
 class GameMap;
 
 using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap *map,list<Player*> *playerlist);
+	GameEngine(GameMap *map, list<PlayerPtr> playerlist);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
 
-	bool onPlayerConnect(Player *player);
-	void onPlayerDisconnect(Player *player);
-	void onPlayerAction(Player *player, GameAction *action);
-	void doAction(Player *player, GameAction *action);
+	bool onPlayerConnect(PlayerPtr player);
+	void onPlayerDisconnect(PlayerPtr player);
+	void onPlayerAction(PlayerPtr player, GameActionPtr action);
+	void doAction(PlayerPtr player, GameActionPtr action);
 
 	void test();
 
@@ -36,7 +36,7 @@ public:
 
 private:
 	bool isRunning;
-	list<Player*> *playerlist;
+	list<PlayerPtr> playerlist;
 };
 
 #endif /* GAMEENGINE_H_ */

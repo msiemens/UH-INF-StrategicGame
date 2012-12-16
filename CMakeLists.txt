@@ -5,6 +5,10 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 add_definitions(-std=gnu++0x)
 
+
+find_package(Boost 1.52.0 COMPONENTS system serialization thread)
+include_directories(${Boost_INCLUDE_DIRS})
+
 # OS specific settings
 if(WIN32)
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")

@@ -7,8 +7,6 @@
 
 #include "AAttack.h"
 
-namespace std {
-
 AAttack::AAttack() {
 	// TODO Auto-generated constructor stub
 
@@ -17,5 +15,3 @@ AAttack::AAttack() {
 AAttack::~AAttack() {
 	// TODO Auto-generated destructor stub
 }
-
-} /* namespace std */

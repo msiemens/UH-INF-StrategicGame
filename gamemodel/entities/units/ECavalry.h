@@ -8,7 +8,7 @@
 #ifndef ECAVALRY_H_
 #define ECAVALRY_H_
 
-#include <ETroops.h>
+#include "../ETroops.h"
 
 class ECavalry: public ETroops {
 public:

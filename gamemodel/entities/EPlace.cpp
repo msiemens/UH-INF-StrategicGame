@@ -17,7 +17,7 @@ EPlace::~EPlace() {
 	// TODO Auto-generated destructor stub
 }
 
- void EPlace::addBuilding(EBuilding building){
+ void EPlace::addBuilding(EBuildingPtr building){
 	 buildinglist.insert(buildinglist.begin(),building);
  }
 
