@@ -17,7 +17,6 @@ public:
 	virtual ~ETroops();
 
 	int EXP;
-	//int cost;
 
 	//Attributes
 	int ATK,DEF,PAC,MOR,TAC;

@@ -6,6 +6,7 @@
  */
 
 #include <typeinfo>
+#include <iostream>
 
 #include "Player.h"
 #include "gamemodel/entities/EArmy.h"
@@ -13,23 +14,23 @@
 
 using namespace std;
 
-Player::Player(int id) {
-	playerid = id;
+Player::Player(int id) :
+		playerId(id) {
 }
 
 Player::~Player() {
 }
 
 int Player::getPlayerId() {
-	return playerid;
+	return playerId;
 }
 
 void Player::addArmy(EArmy army) {
-	armies.insert(armies.begin(), army);
+	armies.insert(armies.end(), army);
 }
 
 void Player::addPlace(EPlace place) {
-	places.insert(places.begin(), place);
+	places.insert(places.end(), place);
 }
 
 void Player::addTroops(ETroops troops) {
@@ -37,7 +38,6 @@ void Player::addTroops(ETroops troops) {
 }
 
 void Player::addRessource(GameRessource ressource) {
-
 
 }
 

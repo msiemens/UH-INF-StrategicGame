@@ -34,9 +34,9 @@ public:
 
 	int getRessourceCount(GameRessource ressource);
 
-	int playerid;
+	int playerId;
 
-private:
+
 
 	std::list<count<GameEntity> > owns;
 	std::list<count<GameRessource> > has;

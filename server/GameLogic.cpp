@@ -8,11 +8,13 @@
 #include <list>
 #include <string>
 #include <iostream>
+#include <typeinfo>
 
 #include <server/GameLogic.h>
 #include <server/GameMap.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/GameAction.h>
+#include <gamemodel/entities/EArmy.h>
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/ABuild.h>
@@ -20,26 +22,57 @@
 
 #include <gamemodel/ressources/RMoney.h>
 
-GameLogic::GameLogic(GameMap *map, list<Player> *playerlist) :
+GameLogic::GameLogic(GameMap *map, list<Player*> *playerlist) :
 		map(map), playerlist(playerlist) {
 }
 
 GameLogic::~GameLogic() {
-	// TODO Auto-generated destructor stub
+	// TODOAuto-generated destructor stub
 }
 
 //returns whose Army is positioned at coords
 int GameLogic::whoseArmy(coordinates coords) {
-	int playerid=99;
+	int playerId=0;
+
+	std::cout << "\nCoord.x="<<coords.x << " Coord.y=" << coords.y << "\n";
 
 
-	return playerid;
+	 for (std::list<Player*>::iterator pl = playerlist->begin(); pl != playerlist->end(); pl++){
+
+		 Player *p=*pl;
+
+
+
+		 for(std::list<EArmy>::iterator ar=p->armies.begin();ar!=p->armies.end();ar++ ){
+			 coordinates pos=ar->getCoords();
+
+			 if(pos.x==coords.x && pos.y==coords.y){
+				 playerId=p->getPlayerId();
+			 }
+			 pos.~coordinates();
+		 }
+
+	 }
+
+	return playerId;
 }
 
 //return whose Place is at coords
 int GameLogic::whosePlace(coordinates coords) {
-	int playerid;
-	return playerid;
+	int playerId;
+
+	for(std::list<Player*>::iterator pl=playerlist->begin();pl!=playerlist->end();pl++){
+		Player* p=*pl;
+
+		for(std::list<EPlace>::iterator pla=p->places.begin();pla!=p->places.end();pla++){
+			coordinates pos=pla->getCoords();
+			if(pos.x==coords.x && pos.y==coords.y){
+				playerId=p->getPlayerId();
+			}
+		}
+	}
+
+	return playerId;
 }
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(Player *player, GameAction *action) {
@@ -79,7 +112,11 @@ bool GameLogic::checkPlayerAction(Player *player, GameAction *action) {
 		GameEntity what=attack->what;
 		coordinates where=attack->where;
 
-		if(map->isArmyPositioned(where)){
+		bool b=map->isArmyPositioned(where);
+
+		int playerId=whoseArmy(where);
+
+		if(b==0){
 			valid=(player->getPlayerId()!=whoseArmy(where))?true:false;
 		}
 

@@ -22,7 +22,7 @@ int GameClient::main(){
 
 	while(inGame){
 
-		GS.aktivGS;
+	//	GS.aktivGS;
 
 	}
 

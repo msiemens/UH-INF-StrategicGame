@@ -25,7 +25,9 @@ void GameMap::setWalkable(coordinates coords) {
 }
 
 void GameMap::setWalkable(int x, int y) {
-	map[y][x] = /*map[y][x]*/  walkable;
+	if(isPlace(coordinates(x,y))==false){
+		map[y][x] = /*map[y][x]*/  walkable;
+	}
 }
 
 void GameMap::setArmy(int x, int y) {
@@ -57,6 +59,9 @@ bool GameMap::isWalkable(coordinates coords) {
 }
 
 bool GameMap::isArmyPositioned(coordinates coords) {
+	if(map[coords.x][coords.y] & army){
+	std::cout << "isArmyasda";
+	}
 	return (map[coords.x][coords.y] & army) ? true : false;
 }
 

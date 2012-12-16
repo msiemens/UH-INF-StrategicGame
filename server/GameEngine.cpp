@@ -26,7 +26,7 @@
 
 using namespace std;
 
-GameEngine::GameEngine(GameMap *map,list<Player> *playerlist) :
+GameEngine::GameEngine(GameMap *map,list<Player*> *playerlist) :
 		map(map), playerlist(playerlist),isRunning(true),logic(map,playerlist) {
 	test();
 }
@@ -35,18 +35,18 @@ GameEngine::~GameEngine() {
 	// TODO Auto-generated destructor stub
 }
 
-bool GameEngine::onPlayerConnect(Player player) {
-	std::cout << "\nSpieler mit ID "<< player.getPlayerId() << " hat sich connected";
-	playerlist->insert(playerlist->begin(), player);
+bool GameEngine::onPlayerConnect(Player *player) {
+	//std::cout << "\nSpieler mit ID "<< player->getPlayerId() << " hat sich connected";
+	playerlist->insert(playerlist->end(), player);
 	return true;
 }
 
-void GameEngine::onPlayerDisconnect(Player player) {
+void GameEngine::onPlayerDisconnect(Player *player) {
 }
 
-void GameEngine::onPlayerAction(Player player, GameAction *action) {
-	if (logic.checkPlayerAction(&player, action) == true) {
-		doAction(&player, action);
+void GameEngine::onPlayerAction(Player *player, GameAction *action) {
+	if (logic.checkPlayerAction(player, action) == true) {
+		doAction(player, action);
 	}
 
 }
@@ -61,35 +61,42 @@ void GameEngine::doAction(Player *player, GameAction *action) {
 
 	if (recruit != NULL) {
 
-		ETroops troops = recruit->what;
+		ETroops troops = (recruit->what);
 		EPlace base = recruit->base;
 		GameRessource costs=recruit->costs;
 
 		player->addTroops(troops);
-		base.positionedarmy.addTroop(troops);
 
-		std::cout << "\nSpieler "<< player->getPlayerId() << " rekrutiert " << troops.getName() << " in " <<
-				base.getName();
+		//std::cout << "\nSpieler "<< player->getPlayerId() << " rekrutiert " << troops.getName() << " in " <<
+			//	base.getName();
 
 
 	}
 	if (move != NULL) {
-		GameEntity what=move->what;
-		coordinates from=what.getCoords();
+		GameEntity *what=&(move->what);
+		coordinates from=what->getCoords();
 
 		coordinates to=move->to;
 
 		std::cout << "\n";
-		map->printMapStatus();
+		//map->printMapStatus();
 
 		map->setArmy(to);
 		map->isWalkable(from);
 
-		std::cout << "\nSpieler " <<player->getPlayerId() << " bewegt " << what.getName() << " von "
+		std::cout << "\nSpieler " <<player->getPlayerId() << " bewegt " << what->getName() << " von "
 				<< from.x <<","<< from.y<< " nach " << to.x << "," << to.y;
 
+		what->setCoords(to);
+
 		std::cout << "\n";
-		map->printMapStatus();
+
+		int x=what->getCoords().x;
+		int y=what->getCoords().y;
+
+		cout << "\n\nIn der Methode doAction() wird das Objekt \""<< what->getName()<<"\" auf die Positionen\n X:"
+				<<x<<"\nY:"<<y << "\n bewegt.";
+		//map->printMapStatus();
 
 
 	}
@@ -98,8 +105,8 @@ void GameEngine::doAction(Player *player, GameAction *action) {
 		EPlace where = build->where;
 		where.addBuilding(building);
 
-		std::cout << "\nSpieler "<<player->getPlayerId() << " baut " << building.getName() << " in "
-				<< where.getName();
+		//std::cout << "\nSpieler "<<player->getPlayerId() << " baut " << building.getName() << " in "
+			//	<< where.getName();
 
 	}
 	if (attack != NULL) {/*
@@ -129,11 +136,15 @@ void GameEngine::test() {
 
 	//map->printMapStatus();
 
-	Player player1(0);
-	Player player2(1);
-	onPlayerConnect(player1);
+	Player player1(1);
+	Player player2(2);
 
-	onPlayerConnect(player2);
+	Player* pplayer1=&player1;
+	Player* pplayer2=&player2;
+
+	onPlayerConnect(pplayer1);
+
+	onPlayerConnect(pplayer2);
 
 
 	EMetropolis rome;
@@ -169,7 +180,7 @@ void GameEngine::test() {
 	RMoney money;
 	buildcinrome.costs=money;
 
-	onPlayerAction(player1, &buildcinrome);
+	onPlayerAction(pplayer1, &buildcinrome);
 
 	//P2 baut Kaserne in place athens
 
@@ -181,7 +192,7 @@ void GameEngine::test() {
 	buildcinathens.what = casernia;
 
 
-	onPlayerAction(player2, &buildcinathens);
+	onPlayerAction(pplayer2, &buildcinathens);
 
 	//P1 rekrutiert Infantrie in place rome
 
@@ -194,7 +205,7 @@ void GameEngine::test() {
 
 
 
-	onPlayerAction(player1, &recruiti);
+	onPlayerAction(pplayer1, &recruiti);
 
 	//P2 rekrutiert Bauern in place athens
 
@@ -207,27 +218,31 @@ void GameEngine::test() {
 
 	recruitp.costs = money;
 
-	onPlayerAction(player2, &recruitp);
+	onPlayerAction(pplayer2, &recruitp);
 
 	//armies werden erstellt und zugewiesen
 
 	EArmy army1;
+	EArmy *parmy1=&army1;
+
 	army1.setName("Armee Spieler 1");
 	player1.addArmy(army1);
 
 	EArmy army2;
+	EArmy *parmy2=&army2;
+
 	army2.setName("Armee Spieler 2");
 	player2.addArmy(army2);
 
-	army1.addTroop(infantry);
-	army1.addTroop(pawn);
-	army2.addTroop(pawn);
-	army2.addTroop(infantry);
+	parmy1->addTroop(infantry);
+	parmy1->addTroop(pawn);
+	parmy2->addTroop(pawn);
+	parmy2->addTroop(infantry);
 
-	army1.setCoords(rome.getCoords());
-	army2.setCoords(athens.getCoords());
+	parmy1->setCoords(rome.getCoords());
+	parmy2->setCoords(athens.getCoords());
 
-	army1.setAtk();
+	parmy1->setAtk();
 
 
 
@@ -236,28 +251,34 @@ void GameEngine::test() {
 	//army1 wird bewegt
 
 	AMove move1;
-	move1.what = army1;
+	move1.what = *parmy1;
 	move1.to = coordinates(2, 2);
 
-	onPlayerAction(player1, &move1);
+	std::cout << "\nAufruf von onPlayerAction(), player und AMove(player,Armee Spieler 1) werden übergeben.\n";
+	onPlayerAction(pplayer1, &move1);
 
+	std::cout << "Nach dem Aufruf von onPlayerAction() ist das Objekt Armee Spieler 1 auf der Position"
+			""
+			" \nX:"<<parmy1->getCoords().x<< "\nY:"<<parmy1->getCoords().y << ", also wird nicht das Objekt"
+					" angesprochen, das eigentlich angesprochen werden soll.";
 	//army2 wird bewegt
 
 	AMove move2;
-	move2.what = army2;
+	move2.what = *parmy2;
 	move2.to = coordinates(0, 3);
 
-	onPlayerAction(player2, &move2);
+	onPlayerAction(pplayer2, &move2);
 
 
 	AAttack attack1;
-	attack1.what=army1;
+	attack1.what=*parmy1;
 	attack1.where=coordinates(0,3);
 
-	onPlayerAction(player1,&attack1);
+	onPlayerAction(pplayer1,&attack1);
 
-	onPlayerDisconnect(player1);
-	onPlayerDisconnect(player2);
+	onPlayerDisconnect(pplayer1);
+	onPlayerDisconnect(pplayer2);
+
 
 
 }

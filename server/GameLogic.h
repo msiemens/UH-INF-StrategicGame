@@ -20,7 +20,7 @@ using namespace std;
 
 class GameLogic {
 public:
-	GameLogic(GameMap *map, list<Player> *playerlist);
+	GameLogic(GameMap *map, list<Player*> *playerlist);
 	virtual ~GameLogic();
 
 	bool checkPlayerAction(Player *player, GameAction *action);
@@ -30,7 +30,7 @@ public:
 
 private:
 	GameMap *map;
-	list<Player> *playerlist;
+	list<Player*> *playerlist;
 };
 
 #endif /* GAMELOGIC_H_ */
