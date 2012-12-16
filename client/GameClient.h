@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include <network/GameNetwork.h>
+#include <network/ClientNetwork.h>
 #include <client/GameClientBackend.h>
 #include <gamemodel/GameState.h>
 #include <gamemodel/Player.h>
@@ -42,7 +42,7 @@ private:
 	Player player;
 //	GameEntity gameentityobject;
 	string ServerAddress;
-	GameNetwork Network;
+	ClientNetwork Network;
 	GameClientBackend ClientBackend;
 
 	SDL_Surface* Surf_Display;
