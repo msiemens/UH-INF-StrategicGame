@@ -1,8 +1,10 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.6 FATAL_ERROR)
 project (StrategicGame)
 
-include_directories(${PROJECT_SOURCE_DIR})
+## COMPILER OPTIONS
+add_definitions(-std=gnu++0x)
 
+<<<<<<< HEAD
 # OS specific settings
 if(WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
@@ -10,11 +12,23 @@ if(WIN32)
 endif()
 
 # Our libs
+=======
+## INCLUDE BOOST
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
+
+find_package(Boost 1.52.0 COMPONENTS system serialization thread)
+include_directories(${Boost_INCLUDE_DIRS})
+
+include_directories(${PROJECT_SOURCE_DIR})
+>>>>>>> refs/remotes/origin/prototype/network
 add_subdirectory(gamemodel)
 add_subdirectory(network)
 add_subdirectory(server)
 add_subdirectory(client)
 
+<<<<<<< HEAD
 # External libs
 set(SDL_PATH CACHE PATH "Path do SDL libs.")
 set(CMAKE_INCLUDE_PATH "${CMAKE_INCLUDE_PATH}:${SDL_PATH}/include")
@@ -25,3 +39,17 @@ set(CMAKE_LIBRARY_PATH "${CMAKE_LIBRARY_PATH}:${SDL_PATH}/lib")
 # Executables
 add_executable(xclient client/GameClient)
 target_link_libraries(xclient client gamemodel network ${LINK_WIN32} SDL_image SDLmain SDL)
+=======
+message("Boost libraries: ${Boost_LIBRARIES}")
+
+# add_executable("xnetserver" test/network/server.cpp)
+# target_link_libraries("xnetserver" network ${Boost_LIBRARIES} mswsock) # TODO: Include mswsock only on MinGW systems
+
+# add_executable("xnetclient" test/network/client.cpp)
+# target_link_libraries("xnetclient" network ${Boost_LIBRARIES} mswsock) # TODO: Include mswsock only on MinGW systems
+
+# add_executable("xnet-test-serlz" test/network/serialization.cpp)
+# target_link_libraries("xnet-test-serlz" ${Boost_LIBRARIES}) # TODO: Include mswsock only on MinGW systems
+
+add_executable("test" test/network/tmp.cpp)
+>>>>>>> refs/remotes/origin/prototype/network

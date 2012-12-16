@@ -6,3 +6,12 @@
  */
 
 #include "GameRessource.h"
+
+GameRessource::GameRessource():count(1) {
+}
+
+GameRessource::~GameRessource() {}
+
+int GameRessource::getCount(){
+	return count;
+}

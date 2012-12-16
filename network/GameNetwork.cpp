@@ -7,11 +7,3 @@
 
 #include "GameNetwork.h"
 
-GameNetwork::GameNetwork() {
-	// TODO Auto-generated constructor stub
-}
-
-GameNetwork::~GameNetwork() {
-	// TODO Auto-generated destructor stub
-}
-

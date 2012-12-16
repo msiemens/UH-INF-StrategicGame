@@ -8,6 +8,8 @@
 #ifndef ETROOPS_H_
 #define ETROOPS_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include <gamemodel/GameEntity.h>
 #include <string>
 
@@ -16,21 +18,15 @@ public:
 	ETroops();
 	virtual ~ETroops();
 
-	std::string name;
 	int EXP;
-	int cost;
 
 	//Attributes
-	int MOR;
-	int ATK;
-	int DEF;
-	int PAC;
-
+	int ATK,DEF,PAC,MOR,TAC;
 	int amount;
 
-	//int HP_Max;
-	//int HP;
 
 };
+
+typedef boost::shared_ptr<ETroops> ETroopsPtr;
 
 #endif /* ETROOPS_H_ */
