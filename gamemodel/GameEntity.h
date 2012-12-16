@@ -11,6 +11,7 @@
 #include "utils/count.h"
 #include "utils/coordinates.h"
 #include "GameRessource.h"
+#include <string>
 
 class GameEntity {
 public:
@@ -19,6 +20,7 @@ public:
 
 	count<GameRessource> cost;
 	coordinates coords;
+	std::string pathtoicon;
 };
 
 #endif /* GAMEENTITY_H_ */

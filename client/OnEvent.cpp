@@ -72,7 +72,7 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 		} else {
 			//norm all buttons
 			SurfButtonSSStart = CSurface::OnLoad(
-					(char*) "client/gfx/gui/menu/buttons/start_norm.bmp");//start button
+					(char*) "client/gfx/gui/menu/buttons/start_norm.bmp"); //start button
 			SurfButtonSSOption = CSurface::OnLoad(
 					(char*) "client/gfx/gui/menu/buttons/option_norm.bmp");	//option button
 			SurfButtonSSServer = CSurface::OnLoad(
@@ -81,7 +81,6 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 					(char*) "client/gfx/gui/menu/buttons/exit_norm.bmp");// exit button
 		}
 	}
-
 }
 void GameClient::OnLButtonDown(int mX, int mY) {
 	if (GS.GET_GameState() == START_SCREEN) {
@@ -103,5 +102,27 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 				OnExit();
 			}
 		}
+	}
+
+	if (GS.GET_GameState() == INGAME) {
+		if (mY > (int) SurfArmy->clip_rect.y
+				and mY < (int) (SurfArmy->clip_rect.y + SurfArmy->clip_rect.h)) {
+			if (mX > (int) SurfArmy->clip_rect.x
+					and mX < (int) (SurfArmy->clip_rect.x + SurfArmy->clip_rect.w)) {
+
+				this->selected = "client/gfx/entity/army.png";
+				this->markx = (int) SurfArmy->clip_rect.x;
+				this->marky = (int) SurfArmy->clip_rect.y;
+			}else{
+				this->selected = "";
+				this->markx = 0;
+				this->marky = 0;
+			}//X-coordinates
+
+		}else{
+			this->selected = "";
+			this->markx = 0;
+			this->marky = 0;
+		}//Y-coordinates
 	}
 }

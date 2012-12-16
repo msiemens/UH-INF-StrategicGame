@@ -13,6 +13,8 @@
 #include <network/GameNetwork.h>
 #include <client/GameClientBackend.h>
 #include <gamemodel/GameState.h>
+#include <gamemodel/Player.h>
+#include <gamemodel/GameEntity.h>
 
 #include "client/CEvent.h"
 #include "client/CSurface.h"
@@ -37,6 +39,8 @@ private:
 
 	GameState GS;
 
+	Player player;
+//	GameEntity gameentityobject;
 	string ServerAddress;
 	GameNetwork Network;
 	GameClientBackend ClientBackend;
@@ -50,6 +54,17 @@ private:
 	SDL_Surface* SurfButtonSSOption;
 	SDL_Surface* SurfButtonSSServer;
 	SDL_Surface* SurfButtonSSExit;
+
+	//Inventory
+	SDL_Surface* SurfSlotSelected;
+	SDL_Surface* SurfSelected;
+	SDL_Surface* SurfMark;
+
+	//Zum test
+	SDL_Surface* SurfArmy;
+	string selected;
+	int markx,marky;
+
 public:
 	bool OnInit();
 	void OnEvent(SDL_Event* Event);

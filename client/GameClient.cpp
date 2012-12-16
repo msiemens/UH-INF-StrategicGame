@@ -22,6 +22,14 @@ GameClient::GameClient() {
 	SurfButtonSSOption = NULL;
 	SurfButtonSSServer = NULL;
 	SurfButtonSSExit = NULL;
+	SurfSlotSelected = NULL;
+	SurfSelected = NULL;
+	SurfMark = NULL;
+	SurfArmy = NULL;
+	selected = "";
+	markx = 0;
+	marky=0;
+
 }
 
 GameClient::~GameClient() {

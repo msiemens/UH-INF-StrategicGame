@@ -16,26 +16,40 @@ bool GameClient::OnInit() {
 	//Set the window caption
 	SDL_WM_SetCaption( "Startegic Game", NULL );
 
-//    if((Surf_Test = CSurface::OnLoad((char*)"client/gfx/tileset.bmp")) == NULL) {
-//        return false;
-//    }
 
 	//StartScreen
 
 	//load Background
-    if((SurfStartscreenBackground = CSurface::OnLoad((char*)"client/gfx/gui/menu/background.bmp")) == NULL) {
+    if((SurfStartscreenBackground = CSurface::OnLoad((char*)"client/gfx/gui/menu/background.png")) == NULL) {
         return false;
     }
     //Button SSExit
-    if((SurfButtonSSExit = CSurface::OnLoad((char*)"client/gfx/gui/menu/buttons/exit_norm.bmp")) == NULL) {
+    if((SurfButtonSSExit = CSurface::OnLoad((char*)"client/gfx/gui/menu/buttons/exit_norm.png")) == NULL) {
         return false;
     }
 
 
 	//load MapSurface
-    if((SurfMap = CSurface::OnLoad((char*)"client/maps/map1.bmp")) == NULL) {
+    if((SurfMap = CSurface::OnLoad((char*)"client/maps/map1.png")) == NULL) {
         return false;
     }
+
+	//load SlotSelected
+    if((SurfSlotSelected = CSurface::OnLoad((char*)"client/gfx/gui/inventory/itemslot.png")) == NULL) {
+        return false;
+    }
+
+	//load Army
+    if((SurfArmy = CSurface::OnLoad((char*)"client/gfx/entity/army.png")) == NULL) {
+        return false;
+    }
+    if((SurfMark = CSurface::OnLoad((char*)"client/gfx/entity/mark.png")) == NULL) {
+        return false;
+    }
+
+//    if((SurfSelected = CSurface::OnLoad((char*)"client/gfx/entity/army.png")) == NULL) {
+//        return false;
+//    }
 
     SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
 
