@@ -20,8 +20,10 @@ public:
 	Player();
 	virtual ~Player();
 
+
 	std::list<count<GameEntity> > owns;
 	std::list<count<GameRessource> > has;
+
 };
 
 #endif /* PLAYER_H_ */

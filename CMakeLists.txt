@@ -24,4 +24,4 @@ set(CMAKE_LIBRARY_PATH "${CMAKE_LIBRARY_PATH}:${SDL_PATH}/lib")
 
 # Executables
 add_executable(xclient client/GameClient)
-target_link_libraries(xclient client gamemodel network ${LINK_WIN32} SDLmain SDL)
+target_link_libraries(xclient client gamemodel network ${LINK_WIN32} SDL_image SDLmain SDL)

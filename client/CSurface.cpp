@@ -20,20 +20,17 @@ CSurface::~CSurface() {
 	// TODO Auto-generated destructor stub
 }
 
-
-
 SDL_Surface* CSurface::OnLoad(char* File) {
-	SDL_Surface* Surf_Temp = NULL;
-	SDL_Surface* Surf_Return = NULL;
+    SDL_Surface* Surf_Temp = NULL;
+    SDL_Surface* Surf_Return = NULL;
 
-	if ((Surf_Temp = SDL_LoadBMP(File)) == NULL) {
-		return NULL;
-	}
+    if((Surf_Temp = IMG_Load(File)) == NULL) {
+        return NULL;
+    }
 
-	Surf_Return = SDL_DisplayFormat(Surf_Temp);
-	SDL_FreeSurface(Surf_Temp);
-
-	return Surf_Return;
+    Surf_Return = SDL_DisplayFormatAlpha(Surf_Temp);
+    SDL_FreeSurface(Surf_Temp);
+    return Surf_Return;
 }
 
 bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int X,
@@ -46,6 +43,10 @@ bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int X,
 
 	DestR.x = X;
 	DestR.y = Y;
+
+	Surf_Src->clip_rect.x = X;
+	Surf_Src->clip_rect.y = Y;
+
 
 	SDL_BlitSurface(Surf_Src, NULL, Surf_Dest, &DestR);
 
@@ -73,4 +74,12 @@ bool CSurface::OnDraw(SDL_Surface* Surf_Dest, SDL_Surface* Surf_Src, int X,
 	SDL_BlitSurface(Surf_Src, &SrcR, Surf_Dest, &DestR);
 
 	return true;
+}
+
+void CSurface::SetImgPath(string path){
+	this->pathtoimg = path;
+}
+
+string CSurface::GetImgPath(){
+	return this->pathtoimg;
 }
