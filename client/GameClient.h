@@ -63,7 +63,6 @@ private:
 	//VillageMenu
 	SDL_Surface* SurfVillageMenuBackground;
 
-
 	//Zum test
 	SDL_Surface* SurfVillage;
 
@@ -77,6 +76,7 @@ public:
 	void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
 	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right, bool Middle);
 	void OnLButtonDown(int mX, int mY);
+	void OnRButtonDown(int mX, int mY);
 	void OnExit();
 	void OnLoop();
 	void OnRender();

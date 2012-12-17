@@ -82,6 +82,7 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 		}
 	}
 }
+
 void GameClient::OnLButtonDown(int mX, int mY) {
 	if (GS.GET_GameState() == START_SCREEN) {
 		if (mY > 287 && mY < 315) {
@@ -106,8 +107,34 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 
 	if (GS.GET_GameState() == INGAME) {
 
-		if (mY > 0 and mY < 30) {
-			if (mX > 0 and mX < 30) {
+		for (auto place : player.places) {
+			if (mY > place->getCoords().y and mY < place->getCoords().y + 26) {
+				if (mX > place->getCoords().x and mX < place->getCoords().x + 27) {
+
+					this->selected = place->getImgPath();
+					this->markx = place->getCoords().x;
+					this->marky = place->getCoords().y;
+					//schleife kann verlassen werden
+					break;
+				} else {
+					this->selected = "";
+					this->markx = 0;
+					this->marky = 0;
+				}	//X-coordinates
+
+			} else {
+				this->selected = "";
+				this->markx = 0;
+				this->marky = 0;
+			}	//Y-coordinates
+		}
+	}
+
+	if(GS.GET_GameState()== IG_VILLAGEMENU){
+		//Recruit
+		if(mY > 117 and mY < 144){
+			if(mX > 409 and mX < 496){
+				//if genug money =D
 				EArmyPtr army1(new EArmy);
 				army1->setName("Army");
 				army1->setImgPath("client/gfx/entity/army.png");
@@ -115,26 +142,37 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 			}
 		}
 
-		if (mY > (int) SurfVillage->clip_rect.y
-				and mY < (int) (SurfVillage->clip_rect.y + SurfVillage->clip_rect.h)) {
-			if (mX > (int) SurfVillage->clip_rect.x
-					and mX
-							< (int) (SurfVillage->clip_rect.x + SurfVillage->clip_rect.w)) {
+		//Close
+		if(mY > 230 and mY < 257){
+			if(mX > 409 and mX < 496){
+				GS.SET_GameState(INGAME);
+			}
+		}else{
+			cout << "X: " << mX << "/ Y: " << mY << "\n";
+		}
+	}
+}
 
-				this->selected = "client/gfx/entity/village.png";
-				this->markx = (int) SurfVillage->clip_rect.x;
-				this->marky = (int) SurfVillage->clip_rect.y;
-				GS.SET_GameState(IG_VILLAGEMENU);
-			} else {
-				this->selected = "";
-				this->markx = 0;
-				this->marky = 0;
-			}	//X-coordinates
 
-		} else {
-			this->selected = "";
-			this->markx = 0;
-			this->marky = 0;
-		}	//Y-coordinates
+void GameClient::OnRButtonDown(int mX, int mY) {
+	if (GS.GET_GameState() == INGAME) {
+		for (auto place : player.places) {
+			if (mY > place->getCoords().y and mY < place->getCoords().y + 26) {
+				if (mX > place->getCoords().x and mX < place->getCoords().x + 27) {
+
+					this->selected = place->getImgPath();
+					this->markx = place->getCoords().x;
+					this->marky = place->getCoords().y;
+					GS.SET_GameState(IG_VILLAGEMENU);
+					//schleife kann verlassen werden
+					break;
+				} else {
+					this->selected = "";
+					this->markx = 0;
+					this->marky = 0;
+				}	//X-coordinates
+
+			}
+		}
 	}
 }
