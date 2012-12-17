@@ -31,7 +31,10 @@ public:
 	std::list<count<GameEntity> > owns;
 	std::list<count<GameRessource> > has;
 
+<<<<<<< HEAD
+=======
 	boost::uuids::uuid id;
+>>>>>>> refs/remotes/origin/prototype/network
 };
 
 typedef boost::shared_ptr<Player> PlayerPtr;

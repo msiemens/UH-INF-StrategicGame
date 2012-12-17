@@ -14,6 +14,7 @@
 
 namespace std {
 
+class GameUI: public GameClient {
 class GameUI {
 public:
 	GameUI();
