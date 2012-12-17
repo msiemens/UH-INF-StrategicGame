@@ -17,6 +17,7 @@
 #include "utils/counter.h"
 #include "utils/coordinates.h"
 #include "GameRessource.h"
+#include <string>
 
 
 class GameEntity {

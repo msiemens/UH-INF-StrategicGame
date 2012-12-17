@@ -5,8 +5,14 @@
  *      Author: Armend
  */
 
+<<<<<<< HEAD
 #include "client/GameClient.h"
 #include "gamemodel/GameState.h"
+=======
+#include <client/GameClient.h>
+#include <gamemodel/entities/ETroops.h>
+#include <gamemodel/GameState.h>
+>>>>>>> tmp/client
 
 #ifndef GAMEUI_H_
 #define GAMEUI_H_
@@ -14,6 +20,10 @@
 namespace std {
 
 class GameUI: public GameClient {
+<<<<<<< HEAD
+=======
+class GameUI {
+>>>>>>> tmp/client
 public:
 	GameUI();
 	virtual ~GameUI();

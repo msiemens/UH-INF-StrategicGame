@@ -8,9 +8,12 @@
 #ifndef GAMESERVER_H_
 #define GAMESERVER_H_
 
+<<<<<<< HEAD
 #include <server/GameMap.h>
 #include <server/GameEngine.h>
 
+=======
+>>>>>>> tmp/client
 class GameServer {
 public:
 	GameServer();

@@ -12,6 +12,8 @@
 
 #include <gamemodel/GameEntity.h>
 
+using namespace std;
+
 class EBuilding: public GameEntity {
 };
 

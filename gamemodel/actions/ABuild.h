@@ -14,7 +14,10 @@
 #include <gamemodel/entities/EPlace.h>
 #include <gamemodel/entities/EBuilding.h>
 
-#include <gamemodel/GameAction.h>
+#include "gamemodel/entities/EPlace.h"
+#include "gamemodel/entities/EBuilding.h"
+
+#include "gamemodel/GameAction.h"
 
 class ABuild: public GameAction {
 public:

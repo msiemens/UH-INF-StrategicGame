@@ -22,7 +22,11 @@ void GameUI::ShowGamestate(GameState GS){
 
 }
 
+<<<<<<< HEAD
 void GameUI::ShowMap(){+
+=======
+void GameUI::ShowMap(){
+>>>>>>> tmp/client
 
 }
 
@@ -30,9 +34,15 @@ void GameUI::ShowSquads(){
 
 
 }
+<<<<<<< HEAD
 /*void GameUI::markSquad(ETroops Squad){
 
 }*/
+=======
+void GameUI::markSquad(ETroops Squad){
+
+}
+>>>>>>> tmp/client
 void GameUI::HandleMouseInput(int MousePosX, int MousePosY){
 
 }

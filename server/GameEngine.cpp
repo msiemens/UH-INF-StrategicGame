@@ -4,6 +4,7 @@
  *  Created on: 16.11.2012
  *      Author: Armend
  */
+<<<<<<< HEAD
 #include <iostream>
 
 #include <gamemodel/Player.h>
@@ -254,5 +255,17 @@ void GameEngine::test() {
 	onPlayerDisconnect(player1);
 	onPlayerDisconnect(player2);
 
+=======
+
+#include "C:/GameDev/Projekte/UH-INF-StrategicGame/server/GameEngine.h"
+
+GameEngine::GameEngine() {
+	// TODO Auto-generated constructor stub
+
+}
+
+GameEngine::~GameEngine() {
+	// TODO Auto-generated destructor stub
+>>>>>>> tmp/client
 }
 

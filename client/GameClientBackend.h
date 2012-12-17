@@ -11,6 +11,12 @@
 #ifndef GAMECLIENTBACKEND_H_
 #define GAMECLIENTBACKEND_H_
 
+<<<<<<< HEAD
+=======
+#include <gamemodel/GameAction.h>
+#include <gamemodel/Player.h>
+
+>>>>>>> tmp/client
 namespace std {
 
 class GameClientBackend {

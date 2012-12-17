@@ -16,6 +16,9 @@ public:
 	GameRessource();
 	virtual ~GameRessource();
 
+	int getCount();
+
+private:
 	int count;
 
 private:

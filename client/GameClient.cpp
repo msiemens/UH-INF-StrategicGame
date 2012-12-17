@@ -5,6 +5,7 @@
  *      Author: Armend
  */
 
+<<<<<<< HEAD
 #include "client/GameClient.h"
 
 namespace std {
@@ -12,12 +13,40 @@ namespace std {
 GameClient::GameClient() {
 	// TODO Auto-generated constructor stub
 	this->inGame = true;
+=======
+#include <iostream>
+
+#include <SDL/SDL.h>
+
+#include "client/GameClient.h"
+
+using namespace std;
+
+GameClient::GameClient() {
+	SurfMap = NULL;
+	Surf_Display = NULL;
+	SurfStartscreenBackground = NULL;
+	this->running = true;
+	SurfButtonSSStart = NULL;
+	SurfButtonSSOption = NULL;
+	SurfButtonSSServer = NULL;
+	SurfButtonSSExit = NULL;
+	SurfSlotSelected = NULL;
+	SurfSelected = NULL;
+	SurfMark = NULL;
+	SurfArmy = NULL;
+	selected = "";
+	markx = 0;
+	marky=0;
+
+>>>>>>> tmp/client
 }
 
 GameClient::~GameClient() {
 	// TODO Auto-generated destructor stub
 }
 
+<<<<<<< HEAD
 int GameClient::main(){
 
 	while(inGame){
@@ -29,3 +58,33 @@ int GameClient::main(){
 	return 0;
 }
 } /* namespace std */
+=======
+int GameClient::OnExecute() {
+	if (OnInit() == false) {
+		return -1;
+	}
+
+	SDL_Event Event;
+
+	while (running) {
+		while (SDL_PollEvent(&Event)) { //Eventqueue
+			OnEvent(&Event);
+		}
+
+		OnLoop();
+		OnRender();
+	}
+
+	OnCleanup();
+
+	return 0;
+}
+
+
+int main(int argc, char* argv[]) {
+
+	GameClient game;
+	return game.OnExecute();
+}
+
+>>>>>>> tmp/client
