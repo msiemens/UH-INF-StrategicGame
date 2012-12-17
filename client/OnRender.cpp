@@ -20,7 +20,7 @@ void GameClient::OnRender() {
 		CSurface::OnDraw(Surf_Display, SurfButtonSSExit, 364, 287);
 	}
 
-	if (GS.GET_GameState() == INGAME) {
+	if (GS.GET_GameState() == INGAME or GS.GET_GameState() == IG_VILLAGEMENU) {
 
 		Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT + 40, 32,
 				SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
@@ -28,7 +28,7 @@ void GameClient::OnRender() {
 		CSurface::OnDraw(Surf_Display, SurfMap, 0, 0);
 		CSurface::OnDraw(Surf_Display, SurfSlotSelected, 0, 0);
 		//test
-		CSurface::OnDraw(Surf_Display, SurfArmy, 358, 243);
+		CSurface::OnDraw(Surf_Display, SurfVillage, 358, 243);
 
 		if (this->selected != "") {
 			char * buffer = new char[this->selected.length()];
@@ -39,6 +39,10 @@ void GameClient::OnRender() {
 				CSurface::OnDraw(Surf_Display, SurfMark, this->markx,
 						this->marky);
 			}
+		}
+
+		if(GS.GET_GameState() == IG_VILLAGEMENU){
+			CSurface::OnDraw(Surf_Display, SurfVillageMenuBackground,50,50);
 		}
 
 		for (auto army : player.armies) {

@@ -8,13 +8,13 @@ void GameClient::OnCleanup() {
 	SDL_FreeSurface(SurfSelected);
 	SDL_FreeSurface(SurfSlotOwns);
 	SDL_FreeSurface(SurfMark);
-	SDL_FreeSurface(SurfArmy);
+	SDL_FreeSurface(SurfVillage);
 	SDL_FreeSurface(SurfStartscreenBackground);
 	SDL_FreeSurface(SurfButtonSSStart);
 	SDL_FreeSurface(SurfButtonSSOption);
 	SDL_FreeSurface(SurfButtonSSServer);
 	SDL_FreeSurface(SurfButtonSSExit);
-
+	SDL_FreeSurface(SurfVillageMenuBackground);
 
 	SDL_Quit();
 }

@@ -25,7 +25,7 @@ using namespace std;
 
 
 enum {
-	START_SCREEN = 0, STARTUP_GAME, OPTIONS, INGAME, SS_OPTION,SS_SERVERCONFIG
+	START_SCREEN = 0, STARTUP_GAME, OPTIONS, INGAME, SS_OPTION,SS_SERVERCONFIG, IG_VILLAGEMENU
 };
 
 class GameClient  : public CEvent{
@@ -60,8 +60,12 @@ private:
 	SDL_Surface* SurfMark;
 	SDL_Surface* SurfSlotOwns;
 
+	//VillageMenu
+	SDL_Surface* SurfVillageMenuBackground;
+
+
 	//Zum test
-	SDL_Surface* SurfArmy;
+	SDL_Surface* SurfVillage;
 
 	string selected;
 	GameEntity gameentityselectedobject;

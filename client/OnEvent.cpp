@@ -105,24 +105,36 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 	}
 
 	if (GS.GET_GameState() == INGAME) {
-		if (mY > (int) SurfArmy->clip_rect.y
-				and mY < (int) (SurfArmy->clip_rect.y + SurfArmy->clip_rect.h)) {
-			if (mX > (int) SurfArmy->clip_rect.x
-					and mX < (int) (SurfArmy->clip_rect.x + SurfArmy->clip_rect.w)) {
 
-				this->selected = "client/gfx/entity/army.png";
-				this->markx = (int) SurfArmy->clip_rect.x;
-				this->marky = (int) SurfArmy->clip_rect.y;
-			}else{
+		if (mY > 0 and mY < 30) {
+			if (mX > 0 and mX < 30) {
+				EArmyPtr army1(new EArmy);
+				army1->setName("Army");
+				army1->setImgPath("client/gfx/entity/army.png");
+				player.armies.insert(player.armies.end(), army1);
+			}
+		}
+
+		if (mY > (int) SurfVillage->clip_rect.y
+				and mY < (int) (SurfVillage->clip_rect.y + SurfVillage->clip_rect.h)) {
+			if (mX > (int) SurfVillage->clip_rect.x
+					and mX
+							< (int) (SurfVillage->clip_rect.x + SurfVillage->clip_rect.w)) {
+
+				this->selected = "client/gfx/entity/village.png";
+				this->markx = (int) SurfVillage->clip_rect.x;
+				this->marky = (int) SurfVillage->clip_rect.y;
+				GS.SET_GameState(IG_VILLAGEMENU);
+			} else {
 				this->selected = "";
 				this->markx = 0;
 				this->marky = 0;
-			}//X-coordinates
+			}	//X-coordinates
 
-		}else{
+		} else {
 			this->selected = "";
 			this->markx = 0;
 			this->marky = 0;
-		}//Y-coordinates
+		}	//Y-coordinates
 	}
 }

@@ -26,7 +26,8 @@ GameClient::GameClient() :
 	SurfSlotSelected = NULL;
 	SurfSelected = NULL;
 	SurfMark = NULL;
-	SurfArmy = NULL;
+	SurfVillage = NULL;
+	SurfVillageMenuBackground = NULL;
 	SurfSlotOwns = NULL;
 	selected = "";
 	markx = 0;
@@ -34,6 +35,7 @@ GameClient::GameClient() :
 	EArmyPtr army1(new EArmy);
 	army1->setName("ArmyOne");
 	army1->setImgPath("client/gfx/entity/army.png");
+
 	player.armies.insert(player.armies.begin(),army1);
 }
 
