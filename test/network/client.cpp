@@ -23,14 +23,12 @@ int main(int argc, char* argv[]) {
 
 		GameActionPtr action(new GameAction);
 
-		GameRessource res;
-		res.count = 200;
 		counter<GameRessource> price(200);
 
-		GameEntity entity;
+		GameEntityPtr entity(new GameEntity);
 		coordinates coords(5, 5);
-		entity.coords = coords;
-		entity.cost = price;
+		entity->coords = coords;
+		entity->cost = price;
 
 		action->what = entity;
 

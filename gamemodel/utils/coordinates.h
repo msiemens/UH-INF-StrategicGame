@@ -18,7 +18,6 @@ public:
 
 	int x;
 	int y;
-
 private:
 	friend class boost::serialization::access;
 

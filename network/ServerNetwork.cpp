@@ -33,6 +33,14 @@ boost::shared_ptr<boost::thread> ServerNetwork::thread() {
 	return m_network.thread();
 }
 
+void ServerNetwork::ConnectOnAction(const signal_action_t::slot_type &subscriber) {
+	m_signal_on_action.connect(subscriber);
+}
+
+void ServerNetwork::ConnectOnMessage(const signal_meta_t::slot_type &subscriber) {
+	m_signal_on_message.connect(subscriber);
+}
+
 void ServerNetwork::OnPlayerConnect(NetPlayerPtr netplayer) {
 	std::cout << "ServerNetwork::OnPlayerConnect(...)" << std::endl;
 	std::cout << "Creating PlayerPtr" << std::endl;
@@ -50,11 +58,12 @@ void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
 	std::stringstream buffer;
 
 	// Initialize Serialization
-	boost::archive::text_oarchive oa(buffer);
+	boost::archive::text_oarchive archive(buffer);
 
 	// Serialize object
-	buffer << message_types::action;
-	buffer << action;
+	int type = MESSAGE_ACTION;
+	archive << type;
+	archive << action;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
@@ -67,11 +76,12 @@ void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
 	std::stringstream buffer;
 
 	// Initialize Serialization
-	boost::archive::text_oarchive oa(buffer);
+	boost::archive::text_oarchive archive(buffer);
 
 	// Serialize object
-	buffer << message_types::statemessage;
-	// buffer << message;
+	int type = MESSAGE_STATE;
+	archive << type;
+	// archive << message;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
@@ -84,11 +94,12 @@ void ServerNetwork::BroadcastAction(GameActionPtr action) {
 	std::stringstream buffer;
 
 	// Initialize Serialization
-	boost::archive::text_oarchive oa(buffer);
+	boost::archive::text_oarchive archive(buffer);
 
 	// Serialize object
-	buffer << message_types::action;
-	buffer << action;
+	int type = MESSAGE_ACTION;
+	archive << type;
+	archive << action;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
@@ -101,11 +112,12 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 	std::stringstream buffer;
 
 	// Initialize Serialization
-	boost::archive::text_oarchive oa(buffer);
+	boost::archive::text_oarchive archive(buffer);
 
 	// Serialize object
-	buffer << message_types::statemessage;
-	// buffer << message;
+	int type = MESSAGE_STATE;
+	archive << type;
+	// archive << message;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
@@ -115,41 +127,36 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 }
 
 void ServerNetwork::OnMessage(char* message, int length) {
-	std::cout << "OnMessage!" << std::endl;
-
 	std::stringstream buffer;
 
-	std::cout << "Writing message to buffer: " << string(message, length) << "  (" << length << ")" << std::endl;
 	// Write message object to buffer
 	buffer.write(message, length);
 
-	std::cout << "Message we got: " << buffer.str() << std::endl;
-
-	std::cout << "Initializing deserialization" << std::endl;
 	// Initialize Deserialization
 	boost::archive::text_iarchive archive(buffer);
 
-	std::cout << "Reading message type" << std::endl;
 	// Read message type
-	message_types message_type;
+	int message_type;
 	archive >> message_type;
 
 	switch (message_type) {
-	case message_types::action:
-		GameActionPtr* action;
-		archive >> action;
+	case MESSAGE_ACTION: {
 		std::cout << "Got an action!" << std::endl;
-		// TODO: Call Server OnPlayerAction
+		GameActionPtr action(new GameAction);
+		archive >> action;
+
+		m_signal_on_action(action);
 		break;
-	case message_types::metamessage:
-		GameMetaMessagePtr* message;
+	}
+	case MESSAGE_META: {
 		std::cout << "Got an metamessage!" << std::endl;
+		GameMetaMessagePtr message(new GameMetaMessage);
 		// archive >> message;
-		// TODO: Call Server OnMetaMessage
+
+		m_signal_on_message(message);
 		break;
+	}
 	default:
 		break;
 	}
-
-	std::cout << buffer.str() << std::endl;
 }

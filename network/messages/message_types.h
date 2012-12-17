@@ -8,8 +8,8 @@
 #ifndef MESSAGE_TYPES_H_
 #define MESSAGE_TYPES_H_
 
-enum message_types {
-	action, metamessage, statemessage
-};
+#define MESSAGE_ACTION (1 << 0)
+#define MESSAGE_META (1 << 1)
+#define MESSAGE_STATE (1 << 2)
 
 #endif /* MESSAGE_TYPES_H_ */

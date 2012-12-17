@@ -6,3 +6,7 @@
  */
 
 #include "GameAction.h"
+
+GameAction::GameAction(): what(new GameEntity) {
+
+}

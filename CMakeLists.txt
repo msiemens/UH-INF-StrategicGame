@@ -20,15 +20,13 @@ add_subdirectory(client)
 
 message("Boost libraries: ${Boost_LIBRARIES}")
 
-# add_executable("xnetserver" test/network/server.cpp)
-# target_link_libraries("xnetserver" network ${Boost_LIBRARIES} mswsock) # TODO: Include mswsock only on MinGW systems
 add_executable("xnetserver" test/network/server.cpp)
 target_link_libraries("xnetserver" network ${Boost_LIBRARIES} mswsock) # TODO: Include mswsock only on MinGW systems
 
 add_executable("xnetclient" test/network/client.cpp)
 target_link_libraries("xnetclient" network ${Boost_LIBRARIES} mswsock) # TODO: Include mswsock only on MinGW systems
 
-# add_executable("xnet-test-serlz" test/network/serialization.cpp)
-# target_link_libraries("xnet-test-serlz" ${Boost_LIBRARIES}) # TODO: Include mswsock only on MinGW systems
+add_executable("xnetserlz" test/network/serialization.cpp)
+target_link_libraries("xnetserlz" ${Boost_LIBRARIES} gamemodel) # TODO: Include mswsock only on MinGW systems
 
 add_executable("test" test/network/tmp.cpp)

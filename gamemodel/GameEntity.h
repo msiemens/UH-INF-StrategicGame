@@ -9,6 +9,7 @@
 #define GAMEENTITY_H_
 
 #include <boost/serialization/access.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include "utils/counter.h"
 #include "utils/coordinates.h"
@@ -30,5 +31,7 @@ private:
 		ar & coords;
 	}
 };
+
+typedef boost::shared_ptr<GameEntity> GameEntityPtr;
 
 #endif /* GAMEENTITY_H_ */

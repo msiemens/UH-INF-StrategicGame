@@ -19,10 +19,16 @@ using namespace std;
 
 class ServerNetwork {
 public:
+	typedef boost::signals2::signal<void(GameActionPtr)> signal_action_t;
+	typedef boost::signals2::signal<void(GameMetaMessagePtr)> signal_meta_t;
+
 	ServerNetwork(int port);
 	virtual ~ServerNetwork();
 
 	boost::shared_ptr<boost::thread> thread();
+
+	void ConnectOnAction(const signal_action_t::slot_type &subscriber);
+	void ConnectOnMessage(const signal_meta_t::slot_type &subscriber);
 
 	void SendAction(PlayerPtr dest, GameActionPtr action);
 	void BroadcastAction(GameActionPtr action);
@@ -35,6 +41,9 @@ private:
 	void OnMessage(char* message, int length);
 
 	ServerNetworkImpl m_network;
+
+	signal_action_t m_signal_on_action;
+	signal_meta_t m_signal_on_message;
 
 	std::unordered_map<PlayerPtr, NetPlayerPtr> m_players;
 };

@@ -22,8 +22,14 @@ using namespace std;
 
 class ClientNetwork {
 public:
+	typedef boost::signals2::signal<void(GameActionPtr)> signal_action_t;
+	typedef boost::signals2::signal<void(GameStateMessagePtr)> signal_state_t;
+
 	ClientNetwork(string hostname, int port);
 	virtual ~ClientNetwork();
+
+	void ConnectOnAction(const signal_action_t::slot_type &subscriber);
+	void ConnectOnMessage(const signal_state_t::slot_type &subscriber);
 
 	void SendAction(GameActionPtr action);
 	void SendMetaMessage(GameMetaMessagePtr message);
@@ -31,6 +37,9 @@ public:
 	boost::shared_ptr<boost::thread> thread();
 private:
 	ClientNetworkImpl m_network;
+
+	signal_action_t m_signal_on_action;
+	signal_state_t m_signal_on_message;
 
 	void OnMessage(char* msg, int length);
 };

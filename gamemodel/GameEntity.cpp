@@ -8,6 +8,6 @@
 #include "GameEntity.h"
 
 GameEntity::GameEntity() :
-		cost(0) {
+		cost(0), coords() {
 
 }

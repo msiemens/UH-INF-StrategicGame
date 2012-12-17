@@ -8,6 +8,7 @@
 #ifndef GAMERESSOURCE_H_
 #define GAMERESSOURCE_H_
 
+#include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
 
 class GameRessource {
@@ -25,5 +26,7 @@ private:
 		ar & count;
 	}
 };
+
+typedef boost::shared_ptr<GameRessource> GameRessourcePtr;
 
 #endif /* GAMERESSOURCE_H_ */

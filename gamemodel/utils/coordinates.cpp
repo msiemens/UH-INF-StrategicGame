@@ -13,7 +13,6 @@ coordinates::coordinates() :
 
 }
 
-
 coordinates::coordinates(int x, int y) :
 		x(x),
 		y(y) {

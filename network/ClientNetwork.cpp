@@ -35,28 +35,26 @@ boost::shared_ptr<boost::thread> ClientNetwork::thread() {
 	return m_network.thread();
 }
 
-void ClientNetwork::SendAction(GameActionPtr action) {
-	std::cout << "Preparing for sending action" << std::endl;
+void ClientNetwork::ConnectOnAction(const signal_action_t::slot_type &subscriber) {
+	m_signal_on_action.connect(subscriber);
+}
 
+void ClientNetwork::ConnectOnMessage(const signal_state_t::slot_type &subscriber) {
+	m_signal_on_message.connect(subscriber);
+}
+
+void ClientNetwork::SendAction(GameActionPtr action) {
 	std::stringstream buffer;
 	boost::archive::text_oarchive archive(buffer);
 
-	std::cout << "Serializing message" << std::endl;
-
 	// Serialize object
-	buffer << message_types::action;
-	buffer << action;
-
-	std::cout << "Creating networkmessage: " << buffer.str() << std::endl;
+	int type = MESSAGE_ACTION;
+	archive << type;
+	archive << action;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
 
-	std::cout << "Message:" << std::endl;
-	std::cout.write(msg->body(), msg->body_length());
-	std::cout << std::endl;
-
-	std::cout << "Writing message" << std::endl;
 	// Pass message to m_network.send
 	m_network.Write(msg);
 }
@@ -66,8 +64,9 @@ void ClientNetwork::SendMetaMessage(GameMetaMessagePtr message) {
 	boost::archive::text_oarchive archive(buffer);
 
 	// Serialize object
-	buffer << message_types::metamessage;
-	// buffer << message;
+	int type = MESSAGE_META;
+	archive << type;
+	// archive << message;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
@@ -86,20 +85,26 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 	boost::archive::text_iarchive archive(buffer);
 
 	// Read message type
-	message_types message_type;
+	int message_type;
 	archive >> message_type;
 
 	switch (message_type) {
-	case message_types::action:
-		GameActionPtr* action;
-		archive >> action;
-		// TODO: Call Client OnPlayerAction
-		break;
-	case message_types::statemessage:
-		GameStateMessagePtr* message;
-		// archive >> message;
-		// TODO: Call Client OnStateMessage
-		break;
+		case MESSAGE_ACTION: {
+			std::cout << "Got an action!" << std::endl;
+			GameActionPtr action(new GameAction);
+			archive >> action;
+
+			m_signal_on_action(action);
+			break;
+		}
+		case MESSAGE_STATE: {
+			std::cout << "Got an metamessage!" << std::endl;
+			GameStateMessagePtr message(new GameStateMessage);
+			// archive >> message;
+
+			m_signal_on_message(message);
+			break;
+		}
 	default:
 		break;
 	}

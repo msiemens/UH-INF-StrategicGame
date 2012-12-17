@@ -16,7 +16,9 @@
 
 class GameAction {
 public:
-	GameEntity what;
+	GameAction();
+
+	GameEntityPtr what;
 
 private:
 	friend class boost::serialization::access;
