@@ -6,6 +6,7 @@ void GameClient::OnCleanup() {
 	SDL_FreeSurface(SurfMap);
 	SDL_FreeSurface(SurfSlotSelected);
 	SDL_FreeSurface(SurfSelected);
+	SDL_FreeSurface(SurfSlotOwns);
 	SDL_FreeSurface(SurfMark);
 	SDL_FreeSurface(SurfArmy);
 	SDL_FreeSurface(SurfStartscreenBackground);

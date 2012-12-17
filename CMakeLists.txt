@@ -3,6 +3,8 @@ project (StrategicGame)
 
 include_directories(${PROJECT_SOURCE_DIR})
 
+add_definitions(-std=gnu++0x)
+
 # OS specific settings
 if(WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")

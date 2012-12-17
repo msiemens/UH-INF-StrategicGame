@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include <network/ClientNetwork.h>
+#include <network/GameNetwork.h>
 #include <client/GameClientBackend.h>
 #include <gamemodel/GameState.h>
 #include <gamemodel/Player.h>
@@ -40,9 +40,8 @@ private:
 	GameState GS;
 
 	Player player;
-//	GameEntity gameentityobject;
 	string ServerAddress;
-	ClientNetwork Network;
+	GameNetwork Network;
 	GameClientBackend ClientBackend;
 
 	SDL_Surface* Surf_Display;
@@ -59,10 +58,13 @@ private:
 	SDL_Surface* SurfSlotSelected;
 	SDL_Surface* SurfSelected;
 	SDL_Surface* SurfMark;
+	SDL_Surface* SurfSlotOwns;
 
 	//Zum test
 	SDL_Surface* SurfArmy;
+
 	string selected;
+	GameEntity gameentityselectedobject;
 	int markx,marky;
 
 public:

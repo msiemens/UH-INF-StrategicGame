@@ -13,7 +13,8 @@
 
 using namespace std;
 
-GameClient::GameClient() {
+GameClient::GameClient() :
+		player(1) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfStartscreenBackground = NULL;
@@ -26,10 +27,14 @@ GameClient::GameClient() {
 	SurfSelected = NULL;
 	SurfMark = NULL;
 	SurfArmy = NULL;
+	SurfSlotOwns = NULL;
 	selected = "";
 	markx = 0;
-	marky=0;
-
+	marky = 0;
+	EArmyPtr army1(new EArmy);
+	army1->setName("ArmyOne");
+	army1->setImgPath("client/gfx/entity/army.png");
+	player.armies.insert(player.armies.begin(),army1);
 }
 
 GameClient::~GameClient() {
@@ -57,9 +62,7 @@ int GameClient::OnExecute() {
 	return 0;
 }
 
-
 int main(int argc, char* argv[]) {
-
 	GameClient game;
 	return game.OnExecute();
 }
