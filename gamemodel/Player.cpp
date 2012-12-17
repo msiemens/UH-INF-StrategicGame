@@ -5,6 +5,9 @@
  *      Author: markus
  */
 
+#include <typeinfo>
+#include <iostream>
+
 #include "Player.h"
 
 Player::Player() :
@@ -14,5 +17,29 @@ Player::Player() :
 
 Player::~Player() {
 
+}
+
+int Player::getPlayerId() {
+	return playerId;
+}
+
+void Player::addArmy(EArmyPtr army) {
+	armies.insert(armies.end(), army);
+}
+
+void Player::addPlace(EPlacePtr place) {
+	places.insert(places.end(), place);
+}
+
+void Player::addTroops(ETroopsPtr troops) {
+
+}
+
+void Player::addRessource(GameRessourcePtr ressource) {
+
+}
+
+int Player::getRessourceCount(GameRessourcePtr ressource) {
+	return 0;
 }
 

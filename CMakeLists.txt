@@ -30,3 +30,9 @@ add_executable("xnetserlz" test/network/serialization.cpp)
 target_link_libraries("xnetserlz" ${Boost_LIBRARIES} gamemodel) # TODO: Include mswsock only on MinGW systems
 
 add_executable("test" test/network/tmp.cpp)
+add_subdirectory(client)
+
+
+# Executables
+add_executable(xserver server/GameServer)
+target_link_libraries(xserver server gamemodel network ${LINK_WIN32})

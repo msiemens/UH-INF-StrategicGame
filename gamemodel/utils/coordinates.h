@@ -8,6 +8,8 @@
 #ifndef COORDINATES_H_
 #define COORDINATES_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include <boost/serialization/access.hpp>
 
 class coordinates {
@@ -27,5 +29,8 @@ private:
 		ar & y;
 	}
 };
+
+typedef boost::shared_ptr<coordinates> coordinatesPtr;
+
 
 #endif /* COORDINATES_H_ */

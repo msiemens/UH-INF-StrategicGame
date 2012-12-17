@@ -8,6 +8,8 @@
 #ifndef AMOVE_H_
 #define AMOVE_H_
 
+#include <boost/shared_ptr.hpp>
+
 #include <gamemodel/utils/coordinates.h>
 #include <gamemodel/GameEntity.h>
 
@@ -19,8 +21,10 @@ public:
 	virtual ~AMove();
 
 	coordinates to;
-	GameEntity what;
+	GameEntityPtr what;
 	int count;
 };
+
+typedef boost::shared_ptr<AMove> AMovePtr;
 
 #endif /* AMOVE_H_ */

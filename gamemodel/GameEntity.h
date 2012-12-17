@@ -1,4 +1,5 @@
 /*
+
  * GameEntity.h
  *
  *  Created on: 09.11.2012
@@ -15,11 +16,26 @@
 #include "utils/coordinates.h"
 #include "GameRessource.h"
 
+#include <string>
+
 class GameEntity {
 public:
 	GameEntity();
 
 	counter<GameRessource> cost;
+
+	coordinates getCoords();
+
+	void setCoords(int x, int y);
+	void setCoords(coordinates coords);
+
+	std::string getName();
+	void setName(std::string name);
+
+protected:
+	std::string name;
+
+private:
 	coordinates coords;
 
 private:

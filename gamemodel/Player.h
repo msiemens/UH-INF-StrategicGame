@@ -9,9 +9,10 @@
 #define PLAYER_H_
 
 #include <list>
+#include <boost/shared_ptr.hpp>
+#include <string>
 
 #include <boost/functional/hash.hpp>
-
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 
@@ -21,16 +22,30 @@
 
 #include "GameEntity.h"
 #include "GameRessource.h"
+#include "entities/EArmy.h"
+#include "entities/EPlace.h"
 
 class Player {
 public:
-	Player();
+	Player(int id);
 	virtual ~Player();
 
-	std::list<counter<GameEntity> > owns;
-	std::list<counter<GameRessource> > has;
+	int getPlayerId();
+	void addArmy(EArmyPtr army);
+	void addPlace(EPlacePtr place);
+	void addTroops(ETroopsPtr troops);
+
+	void addRessource(GameRessourcePtr ressource);
+
+	int getRessourceCount(GameRessourcePtr ressource);
 
 	boost::uuids::uuid id;
+
+	std::list<counter<GameEntityPtr> > owns;
+	std::list<counter<GameRessourcePtr> > has;
+
+	std::list<EArmyPtr> armies;
+	std::list<EPlacePtr> places;
 };
 
 typedef boost::shared_ptr<Player> PlayerPtr;
