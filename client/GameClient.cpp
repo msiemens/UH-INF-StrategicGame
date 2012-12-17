@@ -5,20 +5,11 @@
  *      Author: Armend
  */
 
-<<<<<<< HEAD
-#include "client/GameClient.h"
-
-namespace std {
-
-GameClient::GameClient() {
-	// TODO Auto-generated constructor stub
-	this->inGame = true;
-=======
 #include <iostream>
 
 #include <SDL/SDL.h>
 
-#include "client/GameClient.h"
+#include <client/GameClient.h>
 
 using namespace std;
 
@@ -37,28 +28,13 @@ GameClient::GameClient() {
 	SurfArmy = NULL;
 	selected = "";
 	markx = 0;
-	marky=0;
-
->>>>>>> tmp/client
+	marky = 0;
 }
 
 GameClient::~GameClient() {
 	// TODO Auto-generated destructor stub
 }
 
-<<<<<<< HEAD
-int GameClient::main(){
-
-	while(inGame){
-
-	//	GS.aktivGS;
-
-	}
-
-	return 0;
-}
-} /* namespace std */
-=======
 int GameClient::OnExecute() {
 	if (OnInit() == false) {
 		return -1;
@@ -80,11 +56,8 @@ int GameClient::OnExecute() {
 	return 0;
 }
 
-
 int main(int argc, char* argv[]) {
 
 	GameClient game;
 	return game.OnExecute();
 }
-
->>>>>>> tmp/client

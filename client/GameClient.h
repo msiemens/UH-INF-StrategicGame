@@ -8,24 +8,6 @@
 #ifndef GAMECLIENT_H_
 #define GAMECLIENT_H_
 
-<<<<<<< HEAD
-namespace std {
-
-class GameClient {
-public:
-	GameClient();
-	virtual ~GameClient();
-	int main();				//Everthing starts here!
-private:
-	bool inGame;
-	GameState GS;
-	string ServerAddress;
-	GameNetwork Network;
-	GameClientBackend ClientBackend;
-};
-
-} /* namespace std */
-=======
 #include <string>
 
 #include <network/ClientNetwork.h>
@@ -38,15 +20,13 @@ private:
 #include "client/CSurface.h"
 #include "client/Define.h"
 
-
 using namespace std;
 
-
 enum {
-	START_SCREEN = 0, STARTUP_GAME, OPTIONS, INGAME, SS_OPTION,SS_SERVERCONFIG
+	START_SCREEN = 0, STARTUP_GAME, OPTIONS, INGAME, SS_OPTION, SS_SERVERCONFIG
 };
 
-class GameClient  : public CEvent{
+class GameClient: public CEvent {
 public:
 	GameClient();
 	virtual ~GameClient();
@@ -60,7 +40,7 @@ private:
 	Player player;
 //	GameEntity gameentityobject;
 	string ServerAddress;
-	ClientNetwork Network;
+	// ClientNetwork Network;
 	GameClientBackend ClientBackend;
 
 	SDL_Surface* Surf_Display;
@@ -81,13 +61,14 @@ private:
 	//Zum test
 	SDL_Surface* SurfArmy;
 	string selected;
-	int markx,marky;
+	int markx, marky;
 
 public:
 	bool OnInit();
 	void OnEvent(SDL_Event* Event);
 	void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
-	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right, bool Middle);
+	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right,
+			bool Middle);
 	void OnLButtonDown(int mX, int mY);
 	void OnExit();
 	void OnLoop();
@@ -95,5 +76,4 @@ public:
 	void OnCleanup();
 };
 
->>>>>>> tmp/client
 #endif /* GAMECLIENT_H_ */

@@ -7,11 +7,7 @@
 
 #include "client/GameClientBackend.h"
 
-<<<<<<< HEAD
-namespace std {
-=======
 using namespace std;
->>>>>>> tmp/client
 
 GameClientBackend::GameClientBackend() {
 	// TODO Auto-generated constructor stub
@@ -28,7 +24,3 @@ void GameClientBackend::OnPlayerAction(Player who, GameAction what){
 void GameClientBackend::OnGameStateMessage(){
 
 }
-<<<<<<< HEAD
-} /* namespace std */
-=======
->>>>>>> tmp/client

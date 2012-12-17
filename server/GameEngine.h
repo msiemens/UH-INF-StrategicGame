@@ -8,7 +8,6 @@
 #ifndef GAMEENGINE_H_
 #define GAMEENGINE_H_
 
-<<<<<<< HEAD
 #include <list>
 
 #include "GameLogic.h"
@@ -38,12 +37,6 @@ public:
 private:
 	bool isRunning;
 	list<PlayerPtr> playerlist;
-=======
-class GameEngine {
-public:
-	GameEngine();
-	virtual ~GameEngine();
->>>>>>> tmp/client
 };
 
 #endif /* GAMEENGINE_H_ */

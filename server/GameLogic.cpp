@@ -5,7 +5,6 @@
  *      Author: Armend
  */
 
-<<<<<<< HEAD
 #include <list>
 #include <string>
 #include <iostream>
@@ -118,16 +117,5 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 	}
 
 	return valid;
-=======
-#include "C:/GameDev/Projekte/UH-INF-StrategicGame/server/GameLogic.h"
-
-GameLogic::GameLogic() {
-	// TODO Auto-generated constructor stub
-
-}
-
-GameLogic::~GameLogic() {
-	// TODO Auto-generated destructor stub
->>>>>>> tmp/client
 }
 

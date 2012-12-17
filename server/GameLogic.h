@@ -8,7 +8,6 @@
 #ifndef GAMELOGIC_H_
 #define GAMELOGIC_H_
 
-<<<<<<< HEAD
 #include <list>
 
 #include <gamemodel/GameAction.h>
@@ -34,12 +33,6 @@ public:
 private:
 	GameMap *map;
 	list<PlayerPtr> playerlist;
-=======
-class GameLogic {
-public:
-	GameLogic();
-	virtual ~GameLogic();
->>>>>>> tmp/client
 };
 
 #endif /* GAMELOGIC_H_ */
