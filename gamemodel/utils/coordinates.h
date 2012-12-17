@@ -9,7 +9,6 @@
 #define COORDINATES_H_
 
 #include <boost/shared_ptr.hpp>
-
 #include <boost/serialization/access.hpp>
 
 class coordinates {
@@ -31,6 +30,5 @@ private:
 };
 
 typedef boost::shared_ptr<coordinates> coordinatesPtr;
-
 
 #endif /* COORDINATES_H_ */

@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 
 		GameEntityPtr entity(new GameEntity);
 		coordinates coords(5, 5);
-		entity->coords = coords;
+		entity->setCoords(coords);
 		entity->cost = price;
 
 		action->what = entity;

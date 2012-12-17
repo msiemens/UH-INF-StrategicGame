@@ -9,6 +9,8 @@
 #ifndef GAMEENTITY_H_
 #define GAMEENTITY_H_
 
+#include <string>
+
 #include <boost/serialization/access.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -16,7 +18,6 @@
 #include "utils/coordinates.h"
 #include "GameRessource.h"
 
-#include <string>
 
 class GameEntity {
 public:
@@ -38,7 +39,6 @@ protected:
 private:
 	coordinates coords;
 
-private:
 	friend class boost::serialization::access;
 
 	template<typename Archive>

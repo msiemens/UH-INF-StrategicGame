@@ -18,7 +18,6 @@
 
 class ARecruit: public GameAction {
 public:
-	ARecruit();
 	virtual ~ARecruit();
 
 	ETroopsPtr what;

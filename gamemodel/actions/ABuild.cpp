@@ -7,3 +7,4 @@
 
 #include "ABuild.h"
 
+ABuild::~ABuild() {}

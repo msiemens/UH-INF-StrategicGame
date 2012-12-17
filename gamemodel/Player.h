@@ -9,14 +9,13 @@
 #define PLAYER_H_
 
 #include <list>
-#include <boost/shared_ptr.hpp>
 #include <string>
 
+#include <boost/shared_ptr.hpp>
 #include <boost/functional/hash.hpp>
+
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
-
-#include <boost/shared_ptr.hpp>
 
 #include "utils/counter.h"
 
@@ -27,10 +26,10 @@
 
 class Player {
 public:
-	Player(int id);
+	Player();
 	virtual ~Player();
 
-	int getPlayerId();
+	boost::uuids::uuid getPlayerId();
 	void addArmy(EArmyPtr army);
 	void addPlace(EPlacePtr place);
 	void addTroops(ETroopsPtr troops);

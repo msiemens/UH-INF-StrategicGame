@@ -127,8 +127,8 @@ void GameEngine::test() {
 
 	//map->printMapStatus();
 
-	PlayerPtr player1(new Player(1));
-	PlayerPtr player2(new Player(2));
+	PlayerPtr player1(new Player());
+	PlayerPtr player2(new Player());
 
 	onPlayerConnect(player1);
 	onPlayerConnect(player2);

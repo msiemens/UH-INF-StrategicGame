@@ -8,18 +8,16 @@
 #ifndef ABUILD_H_
 #define ABUILD_H_
 
-#include <gamemodel/utils/coordinates.h>
-#include <gamemodel/entities/EBuilding.h>
 #include <boost/shared_ptr.hpp>
 
-#include "gamemodel/entities/EPlace.h"
-#include "gamemodel/entities/EBuilding.h"
+#include <gamemodel/utils/coordinates.h>
+#include <gamemodel/entities/EPlace.h>
+#include <gamemodel/entities/EBuilding.h>
 
-#include "gamemodel/GameAction.h"
+#include <gamemodel/GameAction.h>
 
 class ABuild: public GameAction {
 public:
-	ABuild();
 	virtual ~ABuild();
 
 	EBuildingPtr what;

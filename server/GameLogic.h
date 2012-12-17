@@ -27,8 +27,8 @@ public:
 
 	bool checkPlayerAction(PlayerPtr player, GameActionPtr action);
 
-	int whoseArmy(coordinates coords);
-	int whosePlace(coordinates coords);
+	boost::uuids::uuid whoseArmy(coordinates coords);
+	boost::uuids::uuid whosePlace(coordinates coords);
 
 private:
 	GameMap *map;

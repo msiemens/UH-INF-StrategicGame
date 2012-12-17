@@ -12,11 +12,7 @@
 
 #include <gamemodel/GameEntity.h>
 
-
 class EBuilding: public GameEntity {
-public:
-	EBuilding();
-	virtual ~EBuilding();
 };
 
 typedef boost::shared_ptr<EBuilding> EBuildingPtr;

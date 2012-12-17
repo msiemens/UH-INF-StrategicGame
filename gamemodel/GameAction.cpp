@@ -10,3 +10,5 @@
 GameAction::GameAction(): what(new GameEntity) {
 
 }
+
+GameAction::~GameAction() { }

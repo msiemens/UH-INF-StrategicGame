@@ -10,6 +10,8 @@
 #include <iostream>
 #include <typeinfo>
 
+#include <boost/uuid/uuid.hpp>
+
 #include <server/GameLogic.h>
 #include <server/GameMap.h>
 #include <gamemodel/Player.h>
@@ -32,8 +34,8 @@ GameLogic::~GameLogic() {
 }
 
 //returns whose Army is positioned at coords
-int GameLogic::whoseArmy(coordinates coords) {
-	int playerId = 0;
+boost::uuids::uuid GameLogic::whoseArmy(coordinates coords) {
+	boost::uuids::uuid playerId;
 
 	std::cout << "\nCoord.x=" << coords.x << " Coord.y=" << coords.y << "\n";
 
@@ -51,8 +53,8 @@ int GameLogic::whoseArmy(coordinates coords) {
 }
 
 //return whose Place is at coords
-int GameLogic::whosePlace(coordinates coords) {
-	int playerId;
+boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
+	boost::uuids::uuid playerId;
 
 	for (auto player : playerlist) {
 		for (auto place : player->places) {
@@ -65,6 +67,7 @@ int GameLogic::whosePlace(coordinates coords) {
 
 	return playerId;
 }
+
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 
@@ -105,7 +108,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 
 		bool b = map->isArmyPositioned(where);
 
-		int playerId = whoseArmy(where);
+		boost::uuids::uuid playerId = whoseArmy(where);
 
 		if (b == 0) {
 			valid = (player->getPlayerId() != whoseArmy(where)) ? true : false;

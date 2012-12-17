@@ -11,9 +11,6 @@
 #include <gamemodel/GameRessource.h>
 
 class RMoney: public GameRessource {
-public:
-	RMoney();
-	virtual ~RMoney();
 };
 
 #endif /* RMONEY_H_ */

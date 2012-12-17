@@ -17,7 +17,6 @@
 
 class AMove: public GameAction {
 public:
-	AMove();
 	virtual ~AMove();
 
 	coordinates to;

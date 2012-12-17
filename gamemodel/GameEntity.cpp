@@ -8,7 +8,8 @@
 #include "GameEntity.h"
 
 GameEntity::GameEntity() :
-		cost(0), coords() {
+		cost(0),
+		coords() {
 
 }
 void GameEntity::setCoords(int x, int y) {
@@ -20,14 +21,14 @@ void GameEntity::setCoords(coordinates coords) {
 	setCoords(coords.x, coords.y);
 }
 
-coordinates GameEntity::getCoords(){
+coordinates GameEntity::getCoords() {
 	return coords;
 }
 
-std::string GameEntity::getName(){
+std::string GameEntity::getName() {
 	return name;
 }
 
-void GameEntity::setName(std::string name){
-	this->name=name;
-
+void GameEntity::setName(std::string name) {
+	this->name = name;
+}

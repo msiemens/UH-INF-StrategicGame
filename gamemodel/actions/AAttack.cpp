@@ -7,11 +7,4 @@
 
 #include "AAttack.h"
 
-AAttack::AAttack() {
-	// TODO Auto-generated constructor stub
-
-}
-
-AAttack::~AAttack() {
-	// TODO Auto-generated destructor stub
-}
+AAttack::~AAttack() {}

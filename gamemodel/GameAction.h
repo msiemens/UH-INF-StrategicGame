@@ -17,8 +17,10 @@
 class GameAction {
 public:
 	GameAction();
+	virtual ~GameAction();
 
 	GameEntityPtr what;
+	GameRessourcePtr costs;
 
 private:
 	friend class boost::serialization::access;
