@@ -71,6 +71,7 @@ boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
 
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
+	std::cout << "------------------------------\n";
 	cout << "GameLogic::checkPlayerAction(...)" << endl;
 	bool valid = false;
 

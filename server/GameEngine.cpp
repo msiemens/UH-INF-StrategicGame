@@ -136,6 +136,8 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 	}
 
+	std::cout << "------------------------------\n";
+
 	//GameNetwork.broadcast(action);
 
 }
@@ -144,7 +146,6 @@ void GameEngine::run() {
 	m_network.ConnectOnAction(
 			boost::bind(&GameEngine::onPlayerAction, this, _1));
 	m_network.thread()->join();
-	//test
 }
 
 void GameEngine::test() {
