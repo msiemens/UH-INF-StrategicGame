@@ -42,45 +42,45 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 			//Button Start
 			if (mX > 63 && mX < 152) {
 				SurfButtonSSStart = CSurface::OnLoad(
-						(char*) "client/gfx/gui/menu/buttons/start_hover.bmp");
+						(char*) "client/gfx/gui/menu/buttons/start_hover.png");
 			} else {
 				SurfButtonSSStart = CSurface::OnLoad(
-						(char*) "client/gfx/gui/menu/buttons/start_norm.bmp");
+						(char*) "client/gfx/gui/menu/buttons/start_norm.png");
 			}
 			//Button Option
 			if (mX > 163 && mX < 252) {
 				SurfButtonSSOption = CSurface::OnLoad(
-						(char*) "client/gfx/gui/menu/buttons/option_hover.bmp");
+						(char*) "client/gfx/gui/menu/buttons/option_hover.png");
 			} else {
 				SurfButtonSSOption = CSurface::OnLoad(
-						(char*) "client/gfx/gui/menu/buttons/option_norm.bmp");
+						(char*) "client/gfx/gui/menu/buttons/option_norm.png");
 			}
 			//Button Server
 			if (mX > 263 && mX < 352) {
 				SurfButtonSSServer = CSurface::OnLoad(
-						(char*) "client/gfx/gui/menu/buttons/server_hover.bmp");
+						(char*) "client/gfx/gui/menu/buttons/server_hover.png");
 			} else {
 				SurfButtonSSServer = CSurface::OnLoad(
-						(char*) "client/gfx/gui/menu/buttons/server_norm.bmp");
+						(char*) "client/gfx/gui/menu/buttons/server_norm.png");
 			}
 			//Button Exit
 			if (mX > 363 && mX < 452) {
 				SurfButtonSSExit = CSurface::OnLoad(
-						(char*) "client/gfx/gui/menu/buttons/exit_hover.bmp");
+						(char*) "client/gfx/gui/menu/buttons/exit_hover.png");
 			} else {
 				SurfButtonSSExit = CSurface::OnLoad(
-						(char*) "client/gfx/gui/menu/buttons/exit_norm.bmp");
+						(char*) "client/gfx/gui/menu/buttons/exit_norm.png");
 			}
 		} else {
 			//norm all buttons
 			SurfButtonSSStart = CSurface::OnLoad(
-					(char*) "client/gfx/gui/menu/buttons/start_norm.bmp"); //start button
+					(char*) "client/gfx/gui/menu/buttons/start_norm.png"); //start button
 			SurfButtonSSOption = CSurface::OnLoad(
-					(char*) "client/gfx/gui/menu/buttons/option_norm.bmp");	//option button
+					(char*) "client/gfx/gui/menu/buttons/option_norm.png");	//option button
 			SurfButtonSSServer = CSurface::OnLoad(
-					(char*) "client/gfx/gui/menu/buttons/server_norm.bmp");	//server button
+					(char*) "client/gfx/gui/menu/buttons/server_norm.png");	//server button
 			SurfButtonSSExit = CSurface::OnLoad(
-					(char*) "client/gfx/gui/menu/buttons/exit_norm.bmp");// exit button
+					(char*) "client/gfx/gui/menu/buttons/exit_norm.png");// exit button
 		}
 	}
 }
