@@ -47,6 +47,8 @@ void ClientNetwork::SendAction(GameActionPtr action) {
 	std::stringstream buffer;
 	boost::archive::text_oarchive archive(buffer);
 
+	archive.register_type<ARecruit>();
+
 	// Serialize object
 	int type = MESSAGE_ACTION;
 	archive << type;
