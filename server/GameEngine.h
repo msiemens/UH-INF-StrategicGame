@@ -32,17 +32,19 @@ public:
 	void doAction(PlayerPtr player, GameActionPtr action);
 
 	void test();
+	void run();
 
 	GameMap *map;
 	GameLogic logic;
 
 	PlayerPtr player;
 
-private:
+
 	bool isRunning;
+private:
 	list<PlayerPtr> *playerlist;
 
-	// ServerNetwork m_network;
+	ServerNetwork m_network;
 };
 
 #endif /* GAMEENGINE_H_ */

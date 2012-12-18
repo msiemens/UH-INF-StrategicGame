@@ -35,11 +35,9 @@ GameEngine::GameEngine(GameMap *map, list<PlayerPtr> *playerlist) :
 		playerlist(playerlist),
 		isRunning(true),
 		logic(map, playerlist),
-		// m_network(1337),
+		m_network(1337),
 		player(new Player){
-	// m_network.ConnectOnAction(boost::bind(&GameEngine::onPlayerAction, this, _1));
-	// m_network.thread().detach();
-	test();
+	//test();
 }
 
 GameEngine::~GameEngine() {
@@ -135,6 +133,11 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 		//GameNetwork.broadcast(action);
 
+}
+
+void GameEngine::run(){
+	 m_network.ConnectOnAction(boost::bind(&GameEngine::onPlayerAction, this, _1));
+	 m_network.thread()->detach();
 }
 
 void GameEngine::test() {
