@@ -36,7 +36,7 @@ GameEngine::GameEngine(GameMap *map, list<PlayerPtr> *playerlist) :
 		isRunning(true),
 		logic(map, playerlist),
 		m_network(1337),
-		player(new Player){
+		player(new Player) {
 	//test();
 }
 
@@ -52,93 +52,99 @@ bool GameEngine::onPlayerConnect(PlayerPtr player) {
 void GameEngine::onPlayerDisconnect(PlayerPtr player) {
 }
 
-void GameEngine::onPlayerAction(/* PlayerPtr player, */ GameActionPtr action) {
-	 if (logic.checkPlayerAction(player, action) == true) {
-		 std::cout << "Action ist gueltig.\n";
-		 doAction(player, action);
-	 } else {
-		 std::cout << "Action von Spieler #"/*<<player->getPlayerId()*/<< " ist ungueltig.\n" ;
-	 }
+void GameEngine::onPlayerAction(/* PlayerPtr player, */GameActionPtr action) {
+	cout << "GameEngine::onPlayerAction(...)" << endl;
+	if (logic.checkPlayerAction(player, action) == true) {
+		std::cout << "Action ist gueltig.\n";
+		doAction(player, action);
+	} else {
+		std::cout << "Action von Spieler #" << player->getPlayerIdStr()
+				<< " ist ungueltig.\n";
+	}
 }
 
 void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
-		AMove* move = dynamic_cast<AMove*>(action.get());
-		ABuild* build = dynamic_cast<ABuild*>(action.get());
-		AAttack* attack = dynamic_cast<AAttack*>(action.get());
+	AMove* move = dynamic_cast<AMove*>(action.get());
+	ABuild* build = dynamic_cast<ABuild*>(action.get());
+	AAttack* attack = dynamic_cast<AAttack*>(action.get());
 
-		if (recruit != NULL) {
+	if (recruit != NULL) {
 
-			ETroopsPtr troops(recruit->what);
-			EPlacePtr base(recruit->base);
-			GameRessourcePtr costs(recruit->costs);
+		ETroopsPtr troops(recruit->what);
+		// EPlacePtr base(recruit->base);
+		GameRessourcePtr costs(recruit->costs);
 
+		player->addTroops(troops);
 
-			player->addTroops(troops);
+		std::cout << "Spieler #" << player->getPlayerIdStr() << " rekrutiert "
+				<< troops->getName() /* << " in " << base->getName() */
+				<< ".\n";
 
-			std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " rekrutiert "<<troops->getName()<< " in " << base->getName()
-					<<".\n";
+	}
+	if (move != NULL) {
 
-		}
-		if (move != NULL) {
+		map->printMapStatus();
+		GameEntityPtr what(move->what);
 
-			map->printMapStatus();
-			GameEntityPtr what(move->what);
+		coordinates from = what->getCoords();
+		coordinates to = move->to;
 
-			coordinates from = what->getCoords();
-			coordinates to = move->to;
+		map->setArmy(to);
+		map->setWalkable(from);
 
-			map->setArmy(to);
-			map->setWalkable(from);
+		what->setCoords(to);
 
-			what->setCoords(to);
+		std::cout << "Spieler #" << player->getPlayerIdStr() << " bewegt "
+				<< what->getName() << " nach " << to.x << "/" << to.y << ".\n";
 
-			std::cout <<"Spieler #"/*<< player->getPlayerId()*/ << " bewegt "<< what->getName() <<" nach "<< to.x <<"/"
-					<< to.y<<".\n";
+		map->printMapStatus();
 
-			map->printMapStatus();
+	}
+	if (build != NULL) {
+		EBuildingPtr building(build->what);
+		EPlacePtr where(build->where);
+		where->addBuilding(building);
 
-		}
-		if (build != NULL) {
-			EBuildingPtr building(build->what);
-			EPlacePtr where(build->where);
-			where->addBuilding(building);
+		std::cout << "Spieler #" << player->getPlayerIdStr() << " baut "
+				<< building->getName() << " in " << where->getName() << ".\n";
+	}
+	if (attack != NULL) {
+		GameEntityPtr what(attack->what);
+		coordinates where = attack->where;
 
-			std::cout << "Spieler #" << /*player->getPlayerId()<<*/ " baut " << building->getName() << " in " << where->getName() << ".\n";
-		}
-		if (attack != NULL) {
-			GameEntityPtr what(attack->what);
-			coordinates where=attack->where;
+		EArmyPtr enemyarmy;
+		PlayerPtr enemyplayer;
 
+		for (auto p : *playerlist) {
+			for (auto army : p->armies) {
+				if (army->getCoords().x == where.x
+						&& army->getCoords().y == where.y) {
+					EArmyPtr ea(army);
+					PlayerPtr ep(p);
 
-			EArmyPtr enemyarmy;
-			PlayerPtr enemyplayer;
-
-			for(auto p:*playerlist){
-				for(auto army:p->armies){
-					if(army->getCoords().x == where.x && army->getCoords().y==where.y){
-						EArmyPtr ea(army);
-						PlayerPtr ep(p);
-
-						enemyarmy=ea;
-						enemyplayer=ep;
-					}
+					enemyarmy = ea;
+					enemyplayer = ep;
 				}
 			}
-
-			std::cout << "Spieler #"<</*player->getPlayerId()<<*/" greift mit "<<what->getName()<<", "<<enemyarmy->getName()<<""
-					" von Spieler #"<</* enemyplayer->getPlayerId() <<*/ " an.\n";
-
 		}
 
-		//GameNetwork.broadcast(action);
+		std::cout << "Spieler #" <<player->getPlayerIdStr()<<" greift mit "
+				<< what->getName() << ", " << enemyarmy->getName() << ""
+						" von Spieler #"
+				<< enemyplayer->getPlayerIdStr() <<" an.\n";
+
+	}
+
+	//GameNetwork.broadcast(action);
 
 }
 
-void GameEngine::run(){
-	 m_network.ConnectOnAction(boost::bind(&GameEngine::onPlayerAction, this, _1));
-	 m_network.thread()->join();
-	 //test
+void GameEngine::run() {
+	m_network.ConnectOnAction(
+			boost::bind(&GameEngine::onPlayerAction, this, _1));
+	m_network.thread()->join();
+	//test
 }
 
 void GameEngine::test() {
@@ -146,9 +152,6 @@ void GameEngine::test() {
 	std::cout << "Server wurde gestartet.\nTest wurde gestartet.\n";
 
 	std::cout << "------------------------------\n";
-
-
-
 
 	onPlayerConnect(player);
 
@@ -165,7 +168,6 @@ void GameEngine::test() {
 
 	std::cout << "------------------------------\n";
 
-
 	EArmyPtr army1(new EArmy);
 	EArmyPtr army2(new EArmy);
 
@@ -175,33 +177,29 @@ void GameEngine::test() {
 	player->addArmy(army1);
 	player->addArmy(army2);
 
-	army1->setCoords(coordinates(0,0));
-	army2->setCoords(coordinates(3,3));
+	army1->setCoords(coordinates(0, 0));
+	army2->setCoords(coordinates(3, 3));
 
-	map->setArmy(coordinates(0,0));
-	map->setArmy(coordinates(3,3));
-
+	map->setArmy(coordinates(0, 0));
+	map->setArmy(coordinates(3, 3));
 
 	std::cout << "------------------------------\n";
 
 	ABuildPtr buildcr(new ABuild);
 	EBuildingPtr casernr(new ECasern);
 
-	buildcr->what=casernr;
-	buildcr->where=rome;
+	buildcr->what = casernr;
+	buildcr->where = rome;
 	onPlayerAction(buildcr);
 
-
 	std::cout << "------------------------------\n";
-
 
 	ABuildPtr buildca(new ABuild);
 	EBuildingPtr caserna(new ECasern);
 
-	buildca->what=caserna;
-	buildca->where=athens;
+	buildca->what = caserna;
+	buildca->where = athens;
 	onPlayerAction(buildca);
-
 
 	std::cout << "------------------------------\n";
 
@@ -209,11 +207,10 @@ void GameEngine::test() {
 	ETroopsPtr infantry(new EInfantry);
 	EPlacePtr baser(rome);
 
-	recruiti->what=infantry;
-	recruiti->base=baser;
+	recruiti->what = infantry;
+	recruiti->base = baser;
 
 	onPlayerAction(recruiti);
-
 
 	std::cout << "------------------------------\n";
 
@@ -221,38 +218,33 @@ void GameEngine::test() {
 	ETroopsPtr pawn(new EPawn);
 	EPlacePtr basea(athens);
 
-	recruitp->what=pawn;
-	recruitp->base=basea;
+	recruitp->what = pawn;
+	recruitp->base = basea;
 
 	onPlayerAction(recruitp);
 
-
 	std::cout << "------------------------------\n";
-
-
 
 	AMovePtr move1(new AMove);
 
-	move1->what=army1;
-	move1->to=coordinates(1,1);
+	move1->what = army1;
+	move1->to = coordinates(1, 1);
 	onPlayerAction(move1);
-
 
 	std::cout << "------------------------------\n";
 
 	AMovePtr move2(new AMove);
 
-	move2->what=army2;
-	move2->to=coordinates(1,1);
+	move2->what = army2;
+	move2->to = coordinates(1, 1);
 	onPlayerAction(move2);
-
 
 	std::cout << "------------------------------\n";
 
 	AAttackPtr attack12(new AAttack);
 
-	attack12->what=army1;
-	attack12->where=coordinates(3,3);
+	attack12->what = army1;
+	attack12->where = coordinates(3, 3);
 
 	onPlayerAction(attack12);
 

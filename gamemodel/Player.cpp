@@ -6,6 +6,9 @@
  */
 
 #include <iostream>
+#include <sstream>
+
+#include <boost/uuid/uuid_io.hpp>
 
 #include "Player.h"
 
@@ -22,6 +25,12 @@ Player::~Player() {
 
 boost::uuids::uuid Player::getPlayerId() {
 	return id;
+}
+
+string Player::getPlayerIdStr() {
+	std::stringstream ss;
+	ss << getPlayerId();
+	return ss.str();
 }
 
 void Player::addArmy(EArmyPtr army) {
