@@ -1,0 +1,3 @@
+file(GLOB_RECURSE this "*.cpp")
+add_library(network ${this})
+target_link_libraries(network ${Boost_LIBRARIES} mswsock ws2_32) 

@@ -1,0 +1,52 @@
+/*
+ * Player.cpp
+ *
+ *  Created on: 09.11.2012
+ *      Author: markus
+ */
+
+#include <iostream>
+
+#include "Player.h"
+
+using namespace std;
+
+Player::Player() :
+		id(boost::uuids::random_generator()()) {
+
+}
+
+Player::~Player() {
+
+}
+
+boost::uuids::uuid Player::getPlayerId() {
+	return id;
+}
+
+void Player::addArmy(EArmyPtr army) {
+	armies.insert(armies.end(), army);
+}
+
+void Player::addPlace(EPlacePtr place) {
+	places.insert(places.end(), place);
+}
+
+void Player::addTroops(ETroopsPtr troops) {
+
+}
+
+void Player::addRessource(GameRessourcePtr ressource) {
+
+}
+
+int Player::getRessourceCount(GameRessourcePtr ressource) {
+	return 0;
+}
+
+string Player::getImgPath(){
+	return this->imgpath;
+}
+void Player::setImgPath(string path){
+	this->imgpath=path;
+}
