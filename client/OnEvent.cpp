@@ -137,14 +137,15 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 		if(mY > 117 and mY < 144){
 			if(mX > 409 and mX < 496){
 				//if genug money =D
-				EArmyPtr army1(new EArmy);
+				ETroopsPtr army1(new ETroops);
 				army1->setName("Army");
 				army1->setImgPath("client/gfx/entity/army.png");
 
 				ARecruitPtr action(new ARecruit);
 				action->what = army1;
 				Network.SendAction(action);
-				player.armies.insert(player.armies.end(), army1);
+
+				// player.armies.insert(player.armies.end(), army1);
 			}
 		}
 

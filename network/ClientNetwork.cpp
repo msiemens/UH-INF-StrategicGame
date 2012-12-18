@@ -15,6 +15,7 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
+#include <gamemodel/actions/ARecruit.h>
 #include "messages/message_types.h"
 
 #include "ClientNetwork.h"
