@@ -45,6 +45,7 @@ bool GameClient::OnInit() {
 			== NULL) {
 		return false;
 	}
+
 	if ((SurfVillageMenuBackground = CSurface::OnLoad(
 			(char*) "client/gfx/gui/menu/villagemenu.png")) == NULL) {
 		return false;
