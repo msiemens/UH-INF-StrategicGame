@@ -15,7 +15,7 @@
 int main(int argc, char* argv[]) {
 	GameMap map;
 	list<PlayerPtr> playerlist;
-	GameEngine engine(&map, playerlist);
+	GameEngine engine(&map, &playerlist);
 	std::cout << "Here" << std::endl;
 	return 0;
 }

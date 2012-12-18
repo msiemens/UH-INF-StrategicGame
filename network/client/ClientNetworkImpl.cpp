@@ -25,8 +25,7 @@ ClientNetworkImpl::ClientNetworkImpl(const char* host, const char* port) :
 					boost::asio::placeholders::error));
 
 	// Start the IO thread
-	m_thread = boost::thread(
-			boost::bind(&boost::asio::io_service::run, &m_io_service));
+	m_thread = boost::thread(boost::bind(&boost::asio::io_service::run, &m_io_service));
 
 	// Start connection timeout timer
 	m_timer.expires_from_now(boost::posix_time::seconds(kConnectionTimeout));
