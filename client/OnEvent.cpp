@@ -137,12 +137,12 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 		if(mY > 117 and mY < 144){
 			if(mX > 409 and mX < 496){
 				//if genug money =D
-				ETroopsPtr army1(new ETroops);
-				army1->setName("Army");
-				army1->setImgPath("client/gfx/entity/army.png");
+				ETroopsPtr troop1(new ETroops);
+				troop1->setName("Army");
+				troop1->setImgPath("client/gfx/entity/army.png");
 
 				ARecruitPtr action(new ARecruit);
-				action->what = army1;
+				action->what = troop1;
 				Network.SendAction(action);
 
 				// player.armies.insert(player.armies.end(), army1);
@@ -154,8 +154,6 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 			if(mX > 409 and mX < 496){
 				GS.SET_GameState(INGAME);
 			}
-		}else{
-			cout << "X: " << mX << "/ Y: " << mY << "\n";
 		}
 	}
 }
