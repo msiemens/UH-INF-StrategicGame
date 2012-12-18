@@ -71,6 +71,7 @@ boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
 
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
+	cout << "GameLogic::checkPlayerAction(...)" << endl;
 	bool valid = false;
 
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
@@ -84,8 +85,12 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		ETroopsPtr troops(recruit->what);
 		EPlacePtr base(recruit->base);
 
-		std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " moechte "<< troops->getName() << ""
-				<< " in "<< base->getName() << " rekrutieren.\n";
+		std::cout << "Spieler #" << player->getPlayerIdStr();
+		std::cout << " moechte ";
+		std::cout << troops->getName();
+		// std::cout << " in ";
+		// std::cout << base->getName();
+		std::cout << " rekrutieren.\n";
 
 		valid = true;
 	}
@@ -94,7 +99,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		GameEntityPtr what(move->what);
 		coordinates to = move->to;
 
-		std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " moechte "<< what->getName() << " nach " << to.x << "/"
+		std::cout <<"Spieler #" << player->getPlayerIdStr() << " moechte "<< what->getName() << " nach " << to.x << "/"
 				<< to.y << " bewegen.\n";
 
 		valid = (map->isWalkable(to)) ? true : false;
@@ -105,16 +110,17 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		EBuildingPtr building(build->what);
 		EPlacePtr where(build->where);
 
-		std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " moechte " << building->getName() << " in " << where->getName() << " bauen.\n";
+		std::cout << "Spieler #" << player->getPlayerIdStr() << " moechte " << building->getName() << " in " << where->getName() << " bauen.\n";
 
 		valid = true;
 	}
 //attack
 	else if (attack != NULL) {
+	cout << 4 << endl;
 		GameEntityPtr what(attack->what);
 		coordinates where = attack->where;
 
-		std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " moechte mit "<< what->getName() << " auf Position "
+		std::cout << "Spieler #" << player->getPlayerIdStr() << " moechte mit "<< what->getName() << " auf Position "
 				""<<where.x << "/" << where.y << " angreifen.\n";
 
 		if (map->isArmyPositioned(where)) {
