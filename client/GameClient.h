@@ -16,6 +16,7 @@
 #include <gamemodel/Player.h>
 #include <gamemodel/GameEntity.h>
 
+
 #include "client/CEvent.h"
 #include "client/CSurface.h"
 #include "client/Define.h"
@@ -67,7 +68,7 @@ private:
 	SDL_Surface* SurfVillage;
 
 	string selected;
-	GameEntity gameentityselectedobject;
+	GameEntity* gameentityselectedobject;
 	int markx,marky;
 
 public:
@@ -81,6 +82,7 @@ public:
 	void OnLoop();
 	void OnRender();
 	void OnCleanup();
+	//void OnIncommingData();
 };
 
 #endif /* GAMECLIENT_H_ */
