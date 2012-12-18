@@ -38,7 +38,7 @@ add_subdirectory(client)
 
 # Executables
 add_executable(xclient client/GameClient)
-target_link_libraries(xclient client gamemodel network ${Boost_LIBRARIES} ${LINK_WIN32} ${SDLIMAGE_LIBRARY} ${SDLMAIN_LIBRARY} ${SDL_LIBRARY})
+target_link_libraries(xclient client gamemodel network ${Boost_LIBRARIES} mswsock ws2_32 ${LINK_WIN32} ${SDLIMAGE_LIBRARY} ${SDLMAIN_LIBRARY} ${SDL_LIBRARY})
 
 add_executable(xserver server/GameServer)
 target_link_libraries(xserver server gamemodel network ${Boost_LIBRARIES} ${LINK_WIN32})
