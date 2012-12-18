@@ -10,6 +10,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
+#include <boost/serialization/base_object.hpp>
 
 #include <gamemodel/entities/ETroops.h>
 #include <gamemodel/entities/EBuilding.h>
@@ -29,6 +30,8 @@ private:
 
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
+		ar & boost::serialization::base_object<GameAction>(*this);
+
 		ar & what;
 		// ar & base;
 	}
