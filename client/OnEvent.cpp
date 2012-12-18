@@ -116,7 +116,7 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 					this->selected = place->getImgPath();
 					this->markx = place->getCoords().x;
 					this->marky = place->getCoords().y;
-					//gameentityselectedobject = (EPlacePtr) &place;
+					//gameentityselectedobject = place;
 					//schleife kann verlassen werden
 					break;
 				} else {
