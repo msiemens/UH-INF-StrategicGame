@@ -10,6 +10,8 @@
 
 #include <list>
 
+#include <network/ServerNetwork.h>
+
 #include "GameLogic.h"
 
 class Player;
@@ -19,24 +21,30 @@ using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap *map, list<PlayerPtr> playerlist);
+	GameEngine(GameMap *map, list<PlayerPtr> *playerlist);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
 
 	bool onPlayerConnect(PlayerPtr player);
 	void onPlayerDisconnect(PlayerPtr player);
-	void onPlayerAction(PlayerPtr player, GameActionPtr action);
+	void onPlayerAction(/*PlayerPtr player,*/  GameActionPtr action);
 	void doAction(PlayerPtr player, GameActionPtr action);
 
 	void test();
+	void run();
 
 	GameMap *map;
 	GameLogic logic;
 
-private:
+	PlayerPtr player;
+
+
 	bool isRunning;
-	list<PlayerPtr> playerlist;
+private:
+	list<PlayerPtr> *playerlist;
+
+	ServerNetwork m_network;
 };
 
 #endif /* GAMEENGINE_H_ */

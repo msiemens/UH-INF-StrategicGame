@@ -22,7 +22,7 @@ using namespace std;
 
 class GameLogic {
 public:
-	GameLogic(GameMap *map, list<PlayerPtr> playerlist);
+	GameLogic(GameMap *map, list<PlayerPtr> *playerlist);
 	virtual ~GameLogic();
 
 	bool checkPlayerAction(PlayerPtr player, GameActionPtr action);
@@ -32,7 +32,7 @@ public:
 
 private:
 	GameMap *map;
-	list<PlayerPtr> playerlist;
+	list<PlayerPtr> *playerlist;
 };
 
 #endif /* GAMELOGIC_H_ */
