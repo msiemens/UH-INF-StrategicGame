@@ -9,6 +9,7 @@
 #define ARECRUIT_H_
 
 #include <boost/shared_ptr.hpp>
+#include <boost/serialization/access.hpp>
 
 #include <gamemodel/entities/ETroops.h>
 #include <gamemodel/entities/EBuilding.h>
@@ -22,6 +23,15 @@ public:
 
 	ETroopsPtr what;
 	EPlacePtr base;
+
+private:
+	friend class boost::serialization::access;
+
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & what;
+		// ar & base;
+	}
 };
 
 typedef boost::shared_ptr<ARecruit> ARecruitPtr;

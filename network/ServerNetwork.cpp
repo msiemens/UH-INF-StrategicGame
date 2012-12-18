@@ -59,6 +59,7 @@ void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
+	archive.register_type<ARecruit>();
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
