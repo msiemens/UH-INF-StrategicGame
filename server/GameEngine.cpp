@@ -137,7 +137,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 void GameEngine::run(){
 	 m_network.ConnectOnAction(boost::bind(&GameEngine::onPlayerAction, this, _1));
-	 m_network.thread()->detach();
+	 m_network.thread()->join();
 	 //test
 }
 

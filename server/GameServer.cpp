@@ -19,9 +19,7 @@ int main(int argc, char* argv[]) {
 	list<PlayerPtr> playerlist;
 	GameEngine engine(&map, &playerlist);
 
-	while(engine.isRunning){
-		engine.run();
-	}
+	engine.run();
 
 	std::cout << "Here" << std::endl;
 	return 0;
