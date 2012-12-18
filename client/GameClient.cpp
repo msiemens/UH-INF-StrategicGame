@@ -9,11 +9,12 @@
 
 #include <SDL/SDL.h>
 
-#include <client/GameClient.h>
+#include "client/GameClient.h"
 
 using namespace std;
 
-GameClient::GameClient() {
+GameClient::GameClient() :
+		player(1) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfStartscreenBackground = NULL;
@@ -25,10 +26,27 @@ GameClient::GameClient() {
 	SurfSlotSelected = NULL;
 	SurfSelected = NULL;
 	SurfMark = NULL;
-	SurfArmy = NULL;
+	SurfVillage = NULL;
+	SurfVillageMenuBackground = NULL;
+	SurfSlotOwns = NULL;
 	selected = "";
 	markx = 0;
 	marky = 0;
+	EArmyPtr army1(new EArmy);
+	army1->setName("ArmyOne");
+	army1->setImgPath("client/gfx/entity/army.png");
+	player.armies.insert(player.armies.begin(),army1);
+
+	EPlacePtr place1(new EPlace);
+	place1->setImgPath("client/gfx/entity/village.png");
+	coordinates coord(350,250);
+	place1->setCoords(coord);
+	player.places.insert(player.places.begin(), place1);
+	EPlacePtr place2(new EPlace);
+	place2->setImgPath("client/gfx/entity/village.png");
+	coordinates coord2(280,300);
+	place2->setCoords(coord2);
+	player.places.insert(player.places.end(), place2);
 }
 
 GameClient::~GameClient() {
@@ -57,7 +75,7 @@ int GameClient::OnExecute() {
 }
 
 int main(int argc, char* argv[]) {
-
 	GameClient game;
 	return game.OnExecute();
 }
+

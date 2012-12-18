@@ -7,6 +7,8 @@
 
 #include "client/GameUI.h"
 
+namespace std {
+
 GameUI::GameUI() {
 	// TODO Auto-generated constructor stub
 
@@ -31,8 +33,8 @@ void GameUI::ShowSquads(){
 void GameUI::markSquad(ETroops Squad){
 
 }
-
 void GameUI::HandleMouseInput(int MousePosX, int MousePosY){
 
 }
 
+} /* namespace std */

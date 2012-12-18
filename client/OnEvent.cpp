@@ -82,6 +82,7 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 		}
 	}
 }
+
 void GameClient::OnLButtonDown(int mX, int mY) {
 	if (GS.GET_GameState() == START_SCREEN) {
 		if (mY > 287 && mY < 315) {
@@ -105,24 +106,73 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 	}
 
 	if (GS.GET_GameState() == INGAME) {
-		if (mY > (int) SurfArmy->clip_rect.y
-				and mY < (int) (SurfArmy->clip_rect.y + SurfArmy->clip_rect.h)) {
-			if (mX > (int) SurfArmy->clip_rect.x
-					and mX < (int) (SurfArmy->clip_rect.x + SurfArmy->clip_rect.w)) {
 
-				this->selected = "client/gfx/entity/army.png";
-				this->markx = (int) SurfArmy->clip_rect.x;
-				this->marky = (int) SurfArmy->clip_rect.y;
-			}else{
+		for (auto place : player.places) {
+			if (mY > place->getCoords().y and mY < place->getCoords().y + 26) {
+				if (mX > place->getCoords().x and mX < place->getCoords().x + 27) {
+
+					this->selected = place->getImgPath();
+					this->markx = place->getCoords().x;
+					this->marky = place->getCoords().y;
+					//schleife kann verlassen werden
+					break;
+				} else {
+					this->selected = "";
+					this->markx = 0;
+					this->marky = 0;
+				}	//X-coordinates
+
+			} else {
 				this->selected = "";
 				this->markx = 0;
 				this->marky = 0;
-			}//X-coordinates
+			}	//Y-coordinates
+		}
+	}
 
+	if(GS.GET_GameState()== IG_VILLAGEMENU){
+		//Recruit
+		if(mY > 117 and mY < 144){
+			if(mX > 409 and mX < 496){
+				//if genug money =D
+				EArmyPtr army1(new EArmy);
+				army1->setName("Army");
+				army1->setImgPath("client/gfx/entity/army.png");
+				player.armies.insert(player.armies.end(), army1);
+			}
+		}
+
+		//Close
+		if(mY > 230 and mY < 257){
+			if(mX > 409 and mX < 496){
+				GS.SET_GameState(INGAME);
+			}
 		}else{
-			this->selected = "";
-			this->markx = 0;
-			this->marky = 0;
-		}//Y-coordinates
+			cout << "X: " << mX << "/ Y: " << mY << "\n";
+		}
+	}
+}
+
+
+void GameClient::OnRButtonDown(int mX, int mY) {
+	if (GS.GET_GameState() == INGAME) {
+		for (auto place : player.places) {
+			if (mY > place->getCoords().y and mY < place->getCoords().y + 26) {
+				if (mX > place->getCoords().x and mX < place->getCoords().x + 27) {
+
+					this->selected = place->getImgPath();
+					this->markx = place->getCoords().x;
+					this->marky = place->getCoords().y;
+					GS.SET_GameState(IG_VILLAGEMENU);
+					//schleife kann verlassen werden
+					break;
+				} else {
+					this->selected = "";
+					this->markx = 0;
+					this->marky = 0;
+				}	//X-coordinates
+
+			}
+		}
 	}
 }
