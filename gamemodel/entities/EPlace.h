@@ -25,11 +25,10 @@ public:
 	int inhabitans;
 	int minInhabitans;
 
+	void addBuilding(EBuildingPtr building);
+	list<EBuildingPtr> buildinglist;
 
-	 void addBuilding(EBuildingPtr building);
-	 list<EBuildingPtr> buildinglist;
-
-	 EArmyPtr positionedarmy;
+	EArmyPtr positionedarmy;
 };
 
 typedef boost::shared_ptr<EPlace> EPlacePtr;

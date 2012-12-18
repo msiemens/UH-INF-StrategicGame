@@ -6,6 +6,7 @@
  */
 
 #include "GameEntity.h"
+using namespace std;
 
 GameEntity::GameEntity() :
 		cost(0),
@@ -25,10 +26,17 @@ coordinates GameEntity::getCoords() {
 	return coords;
 }
 
-std::string GameEntity::getName() {
+string GameEntity::getName() {
 	return name;
 }
 
 void GameEntity::setName(std::string name) {
 	this->name = name;
+}
+
+string GameEntity::getImgPath(){
+	return this->imgpath;
+}
+void GameEntity::setImgPath(string path){
+	this->imgpath=path;
 }

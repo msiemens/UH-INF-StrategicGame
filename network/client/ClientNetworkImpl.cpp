@@ -136,7 +136,7 @@ void ClientNetworkImpl::OnConnectionTimeout(
 		const boost::system::error_code& error) {
 	if (error != boost::asio::error::operation_aborted) {
 		_Close();
-		throw "Connection timed out";
+		// throw "Connection timed out";
 	}
 }
 

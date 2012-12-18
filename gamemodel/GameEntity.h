@@ -18,7 +18,7 @@
 #include "utils/coordinates.h"
 #include "GameRessource.h"
 #include <string>
-
+using namespace std;
 
 class GameEntity {
 public:
@@ -34,11 +34,14 @@ public:
 	std::string getName();
 	void setName(std::string name);
 
+	void setImgPath(string path);
+	string getImgPath();
 protected:
 	std::string name;
 
 private:
 	coordinates coords;
+	string imgpath;
 
 	friend class boost::serialization::access;
 

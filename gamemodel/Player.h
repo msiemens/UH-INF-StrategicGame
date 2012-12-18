@@ -38,6 +38,10 @@ public:
 
 	int getRessourceCount(GameRessourcePtr ressource);
 
+	void setImgPath(string path);
+	string getImgPath();
+	string imgpath;
+
 	boost::uuids::uuid id;
 
 	std::list<counter<GameEntityPtr> > owns;

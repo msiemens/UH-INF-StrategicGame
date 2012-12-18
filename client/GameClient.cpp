@@ -14,7 +14,7 @@
 using namespace std;
 
 GameClient::GameClient() :
-		player(1) {
+		player(), Network("localhost", 1337) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfStartscreenBackground = NULL;
@@ -35,16 +35,16 @@ GameClient::GameClient() :
 	EArmyPtr army1(new EArmy);
 	army1->setName("ArmyOne");
 	army1->setImgPath("client/gfx/entity/army.png");
-	player.armies.insert(player.armies.begin(),army1);
+	player.armies.insert(player.armies.begin(), army1);
 
 	EPlacePtr place1(new EPlace);
 	place1->setImgPath("client/gfx/entity/village.png");
-	coordinates coord(350,250);
+	coordinates coord(350, 250);
 	place1->setCoords(coord);
 	player.places.insert(player.places.begin(), place1);
 	EPlacePtr place2(new EPlace);
 	place2->setImgPath("client/gfx/entity/village.png");
-	coordinates coord2(280,300);
+	coordinates coord2(280, 300);
 	place2->setCoords(coord2);
 	player.places.insert(player.places.end(), place2);
 }

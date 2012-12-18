@@ -1,4 +1,6 @@
 #include "client/GameClient.h"
+#include <gamemodel/actions/ARecruit.h>
+
 #include <iostream>
 
 using namespace std;
@@ -138,6 +140,10 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 				EArmyPtr army1(new EArmy);
 				army1->setName("Army");
 				army1->setImgPath("client/gfx/entity/army.png");
+
+				ARecruitPtr action(new ARecruit);
+				action->what = army1;
+				Network.SendAction(action);
 				player.armies.insert(player.armies.end(), army1);
 			}
 		}

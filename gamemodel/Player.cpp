@@ -9,6 +9,8 @@
 
 #include "Player.h"
 
+using namespace std;
+
 Player::Player() :
 		id(boost::uuids::random_generator()()) {
 
@@ -40,4 +42,11 @@ void Player::addRessource(GameRessourcePtr ressource) {
 
 int Player::getRessourceCount(GameRessourcePtr ressource) {
 	return 0;
+}
+
+string Player::getImgPath(){
+	return this->imgpath;
+}
+void Player::setImgPath(string path){
+	this->imgpath=path;
 }
