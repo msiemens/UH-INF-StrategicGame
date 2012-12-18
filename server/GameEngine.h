@@ -14,6 +14,7 @@
 
 class Player;
 class GameMap;
+class ServerNetwork;
 
 using namespace std;
 
@@ -26,7 +27,7 @@ public:
 
 	bool onPlayerConnect(PlayerPtr player);
 	void onPlayerDisconnect(PlayerPtr player);
-	void onPlayerAction(PlayerPtr player, GameActionPtr action);
+	void onPlayerAction(/* PlayerPtr player, */ GameActionPtr action);
 	void doAction(PlayerPtr player, GameActionPtr action);
 
 	void test();
@@ -37,6 +38,8 @@ public:
 private:
 	bool isRunning;
 	list<PlayerPtr> playerlist;
+
+	ServerNetwork m_network;
 };
 
 #endif /* GAMEENGINE_H_ */

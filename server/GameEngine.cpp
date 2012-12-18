@@ -6,6 +6,8 @@
  */
 #include <iostream>
 
+#include <boost/bind.hpp>
+
 #include <gamemodel/Player.h>
 #include <gamemodel/GameAction.h>
 #include <gamemodel/entities/EPlace.h>
@@ -22,6 +24,8 @@
 
 #include <gamemodel/ressources/RMoney.h>
 
+#include <network/ServerNetwork.h>
+
 #include "GameEngine.h"
 
 using namespace std;
@@ -30,8 +34,10 @@ GameEngine::GameEngine(GameMap *map, list<PlayerPtr> playerlist) :
 		map(map),
 		playerlist(playerlist),
 		isRunning(true),
-		logic(map, playerlist) {
-	test();
+		logic(map, playerlist),
+		m_network(1337) {
+	// test();
+	m_network.ConnectOnAction(boost::bind(&GameEngine::onPlayerAction, this, _1));
 }
 
 GameEngine::~GameEngine() {
@@ -46,7 +52,7 @@ bool GameEngine::onPlayerConnect(PlayerPtr player) {
 void GameEngine::onPlayerDisconnect(PlayerPtr player) {
 }
 
-void GameEngine::onPlayerAction(PlayerPtr player, GameActionPtr action) {
+void GameEngine::onPlayerAction(/* PlayerPtr player, */ GameActionPtr action) {
 	// if (logic.checkPlayerAction(player, action) == true) {
 	doAction(player, action);
 	// } else {
