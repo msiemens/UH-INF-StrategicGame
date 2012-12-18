@@ -17,6 +17,7 @@ EInfantry::EInfantry() {
 	MOR=30;
 	TAC=30;
 
+	name="Infantrie";
 
 }
 

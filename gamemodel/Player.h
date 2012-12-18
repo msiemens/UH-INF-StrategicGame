@@ -30,6 +30,8 @@ public:
 	virtual ~Player();
 
 	boost::uuids::uuid getPlayerId();
+	string getPlayerIdStr();
+
 	void addArmy(EArmyPtr army);
 	void addPlace(EPlacePtr place);
 	void addTroops(ETroopsPtr troops);
