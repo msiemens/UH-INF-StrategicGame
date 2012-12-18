@@ -77,6 +77,7 @@ void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
+	archive.register_type<ARecruit>();
 
 	// Serialize object
 	int type = MESSAGE_STATE;
@@ -95,6 +96,7 @@ void ServerNetwork::BroadcastAction(GameActionPtr action) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
+	archive.register_type<ARecruit>();
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
@@ -134,6 +136,7 @@ void ServerNetwork::OnMessage(char* message, int length) {
 
 	// Initialize Deserialization
 	boost::archive::text_iarchive archive(buffer);
+	archive.register_type<ARecruit>();
 
 	// Read message type
 	int message_type;
@@ -144,6 +147,8 @@ void ServerNetwork::OnMessage(char* message, int length) {
 		std::cout << "Got an action!" << std::endl;
 		GameActionPtr action(new GameAction);
 		archive >> action;
+
+		std::cout << "Deserialization done!" << std::endl;
 
 		m_signal_on_action(action);
 		break;
