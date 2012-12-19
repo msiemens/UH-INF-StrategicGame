@@ -2,8 +2,9 @@
 language: cpp
 compiler:
   - gcc
-# Change this to your needs
 script: cmake . && make
+before_install:
+  - sudo apt-get install libboost-dev libsdl1.2-dev
 
 # Travis options
 
