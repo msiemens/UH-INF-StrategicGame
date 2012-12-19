@@ -2,12 +2,13 @@
 language: cpp
 compiler:
   - gcc
-# Change this to your needs
 script: cmake . && make
+before_install:
+  - sudo apt-get -qq install libboost1.48-all-dev libsdl1.2-dev libsdl-image1.2-dev
 
 # Travis options
 
-# Whitelist
+# Blacklist
 branches:
-  only:
-    - prototype/from-uml
+  except:
+    - /tmp.*/
