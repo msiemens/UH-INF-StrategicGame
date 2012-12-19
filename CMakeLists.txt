@@ -8,7 +8,7 @@ add_definitions(-std=gnu++0x)
 
 # OS specific settings
 if(WIN32)
-	set(LINK_WIN32 "mingw32")
+	set(LINK_WIN32 "mingw32 mswsock ws2_32")
 endif()
 
 # External libs
@@ -17,7 +17,7 @@ set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
-find_package(Boost 1.52.0 COMPONENTS system serialization thread)
+find_package(Boost COMPONENTS system serialization thread)
 include_directories("${Boost_INCLUDE_DIRS}")
 
 ## Include SDL
