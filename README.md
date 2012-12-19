@@ -1,6 +1,6 @@
 # UH-INF-StrategicGame
 
-[![Build Status](https://travis-ci.org/msiemens/UH-INF-StrategicGame.png?branch=test-ci)](https://travis-ci.org/msiemens/UH-INF-StrategicGame)
+[![Build Status](https://travis-ci.org/msiemens/UH-INF-StrategicGame.png?branch=master)](https://travis-ci.org/msiemens/UH-INF-StrategicGame)
 
 ## Abstract:
 
