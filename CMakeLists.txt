@@ -8,7 +8,7 @@ add_definitions(-std=gnu++0x)
 
 # OS specific settings
 if(WIN32)
-	set(LINK_WIN32 "mingw32 mswsock ws2_32")
+	set(LINK_WIN32 mingw32 mswsock ws2_32)
 endif()
 
 # External libs
