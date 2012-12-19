@@ -4,6 +4,7 @@ compiler:
   - gcc
 script: cmake . && make
 before_install:
+  - apt-cache search boost
   - sudo apt-get install libboost-all-dev libsdl1.2-dev libsdl-image1.2-dev
 
 # Travis options
