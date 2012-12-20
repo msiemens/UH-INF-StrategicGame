@@ -15,7 +15,6 @@
 #include <gamemodel/Player.h>
 #include <gamemodel/GameEntity.h>
 
-#include "GameClientBackend.h"
 #include "CEvent.h"
 #include "CSurface.h"
 #include "Define.h"
@@ -42,7 +41,6 @@ private:
 	Player player;
 	string ServerAddress;
 	ClientNetwork network;
-	GameClientBackend ClientBackend;
 
 	SDL_Surface* Surf_Display;
 	SDL_Surface* SurfConnection;
