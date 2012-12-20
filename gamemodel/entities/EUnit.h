@@ -1,12 +1,14 @@
 /*
- * EBuilding.h
+ * ETroops.h
  *
  *  Created on: 09.11.2012
  *      Author: markus
  */
 
-#ifndef EBUILDING_H_
-#define EBUILDING_H_
+#ifndef ETROOPS_H_
+#define ETROOPS_H_
+
+#include <string>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
@@ -14,9 +16,11 @@
 
 #include <gamemodel/GameEntity.h>
 
-using namespace std;
+class EUnit: public GameEntity {
+public:
+	EUnit();
+	virtual ~EUnit();
 
-class EBuilding: public GameEntity {
 private:
 	friend class boost::serialization::access;
 
@@ -24,8 +28,9 @@ private:
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & boost::serialization::base_object<GameEntity>(*this);
 	}
+
 };
 
-typedef boost::shared_ptr<EBuilding> EBuildingPtr;
+typedef boost::shared_ptr<EUnit> EUnitPtr;
 
-#endif /* EBUILDING_H_ */
+#endif /* ETROOPS_H_ */

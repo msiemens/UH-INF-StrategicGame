@@ -26,12 +26,6 @@ coordinates GameEntity::getCoords() {
 	return coords;
 }
 
-string GameEntity::getName() {
-	return name;
-}
-
-void GameEntity::setName(std::string name) {
-	this->name = name;
 }
 
 string GameEntity::getImgPath(){
@@ -39,4 +33,3 @@ string GameEntity::getImgPath(){
 }
 void GameEntity::setImgPath(string path){
 	this->imgpath=path;
-}
