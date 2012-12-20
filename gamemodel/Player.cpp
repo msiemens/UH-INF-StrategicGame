@@ -25,21 +25,21 @@ boost::uuids::uuid Player::getPlayerId() {
 	return id;
 }
 
-string Player::getPlayerIdStr() {
+std::string Player::getPlayerIdStr() {
 	std::stringstream ss;
 	ss << getPlayerId();
 	return ss.str();
 }
 
 void Player::addArmy(EArmyPtr army) {
-	armies.insert(armies.end(), army);
+	armies.push_back(army);
 }
 
-void Player::addPlace(EPlacePtr place) {
-	places.insert(places.end(), place);
+void Player::addLocation(ELocationPtr place) {
+	places.push_back(place);
 }
 
-void Player::addTroops(ETroopsPtr troops) {
+void Player::addUnit(EUnitPtr unit) {
 
 }
 

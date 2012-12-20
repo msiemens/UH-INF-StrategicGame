@@ -8,38 +8,30 @@
 #ifndef EARMY_H_
 #define EARMY_H_
 
-#include <boost/shared_ptr.hpp>
-
-#include "gamemodel/GameEntity.h"
-#include "gamemodel/utils/coordinates.h"
-#include "gamemodel/entities/ETroops.h"
-#include <list>
 #include <vector>
+
+#include <boost/shared_ptr.hpp>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/base_object.hpp>
+
+#include <gamemodel/GameEntity.h>
+#include <gamemodel/utils/coordinates.h>
+#include <gamemodel/entities/EUnit.h>
 
 class EArmy: public GameEntity {
 public:
 	EArmy();
 	virtual ~EArmy();
 
-
-	int getAtk();
-	int getDef();
-	int getPac();
-	int getMor();
-	int getTac();
-
-	void setAtk();
-	void setDef();
-	void setPac();
-	void setMor();
-	void setTac();
-
-	void addTroop(ETroopsPtr troop);
+	void addTroop(EUnitPtr unit);
 
 private:
-	std::vector<ETroopsPtr> troops;
+	std::vector<EUnitPtr> m_units;
 
-	int atk, def, pac, mor, tac;
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & boost::serialization::base_object<GameEntity>(*this);
+	}
 };
 
 typedef boost::shared_ptr<EArmy> EArmyPtr;

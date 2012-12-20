@@ -28,7 +28,7 @@ void GameUI::ShowSquads(){
 
 
 }
-void GameUI::markSquad(ETroops Squad){
+void GameUI::markSquad(EUnitPtr Squad){
 
 }
 

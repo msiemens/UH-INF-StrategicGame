@@ -1,3 +1,3 @@
 file(GLOB_RECURSE this "*.cpp")
 add_library(network ${this})
-target_link_libraries(network ${Boost_LIBRARIES}) 
+target_link_libraries(network gamemodel ${Boost_LIBRARIES}) 

@@ -15,13 +15,12 @@ class counter {
 public:
 	counter() :
 			how_many(0) {
-		// TODO Auto-generated constructor stub
 	}
 	counter(int count) :
 			how_many(count) {
-		// TODO Auto-generated constructor stub
 	}
 
+public:
 	int how_many;
 
 private:

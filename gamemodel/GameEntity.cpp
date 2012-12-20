@@ -24,11 +24,3 @@ void GameEntity::setCoords(coordinates coords) {
 coordinates GameEntity::getCoords() {
 	return coords;
 }
-
-std::string GameEntity::getName() {
-	return name;
-}
-
-void GameEntity::setName(std::string name) {
-	this->name = name;
-}
