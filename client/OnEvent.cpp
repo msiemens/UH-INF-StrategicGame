@@ -37,7 +37,7 @@ void GameClient::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 		bool Right, bool Middle) {
 
-	if (GS.GET_GameState() == START_SCREEN) {
+	if (GS.GET_GameState() == START_SCREEN or GS.GET_GameState() == SS_OPTION or GS.GET_GameState() == SS_SERVER) {
 		if (mY > 287 && mY < 315) {
 			//Button Start
 			if (mX > 63 && mX < 152) {
@@ -86,7 +86,7 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 }
 
 void GameClient::OnLButtonDown(int mX, int mY) {
-	if (GS.GET_GameState() == START_SCREEN) {
+	if (GS.GET_GameState() == START_SCREEN or GS.GET_GameState() == SS_OPTION or GS.GET_GameState() == SS_SERVER) {
 		if (mY > 287 && mY < 315) {
 			//Button Start
 			if (mX > 63 && mX < 152) {
@@ -94,11 +94,19 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 			}
 			//Button Option
 			if (mX > 163 && mX < 252) {
-				GS.SET_GameState(INGAME);
+				if(GS.GET_GameState() != SS_OPTION){
+					GS.SET_GameState(SS_OPTION);
+				}else{
+					GS.SET_GameState(START_SCREEN);
+				}
 			}
 			//Button Server
 			if (mX > 263 && mX < 352) {
-				GS.SET_GameState(INGAME);
+				if(GS.GET_GameState() != SS_SERVER){
+					GS.SET_GameState(SS_SERVER);
+				}else{
+					GS.SET_GameState(START_SCREEN);
+				}
 			}
 			//Button Exit
 			if (mX > 363 && mX < 452) {
@@ -144,7 +152,7 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 
 				ARecruitPtr action(new ARecruit);
 				action->what = troop1;
-				Network.SendAction(action);
+				network.SendAction(action);
 
 				// player.armies.insert(player.armies.end(), army1);
 			}

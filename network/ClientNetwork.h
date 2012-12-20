@@ -35,6 +35,7 @@ public:
 	void SendMetaMessage(GameMetaMessagePtr message);
 
 	boost::shared_ptr<boost::thread> thread();
+	bool IsConnected();
 private:
 	ClientNetworkImpl m_network;
 

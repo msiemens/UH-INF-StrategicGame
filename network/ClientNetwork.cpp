@@ -36,6 +36,10 @@ boost::shared_ptr<boost::thread> ClientNetwork::thread() {
 	return m_network.thread();
 }
 
+bool ClientNetwork::IsConnected(){
+	return true;
+}
+
 void ClientNetwork::ConnectOnAction(const signal_action_t::slot_type &subscriber) {
 	m_signal_on_action.connect(subscriber);
 }

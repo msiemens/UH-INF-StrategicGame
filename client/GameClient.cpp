@@ -15,7 +15,7 @@ using namespace std;
 
 GameClient::GameClient() :
 		player(),
-		Network("localhost", 1337)
+		network("localhost", 1337)
 {
 	SurfMap = NULL;
 	Surf_Display = NULL;
@@ -30,7 +30,9 @@ GameClient::GameClient() :
 	SurfMark = NULL;
 	SurfVillage = NULL;
 	SurfVillageMenuBackground = NULL;
+	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
+	gameentityselectedobject = NULL;
 	selected = "";
 	markx = 0;
 	marky = 0;

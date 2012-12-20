@@ -7,7 +7,7 @@
 using namespace std;
 void GameClient::OnRender() {
 	int i = 0;
-	if (GS.GET_GameState() == START_SCREEN) {
+	if (GS.GET_GameState() == START_SCREEN or GS.GET_GameState() == SS_SERVER or GS.GET_GameState() == SS_OPTION) {
 
 		Surf_Display = SDL_SetVideoMode(515, 352, 32,
 				SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
@@ -18,6 +18,10 @@ void GameClient::OnRender() {
 		CSurface::OnDraw(Surf_Display, SurfButtonSSOption, 164, 287);
 		CSurface::OnDraw(Surf_Display, SurfButtonSSServer, 264, 287);
 		CSurface::OnDraw(Surf_Display, SurfButtonSSExit, 364, 287);
+
+		if( GS.GET_GameState() == SS_SERVER){
+			CSurface::OnDraw(Surf_Display, SurfConnection, 50, 50);
+		}
 	}
 
 	if (GS.GET_GameState() == INGAME or GS.GET_GameState() == IG_VILLAGEMENU) {

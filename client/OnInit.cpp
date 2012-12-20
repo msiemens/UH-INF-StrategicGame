@@ -56,9 +56,17 @@ bool GameClient::OnInit() {
 		return false;
 	}
 
-//    if((SurfSelected = CSurface::OnLoad((char*)"client/gfx/entity/army.png")) == NULL) {
-//        return false;
-//    }
+	if (network.IsConnected() == true) {
+		if ((SurfConnection = CSurface::OnLoad(
+				(char*) "client/gfx/gui/main/serveronline.png")) == NULL) {
+			return false;
+		}
+	} else {
+		if ((SurfConnection = CSurface::OnLoad(
+				(char*) "client/gfx/gui/main/serveroffline.png")) == NULL) {
+			return false;
+		}
+	}
 
 	SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
 

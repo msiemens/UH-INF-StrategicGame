@@ -26,7 +26,7 @@ using namespace std;
 
 
 enum {
-	START_SCREEN = 0, STARTUP_GAME, OPTIONS, INGAME, SS_OPTION,SS_SERVERCONFIG, IG_VILLAGEMENU
+	START_SCREEN = 0, STARTUP_GAME, OPTIONS, INGAME , IG_VILLAGEMENU, SS_SERVER, SS_OPTION
 };
 
 class GameClient  : public CEvent{
@@ -42,11 +42,11 @@ private:
 
 	Player player;
 	string ServerAddress;
-	ClientNetwork Network;
+	ClientNetwork network;
 	GameClientBackend ClientBackend;
 
 	SDL_Surface* Surf_Display;
-
+	SDL_Surface* SurfConnection;
 	SDL_Surface* SurfStartscreenBackground;
 	SDL_Surface* SurfMap;
 
