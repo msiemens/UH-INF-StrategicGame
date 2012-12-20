@@ -30,7 +30,7 @@ bool GameClient::OnInit() {
 	}
 
 	//load MapSurface
-	if ((SurfMap = CSurface::OnLoad((char*) "client/maps/map1.png")) == NULL) {
+	if ((SurfMap = CSurface::OnLoad((char*) "client/maps/map2.png")) == NULL) {
 		return false;
 	}
 

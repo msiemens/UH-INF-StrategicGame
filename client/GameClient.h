@@ -48,7 +48,6 @@ private:
 	SDL_Surface* SurfConnection;
 	SDL_Surface* SurfStartscreenBackground;
 	SDL_Surface* SurfMap;
-	SDL_Surface* SurfConnection;
 
 	SDL_Surface* SurfButtonSSStart;
 	SDL_Surface* SurfButtonSSOption;
@@ -70,11 +69,14 @@ private:
 	string selected;
 	GameEntity* gameentityselectedobject;
 	int markx,marky;
+	int camposx,camposy;
+	bool pressedup,pressedright,presseddown,pressedleft;
 
 public:
 	bool OnInit();
 	void OnEvent(SDL_Event* Event);
 	void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
+	void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
 	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right, bool Middle);
 	void OnLButtonDown(int mX, int mY);
 	void OnRButtonDown(int mX, int mY);
@@ -82,6 +84,8 @@ public:
 	void OnLoop();
 	void OnRender();
 	void OnCleanup();
+	void CameraOnMove(int x, int y);
+	void CameraPosSet(int x, int y);
 	//void OnIncommingData();
 };
 

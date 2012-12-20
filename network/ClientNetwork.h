@@ -35,7 +35,6 @@ public:
 	bool IsConnected();
 
 	boost::shared_ptr<boost::thread> thread();
-	bool IsConnected();
 private:
 	ClientNetworkImpl m_network;
 

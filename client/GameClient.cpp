@@ -14,9 +14,7 @@
 using namespace std;
 
 GameClient::GameClient() :
-		player()
-		,network("localhost", 1337)
-{
+		player(), network("localhost", 1337) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfStartscreenBackground = NULL;
@@ -38,6 +36,12 @@ GameClient::GameClient() :
 	markx = 0;
 	marky = 0;
 	gameentityselectedobject = NULL;
+	camposx = 0;
+	camposy = 0;
+	pressedup = false;
+	pressedright = false;
+	presseddown = false;
+	pressedleft = false;
 
 	EArmyPtr army1(new EArmy);
 	army1->setName("ArmyOne");
@@ -61,6 +65,15 @@ GameClient::GameClient() :
 
 GameClient::~GameClient() {
 	// TODO Auto-generated destructor stub
+}
+
+void GameClient::CameraOnMove(int x, int y){
+	camposx += x;
+	camposy += y;
+}
+void GameClient::CameraPosSet(int x, int y){
+	camposx = x;
+	camposy = y;
 }
 
 int GameClient::OnExecute() {

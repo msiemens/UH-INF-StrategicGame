@@ -15,19 +15,35 @@ void GameClient::OnExit() {
 void GameClient::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 	switch (sym) {
 	case SDLK_UP:
-
-		GS.SET_GameState(INGAME);
-		// CCamera::CameraControl.OnMove(0, 5);
+		pressedup = true;
 		break;
 	case SDLK_DOWN:
-		GS.SET_GameState(START_SCREEN);
-		// CCamera::CameraControl.OnMove(0, -5);
+		presseddown = true;
 		break;
 	case SDLK_LEFT:
-		// CCamera::CameraControl.OnMove(5, 0);
+		pressedleft = true;
 		break;
 	case SDLK_RIGHT:
-		// CCamera::CameraControl.OnMove(-5, 0);
+		pressedright = true;
+		break;
+
+	default:
+		break;
+	}
+}
+void GameClient::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
+	switch (sym) {
+	case SDLK_UP:
+		pressedup = false;
+		break;
+	case SDLK_DOWN:
+		presseddown = false;
+		break;
+	case SDLK_LEFT:
+		pressedleft = false;
+		break;
+	case SDLK_RIGHT:
+		pressedright = false;
 		break;
 
 	default:
@@ -37,7 +53,8 @@ void GameClient::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 		bool Right, bool Middle) {
 
-	if (GS.GET_GameState() == START_SCREEN or GS.GET_GameState() == SS_OPTION or GS.GET_GameState() == SS_SERVER) {
+	if (GS.GET_GameState() == START_SCREEN or GS.GET_GameState() == SS_OPTION
+			or GS.GET_GameState() == SS_SERVER) {
 		if (mY > 287 && mY < 315) {
 			//Button Start
 			if (mX > 63 && mX < 152) {
@@ -86,7 +103,8 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 }
 
 void GameClient::OnLButtonDown(int mX, int mY) {
-	if (GS.GET_GameState() == START_SCREEN or GS.GET_GameState() == SS_OPTION or GS.GET_GameState() == SS_SERVER) {
+	if (GS.GET_GameState() == START_SCREEN or GS.GET_GameState() == SS_OPTION
+			or GS.GET_GameState() == SS_SERVER) {
 		if (mY > 287 && mY < 315) {
 			//Button Start
 			if (mX > 63 && mX < 152) {
@@ -94,17 +112,17 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 			}
 			//Button Option
 			if (mX > 163 && mX < 252) {
-				if(GS.GET_GameState() != SS_OPTION){
+				if (GS.GET_GameState() != SS_OPTION) {
 					GS.SET_GameState(SS_OPTION);
-				}else{
+				} else {
 					GS.SET_GameState(START_SCREEN);
 				}
 			}
 			//Button Server
 			if (mX > 263 && mX < 352) {
-				if(GS.GET_GameState() != SS_SERVER){
+				if (GS.GET_GameState() != SS_SERVER) {
 					GS.SET_GameState(SS_SERVER);
-				}else{
+				} else {
 					GS.SET_GameState(START_SCREEN);
 				}
 			}
@@ -119,7 +137,8 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 
 		for (auto place : player.places) {
 			if (mY > place->getCoords().y and mY < place->getCoords().y + 26) {
-				if (mX > place->getCoords().x and mX < place->getCoords().x + 27) {
+				if (mX > place->getCoords().x
+						and mX < place->getCoords().x + 27) {
 
 					this->selected = place->getImgPath();
 					this->markx = place->getCoords().x;
@@ -141,10 +160,10 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 		}
 	}
 
-	if(GS.GET_GameState()== IG_VILLAGEMENU){
+	if (GS.GET_GameState() == IG_VILLAGEMENU) {
 		//Recruit
-		if(mY > 117 and mY < 144){
-			if(mX > 409 and mX < 496){
+		if (mY > 117 and mY < 144) {
+			if (mX > 409 and mX < 496) {
 				//if genug money =D
 				ETroopsPtr troop1(new ETroops);
 				troop1->setName("Army");
@@ -159,20 +178,20 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 		}
 
 		//Close
-		if(mY > 230 and mY < 257){
-			if(mX > 409 and mX < 496){
+		if (mY > 230 and mY < 257) {
+			if (mX > 409 and mX < 496) {
 				GS.SET_GameState(INGAME);
 			}
 		}
 	}
 }
 
-
 void GameClient::OnRButtonDown(int mX, int mY) {
 	if (GS.GET_GameState() == INGAME) {
 		for (auto place : player.places) {
 			if (mY > place->getCoords().y and mY < place->getCoords().y + 26) {
-				if (mX > place->getCoords().x and mX < place->getCoords().x + 27) {
+				if (mX > place->getCoords().x
+						and mX < place->getCoords().x + 27) {
 
 					this->selected = place->getImgPath();
 					this->markx = place->getCoords().x;
