@@ -64,6 +64,7 @@ void GameClient::OnRender() {
 			}
 			i = 0;
 		}
+
 	}
 
 	SDL_Flip(Surf_Display);

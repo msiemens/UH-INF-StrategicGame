@@ -5,7 +5,7 @@
  *      Author: Armend
  */
 
-#include "client/GameUI.h"
+#include "GameUI.h"
 
 namespace std {
 

@@ -14,12 +14,13 @@
 using namespace std;
 
 GameClient::GameClient() :
-		player(),
-		network("localhost", 1337)
+		player()
+		,network("localhost", 1337)
 {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfStartscreenBackground = NULL;
+	SurfConnection = NULL;
 	this->running = true;
 	SurfButtonSSStart = NULL;
 	SurfButtonSSOption = NULL;
@@ -36,6 +37,7 @@ GameClient::GameClient() :
 	selected = "";
 	markx = 0;
 	marky = 0;
+	gameentityselectedobject = NULL;
 
 	EArmyPtr army1(new EArmy);
 	army1->setName("ArmyOne");

@@ -11,15 +11,14 @@
 #include <string>
 
 #include <network/ClientNetwork.h>
-#include <client/GameClientBackend.h>
 #include <gamemodel/GameState.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/GameEntity.h>
 
-
-#include "client/CEvent.h"
-#include "client/CSurface.h"
-#include "client/Define.h"
+#include "GameClientBackend.h"
+#include "CEvent.h"
+#include "CSurface.h"
+#include "Define.h"
 
 
 using namespace std;
@@ -49,6 +48,7 @@ private:
 	SDL_Surface* SurfConnection;
 	SDL_Surface* SurfStartscreenBackground;
 	SDL_Surface* SurfMap;
+	SDL_Surface* SurfConnection;
 
 	SDL_Surface* SurfButtonSSStart;
 	SDL_Surface* SurfButtonSSOption;
