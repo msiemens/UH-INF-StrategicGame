@@ -47,11 +47,7 @@ void ServerNetwork::OnPlayerConnect(NetPlayerPtr netplayer) {
 	std::cout << "Creating PlayerPtr" << std::endl;
 	PlayerPtr player(new Player);
 	std::cout << "Inserting player" << std::endl;
-	try {
-		// m_players[player] = netplayer;
-	} catch (std::bad_alloc &e) {
-		std::cout << e.what() << std::endl;
-	}
+	m_players[player] = netplayer;
 	std::cout << "Exiting ServerNetwork::OnPlayerConnect(...)" << std::endl;
 }
 

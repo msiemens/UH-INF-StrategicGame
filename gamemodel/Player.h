@@ -70,7 +70,7 @@ template<>
 class hash<PlayerPtr> {
 public:
 	size_t operator()(const PlayerPtr &p) const {
-		return hash<PlayerPtr>()(p);
+		return hash<Player>()(*p);
 	}
 };
 }
