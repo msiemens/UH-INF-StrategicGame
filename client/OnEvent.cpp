@@ -26,12 +26,12 @@ void GameClient::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 	case SDLK_RIGHT:
 		pressedright = true;
 		break;
-
 	default:
 		break;
 	}
 }
 void GameClient::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
+
 	switch (sym) {
 	case SDLK_UP:
 		pressedup = false;
@@ -52,6 +52,22 @@ void GameClient::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
 }
 void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,
 		bool Right, bool Middle) {
+//
+//	if(GS.GET_GameState() == INGAME){
+//			if(mX < 20){
+//				CameraOnMove(-10,0);
+//			}
+//			if(mX > 620){
+//				CameraOnMove(10,0);
+//			}
+//
+//			if(mY < 20){
+//				CameraOnMove(0,-10);
+//			}
+//			if(mY > 460){
+//				CameraOnMove(0,10);
+//			}
+//	}
 
 	if (GS.GET_GameState() == START_SCREEN or GS.GET_GameState() == SS_OPTION
 			or GS.GET_GameState() == SS_SERVER) {

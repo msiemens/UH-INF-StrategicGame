@@ -30,7 +30,7 @@ bool GameClient::OnInit() {
 	}
 
 	//load MapSurface
-	if ((SurfMap = CSurface::OnLoad((char*) "client/maps/map2.png")) == NULL) {
+	if ((SurfMap = CSurface::OnLoad((char*) "client/maps/map3.png")) == NULL) {
 		return false;
 	}
 
@@ -68,7 +68,10 @@ bool GameClient::OnInit() {
 		}
 	}
 
-	SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
+	if (SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,SDL_DEFAULT_REPEAT_INTERVAL) == -1){
+		cout << "SDL_EnableKeyRepeat failed. OnInit.cpp /72";
+		return false;
+	}
 
 	return true;
 }

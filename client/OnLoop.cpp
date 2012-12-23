@@ -2,13 +2,13 @@
 
 using namespace std;
 void GameClient::OnLoop() {
-	if(pressedup == true){
-		CameraOnMove(0, -10);
+	if(pressedup){
+		CameraOnMove(0, -100);
 	}else if(pressedright){
-		CameraOnMove(10, 0);
+		CameraOnMove(100, 0);
 	}else if(presseddown){
-		CameraOnMove(0, 10);
+		CameraOnMove(0, 100);
 	}else if(pressedleft){
-		CameraOnMove(-10, 0);
+		CameraOnMove(-100, 0);
 	}
 }

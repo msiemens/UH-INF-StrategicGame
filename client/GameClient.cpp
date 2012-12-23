@@ -36,12 +36,14 @@ GameClient::GameClient() :
 	markx = 0;
 	marky = 0;
 	gameentityselectedobject = NULL;
-	camposx = 0;
-	camposy = 0;
+	camposx = 800;
+	camposy = 800;
 	pressedup = false;
 	pressedright = false;
 	presseddown = false;
 	pressedleft = false;
+	mousex = 0;
+	mousey = 0;
 
 	EArmyPtr army1(new EArmy);
 	army1->setName("ArmyOne");
@@ -67,16 +69,28 @@ GameClient::~GameClient() {
 	// TODO Auto-generated destructor stub
 }
 
-void GameClient::CameraOnMove(int x, int y){
+void GameClient::CameraOnMove(int x, int y) {
 	camposx += x;
+	if(camposx < 0){
+		camposx = 0;
+	}else if(camposx > 640){
+		camposx = 640;
+	}
 	camposy += y;
+	if(camposy < 0){
+		camposy = 0;
+	}else if(camposy > 480){
+		camposy = 480;
+	}
+
 }
-void GameClient::CameraPosSet(int x, int y){
+void GameClient::CameraPosSet(int x, int y) {
 	camposx = x;
 	camposy = y;
 }
 
 int GameClient::OnExecute() {
+
 	if (OnInit() == false) {
 		return -1;
 	}
@@ -87,9 +101,10 @@ int GameClient::OnExecute() {
 		while (SDL_PollEvent(&Event)) { //Eventqueue
 			OnEvent(&Event);
 		}
-		//OnIncommingData();
 		OnLoop();
 		OnRender();
+		SDL_Delay(100);
+
 	}
 
 	OnCleanup();

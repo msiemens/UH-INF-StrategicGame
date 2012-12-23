@@ -64,6 +64,7 @@ private:
 	//Zum test
 	SDL_Surface* SurfVillage;
 
+	int mousex,mousey;
 	string selected;
 	GameEntity* gameentityselectedobject;
 	int markx,marky;
