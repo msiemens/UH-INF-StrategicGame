@@ -38,8 +38,9 @@ void GameClient::OnRender() {
 			char * path = new char[place->getImgPath().length()];
 			strcpy(path, place->getImgPath().c_str());
 			SurfVillage = CSurface::OnLoad(path);
-			CSurface::OnDraw(Surf_Display, SurfVillage, place->getCoords().x,
-					place->getCoords().y);
+
+			CSurface::OnDraw(Surf_Display, SurfVillage, (place->getCoords().x * TILE_SIZE) - camposx,
+					(place->getCoords().y * 20)-camposy);
 		}
 
 		if (this->selected != "") {
@@ -48,8 +49,8 @@ void GameClient::OnRender() {
 			SurfSelected = CSurface::OnLoad(buffer);
 			CSurface::OnDraw(Surf_Display, SurfSelected, 5, 5);
 			if (this->markx != 0 and this->marky != 0) {
-				CSurface::OnDraw(Surf_Display, SurfMark, this->markx,
-						this->marky);
+				CSurface::OnDraw(Surf_Display, SurfMark, this->markx * TILE_SIZE - camposx,
+						this->marky * TILE_SIZE - camposy);
 			}
 		}
 		if (GS.GET_GameState() == IG_VILLAGEMENU) {

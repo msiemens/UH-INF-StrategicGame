@@ -152,9 +152,10 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 	if (GS.GET_GameState() == INGAME) {
 
 		for (auto place : player.places) {
-			if (mY > place->getCoords().y and mY < place->getCoords().y + 26) {
-				if (mX > place->getCoords().x
-						and mX < place->getCoords().x + 27) {
+			if (mY > (place->getCoords().y * TILE_SIZE) - camposy
+					and mY < (place->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
+				if (mX > (place->getCoords().x * TILE_SIZE) - camposx
+						and mX < (place->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
 
 					this->selected = place->getImgPath();
 					this->markx = place->getCoords().x;

@@ -36,14 +36,12 @@ GameClient::GameClient() :
 	markx = 0;
 	marky = 0;
 	gameentityselectedobject = NULL;
-	camposx = 800;
-	camposy = 800;
+	camposx = 200;
+	camposy = 200;
 	pressedup = false;
 	pressedright = false;
 	presseddown = false;
 	pressedleft = false;
-	mousex = 0;
-	mousey = 0;
 
 	EArmyPtr army1(new EArmy);
 	army1->setName("ArmyOne");
@@ -55,12 +53,12 @@ GameClient::GameClient() :
 
 	EPlacePtr place1(new EPlace);
 	place1->setImgPath("client/gfx/entity/village.png");
-	coordinates coord(350, 250);
+	coordinates coord(28, 30);
 	place1->setCoords(coord);
 	player.places.insert(player.places.begin(), place1);
 	EPlacePtr place2(new EPlace);
 	place2->setImgPath("client/gfx/entity/village.png");
-	coordinates coord2(280, 300);
+	coordinates coord2(35, 25);
 	place2->setCoords(coord2);
 	player.places.insert(player.places.end(), place2);
 }
