@@ -18,13 +18,37 @@ EArmy::EArmy() {
 	pac = 0;
 	mor = 0;
 	tac = 0;
+	steps = 0;
 }
 
 EArmy::~EArmy() {
 	// TODO Auto-generated destructor stub
 }
 
+void EArmy::Move(int dir, int size){
+	if(size <= getSteps()){
+		switch(dir){
+			case 0:
+				setCoords(getCoords().x, getCoords().y - size);
+				setStep(getSteps() - size);
+				break;
+			case 1:
+				setCoords(getCoords().x + size, getCoords().y);
+				setStep(getSteps() - size);
+				break;
+			case 2:
+				setCoords(getCoords().x, getCoords().y + size);
+				setStep(getSteps() - size);
+				break;
+			case 3:
+				setCoords(getCoords().x - size, getCoords().y);
+				setStep(getSteps() - size);
+				break;
+		}
+	}else{
 
+	}
+}
 
 void EArmy::addTroop(ETroopsPtr troop) {
 	int troop_count=troops.size();
@@ -44,7 +68,8 @@ void EArmy::setDef() {
 	}*/
 }
 
-void EArmy::setPac() {
+void EArmy::setPac(int x) {
+	pac = x;
 //	for (ETroops t : troops) {
 //		if (t != 0) {
 //			pac = (t.PAC < pac) ? t.PAC : pac;
@@ -73,6 +98,13 @@ void EArmy::setTac() {
 	tac = enttac / counter;
 }
 
+
+void EArmy::setStep(int x) {
+	steps = x;
+}
+int EArmy::getSteps() {
+	return steps;
+}
 int EArmy::getAtk() {
 	return atk;
 }

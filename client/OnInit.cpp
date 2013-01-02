@@ -6,6 +6,15 @@ bool GameClient::OnInit() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		return true;
 	}
+//	int i = 0;
+//	int i2 = 0;
+//
+//	for (i2 = 0; i2 < 48; i2++) {
+//		for (i = 0; i < 64; i++) {
+//			cout << "w";
+//		}
+//		cout << endl;
+//	}
 
 	//startscreen solution
 	if ((Surf_Display = SDL_SetVideoMode(515, 352, 32,
@@ -28,6 +37,11 @@ bool GameClient::OnInit() {
 			(char*) "client/gfx/gui/menu/buttons/exit_norm.png")) == NULL) {
 		return false;
 	}
+	//ingame
+	//load mainbrackground
+	if ((SurfMain = CSurface::OnLoad((char*) "client/gfx/gui/main/main.png")) == NULL) {
+		return false;
+	}
 
 	//load MapSurface
 	if ((SurfMap = CSurface::OnLoad((char*) "client/maps/map3.png")) == NULL) {
@@ -46,12 +60,34 @@ bool GameClient::OnInit() {
 		return false;
 	}
 
+	//load troopinarmy
+	if ((SurfTroopInArmy = CSurface::OnLoad((char*) "client/gfx/gui/main/hotbar.png")) == NULL) {
+		return false;
+	}
+
+
 	if ((SurfVillageMenuBackground = CSurface::OnLoad(
-			(char*) "client/gfx/gui/menu/villagemenu.png")) == NULL) {
+			(char*) "client/gfx/gui/menu/villagemenubg.png")) == NULL) {
+		return false;
+	}
+	if ((SurfArmyOptionBackground = CSurface::OnLoad(
+			(char*) "client/gfx/gui/menu/armyoptions.png")) == NULL) {
 		return false;
 	}
 
 	if ((SurfMark = CSurface::OnLoad((char*) "client/gfx/entity/mark.png"))
+			== NULL) {
+		return false;
+	}
+	if ((SurfWalkable = CSurface::OnLoad((char*) "client/gfx/entity/walkable.png"))
+			== NULL) {
+		return false;
+	}
+	if ((SurfBlock= CSurface::OnLoad((char*) "client/gfx/entity/block.png"))
+			== NULL) {
+		return false;
+	}
+	if ((SurfPlace = CSurface::OnLoad((char*) "client/gfx/entity/entity.png"))
 			== NULL) {
 		return false;
 	}
@@ -68,7 +104,8 @@ bool GameClient::OnInit() {
 		}
 	}
 
-	if (SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,SDL_DEFAULT_REPEAT_INTERVAL) == -1){
+	if (SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,
+			SDL_DEFAULT_REPEAT_INTERVAL) == -1) {
 		cout << "SDL_EnableKeyRepeat failed. OnInit.cpp /72";
 		return false;
 	}

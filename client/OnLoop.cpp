@@ -3,12 +3,12 @@
 using namespace std;
 void GameClient::OnLoop() {
 	if(pressedup){
-		CameraOnMove(0, -100);
+		CameraOnMove(0, -20);
 	}else if(pressedright){
-		CameraOnMove(100, 0);
+		CameraOnMove(20, 0);
 	}else if(presseddown){
-		CameraOnMove(0, 100);
+		CameraOnMove(0, 20);
 	}else if(pressedleft){
-		CameraOnMove(-100, 0);
+		CameraOnMove(-20, 0);
 	}
 }

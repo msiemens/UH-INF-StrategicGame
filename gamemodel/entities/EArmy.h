@@ -16,6 +16,7 @@
 #include <list>
 #include <vector>
 
+
 class EArmy: public GameEntity {
 public:
 	EArmy();
@@ -27,19 +28,21 @@ public:
 	int getPac();
 	int getMor();
 	int getTac();
+	int getSteps();
 
 	void setAtk();
 	void setDef();
-	void setPac();
+	void setPac(int x);
 	void setMor();
 	void setTac();
+	void setStep(int x);
 
+	void Move(int dir, int size);
 	void addTroop(ETroopsPtr troop);
 
-private:
 	std::vector<ETroopsPtr> troops;
-
-	int atk, def, pac, mor, tac;
+private:
+	int atk, def, pac, mor, tac, steps;
 };
 
 typedef boost::shared_ptr<EArmy> EArmyPtr;

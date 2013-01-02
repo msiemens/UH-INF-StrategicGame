@@ -1,20 +1,23 @@
 /*
  * GameMap.cpp
  *
- *  Created on: 30.11.2012
- *      Author: Henrik
+ * Created on: 30.11.2012
+ * Author: Henrik
  */
 
 #include "GameMap.h"
 #include <iostream>
+#include <gamemodel/entities/EPlace.h>
+using namespace std;
 
 GameMap::GameMap() {
-	for (int i = 0; i < 4; i++) {
-		for (int u = 0; u < 4; u++) {
-			setWalkable(i, u);
-		}
-	}
-
+	editMode = false;
+	mapSizeX = 64;
+	mapSizeY = 48;
+	createMapFromTxt(
+			"C:/GameDev/Projekte/UH-INF-StrategicGame.build/client/maps/map3.txt");
+	createPlaces();
+	//printMapStatus();
 }
 
 GameMap::~GameMap() {
@@ -25,9 +28,7 @@ void GameMap::setWalkable(coordinates coords) {
 }
 
 void GameMap::setWalkable(int x, int y) {
-	if (isPlace(coordinates(x, y)) == false) {
-		map[y][x] = walkable;
-	}
+	map[y][x] = walkable;
 }
 
 void GameMap::setArmy(int x, int y) {
@@ -54,37 +55,108 @@ void GameMap::setBlocked(coordinates coords) {
 	setBlocked(coords.x, coords.y);
 }
 
+bool GameMap::isBlocked(coordinates coords) {
+	return (map[coords.y][coords.x] & blocked) ? true : false;
+}
 bool GameMap::isWalkable(coordinates coords) {
-	std::cout << coords.x << "/" << coords.y << " is walkable: "
-			<< (map[coords.x][coords.y] & walkable) << std::endl;
-	return (map[coords.x][coords.y] & walkable) ? true : false;
+	return (map[coords.y][coords.x] & walkable) ? true : false;
 }
 
 bool GameMap::isArmyPositioned(coordinates coords) {
-	if (map[coords.x][coords.y] & army) {
-		std::cout << "isArmyasda";
-	}
-	return (map[coords.x][coords.y] & army) ? true : false;
+	return (map[coords.y][coords.x] & army) ? true : false;
 }
 
 bool GameMap::isPlace(coordinates coords) {
-	return (map[coords.x][coords.y] & place) ? true : false;
+	return (map[coords.y][coords.x] & place) ? true : false;
+}
+
+void GameMap::createPlaces() {
+
+	int counter = 0;
+	for (int y = 0; y < mapSizeY; y++) {
+		for (int x = 0; x < mapSizeX; x++) {
+			if (isPlace(coordinates(x, y))) {
+				EPlacePtr place(new EPlace);
+				place->setCoords(x, y);
+				place->setImgPath("client/gfx/entity/village.png");
+				place->setIconPath("client/gfx/entity/icons/castle.png");
+				placeList.insert(placeList.begin(), place);
+			}
+		}
+	}
+}
+
+EPlacePtr GameMap::getPlaceAt(coordinates coords) {
+	EPlacePtr placeAt;
+	for (auto place : placeList) {
+		coordinates placeCoords = place->getCoords();
+		if (placeCoords.x == coords.x and placeCoords.y == coords.y) {
+			placeAt = place;
+		}
+	}
+	return placeAt;
+}
+
+int GameMap::getClickPosX(int x){
+	int posx=0;
+
+	posx =x/20;
+
+	return posx;
+}
+int GameMap::getClickPosY(int y){
+	int posy=0;
+
+	posy =y/20;
+
+	return posy;
+}
+void GameMap::createMapFromTxt(string path) {
+	ifstream in(path);
+
+	mapSizeY = 1;
+	mapSizeX = 0;
+
+	int x = 0;
+	int y = 0;
+
+	while (in.eof() != true) {
+		char c = in.get();
+			if (c == '\n') {
+				mapSizeY++;
+				y++;
+				mapSizeX = 0;
+				x = 0;
+			} else if (c == 'w') {
+				setWalkable(x, y);
+				x++;
+			} else if (c == 'p') {
+				setPlace(x, y);
+				x++;
+			} else {
+				setBlocked(x, y);
+				x++;
+			}
+		mapSizeX++;
+	}
 }
 
 void GameMap::printMapStatus() {
 	coordinates coords;
-	for (int i = 0; i < 4; i++) {
-		for (int u = 0; u < 4; u++) {
-			coords.x = u;
-			coords.y = i;
+	for (int y = 0; y < mapSizeY; y++) {
+		for (int x = 0; x < mapSizeX; x++) {
+			coords.x = x;
+			coords.y = y;
 			if (isArmyPositioned(coords)) {
-				std::cout << "a ";
+				cout << "a";
 			} else if (isWalkable(coords)) {
-				std::cout << "w ";
+				cout << "w";
 			} else if (isPlace(coords)) {
-				std::cout << "p ";
+				cout << "p";
+			}else if (isBlocked(coords)) {
+				cout << "b";
 			}
 		}
-		std::cout << "\n";
+		cout << "\n";
 	}
 }

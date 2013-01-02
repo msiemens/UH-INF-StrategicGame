@@ -31,17 +31,20 @@ public:
 	void setCoords(int x, int y);
 	void setCoords(coordinates coords);
 
-	std::string getName();
+	string getName();
 	void setName(std::string name);
 
 	void setImgPath(string path);
 	string getImgPath();
+	void setIconPath(string path);
+	string getIconPath();
 protected:
 	std::string name;
 
 private:
 	coordinates coords;
 	string imgpath;
+	string iconpath;
 
 	friend class boost::serialization::access;
 

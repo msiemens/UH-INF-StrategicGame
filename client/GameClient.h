@@ -14,6 +14,7 @@
 #include <gamemodel/GameState.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/GameEntity.h>
+#include <gamemodel/GameMap.h>
 
 #include "CEvent.h"
 #include "CSurface.h"
@@ -24,7 +25,13 @@ using namespace std;
 
 
 enum {
-	START_SCREEN = 0, STARTUP_GAME, OPTIONS, INGAME , IG_VILLAGEMENU, SS_SERVER, SS_OPTION
+	START_SCREEN = 0, STARTUP_GAME, INGAME
+};
+enum{
+	SUB_NONE = 0, IG_VILLAGEMENU,SS_SERVER,SS_OPTION, IG_ARMYOPTION, IG_MOVEARMY
+};
+enum{
+	DIR_UP = 0, DIR_RIGHT, DIR_DOWN, DIR_LEFT
 };
 
 class GameClient  : public CEvent{
@@ -37,12 +44,16 @@ private:
 	bool running;
 
 	GameState GS;
+	GameState subGS;
 
 	Player player;
 	string ServerAddress;
 	ClientNetwork network;
+	GameMap map;
 
 	SDL_Surface* Surf_Display;
+
+	SDL_Surface* SurfMain;
 	SDL_Surface* SurfConnection;
 	SDL_Surface* SurfStartscreenBackground;
 	SDL_Surface* SurfMap;
@@ -60,12 +71,21 @@ private:
 
 	//VillageMenu
 	SDL_Surface* SurfVillageMenuBackground;
+	SDL_Surface* SurfArmyOptionBackground;
+	SDL_Surface* SurfTroopInArmy;
 
 	//Zum test
 	SDL_Surface* SurfVillage;
+	SDL_Surface* SurfWalkable;
+	SDL_Surface* SurfBlock;
+	SDL_Surface* SurfPlace;
+
 
 	string selected;
 	GameEntity* gameentityselectedobject;
+	EPlacePtr PlaceSelected;
+	EArmyPtr ArmySelected;
+
 	int markx,marky;
 	int camposx,camposy;
 	bool pressedup,pressedright,presseddown,pressedleft;
@@ -77,10 +97,30 @@ public:
 	void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
 	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right, bool Middle);
 	void OnLButtonDown(int mX, int mY);
+	//HandleInput-Function
+	void HandleStartScreenInput(int mX, int mY);
+	void HandleVillageMenuInput(int mX, int mY);
+	void HandleMapEntities(int mX, int mY);
+	void HandleMapEditorModus(int mX, int mY);
+	void HandleArmyOptionInput(int mX,int mY);
+	void HandleMoveArmyInput(int mX,int mY);
+	//-----
 	void OnRButtonDown(int mX, int mY);
 	void OnExit();
 	void OnLoop();
+
+
+	//Render function
 	void OnRender();
+	void RenderInGame();
+	void RenderStartScreen();
+	void ShowSelected();
+	//-----
+
+	//incomming data
+	void RecruitTroopInBuilding();
+	void RecruitTroopOutside(coordinates coords);
+
 	void OnCleanup();
 	void CameraOnMove(int x, int y);
 	void CameraPosSet(int x, int y);

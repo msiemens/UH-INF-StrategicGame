@@ -40,3 +40,9 @@ string GameEntity::getImgPath(){
 void GameEntity::setImgPath(string path){
 	this->imgpath=path;
 }
+string GameEntity::getIconPath(){
+	return this->iconpath;
+}
+void GameEntity::setIconPath(string path){
+	this->iconpath=path;
+}

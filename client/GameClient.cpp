@@ -17,6 +17,7 @@ GameClient::GameClient() :
 		player(), network("localhost", 1337) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
+	SurfMain = NULL;
 	SurfStartscreenBackground = NULL;
 	SurfConnection = NULL;
 	this->running = true;
@@ -25,10 +26,15 @@ GameClient::GameClient() :
 	SurfButtonSSServer = NULL;
 	SurfButtonSSExit = NULL;
 	SurfSlotSelected = NULL;
+	SurfTroopInArmy = NULL;
+	SurfWalkable = NULL;
+	SurfBlock = NULL;
+	SurfPlace = NULL;
 	SurfSelected = NULL;
 	SurfMark = NULL;
 	SurfVillage = NULL;
 	SurfVillageMenuBackground = NULL;
+	SurfArmyOptionBackground = NULL;
 	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
 	gameentityselectedobject = NULL;
@@ -36,31 +42,12 @@ GameClient::GameClient() :
 	markx = 0;
 	marky = 0;
 	gameentityselectedobject = NULL;
-	camposx = 200;
-	camposy = 200;
+	camposx = -12;
+	camposy = -12;
 	pressedup = false;
 	pressedright = false;
 	presseddown = false;
 	pressedleft = false;
-
-	EArmyPtr army1(new EArmy);
-	army1->setName("ArmyOne");
-	army1->setImgPath("client/gfx/entity/army.png");
-	player.armies.insert(player.armies.begin(), army1);
-	army1->setName("ArmyTwo");
-	army1->setImgPath("client/gfx/entity/army.png");
-	player.armies.insert(player.armies.end(), army1);
-
-	EPlacePtr place1(new EPlace);
-	place1->setImgPath("client/gfx/entity/village.png");
-	coordinates coord(28, 30);
-	place1->setCoords(coord);
-	player.places.insert(player.places.begin(), place1);
-	EPlacePtr place2(new EPlace);
-	place2->setImgPath("client/gfx/entity/village.png");
-	coordinates coord2(35, 25);
-	place2->setCoords(coord2);
-	player.places.insert(player.places.end(), place2);
 }
 
 GameClient::~GameClient() {
@@ -69,16 +56,16 @@ GameClient::~GameClient() {
 
 void GameClient::CameraOnMove(int x, int y) {
 	camposx += x;
-	if(camposx < 0){
-		camposx = 0;
-	}else if(camposx > 640){
-		camposx = 640;
+	if(camposx < -12){ // -12 because of the bordersize (gfx/gui/main/main.png)
+		camposx = -12;
+	}else if(camposx > SurfMap->clip_rect.w - 488){
+		camposx = SurfMap->clip_rect.w - 488;//297;
 	}
 	camposy += y;
-	if(camposy < 0){
-		camposy = 0;
-	}else if(camposy > 480){
-		camposy = 480;
+	if(camposy < -12){
+		camposy = -12;
+	}else if(camposy > SurfMap->clip_rect.h - 392){
+		camposy = SurfMap->clip_rect.h - 392;
 	}
 
 }

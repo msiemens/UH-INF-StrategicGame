@@ -7,7 +7,8 @@
 
 #include "gamemodel/entities/EPlace.h"
 
-EPlace::EPlace() {
+EPlace::EPlace():
+	positionedarmy(new EArmy){
 	// TODO Auto-generated constructor stub
 	inhabitans=0;
 	minInhabitans=0;
@@ -20,5 +21,3 @@ EPlace::~EPlace() {
  void EPlace::addBuilding(EBuildingPtr building){
 	 buildinglist.insert(buildinglist.begin(),building);
  }
-
-
