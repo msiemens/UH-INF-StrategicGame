@@ -8,6 +8,7 @@
 #include "CSurface.h"
 #include "SDL/SDL_image.h"
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -25,6 +26,7 @@ SDL_Surface* CSurface::OnLoad(char* File) {
     SDL_Surface* Surf_Return = NULL;
 
     if((Surf_Temp = IMG_Load(File)) == NULL) {
+    	cerr << "File not found: " << File << endl;
         return NULL;
     }
 

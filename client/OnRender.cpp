@@ -26,18 +26,6 @@ void GameClient::OnRender() {
 
 		CSurface::OnDraw(Surf_Display, SurfMap, 0, 0);
 		CSurface::OnDraw(Surf_Display, SurfSlotSelected, 0, 0);
-		//test
-
-
-		//show armies
-		for (auto army : player.armies) {
-			char * path = new char[army->getImgPath().length()];
-			strcpy(path,army->getImgPath().c_str());
-			SurfSlotOwns = CSurface::OnLoad(path);
-			CSurface::OnDraw(Surf_Display, SurfSlotOwns, 0 + (i * 40), 490);
-			i++;
-		}
-		i = 0;
 
 		//show villages
 		for(auto place: player.places){
@@ -60,6 +48,17 @@ void GameClient::OnRender() {
 		}
 		if(GS.GET_GameState() == IG_VILLAGEMENU){
 			CSurface::OnDraw(Surf_Display, SurfVillageMenuBackground,50,50);
+
+
+			//show armies
+			for (auto army : player.armies) {
+				char * path = new char[army->getImgPath().length()];
+				strcpy(path,army->getImgPath().c_str());
+				SurfSlotOwns = CSurface::OnLoad(path);
+				CSurface::OnDraw(Surf_Display, SurfSlotOwns, 108 + (i * 40), 278);
+				i++;
+			}
+			i = 0;
 		}
 	}
 

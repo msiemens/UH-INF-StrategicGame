@@ -10,7 +10,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <gamemodel/entities/EPlace.h>
 #include <gamemodel/utils/coordinates.h>
 
 #include <gamemodel/GameAction.h>

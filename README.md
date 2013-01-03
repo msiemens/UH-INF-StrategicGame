@@ -1,5 +1,7 @@
 # UH-INF-StrategicGame
 
+[![Build Status](https://travis-ci.org/msiemens/UH-INF-StrategicGame.png?branch=master)](https://travis-ci.org/msiemens/UH-INF-StrategicGame)
+
 ## Abstract:
 
 This is strategic game implemented in C++. This project is part of informatics lecture project at Leibniz University Hannover (Germany).

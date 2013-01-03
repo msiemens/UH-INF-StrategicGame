@@ -14,7 +14,9 @@
 using namespace std;
 
 GameClient::GameClient() :
-		player(), Network("localhost", 1337) {
+		player(),
+		Network("localhost", 1337)
+{
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfStartscreenBackground = NULL;
@@ -32,10 +34,14 @@ GameClient::GameClient() :
 	selected = "";
 	markx = 0;
 	marky = 0;
+
 	EArmyPtr army1(new EArmy);
 	army1->setName("ArmyOne");
 	army1->setImgPath("client/gfx/entity/army.png");
 	player.armies.insert(player.armies.begin(), army1);
+	army1->setName("ArmyTwo");
+	army1->setImgPath("client/gfx/entity/army.png");
+	player.armies.insert(player.armies.end(), army1);
 
 	EPlacePtr place1(new EPlace);
 	place1->setImgPath("client/gfx/entity/village.png");
@@ -64,7 +70,7 @@ int GameClient::OnExecute() {
 		while (SDL_PollEvent(&Event)) { //Eventqueue
 			OnEvent(&Event);
 		}
-
+		//OnIncommingData();
 		OnLoop();
 		OnRender();
 	}
