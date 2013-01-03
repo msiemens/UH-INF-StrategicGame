@@ -45,8 +45,6 @@ void EArmy::Move(int dir, int size){
 				setStep(getSteps() - size);
 				break;
 		}
-	}else{
-
 	}
 }
 

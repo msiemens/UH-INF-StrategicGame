@@ -26,7 +26,6 @@ GameClient::GameClient() :
 	SurfButtonSSServer = NULL;
 	SurfButtonSSExit = NULL;
 	SurfSlotSelected = NULL;
-	SurfTroopInArmy = NULL;
 	SurfWalkable = NULL;
 	SurfBlock = NULL;
 	SurfPlace = NULL;
@@ -48,6 +47,8 @@ GameClient::GameClient() :
 	pressedright = false;
 	presseddown = false;
 	pressedleft = false;
+	cap = true;
+	frame = 0;
 }
 
 GameClient::~GameClient() {
@@ -83,13 +84,21 @@ int GameClient::OnExecute() {
 	SDL_Event Event;
 
 	while (running) {
+		//Start the frame timer
+		fps.start();
+
 		while (SDL_PollEvent(&Event)) { //Eventqueue
 			OnEvent(&Event);
 		}
 		OnLoop();
 		OnRender();
-		SDL_Delay(100);
 
+
+		//If we want to cap the frame rate
+		if( ( cap == true ) && ( fps.get_ticks() < 1000 / FRAMES_PER_SECOND ) ) {
+			//Sleep the remaining frame time
+			SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - fps.get_ticks() );
+		}
 	}
 
 	OnCleanup();

@@ -6,15 +6,6 @@ bool GameClient::OnInit() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		return true;
 	}
-//	int i = 0;
-//	int i2 = 0;
-//
-//	for (i2 = 0; i2 < 48; i2++) {
-//		for (i = 0; i < 64; i++) {
-//			cout << "w";
-//		}
-//		cout << endl;
-//	}
 
 	//startscreen solution
 	if ((Surf_Display = SDL_SetVideoMode(515, 352, 32,
@@ -59,12 +50,6 @@ bool GameClient::OnInit() {
 			== NULL) {
 		return false;
 	}
-
-	//load troopinarmy
-	if ((SurfTroopInArmy = CSurface::OnLoad((char*) "client/gfx/gui/main/hotbar.png")) == NULL) {
-		return false;
-	}
-
 
 	if ((SurfVillageMenuBackground = CSurface::OnLoad(
 			(char*) "client/gfx/gui/menu/villagemenubg.png")) == NULL) {

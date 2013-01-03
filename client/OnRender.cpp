@@ -32,11 +32,16 @@ void GameClient::ShowSelected() {
 		CSurface::OnDraw(Surf_Display, SurfSelected, 608, 347);
 
 		if (PlaceSelected->getCoords().x != 0 and PlaceSelected->getCoords().y != 0) {
-			CSurface::OnDraw(Surf_Display, SurfMark,
+			int mX = PlaceSelected->getCoords().x * TILE_SIZE - camposx;
+			int mY = PlaceSelected->getCoords().y * TILE_SIZE - camposy;
+			if(mX > 12 and mX < 488 and mY > 12 and mY < 392){
+				CSurface::OnDraw(Surf_Display, SurfMark,
 					PlaceSelected->getCoords().x * TILE_SIZE - camposx,
 					PlaceSelected->getCoords().y * TILE_SIZE - camposy);
+			}
 		}
 	}
+
 	if (ArmySelected) {
 //		char * buffer = new char[ArmySelected->getIconPath().length()];
 //		strcpy(buffer, ArmySelected->getIconPath().c_str());
@@ -47,12 +52,14 @@ void GameClient::ShowSelected() {
 
 		if (ArmySelected->getCoords().x != 0
 				and ArmySelected->getCoords().y != 0) {
-			CSurface::OnDraw(Surf_Display, SurfMark,
+			int mX = ArmySelected->getCoords().x * TILE_SIZE - camposx;
+			int mY = ArmySelected->getCoords().y * TILE_SIZE - camposy;
+			if(mX > 12 and mX < 488 and mY > 12 and mY < 392){
+				CSurface::OnDraw(Surf_Display, SurfMark,
 					ArmySelected->getCoords().x * TILE_SIZE - camposx,
 					ArmySelected->getCoords().y * TILE_SIZE - camposy);
+			}
 		}
-
-		//CSurface::OnDraw(Surf_Display, SurfTroopInArmy, 0,WHEIGHT - SurfTroopInArmy->clip_rect.h);
 
 		for (i = 0; i < ArmySelected->troops.size(); i++) {
 			char * path =
@@ -129,7 +136,17 @@ void GameClient::RenderInGame() {
 					CSurface::OnDraw(Surf_Display, SurfWalkable,
 							((coord.x) * TILE_SIZE) - camposx,
 							(coord.y * TILE_SIZE) - camposy);
-				} else {
+				} else if(map.isPlace(coord) == true) {
+					CSurface::OnDraw(Surf_Display, SurfPlace,
+							((coord.x) * TILE_SIZE) - camposx,
+							(coord.y * TILE_SIZE) - camposy);
+					break; //schleife verlassen nach einem Gebäude
+				}else if(map.isArmyPositioned(coord) == true){
+					CSurface::OnDraw(Surf_Display, SurfBlock,
+							((coord.x) * TILE_SIZE) - camposx,
+							(coord.y * TILE_SIZE) - camposy);//village zu testzwecken
+					break; //schleife verlassen nach einer armee
+				}else{
 					break; //schleife verlassen wenn nicht begehbar
 				}
 			}
@@ -143,6 +160,16 @@ void GameClient::RenderInGame() {
 					CSurface::OnDraw(Surf_Display, SurfWalkable,
 							((coord.x) * TILE_SIZE) - camposx,
 							(coord.y * TILE_SIZE) - camposy);
+				} else if(map.isPlace(coord) == true) {
+					CSurface::OnDraw(Surf_Display, SurfPlace,
+							((coord.x) * TILE_SIZE) - camposx,
+							(coord.y * TILE_SIZE) - camposy);
+					break; //schleife verlassen nach einem Gebäude
+				}else if(map.isArmyPositioned(coord) == true){
+					CSurface::OnDraw(Surf_Display, SurfBlock,
+							((coord.x) * TILE_SIZE) - camposx,
+							(coord.y * TILE_SIZE) - camposy);//village zu testzwecken
+					break; //schleife verlassen nach einer armee
 				} else {
 					break; //schleife verlassen wenn nicht begehbar
 				}
@@ -157,6 +184,16 @@ void GameClient::RenderInGame() {
 					CSurface::OnDraw(Surf_Display, SurfWalkable,
 							((coord.x) * TILE_SIZE) - camposx,
 							(coord.y * TILE_SIZE) - camposy);
+				} else if(map.isPlace(coord) == true) {
+					CSurface::OnDraw(Surf_Display, SurfPlace,
+							((coord.x) * TILE_SIZE) - camposx,
+							(coord.y * TILE_SIZE) - camposy);
+					break; //schleife verlassen nach einem Gebäude
+				}else if(map.isArmyPositioned(coord) == true){
+					CSurface::OnDraw(Surf_Display, SurfBlock,
+							((coord.x) * TILE_SIZE) - camposx,
+							(coord.y * TILE_SIZE) - camposy);//village zu testzwecken
+					break; //schleife verlassen nach einer armee
 				} else {
 					break; //schleife verlassen wenn nicht begehbar
 				}
@@ -171,6 +208,16 @@ void GameClient::RenderInGame() {
 					CSurface::OnDraw(Surf_Display, SurfWalkable,
 							((coord.x) * TILE_SIZE) - camposx,
 							(coord.y * TILE_SIZE) - camposy);
+				} else if(map.isPlace(coord) == true) {
+					CSurface::OnDraw(Surf_Display, SurfPlace,
+							((coord.x) * TILE_SIZE) - camposx,
+							(coord.y * TILE_SIZE) - camposy);
+					break; //schleife verlassen nach einem Gebäude
+				}else if(map.isArmyPositioned(coord) == true){
+					CSurface::OnDraw(Surf_Display, SurfBlock,
+							((coord.x) * TILE_SIZE) - camposx,
+							(coord.y * TILE_SIZE) - camposy);//block zu testzwecken
+					break; //schleife verlassen nach einer armee
 				} else {
 					break; //schleife verlassen wenn nicht begehbar
 				}

@@ -9,6 +9,7 @@
 #define GAMECLIENT_H_
 
 #include <string>
+#include <sstream>
 
 #include <network/ClientNetwork.h>
 #include <gamemodel/GameState.h>
@@ -19,10 +20,10 @@
 #include "CEvent.h"
 #include "CSurface.h"
 #include "Define.h"
+#include "Timer.h"
 
 
 using namespace std;
-
 
 enum {
 	START_SCREEN = 0, STARTUP_GAME, INGAME
@@ -72,7 +73,6 @@ private:
 	//VillageMenu
 	SDL_Surface* SurfVillageMenuBackground;
 	SDL_Surface* SurfArmyOptionBackground;
-	SDL_Surface* SurfTroopInArmy;
 
 	//Zum test
 	SDL_Surface* SurfVillage;
@@ -85,6 +85,16 @@ private:
 	GameEntity* gameentityselectedobject;
 	EPlacePtr PlaceSelected;
 	EArmyPtr ArmySelected;
+
+
+	//The frames per second
+	const int FRAMES_PER_SECOND = 20;
+	//Keep track of the current frame
+	int frame = 0;
+	//Whether or not to cap the frame rate
+	bool cap;
+	//The frame rate regulator
+	Timer fps;
 
 	int markx,marky;
 	int camposx,camposy;
@@ -120,11 +130,15 @@ public:
 	//incomming data
 	void RecruitTroopInBuilding();
 	void RecruitTroopOutside(coordinates coords);
+	void MergeArmyIntoPlace(coordinates coords, EArmyPtr Army);
+	void MergeArmies(coordinates coords, EArmyPtr Army);
+	EArmyPtr getArmyByCoords(coordinates coords);
 
 	void OnCleanup();
 	void CameraOnMove(int x, int y);
 	void CameraPosSet(int x, int y);
-	//void OnIncommingData();
+
+	EPlacePtr getPlaceFromCoords(coordinates coords);
 };
 
 #endif /* GAMECLIENT_H_ */

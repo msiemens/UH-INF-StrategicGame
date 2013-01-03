@@ -21,6 +21,5 @@ void GameClient::OnCleanup() {
 	SDL_FreeSurface(SurfVillageMenuBackground);
 	SDL_FreeSurface(SurfArmyOptionBackground);
 	SDL_FreeSurface(SurfConnection);
-	SDL_FreeSurface(SurfTroopInArmy);
 	SDL_Quit();
 }
