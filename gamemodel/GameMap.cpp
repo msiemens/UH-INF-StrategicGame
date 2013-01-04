@@ -7,7 +7,7 @@
 
 #include "GameMap.h"
 #include <iostream>
-#include <gamemodel/entities/EPlace.h>
+#include <gamemodel/entities/ELocation.h>
 using namespace std;
 
 GameMap::GameMap() {
@@ -76,7 +76,7 @@ void GameMap::createPlaces() {
 	for (int y = 0; y < mapSizeY; y++) {
 		for (int x = 0; x < mapSizeX; x++) {
 			if (isPlace(coordinates(x, y))) {
-				EPlacePtr place(new EPlace);
+				ELocationPtr place(new ELocation);
 				place->setCoords(x, y);
 				place->setImgPath("client/gfx/entity/village.png");
 				place->setIconPath("client/gfx/entity/icons/castle.png");
@@ -86,8 +86,8 @@ void GameMap::createPlaces() {
 	}
 }
 
-EPlacePtr GameMap::getPlaceAt(coordinates coords) {
-	EPlacePtr placeAt;
+ELocationPtr GameMap::getPlaceAt(coordinates coords) {
+	ELocationPtr placeAt;
 	for (auto place : placeList) {
 		coordinates placeCoords = place->getCoords();
 		if (placeCoords.x == coords.x and placeCoords.y == coords.y) {

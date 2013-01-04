@@ -12,7 +12,7 @@
 
 #include "gamemodel/GameEntity.h"
 #include "gamemodel/utils/coordinates.h"
-#include "gamemodel/entities/ETroops.h"
+#include "gamemodel/entities/EUnit.h"
 #include <list>
 #include <vector>
 
@@ -38,9 +38,9 @@ public:
 	void setStep(int x);
 
 	void Move(int dir, int size);
-	void addTroop(ETroopsPtr troop);
+	void addTroop(EUnitPtr troop);
 
-	std::vector<ETroopsPtr> troops;
+	std::vector<EUnitPtr> units;
 private:
 	int atk, def, pac, mor, tac, steps;
 };

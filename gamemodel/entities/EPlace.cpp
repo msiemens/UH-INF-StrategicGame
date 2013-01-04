@@ -7,17 +7,16 @@
 
 #include "gamemodel/entities/EPlace.h"
 
-EPlace::EPlace():
-	positionedarmy(new EArmy){
-	// TODO Auto-generated constructor stub
+EPlace::EPlace() {
 	inhabitans=0;
 	minInhabitans=0;
 }
 
 EPlace::~EPlace() {
-	// TODO Auto-generated destructor stub
 }
 
  void EPlace::addBuilding(EBuildingPtr building){
 	 buildinglist.insert(buildinglist.begin(),building);
  }
+
+

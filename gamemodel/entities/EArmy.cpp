@@ -48,10 +48,10 @@ void EArmy::Move(int dir, int size){
 	}
 }
 
-void EArmy::addTroop(ETroopsPtr troop) {
-	int troop_count=troops.size();
+void EArmy::addTroop(EUnitPtr troop) {
+	int troop_count=units.size();
 	if(troop_count<11){
-		troops.insert(troops.begin(),troop);
+		units.insert(units.begin(),troop);
 	}
 }
 

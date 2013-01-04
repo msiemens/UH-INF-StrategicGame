@@ -12,18 +12,17 @@
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
 
-#include <gamemodel/entities/ETroops.h>
-#include <gamemodel/entities/EBuilding.h>
-#include <gamemodel/entities/EPlace.h>
-
 #include <gamemodel/GameAction.h>
+
+#include <gamemodel/entities/EUnit.h>
+#include <gamemodel/entities/ELocation.h>
 
 class ARecruit: public GameAction {
 public:
 	virtual ~ARecruit();
 
-	ETroopsPtr what;
-	EPlacePtr base;
+	EUnitPtr what;
+	ELocationPtr base;
 
 private:
 	friend class boost::serialization::access;
@@ -33,7 +32,7 @@ private:
 		ar & boost::serialization::base_object<GameAction>(*this);
 
 		ar & what;
-		// ar & base;
+		ar & base;
 	}
 };
 

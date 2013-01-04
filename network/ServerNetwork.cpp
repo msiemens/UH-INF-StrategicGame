@@ -24,7 +24,7 @@ ServerNetwork::ServerNetwork(int port) :
 	m_network.ConnectOnPlayerConnect(
 			boost::bind(&ServerNetwork::OnPlayerConnect, this, _1));
 	m_network.ConnectOnMessage(
-			boost::bind(&ServerNetwork::OnMessage, this, _1, _2));
+			boost::bind(&ServerNetwork::OnMessage, this, _1, _2, _3));
 }
 
 ServerNetwork::~ServerNetwork() {
@@ -34,25 +34,19 @@ boost::shared_ptr<boost::thread> ServerNetwork::thread() {
 	return m_network.thread();
 }
 
-void ServerNetwork::ConnectOnAction(const signal_action_t::slot_type &subscriber) {
+void ServerNetwork::ConnectOnAction(
+		const signal_action_t::slot_type &subscriber) {
 	m_signal_on_action.connect(subscriber);
 }
 
-void ServerNetwork::ConnectOnMessage(const signal_meta_t::slot_type &subscriber) {
+void ServerNetwork::ConnectOnMessage(
+		const signal_meta_t::slot_type &subscriber) {
 	m_signal_on_message.connect(subscriber);
 }
 
 void ServerNetwork::OnPlayerConnect(NetPlayerPtr netplayer) {
-	std::cout << "ServerNetwork::OnPlayerConnect(...)" << std::endl;
-	std::cout << "Creating PlayerPtr" << std::endl;
 	PlayerPtr player(new Player);
-	std::cout << "Inserting player" << std::endl;
-	try {
-		// m_players[player] = netplayer;
-	} catch (std::bad_alloc &e) {
-		std::cout << e.what() << std::endl;
-	}
-	std::cout << "Exiting ServerNetwork::OnPlayerConnect(...)" << std::endl;
+	m_players[player] = netplayer;
 }
 
 void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
@@ -79,6 +73,7 @@ void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
+	archive.register_type<ARecruit>();
 
 	// Serialize object
 	int type = MESSAGE_STATE;
@@ -97,6 +92,7 @@ void ServerNetwork::BroadcastAction(GameActionPtr action) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
+	archive.register_type<ARecruit>();
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
@@ -128,7 +124,19 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 	m_network.game()->Broadcast(msg);
 }
 
-void ServerNetwork::OnMessage(char* message, int length) {
+void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer) {
+	std::cout << "ServerNetwork::OnMessage(...)" << std::endl;
+	std::cout << "Seeking Player oject" << std::endl;
+
+	PlayerPtr player;
+
+	for (auto pair : m_players) {
+		if (pair.second == netplayer) {
+			std::cout << "Found player object for NetPlayer" << std::endl;
+			player = pair.first;
+		}
+	}
+
 	std::stringstream buffer;
 
 	// Write message object to buffer
@@ -136,6 +144,7 @@ void ServerNetwork::OnMessage(char* message, int length) {
 
 	// Initialize Deserialization
 	boost::archive::text_iarchive archive(buffer);
+	archive.register_type<ARecruit>();
 
 	// Read message type
 	int message_type;
@@ -147,7 +156,9 @@ void ServerNetwork::OnMessage(char* message, int length) {
 		GameActionPtr action(new GameAction);
 		archive >> action;
 
-		m_signal_on_action(action);
+		std::cout << "Deserialization done!" << std::endl;
+
+		m_signal_on_action(action, player);
 		break;
 	}
 	case MESSAGE_META: {
@@ -155,10 +166,12 @@ void ServerNetwork::OnMessage(char* message, int length) {
 		GameMetaMessagePtr message(new GameMetaMessage);
 		// archive >> message;
 
-		m_signal_on_message(message);
+		m_signal_on_message(message, player);
 		break;
 	}
 	default:
 		break;
 	}
+
+	std::cout << "ServerNetwork::OnMessage: done" << std::endl;
 }

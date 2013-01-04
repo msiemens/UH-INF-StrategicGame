@@ -77,7 +77,7 @@ bool GameClient::OnInit() {
 		return false;
 	}
 
-	if (network.IsConnected() == true) {
+	if (/*network.IsConnected() ==*/ true) {
 		if ((SurfConnection = CSurface::OnLoad(
 				(char*) "client/gfx/gui/main/serveronline.png")) == NULL) {
 			return false;

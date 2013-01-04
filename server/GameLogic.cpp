@@ -30,27 +30,23 @@ GameLogic::GameLogic(GameMap *map, list<PlayerPtr> *playerlist) :
 }
 
 GameLogic::~GameLogic() {
-	// TODOAuto-generated destructor stub
 }
 
 //returns whose Army is positioned at coords
 boost::uuids::uuid GameLogic::whoseArmy(coordinates coords) {
 	boost::uuids::uuid playerId;
 
+	for (auto player : *playerlist) {
+		for (auto army : player->armies) {
+			coordinates pos = army->getCoords();
 
-		for (auto player : *playerlist) {
-			for (auto army : player->armies) {
-				coordinates pos = army->getCoords();
-
-				if (pos.x == coords.x && pos.y == coords.y) {
-					playerId = player->getPlayerId();
-				}
+			if (pos.x == coords.x && pos.y == coords.y) {
+				playerId = player->getPlayerId();
 			}
 		}
+	}
 
-		std::cout << "Auf "<< coords.x << "/" << coords.y << " ist eine Armee von Spieler #" /*<< playerId*/ << " positioniert.\n";
-
-		return playerId;
+	return playerId;
 }
 
 //return whose Place is at coords
@@ -58,19 +54,20 @@ boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
 	boost::uuids::uuid playerId;
 
 	for (auto player : *playerlist) {
-			for (auto place : player->places) {
-				coordinates pos = place->getCoords();
-				if (pos.x == coords.x && pos.y == coords.y) {
-					playerId = player->getPlayerId();
-				}
+		for (auto place : player->places) {
+			coordinates pos = place->getCoords();
+			if (pos.x == coords.x && pos.y == coords.y) {
+				playerId = player->getPlayerId();
 			}
 		}
+	}
 
-		return playerId;
+	return playerId;
 }
 
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
+	cout << "GameLogic::checkPlayerAction(...)" << endl;
 	bool valid = false;
 
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
@@ -81,11 +78,8 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 //recruit
 	if (recruit != NULL) {
 		GameRessourcePtr costs(recruit->costs);
-		ETroopsPtr troops(recruit->what);
-		EPlacePtr base(recruit->base);
-
-		std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " moechte "<< troops->getName() << ""
-				<< " in "<< base->getName() << " rekrutieren.\n";
+		EUnitPtr troops(recruit->what);
+		ELocationPtr base(recruit->base);
 
 		valid = true;
 	}
@@ -94,33 +88,27 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		GameEntityPtr what(move->what);
 		coordinates to = move->to;
 
-		std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " moechte "<< what->getName() << " nach " << to.x << "/"
-				<< to.y << " bewegen.\n";
-
 		valid = (map->isWalkable(to)) ? true : false;
 	}
 //build
 	else if (build != NULL) {
 		GameRessourcePtr costs(build->costs);
 		EBuildingPtr building(build->what);
-		EPlacePtr where(build->where);
-
-		std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " moechte " << building->getName() << " in " << where->getName() << " bauen.\n";
+		ELocationPtr where(build->where);
 
 		valid = true;
 	}
 //attack
 	else if (attack != NULL) {
+		cout << 4 << endl;
 		GameEntityPtr what(attack->what);
 		coordinates where = attack->where;
 
-		std::cout << "Spieler #"/*<<player->getPlayerId()*/ << " moechte mit "<< what->getName() << " auf Position "
-				""<<where.x << "/" << where.y << " angreifen.\n";
-
 		if (map->isArmyPositioned(where)) {
 			valid = (player->getPlayerId() != whoseArmy(where)) ? true : false;
-		}else {
-			std::cout << "Auf " << where.x << "/"  << where.y << " ist keine Armee positioniert\n";
+		} else {
+			std::cout << "Auf " << where.x << "/" << where.y
+					<< " ist keine Armee positioniert\n";
 		}
 
 	}

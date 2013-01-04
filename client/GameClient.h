@@ -13,9 +13,9 @@
 
 #include <network/ClientNetwork.h>
 #include <gamemodel/GameState.h>
-#include <gamemodel/Player.h>
 #include <gamemodel/GameEntity.h>
 #include <gamemodel/GameMap.h>
+#include <gamemodel/Player.h>
 
 #include "CEvent.h"
 #include "CSurface.h"
@@ -83,7 +83,7 @@ private:
 
 	string selected;
 	GameEntity* gameentityselectedobject;
-	EPlacePtr PlaceSelected;
+	ELocationPtr PlaceSelected;
 	EArmyPtr ArmySelected;
 
 
@@ -138,7 +138,7 @@ public:
 	void CameraOnMove(int x, int y);
 	void CameraPosSet(int x, int y);
 
-	EPlacePtr getPlaceFromCoords(coordinates coords);
+	ELocationPtr getPlaceFromCoords(coordinates coords);
 };
 
 #endif /* GAMECLIENT_H_ */

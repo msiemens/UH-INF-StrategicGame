@@ -8,13 +8,13 @@ using namespace std;
 
 void GameClient::RecruitTroopInBuilding() {
 	//if genug money =D
-	ETroopsPtr troop1(new ETroops);
+	EUnitPtr troop1(new EUnit);
 	troop1->setName("Army");
 	troop1->setImgPath("client/gfx/entity/army.png");
 	troop1->setIconPath("client/gfx/entity/icons/army.png");
 
-	if (PlaceSelected->positionedarmy->troops.size() < 10) {
-		PlaceSelected->positionedarmy->addTroop(troop1);
+	if (PlaceSelected->town_army->units.size() < 10) {
+		PlaceSelected->town_army->addTroop(troop1);
 	}
 
 	ARecruitPtr action(new ARecruit);
@@ -24,7 +24,7 @@ void GameClient::RecruitTroopInBuilding() {
 
 void GameClient::RecruitTroopOutside(coordinates coords) {
 	//if genug money =D
-	ETroopsPtr troop1(new ETroops);
+	EUnitPtr troop1(new EUnit);
 	troop1->setName("Troop");
 	troop1->setImgPath("client/gfx/entity/army.png");
 	troop1->setIconPath("client/gfx/entity/icons/army.png");
@@ -50,12 +50,12 @@ void GameClient::RecruitTroopOutside(coordinates coords) {
 
 void GameClient::MergeArmyIntoPlace(coordinates coords, EArmyPtr Army){
 	int i=0;
-	EPlacePtr place = map.getPlaceAt(coords);
-	if(10 - place->positionedarmy->troops.size() > Army->troops.size()){
-		for(i=0; i<Army->troops.size(); i++){
-			place->positionedarmy->troops.push_back(Army->troops[i]);
+	ELocationPtr place = map.getPlaceAt(coords);
+	if(10 - place->town_army->units.size() > Army->units.size()){
+		for(i=0; i<Army->units.size(); i++){
+			place->town_army->units.push_back(Army->units[i]);
 		}
-		Army->troops.clear();
+		Army->units.clear();
 		map.setWalkable(ArmySelected->getCoords());
 		ArmySelected.reset();
 		player.armies.remove(Army);
@@ -64,11 +64,11 @@ void GameClient::MergeArmyIntoPlace(coordinates coords, EArmyPtr Army){
 void GameClient::MergeArmies(coordinates coords, EArmyPtr Army){
 	int i=0;
 	EArmyPtr armyat = getArmyByCoords(coords);
-	if(armyat->troops.size() + Army->troops.size() <= 10){
-		for(i=0; i<Army->troops.size(); i++){
-			armyat->troops.push_back(Army->troops[i]);
+	if(armyat->units.size() + Army->units.size() <= 10){
+		for(i=0; i<Army->units.size(); i++){
+			armyat->units.push_back(Army->units[i]);
 		}
-		Army->troops.clear();
+		Army->units.clear();
 		map.setWalkable(ArmySelected->getCoords());
 		ArmySelected=armyat;
 		player.armies.remove(Army);

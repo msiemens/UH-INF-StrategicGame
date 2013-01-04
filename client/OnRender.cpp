@@ -61,10 +61,10 @@ void GameClient::ShowSelected() {
 			}
 		}
 
-		for (i = 0; i < ArmySelected->troops.size(); i++) {
+		for (i = 0; i < ArmySelected->units.size(); i++) {
 			char * path =
-					new char[ArmySelected->troops[i]->getImgPath().length()];
-			strcpy(path, ArmySelected->troops[i]->getImgPath().c_str());
+					new char[ArmySelected->units[i]->getImgPath().length()];
+			strcpy(path, ArmySelected->units[i]->getImgPath().c_str());
 			SurfSlotOwns = CSurface::OnLoad(path);
 			CSurface::OnDraw(Surf_Display, SurfSlotOwns, 18 + (i * 40), 405);
 		}
@@ -247,13 +247,13 @@ void GameClient::RenderInGame() {
 
 		//show troops
 		if (PlaceSelected) {
-			if (PlaceSelected->positionedarmy) {
-				for (i = 0; i < PlaceSelected->positionedarmy->troops.size();
+			if (PlaceSelected->town_army) {
+				for (i = 0; i < PlaceSelected->town_army->units.size();
 						i++) {
 					char * path =
-							new char[PlaceSelected->positionedarmy->troops[i]->getImgPath().length()];
+							new char[PlaceSelected->town_army->units[i]->getImgPath().length()];
 					strcpy(path,
-							PlaceSelected->positionedarmy->troops[i]->getImgPath().c_str());
+							PlaceSelected->town_army->units[i]->getImgPath().c_str());
 					SurfSlotOwns = CSurface::OnLoad(path);
 					CSurface::OnDraw(Surf_Display, SurfSlotOwns,18 + (i * 40), 405);
 				}

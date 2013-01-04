@@ -28,7 +28,7 @@ public:
 
 	bool onPlayerConnect(PlayerPtr player);
 	void onPlayerDisconnect(PlayerPtr player);
-	void onPlayerAction(/*PlayerPtr player,*/  GameActionPtr action);
+	void onPlayerAction(GameActionPtr action, PlayerPtr player);
 	void doAction(PlayerPtr player, GameActionPtr action);
 
 	void test();
@@ -36,9 +36,6 @@ public:
 
 	GameMap *map;
 	GameLogic logic;
-
-	PlayerPtr player;
-
 
 	bool isRunning;
 private:

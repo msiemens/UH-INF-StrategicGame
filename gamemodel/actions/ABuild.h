@@ -9,22 +9,31 @@
 #define ABUILD_H_
 
 #include <boost/shared_ptr.hpp>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/base_object.hpp>
 
-#include <gamemodel/utils/coordinates.h>
-#include <gamemodel/entities/EPlace.h>
+#include <gamemodel/GameAction.h>
+
+#include <gamemodel/entities/ELocation.h>
 #include <gamemodel/entities/EBuilding.h>
 
-#include "gamemodel/entities/EPlace.h"
-#include "gamemodel/entities/EBuilding.h"
-
-#include "gamemodel/GameAction.h"
+#include <gamemodel/utils/coordinates.h>
 
 class ABuild: public GameAction {
 public:
 	virtual ~ABuild();
 
 	EBuildingPtr what;
-	EPlacePtr where;
+	ELocationPtr where;
+
+private:
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & boost::serialization::base_object<GameAction>(*this);
+
+		ar & what;
+		ar & where;
+	}
 };
 
 typedef boost::shared_ptr<ABuild> ABuildPtr;

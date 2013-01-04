@@ -8,12 +8,12 @@
 #ifndef GAMEMAP_H_
 #define GAMEMAP_H_
 
-#include <gamemodel/utils/coordinates.h>
 #include <list>
-#include <gamemodel/entities/EPlace.h>
-#include <boost/uuid/uuid.hpp>
 #include <fstream>
 #include <string>
+#include <boost/uuid/uuid.hpp>
+#include <gamemodel/utils/coordinates.h>
+#include <gamemodel/entities/ELocation.h>
 
 
 class GameMap {
@@ -52,9 +52,9 @@ void createPlaces();
 
 int getClickPosX(int x);
 int getClickPosY(int y);
-EPlacePtr getPlaceAt(coordinates coords);
+ELocationPtr getPlaceAt(coordinates coords);
 
-std::list<EPlacePtr> placeList;
+std::list<ELocationPtr> placeList;
 
 int mapSizeX;
 int mapSizeY;

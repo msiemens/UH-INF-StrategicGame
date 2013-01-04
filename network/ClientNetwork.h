@@ -8,14 +8,15 @@
 #ifndef CLIENTNETWORK_H_
 #define CLIENTNETWORK_H_
 
+#include <string>
+
 #include <boost/thread.hpp>
 
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameMetaMessage.h>
 #include <network/messages/GameStateMessage.h>
-#include "network/client/ClientNetworkImpl.h"
-#include <string>
 
+#include "client/ClientNetworkImpl.h"
 
 using namespace std;
 
@@ -32,7 +33,6 @@ public:
 
 	void SendAction(GameActionPtr action);
 	void SendMetaMessage(GameMetaMessagePtr message);
-	bool IsConnected();
 
 	boost::shared_ptr<boost::thread> thread();
 private:
