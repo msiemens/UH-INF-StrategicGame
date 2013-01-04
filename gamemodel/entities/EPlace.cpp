@@ -8,13 +8,11 @@
 #include "gamemodel/entities/EPlace.h"
 
 EPlace::EPlace() {
-	// TODO Auto-generated constructor stub
 	inhabitans=0;
 	minInhabitans=0;
 }
 
 EPlace::~EPlace() {
-	// TODO Auto-generated destructor stub
 }
 
  void EPlace::addBuilding(EBuildingPtr building){

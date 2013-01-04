@@ -30,8 +30,7 @@ GameEngine::GameEngine(GameMap *map, list<PlayerPtr> *playerlist) :
 		playerlist(playerlist),
 		isRunning(true),
 		logic(map, playerlist),
-		m_network(1337),
-		player(new Player) {
+		m_network(1337) {
 	//test();
 }
 
@@ -47,11 +46,12 @@ bool GameEngine::onPlayerConnect(PlayerPtr player) {
 void GameEngine::onPlayerDisconnect(PlayerPtr player) {
 }
 
-void GameEngine::onPlayerAction(/* PlayerPtr player, */GameActionPtr action) {
+void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
 	cout << "GameEngine::onPlayerAction(...)" << endl;
 	if (logic.checkPlayerAction(player, action) == true) {
 		std::cout << "Action ist gueltig.\n";
 		doAction(player, action);
+		std::cout << "Action ausgeführt.\n";
 	} else {
 		std::cout << "Action von Spieler #" << player->getPlayerIdStr()
 				<< " ist ungueltig.\n";
@@ -59,22 +59,24 @@ void GameEngine::onPlayerAction(/* PlayerPtr player, */GameActionPtr action) {
 }
 
 void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
+	std::cout << "GameEngine::doAction(...).\n";
+
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
 	AMove* move = dynamic_cast<AMove*>(action.get());
 	ABuild* build = dynamic_cast<ABuild*>(action.get());
 	AAttack* attack = dynamic_cast<AAttack*>(action.get());
 
+	std::cout << "GameEngine::doAction: checking type.\n";
 	if (recruit != NULL) {
-
+		std::cout << "GameEngine::doAction: got a ARecruit.\n";
 		EUnitPtr unit(recruit->what);
 		// ELocationPtr base(recruit->base);
 		GameRessourcePtr costs(recruit->costs);
 
 		player->addUnit(unit);
-
 	}
 	if (move != NULL) {
-
+		std::cout << "GameEngine::doAction: got a AMove.\n";
 		map->printMapStatus();
 		GameEntityPtr what(move->what);
 
@@ -90,11 +92,13 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 	}
 	if (build != NULL) {
+		std::cout << "GameEngine::doAction: got a ABuild.\n";
 		EBuildingPtr building(build->what);
 		ELocationPtr where(build->where);
 		where->addBuilding(building);
 	}
 	if (attack != NULL) {
+		std::cout << "GameEngine::doAction: got a AAttack.\n";
 		GameEntityPtr what(attack->what);
 		coordinates where = attack->where;
 
@@ -121,6 +125,6 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 void GameEngine::run() {
 	m_network.ConnectOnAction(
-			boost::bind(&GameEngine::onPlayerAction, this, _1));
+			boost::bind(&GameEngine::onPlayerAction, this, _1, _2));
 	m_network.thread()->join();
 }

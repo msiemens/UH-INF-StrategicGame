@@ -138,8 +138,8 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 		if(mY > 117 and mY < 144){
 			if(mX > 409 and mX < 496){
 				//if genug money =D
-				ETroopsPtr troop1(new ETroops);
-				troop1->setName("Army");
+				EUnitPtr troop1(new EUnit);
+				// troop1->setName("Army");
 				troop1->setImgPath("client/gfx/entity/army.png");
 
 				ARecruitPtr action(new ARecruit);

@@ -24,7 +24,7 @@ ServerNetwork::ServerNetwork(int port) :
 	m_network.ConnectOnPlayerConnect(
 			boost::bind(&ServerNetwork::OnPlayerConnect, this, _1));
 	m_network.ConnectOnMessage(
-			boost::bind(&ServerNetwork::OnMessage, this, _1, _2));
+			boost::bind(&ServerNetwork::OnMessage, this, _1, _2, _3));
 }
 
 ServerNetwork::~ServerNetwork() {
@@ -34,21 +34,19 @@ boost::shared_ptr<boost::thread> ServerNetwork::thread() {
 	return m_network.thread();
 }
 
-void ServerNetwork::ConnectOnAction(const signal_action_t::slot_type &subscriber) {
+void ServerNetwork::ConnectOnAction(
+		const signal_action_t::slot_type &subscriber) {
 	m_signal_on_action.connect(subscriber);
 }
 
-void ServerNetwork::ConnectOnMessage(const signal_meta_t::slot_type &subscriber) {
+void ServerNetwork::ConnectOnMessage(
+		const signal_meta_t::slot_type &subscriber) {
 	m_signal_on_message.connect(subscriber);
 }
 
 void ServerNetwork::OnPlayerConnect(NetPlayerPtr netplayer) {
-	std::cout << "ServerNetwork::OnPlayerConnect(...)" << std::endl;
-	std::cout << "Creating PlayerPtr" << std::endl;
 	PlayerPtr player(new Player);
-	std::cout << "Inserting player" << std::endl;
 	m_players[player] = netplayer;
-	std::cout << "Exiting ServerNetwork::OnPlayerConnect(...)" << std::endl;
 }
 
 void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
@@ -126,7 +124,19 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 	m_network.game()->Broadcast(msg);
 }
 
-void ServerNetwork::OnMessage(char* message, int length) {
+void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer) {
+	std::cout << "ServerNetwork::OnMessage(...)" << std::endl;
+	std::cout << "Seeking Player oject" << std::endl;
+
+	PlayerPtr player;
+
+	for (auto pair : m_players) {
+		if (pair.second == netplayer) {
+			std::cout << "Found player object for NetPlayer" << std::endl;
+			player = pair.first;
+		}
+	}
+
 	std::stringstream buffer;
 
 	// Write message object to buffer
@@ -148,7 +158,7 @@ void ServerNetwork::OnMessage(char* message, int length) {
 
 		std::cout << "Deserialization done!" << std::endl;
 
-		m_signal_on_action(action);
+		m_signal_on_action(action, player);
 		break;
 	}
 	case MESSAGE_META: {
@@ -156,10 +166,12 @@ void ServerNetwork::OnMessage(char* message, int length) {
 		GameMetaMessagePtr message(new GameMetaMessage);
 		// archive >> message;
 
-		m_signal_on_message(message);
+		m_signal_on_message(message, player);
 		break;
 	}
 	default:
 		break;
 	}
+
+	std::cout << "ServerNetwork::OnMessage: done" << std::endl;
 }
