@@ -139,6 +139,10 @@ public:
 	void CameraPosSet(int x, int y);
 
 	ELocationPtr getPlaceFromCoords(coordinates coords);
+
+	// Network listeners
+	void OnNetworkAction(GameActionPtr action);
+	void OnNetworkMessage(GameStateMessagePtr message);
 };
 
 #endif /* GAMECLIENT_H_ */

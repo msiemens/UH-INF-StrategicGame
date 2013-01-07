@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <boost/bind.hpp>
 
 #include <SDL/SDL.h>
 
@@ -49,6 +50,10 @@ GameClient::GameClient() :
 	pressedleft = false;
 	cap = true;
 	frame = 0;
+
+	// Initiaize the network and connect the signal handlers
+	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
+	network.ConnectOnMessage(boost::bind(&GameClient::OnNetworkMessage, this, _1));
 }
 
 GameClient::~GameClient() {
