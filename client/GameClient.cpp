@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <boost/bind.hpp>
 
 #include <SDL/SDL.h>
 
@@ -14,51 +15,73 @@
 using namespace std;
 
 GameClient::GameClient() :
-		player(),
-		Network("localhost", 1337)
-{
+		player(), network("localhost", 1337) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
+	SurfMain = NULL;
 	SurfStartscreenBackground = NULL;
+	SurfConnection = NULL;
 	this->running = true;
 	SurfButtonSSStart = NULL;
 	SurfButtonSSOption = NULL;
 	SurfButtonSSServer = NULL;
 	SurfButtonSSExit = NULL;
 	SurfSlotSelected = NULL;
+	SurfWalkable = NULL;
+	SurfBlock = NULL;
+	SurfPlace = NULL;
 	SurfSelected = NULL;
 	SurfMark = NULL;
 	SurfVillage = NULL;
 	SurfVillageMenuBackground = NULL;
+	SurfArmyOptionBackground = NULL;
+	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
+	gameentityselectedobject = NULL;
 	selected = "";
 	markx = 0;
 	marky = 0;
+	gameentityselectedobject = NULL;
+	camposx = -12;
+	camposy = -12;
+	pressedup = false;
+	pressedright = false;
+	presseddown = false;
+	pressedleft = false;
+	cap = true;
+	frame = 0;
 
-	EArmyPtr army1(new EArmy);
-	// army1->setName("ArmyOne");
-	army1->setImgPath("client/gfx/entity/army.png");
-	player.armies.insert(player.armies.begin(), army1);
-	// army1->setName("ArmyTwo");
-	army1->setImgPath("client/gfx/entity/army.png");
-	player.armies.insert(player.armies.end(), army1);
-
-	ELocationPtr place1(new ELocation);
-	place1->setImgPath("client/gfx/entity/village.png");
-	coordinates coord(350, 250);
-	place1->setCoords(coord);
-	player.places.insert(player.places.begin(), place1);
-	ELocationPtr place2(new ELocation);
-	place2->setImgPath("client/gfx/entity/village.png");
-	coordinates coord2(280, 300);
-	place2->setCoords(coord2);
-	player.places.insert(player.places.end(), place2);
+	// Initiaize the network and connect the signal handlers
+	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
+	network.ConnectOnMessage(boost::bind(&GameClient::OnNetworkMessage, this, _1));
 }
 
 GameClient::~GameClient() {
+	// TODO Auto-generated destructor stub
+}
+
+void GameClient::CameraOnMove(int x, int y) {
+	camposx += x;
+	if(camposx < -12){ // -12 because of the bordersize (gfx/gui/main/main.png)
+		camposx = -12;
+	}else if(camposx > SurfMap->clip_rect.w - 488){
+		camposx = SurfMap->clip_rect.w - 488;//297;
+	}
+	camposy += y;
+	if(camposy < -12){
+		camposy = -12;
+	}else if(camposy > SurfMap->clip_rect.h - 392){
+		camposy = SurfMap->clip_rect.h - 392;
+	}
+
+}
+void GameClient::CameraPosSet(int x, int y) {
+	camposx = x;
+	camposy = y;
 }
 
 int GameClient::OnExecute() {
+
 	if (OnInit() == false) {
 		return -1;
 	}
@@ -66,17 +89,31 @@ int GameClient::OnExecute() {
 	SDL_Event Event;
 
 	while (running) {
+		//Start the frame timer
+		fps.start();
+
 		while (SDL_PollEvent(&Event)) { //Eventqueue
 			OnEvent(&Event);
 		}
-		//OnIncommingData();
 		OnLoop();
 		OnRender();
+
+
+		//If we want to cap the frame rate
+		if( ( cap == true ) && ( fps.get_ticks() < 1000 / FRAMES_PER_SECOND ) ) {
+			//Sleep the remaining frame time
+			SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - fps.get_ticks() );
+		}
 	}
 
 	OnCleanup();
 
 	return 0;
+}
+
+
+void GameClient::OnPlayerAction(GameActionPtr action) {
+	Network.ConnectOnAction(boost::bind(&......::....., this, _1))
 }
 
 int main(int argc, char* argv[]) {

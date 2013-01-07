@@ -11,9 +11,7 @@
 #include <list>
 #include <fstream>
 #include <string>
-
 #include <boost/uuid/uuid.hpp>
-
 #include <gamemodel/utils/coordinates.h>
 #include <gamemodel/entities/ELocation.h>
 
