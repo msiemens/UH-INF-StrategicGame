@@ -16,23 +16,21 @@
 
 #include "utils/counter.h"
 #include "utils/coordinates.h"
-#include "GameRessource.h"
-#include <string>
 using namespace std;
+class GameRessource;
 
 class GameEntity {
 public:
 	GameEntity();
 
-	counter<GameRessource> cost;
 
 	coordinates getCoords();
 
 	void setCoords(int x, int y);
 	void setCoords(coordinates coords);
 
-	string getName();
-	void setName(std::string name);
+public:
+	counter<GameRessource> cost;
 
 	void setImgPath(string path);
 	string getImgPath();
