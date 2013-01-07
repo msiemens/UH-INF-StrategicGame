@@ -23,10 +23,16 @@ public:
 	EArmy();
 	virtual ~EArmy();
 
-	void addTroop(EUnitPtr unit);
+	void AddTroop(EUnitPtr unit);
+	void Move(int dir, int size);
+
+	void SetStepsLeft(int steps);
+	int GetStepsLeft();
+
+	std::vector<EUnitPtr> units;
 
 private:
-	std::vector<EUnitPtr> m_units;
+	int m_steps_left_in_round;
 
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
