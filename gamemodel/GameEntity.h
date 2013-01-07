@@ -34,12 +34,15 @@ public:
 
 	void setImgPath(string path);
 	string getImgPath();
+	void setIconPath(string path);
+	string getIconPath();
 protected:
 	std::string name;
 
 private:
 	coordinates coords;
 	string imgpath;
+	string iconpath;
 
 	friend class boost::serialization::access;
 

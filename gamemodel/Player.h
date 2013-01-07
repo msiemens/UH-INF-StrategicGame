@@ -22,6 +22,7 @@
 #include "GameEntity.h"
 #include "GameRessource.h"
 #include "entities/EArmy.h"
+#include "entities/EUnit.h"
 #include "entities/ELocation.h"
 
 class Player {
