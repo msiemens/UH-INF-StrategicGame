@@ -235,7 +235,7 @@ void GameClient::HandleVillageMenuInput(int mX, int mY){
 
 void GameClient::HandleArmyOptionInput(int mX,int mY){
 	if(mY > (ArmySelected->getCoords().y*TILE_SIZE) - camposy + 27 and mY < ArmySelected->getCoords().y*TILE_SIZE - camposy + 54 ){
-		if(mX > (ArmySelected->getCoords().x*TILE_SIZE - camposx + TILE_SIZE) and mX < (ArmySelected->getCoords().x*TILE_SIZE-camposx + 167 ) and ArmySelected->getSteps() > 0){
+		if(mX > (ArmySelected->getCoords().x*TILE_SIZE - camposx + TILE_SIZE) and mX < (ArmySelected->getCoords().x*TILE_SIZE-camposx + 167 ) and ArmySelected->GetStepsLeft() > 0){
 			subGS.SET_GameState(IG_MOVEARMY);
 		}else{
 			subGS.SET_GameState(SUB_NONE);
@@ -249,7 +249,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 	int i=0;
 	if(ArmySelected){
 		//DIR UP
-		for(i=1; i <= ArmySelected->getSteps();i++){
+		for(i=1; i <= ArmySelected->GetStepsLeft();i++){
 			coordinates coord(ArmySelected->getCoords().x ,ArmySelected->getCoords().y- i);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
@@ -257,7 +257,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 						map.setWalkable(ArmySelected->getCoords());
 						ArmySelected->Move(DIR_UP,i);
 						map.setArmy(ArmySelected->getCoords());
-						if(ArmySelected->getSteps() == 0){
+						if(ArmySelected->GetStepsLeft() == 0){
 							subGS.SET_GameState(SUB_NONE);
 						}
 					}else if(map.isPlace(coord) == true){
@@ -275,7 +275,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 
 	if(ArmySelected){
 		//DIR RIGHT
-		for(i=1; i <= ArmySelected->getSteps();i++){
+		for(i=1; i <= ArmySelected->GetStepsLeft();i++){
 			coordinates coord(ArmySelected->getCoords().x + i,ArmySelected->getCoords().y);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
@@ -283,7 +283,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 						map.setWalkable(ArmySelected->getCoords());
 						ArmySelected->Move(DIR_RIGHT,i);
 						map.setArmy(ArmySelected->getCoords());
-						if(ArmySelected->getSteps() == 0){
+						if(ArmySelected->GetStepsLeft() == 0){
 							subGS.SET_GameState(SUB_NONE);
 						}
 					}else if(map.isPlace(coord) == true){
@@ -301,7 +301,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 
 	if(ArmySelected){
 		//DIR DOWN
-		for(i=1; i <= ArmySelected->getSteps();i++){
+		for(i=1; i <= ArmySelected->GetStepsLeft();i++){
 			coordinates coord(ArmySelected->getCoords().x,ArmySelected->getCoords().y + i);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
@@ -309,7 +309,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 						map.setWalkable(ArmySelected->getCoords());
 						ArmySelected->Move(DIR_DOWN,i);
 						map.setArmy(ArmySelected->getCoords());
-						if(ArmySelected->getSteps() == 0){
+						if(ArmySelected->GetStepsLeft() == 0){
 							subGS.SET_GameState(SUB_NONE);
 						}
 					}else if(map.isPlace(coord) == true){
@@ -328,7 +328,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 
 	if(ArmySelected){
 		//DIR LEFT
-		for(i=1; i <= ArmySelected->getSteps();i++){
+		for(i=1; i <= ArmySelected->GetStepsLeft();i++){
 			coordinates coord(ArmySelected->getCoords().x - i,ArmySelected->getCoords().y);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
@@ -336,7 +336,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 						map.setWalkable(ArmySelected->getCoords());
 						ArmySelected->Move(DIR_LEFT,i);
 						map.setArmy(ArmySelected->getCoords());
-						if(ArmySelected->getSteps() == 0){
+						if(ArmySelected->GetStepsLeft() == 0){
 							subGS.SET_GameState(SUB_NONE);
 						}
 					}else if(map.isPlace(coord) == true){

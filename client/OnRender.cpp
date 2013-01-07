@@ -126,7 +126,7 @@ void GameClient::RenderInGame() {
 	if (subGS.GET_GameState() == IG_MOVEARMY) {
 		if (ArmySelected) {
 			// show moveable fields
-			for (i = 1; i <= ArmySelected->getSteps(); i++) {
+			for (i = 1; i <= ArmySelected->GetStepsLeft(); i++) {
 				coordinates coord(ArmySelected->getCoords().x + i,
 						ArmySelected->getCoords().y);
 
@@ -151,7 +151,7 @@ void GameClient::RenderInGame() {
 				}
 			}
 
-			for (i = 1; i <= ArmySelected->getSteps(); i++) {
+			for (i = 1; i <= ArmySelected->GetStepsLeft(); i++) {
 				coordinates coord(ArmySelected->getCoords().x,
 						ArmySelected->getCoords().y + i);
 				if (map.isWalkable(coord) == true
@@ -175,7 +175,7 @@ void GameClient::RenderInGame() {
 				}
 			}
 
-			for (i = 1; i <= ArmySelected->getSteps(); i++) {
+			for (i = 1; i <= ArmySelected->GetStepsLeft(); i++) {
 				coordinates coord(ArmySelected->getCoords().x - i,
 						ArmySelected->getCoords().y);
 				if (map.isWalkable(coord) == true
@@ -199,7 +199,7 @@ void GameClient::RenderInGame() {
 				}
 			}
 
-			for (i = 1; i <= ArmySelected->getSteps(); i++) {
+			for (i = 1; i <= ArmySelected->GetStepsLeft(); i++) {
 				coordinates coord(ArmySelected->getCoords().x,
 						ArmySelected->getCoords().y - i);
 				if (map.isWalkable(coord) == true

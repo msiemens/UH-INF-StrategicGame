@@ -9,12 +9,11 @@ using namespace std;
 void GameClient::RecruitTroopInBuilding() {
 	//if genug money =D
 	EUnitPtr troop1(new EUnit);
-	troop1->setName("Army");
 	troop1->setImgPath("client/gfx/entity/army.png");
 	troop1->setIconPath("client/gfx/entity/icons/army.png");
 
 	if (PlaceSelected->town_army->units.size() < 10) {
-		PlaceSelected->town_army->addTroop(troop1);
+		PlaceSelected->town_army->AddTroop(troop1);
 	}
 
 	ARecruitPtr action(new ARecruit);
@@ -25,7 +24,6 @@ void GameClient::RecruitTroopInBuilding() {
 void GameClient::RecruitTroopOutside(coordinates coords) {
 	//if genug money =D
 	EUnitPtr troop1(new EUnit);
-	troop1->setName("Troop");
 	troop1->setImgPath("client/gfx/entity/army.png");
 	troop1->setIconPath("client/gfx/entity/icons/army.png");
 
@@ -33,15 +31,14 @@ void GameClient::RecruitTroopOutside(coordinates coords) {
 		for (auto army : player.armies){
 			if (army->getCoords().x == coords.x
 					and army->getCoords().y == coords.y) {
-				army->addTroop(troop1);
+				army->AddTroop(troop1);
 			}
 		}
 	} else {
 		EArmyPtr army(new EArmy);
 		army->setImgPath("client/gfx/entity/army.png");
-		army->setName("Army");
-		army->addTroop(troop1);
-		army->setStep(3);
+		army->AddTroop(troop1);
+		army->SetStepsLeft(3);
 		army->setCoords(coords);
 		player.armies.insert(player.armies.end(), army);
 		map.setArmy(coords);

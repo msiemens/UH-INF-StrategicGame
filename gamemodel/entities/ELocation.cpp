@@ -8,7 +8,7 @@
 #include "ELocation.h"
 
 ELocation::ELocation() :
-		m_inhabitans(0) {
+		m_inhabitans(0), town_army(new EArmy) {
 }
 
 ELocation::~ELocation() {
