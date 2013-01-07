@@ -8,11 +8,9 @@
 #include "network/messages/GameStateMessage.h"
 
 GameStateMessage::GameStateMessage() {
-	// TODO Auto-generated constructor stub
 
 }
 
 GameStateMessage::~GameStateMessage() {
-	// TODO Auto-generated destructor stub
 }
 

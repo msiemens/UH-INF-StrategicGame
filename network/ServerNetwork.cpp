@@ -78,7 +78,7 @@ void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
 	// Serialize object
 	int type = MESSAGE_STATE;
 	archive << type;
-	// archive << message;
+	archive << message;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
@@ -115,7 +115,7 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 	// Serialize object
 	int type = MESSAGE_STATE;
 	archive << type;
-	// archive << message;
+	archive << message;
 
 	// Create NetworkMessage
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
@@ -164,7 +164,7 @@ void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer)
 	case MESSAGE_META: {
 		std::cout << "Got an metamessage!" << std::endl;
 		GameMetaMessagePtr message(new GameMetaMessage);
-		// archive >> message;
+		archive >> message;
 
 		m_signal_on_message(message, player);
 		break;

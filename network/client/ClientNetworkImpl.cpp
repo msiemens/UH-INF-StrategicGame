@@ -36,7 +36,7 @@ ClientNetworkImpl::ClientNetworkImpl(const char* host, const char* port) :
 
 void ClientNetworkImpl::ConnectOnMessage(
 		const signal_t::slot_type &subscriber) {
-	// m_signal_onmessage.connect(handler);
+	m_signal_on_message.connect(subscriber);
 }
 
 // Write a message to the server

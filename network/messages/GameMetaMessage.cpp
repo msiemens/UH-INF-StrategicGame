@@ -8,11 +8,9 @@
 #include "network/messages/GameMetaMessage.h"
 
 GameMetaMessage::GameMetaMessage() {
-	// TODO Auto-generated constructor stub
 
 }
 
 GameMetaMessage::~GameMetaMessage() {
-	// TODO Auto-generated destructor stub
 }
 
