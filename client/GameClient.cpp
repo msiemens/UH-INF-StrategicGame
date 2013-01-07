@@ -79,6 +79,11 @@ int GameClient::OnExecute() {
 	return 0;
 }
 
+
+void GameClient::OnPlayerAction(GameActionPtr action) {
+	Network.ConnectOnAction(boost::bind(&......::....., this, _1))
+}
+
 int main(int argc, char* argv[]) {
 	GameClient game;
 	return game.OnExecute();
