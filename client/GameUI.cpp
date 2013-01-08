@@ -10,12 +10,10 @@
 namespace std {
 
 GameUI::GameUI() {
-	// TODO Auto-generated constructor stub
 
 }
 
 GameUI::~GameUI() {
-	// TODO Auto-generated destructor stub
 }
 
 void GameUI::ShowGamestate(GameState GS){
@@ -30,7 +28,7 @@ void GameUI::ShowSquads(){
 
 
 }
-void GameUI::markSquad(ETroops Squad){
+void GameUI::markSquad(EUnitPtr Squad){
 
 }
 void GameUI::HandleMouseInput(int MousePosX, int MousePosY){

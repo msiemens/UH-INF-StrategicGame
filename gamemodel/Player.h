@@ -22,7 +22,7 @@
 #include "GameEntity.h"
 #include "GameRessource.h"
 #include "entities/EArmy.h"
-#include "entities/EPlace.h"
+#include "entities/ELocation.h"
 
 class Player {
 public:
@@ -30,11 +30,11 @@ public:
 	virtual ~Player();
 
 	boost::uuids::uuid getPlayerId();
-	string getPlayerIdStr();
+	std::string getPlayerIdStr();
 
 	void addArmy(EArmyPtr army);
-	void addPlace(EPlacePtr place);
-	void addTroops(ETroopsPtr troops);
+	void addLocation(ELocationPtr place);
+	void addUnit(EUnitPtr unit);
 
 	void addRessource(GameRessourcePtr ressource);
 
@@ -50,7 +50,7 @@ public:
 	std::list<counter<GameRessourcePtr> > has;
 
 	std::list<EArmyPtr> armies;
-	std::list<EPlacePtr> places;
+	std::list<ELocationPtr> places;
 };
 
 typedef boost::shared_ptr<Player> PlayerPtr;
@@ -70,7 +70,7 @@ template<>
 class hash<PlayerPtr> {
 public:
 	size_t operator()(const PlayerPtr &p) const {
-		return hash<PlayerPtr>()(p);
+		return hash<Player>()(*p);
 	}
 };
 }

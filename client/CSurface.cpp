@@ -13,12 +13,10 @@
 using namespace std;
 
 CSurface::CSurface() {
-	// TODO Auto-generated constructor stub
 
 }
 
 CSurface::~CSurface() {
-	// TODO Auto-generated destructor stub
 }
 
 SDL_Surface* CSurface::OnLoad(char* File) {

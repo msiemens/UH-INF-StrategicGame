@@ -24,12 +24,15 @@
 using boost::asio::ip::tcp;
 using namespace std;
 
+class NetPlayer;
+
 typedef std::deque<NetworkMessagePtr> MessageQueue;
+typedef boost::shared_ptr<NetPlayer> NetPlayerPtr;
 
 class NetPlayer: public NetConnection, public boost::enable_shared_from_this<
 		NetPlayer> {
 public:
-	typedef boost::signals2::signal<void(char*, int)> signal_t;
+	typedef boost::signals2::signal<void(char*, int, NetPlayerPtr)> signal_t;
 
 	NetPlayer(boost::asio::io_service& io_service, NetGame& game);
 
@@ -67,5 +70,4 @@ private:
 	void _ReadBody();
 };
 
-typedef boost::shared_ptr<NetPlayer> NetPlayerPtr;
 #endif /* NETPLAYER_H_ */

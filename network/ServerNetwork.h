@@ -19,8 +19,8 @@ using namespace std;
 
 class ServerNetwork {
 public:
-	typedef boost::signals2::signal<void(GameActionPtr)> signal_action_t;
-	typedef boost::signals2::signal<void(GameMetaMessagePtr)> signal_meta_t;
+	typedef boost::signals2::signal<void(GameActionPtr, PlayerPtr)> signal_action_t;
+	typedef boost::signals2::signal<void(GameMetaMessagePtr, PlayerPtr)> signal_meta_t;
 
 	ServerNetwork(int port);
 	virtual ~ServerNetwork();
@@ -38,7 +38,7 @@ public:
 
 private:
 	void OnPlayerConnect(NetPlayerPtr netplayer);
-	void OnMessage(char* message, int length);
+	void OnMessage(char* message, int length, NetPlayerPtr player);
 
 	ServerNetworkImpl m_network;
 

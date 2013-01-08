@@ -46,19 +46,25 @@ void ClientNetwork::ConnectOnMessage(const signal_state_t::slot_type &subscriber
 
 void ClientNetwork::SendAction(GameActionPtr action) {
 	std::stringstream buffer;
+
+	std::cout << "Doing Initialization of Serialization" << std::endl;
 	boost::archive::text_oarchive archive(buffer);
 
 	archive.register_type<ARecruit>();
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
+	std::cout << "Serializing MessageType" << std::endl;
 	archive << type;
+	std::cout << "Serializing GameAction" << std::endl;
 	archive << action;
 
 	// Create NetworkMessage
+	std::cout << "Creating NetworkMessage" << std::endl;
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
 
 	// Pass message to m_network.send
+	std::cout << "Sending Message" << std::endl;
 	m_network.Write(msg);
 }
 

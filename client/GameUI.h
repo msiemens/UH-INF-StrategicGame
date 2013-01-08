@@ -6,7 +6,7 @@
  */
 
 #include <client/GameClient.h>
-#include <gamemodel/entities/ETroops.h>
+#include <gamemodel/entities/EUnit.h>
 #include <gamemodel/GameState.h>
 
 #ifndef GAMEUI_H_
@@ -21,7 +21,7 @@ public:
 	void ShowGamestate(GameState GS);
 	void ShowMap();
 	void ShowSquads();
-	void markSquad(ETroops Squad);
+	void markSquad(EUnitPtr Squad);
 	void HandleMouseInput(int MousePosX, int MousePosY);
 };
 
