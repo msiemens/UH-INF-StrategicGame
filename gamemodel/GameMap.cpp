@@ -15,8 +15,7 @@ GameMap::GameMap() {
 	editMode = false;
 	mapSizeX = 64;
 	mapSizeY = 48;
-	createMapFromTxt(
-			"client/maps/map3.txt");
+	createMapFromTxt("client/maps/map3.txt");
 	createPlaces();
 }
 

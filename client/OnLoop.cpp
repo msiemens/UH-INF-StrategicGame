@@ -4,11 +4,14 @@ using namespace std;
 void GameClient::OnLoop() {
 	if(pressedup){
 		CameraOnMove(0, -10);
-	}else if(pressedright){
+	}
+	if(pressedright){
 		CameraOnMove(10, 0);
-	}else if(presseddown){
+	}
+	if(presseddown){
 		CameraOnMove(0, 10);
-	}else if(pressedleft){
+	}
+	if(pressedleft){
 		CameraOnMove(-10, 0);
 	}
 }
