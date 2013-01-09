@@ -16,6 +16,7 @@
 #include <gamemodel/GameEntity.h>
 #include <gamemodel/GameMap.h>
 #include <gamemodel/Player.h>
+#include <gamemodel/actions/ARecruit.h>
 
 #include "CEvent.h"
 #include "CSurface.h"
@@ -129,9 +130,12 @@ public:
 	void ShowSelected();
 	//-----
 
-	//incomming data
 	void RecruitTroopInBuilding();
 	void RecruitTroopOutside(coordinates coords);
+
+	//incomming data
+	void RecruitOutside(ARecruitPtr action);
+	void RecruitInside(ARecruitPtr action);
 	void MergeArmyIntoPlace(coordinates coords, EArmyPtr Army);
 	void MergeArmies(coordinates coords, EArmyPtr Army);
 	EArmyPtr getArmyByCoords(coordinates coords);
@@ -140,7 +144,6 @@ public:
 	void CameraOnMove(int x, int y);
 	void CameraPosSet(int x, int y);
 
-	ELocationPtr getPlaceFromCoords(coordinates coords);
 
 	// Network listeners
 	void OnNetworkAction(GameActionPtr action);
