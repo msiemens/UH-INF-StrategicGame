@@ -120,6 +120,11 @@ void GameMap::createMapFromTxt(string path) {
 	int x = 0;
 	int y = 0;
 
+	if (!in.is_open()) {
+		cerr << "File not found: " << path << endl;
+		return;
+	}
+
 	while (in.eof() != true) {
 		char c = in.get();
 			if (c == '\n') {
