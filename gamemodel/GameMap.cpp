@@ -22,6 +22,21 @@ GameMap::GameMap() {
 GameMap::~GameMap() {
 }
 
+//return whose Place is at coords
+boost::uuids::uuid GameMap::whosePlace(coordinates coords) {
+	boost::uuids::uuid playerId;
+
+	for (auto place : placeList) {
+		coordinates pos = place->getCoords();
+		if (pos.x == coords.x && pos.y == coords.y) {
+			playerId = place->GetOwner();
+		}
+	}
+
+	return playerId;
+}
+
+
 void GameMap::setWalkable(coordinates coords) {
 	setWalkable(coords.x, coords.y);
 }
