@@ -14,6 +14,7 @@
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/vector.hpp>
+#include <boost/uuid/uuid.hpp>
 
 #include <gamemodel/GameEntity.h>
 #include <gamemodel/entities/EArmy.h>
