@@ -16,10 +16,16 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 
 void GameClient::RecruitInside(ARecruitPtr action){
 	//Myturn
-	if(onturn){
-		map.getPlaceAt(action->base->getCoords())->town_army->AddTroop(action->what);
-	}else{
+	ELocationPtr place = map.getPlaceAt(action->base->getCoords());
 
+	if(onturn){
+		if(place->GetOwner() == player.id){
+			place->town_army->AddTroop(action->what);
+		}
+	}else{
+		if(place->GetOwner() != player.id){//verhindert dass der player seine truppen in gegnerische städte platziert
+			place->town_army->AddTroop(action->what);
+		}
 	}
 }
 
