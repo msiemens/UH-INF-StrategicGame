@@ -48,9 +48,11 @@ private:
 	GameState subGS;
 
 	Player player;
+	Player opponent;
 	string ServerAddress;
 	ClientNetwork network;
 	GameMap map;
+	bool onturn;
 
 	SDL_Surface* Surf_Display;
 

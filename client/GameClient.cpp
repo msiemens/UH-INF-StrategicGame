@@ -15,7 +15,7 @@
 using namespace std;
 
 GameClient::GameClient() :
-		player(), network("localhost", 1337) {
+		player(),opponent(), network("localhost", 1337) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfMain = NULL;
@@ -50,6 +50,7 @@ GameClient::GameClient() :
 	pressedleft = false;
 	cap = true;
 	frame = 0;
+	onturn = true; // eigentlich entscheidet das der server!
 
 	// Initiaize the network and connect the signal handlers
 	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
