@@ -22,6 +22,7 @@ public:
 	virtual ~AMove();
 
 	coordinates to;
+	coordinates from;
 	GameEntityPtr what;
 	int count;
 
@@ -34,6 +35,7 @@ private:
 
 		ar & what;
 		ar & to;
+		ar & from;
 		ar & count;
 	}
 };

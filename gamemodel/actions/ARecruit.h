@@ -16,6 +16,7 @@
 
 #include <gamemodel/entities/EUnit.h>
 #include <gamemodel/entities/ELocation.h>
+#include <gamemodel/utils/coordinates.h>
 
 class ARecruit: public GameAction {
 public:
@@ -23,6 +24,7 @@ public:
 
 	EUnitPtr what;
 	ELocationPtr base;
+	bool inside;
 
 private:
 	friend class boost::serialization::access;
@@ -33,6 +35,7 @@ private:
 
 		ar & what;
 		ar & base;
+		ar & inside;
 	}
 };
 

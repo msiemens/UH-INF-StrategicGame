@@ -17,3 +17,14 @@ ELocation::~ELocation() {
 void ELocation::addBuilding(EBuildingPtr building) {
 	m_buildings.push_back(building);
 }
+coordinates ELocation::GetAssemblyPointCoords(){
+	return this->assemblypoint;
+}
+void ELocation::SetAssemblyPointCoords(coordinates coords){
+	this->assemblypoint.x = coords.x;
+	this->assemblypoint.y = coords.y;
+}
+void ELocation::SetAssemblyPointCoord(int x, int y){
+	this->assemblypoint.x = x;
+	this->assemblypoint.y = y;
+}

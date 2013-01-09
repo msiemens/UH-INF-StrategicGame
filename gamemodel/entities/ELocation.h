@@ -25,13 +25,16 @@ public:
 	virtual ~ELocation();
 
 	void addBuilding(EBuildingPtr building);
-
+	coordinates GetAssemblyPointCoords();
+	void SetAssemblyPointCoords(coordinates coords);
+	void SetAssemblyPointCoord(int x, int y);
 public:
 	EArmyPtr town_army;
 
 private:
 	std::vector<EBuildingPtr> m_buildings;
 	int m_inhabitans;
+	coordinates assemblypoint;
 
 	friend class boost::serialization::access;
 
@@ -41,6 +44,7 @@ private:
 
 		ar & m_buildings;
 		ar & m_inhabitans;
+		ar & assemblypoint;
 	}
 };
 
