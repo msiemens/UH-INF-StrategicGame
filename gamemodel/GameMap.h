@@ -29,6 +29,8 @@ enum attributes {
 walkable = 0x01, blocked = 0x02, place = 0x04, army = 0x08
 };
 
+boost::uuids::uuid whosePlace(coordinates coords);
+
 void setWalkable(coordinates coords);
 void setWalkable(int x, int y);
 

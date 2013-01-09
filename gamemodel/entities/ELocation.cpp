@@ -8,7 +8,7 @@
 #include "ELocation.h"
 
 ELocation::ELocation() :
-		m_inhabitans(0), town_army(new EArmy) {
+		m_inhabitans(0), town_army(new EArmy), owned(false) {
 }
 
 ELocation::~ELocation() {
@@ -27,4 +27,12 @@ void ELocation::SetAssemblyPointCoords(coordinates coords){
 void ELocation::SetAssemblyPointCoord(int x, int y){
 	this->assemblypoint.x = x;
 	this->assemblypoint.y = y;
+}
+
+boost::uuids::uuid ELocation::GetOwner(){
+	return this->owner;
+}
+
+void ELocation::SetOwner(boost::uuids::uuid id){
+	this->owner = id;
 }

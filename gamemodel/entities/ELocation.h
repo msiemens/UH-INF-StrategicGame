@@ -28,10 +28,16 @@ public:
 	coordinates GetAssemblyPointCoords();
 	void SetAssemblyPointCoords(coordinates coords);
 	void SetAssemblyPointCoord(int x, int y);
+
+	boost::uuids::uuid GetOwner();
+	void SetOwner(boost::uuids::uuid id);
+	bool owned;
+
 public:
 	EArmyPtr town_army;
 
 private:
+	boost::uuids::uuid owner;
 	std::vector<EBuildingPtr> m_buildings;
 	int m_inhabitans;
 	coordinates assemblypoint;
