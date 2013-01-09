@@ -108,7 +108,6 @@ int GameClient::OnExecute() {
 	}
 
 	OnCleanup();
-
 	return 0;
 }
 
