@@ -5,9 +5,10 @@
  * Author: Henrik
  */
 
-#include "GameMap.h"
 #include <iostream>
 #include <gamemodel/entities/ELocation.h>
+#include "GameMap.h"
+
 using namespace std;
 
 GameMap::GameMap() {
@@ -15,9 +16,8 @@ GameMap::GameMap() {
 	mapSizeX = 64;
 	mapSizeY = 48;
 	createMapFromTxt(
-			"C:/GameDev/Projekte/UH-INF-StrategicGame.build/client/maps/map3.txt");
+			"client/maps/map3.txt");
 	createPlaces();
-	//printMapStatus();
 }
 
 GameMap::~GameMap() {
@@ -119,6 +119,11 @@ void GameMap::createMapFromTxt(string path) {
 
 	int x = 0;
 	int y = 0;
+
+	if (!in.is_open()) {
+		cerr << "File not found: " << path << endl;
+		return;
+	}
 
 	while (in.eof() != true) {
 		char c = in.get();
