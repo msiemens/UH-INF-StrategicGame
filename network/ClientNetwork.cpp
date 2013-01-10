@@ -101,7 +101,9 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 		case MESSAGE_ACTION: {
 			std::cout << "Got an action!" << std::endl;
 			GameActionPtr action(new GameAction);
+			std::cout << "Create an action!" << std::endl;
 			archive >> action;
+			std::cout << "archive the action!" << std::endl;
 
 			m_signal_on_action(action);
 			break;

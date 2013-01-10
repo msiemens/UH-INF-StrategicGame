@@ -13,7 +13,7 @@
 #include <boost/uuid/uuid.hpp>
 
 #include <server/GameLogic.h>
-#include <server/GameMap.h>
+#include <gamemodel/GameMap.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/GameAction.h>
 #include <gamemodel/entities/EArmy.h>

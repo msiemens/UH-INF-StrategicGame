@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "GameEngine.h"
-#include "GameMap.h"
+#include "gamemodel/GameMap.h"
 #include <gamemodel/Player.h>
 #include <list>
 

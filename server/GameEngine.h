@@ -11,11 +11,12 @@
 #include <list>
 
 #include <network/ServerNetwork.h>
+#include <gamemodel/GameMap.h>
 
 #include "GameLogic.h"
 
 class Player;
-class GameMap;
+//class GameMap;
 
 using namespace std;
 

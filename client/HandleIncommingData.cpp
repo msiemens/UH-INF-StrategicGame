@@ -1,5 +1,6 @@
 #include "client/GameClient.h"
 #include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/AMove.h>
 
 #include <iostream>
 #include <list>
@@ -19,7 +20,7 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 	if (recruit != NULL) {
 		 cout << "Es ist ein recruit!" << endl;
 		if(recruit->inside == true){
-			 cout << "Es ist meins=P." << endl;
+			 cout << "inside" << endl;
 			RecruitInside(recruit);
 		}
 	}
