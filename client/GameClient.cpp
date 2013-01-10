@@ -111,9 +111,11 @@ int GameClient::OnExecute() {
 	return 0;
 }
 
+void GameClient::OnNetworkAction(GameActionPtr action){
 
-void GameClient::OnPlayerAction(GameActionPtr action) {
-	Network.ConnectOnAction(boost::bind(&......::....., this, _1))
+}
+void GameClient::OnNetworkMessage(GameStateMessagePtr message){
+
 }
 
 int main(int argc, char* argv[]) {
