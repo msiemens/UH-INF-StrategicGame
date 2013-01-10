@@ -12,10 +12,6 @@ void GameClient::RecruitTroopInBuilding() {
 	troop1->setImgPath("client/gfx/entity/army.png");
 	troop1->setIconPath("client/gfx/entity/icons/army.png");
 
-//	if (PlaceSelected->town_army->units.size() < 10) {
-//		PlaceSelected->town_army->AddTroop(troop1);
-//	}
-
 	ARecruitPtr action(new ARecruit);
 	action->what = troop1;
 	action->base = PlaceSelected;

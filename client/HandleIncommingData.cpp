@@ -8,13 +8,30 @@ using namespace std;
 
 // Network listeners
 void GameClient::OnNetworkAction(GameActionPtr action){
+ cout << "Ich bekomme etwas." << endl;
+	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
+	AMove* move = dynamic_cast<AMove*>(action.get());
+//	ABuild* build = dynamic_cast<ABuild*>(action.get());
+//	AAttack* attack = dynamic_cast<AAttack*>(action.get());
+	 cout << "Casten hat funktioniert." << endl;
 
+
+	if (recruit != NULL) {
+		 cout << "Es ist ein recruit!" << endl;
+		if(recruit->inside == true){
+			 cout << "Es ist meins=P." << endl;
+			RecruitInside(recruit);
+		}
+	}
+	if (move != NULL) {
+
+	}
 }
 void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 
 }
 
-void GameClient::RecruitInside(ARecruitPtr action){
+void GameClient::RecruitInside(ARecruit* action){
 	//Myturn
 	ELocationPtr place = map.getPlaceAt(action->base->getCoords());
 
