@@ -14,9 +14,7 @@
 
 #include <gamemodel/utils/coordinates.h>
 
-using namespace std;
-
-class ASetAP {
+class ASetAP: public GameAction {
 public:
 	ASetAP();
 	virtual ~ASetAP();
