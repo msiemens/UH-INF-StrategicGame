@@ -13,6 +13,7 @@
 #include <boost/serialization/base_object.hpp>
 
 #include <gamemodel/utils/coordinates.h>
+#include <gamemodel/GameAction.h>
 
 class ASetAP: public GameAction {
 public:
