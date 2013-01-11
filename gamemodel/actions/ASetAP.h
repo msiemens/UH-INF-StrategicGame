@@ -12,7 +12,9 @@
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
 
-namespace std {
+#include <gamemodel/utils/coordinates.h>
+
+using namespace std;
 
 class ASetAP {
 public:
@@ -35,5 +37,6 @@ private:
 	}
 };
 
-} /* namespace std */
+typedef boost::shared_ptr<ASetAP> ASetAPPtr;
+
 #endif /* ASETAP_H_ */
