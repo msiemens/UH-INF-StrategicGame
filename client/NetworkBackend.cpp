@@ -77,8 +77,8 @@ void GameClient::SendSetAP(coordinates coords) {
 	ASetAPPtr action(new ASetAP);
 	action->basecoords.x = PlaceSelected->getCoords().x;
 	action->basecoords.y = PlaceSelected->getCoords().y;
-	action->ap_x = coords.x;
-	action->ap_y = coords.y;
+	action->apcoords.x = coords.x;
+	action->apcoords.y = coords.y;
 
 	network.SendAction(action);
 }
