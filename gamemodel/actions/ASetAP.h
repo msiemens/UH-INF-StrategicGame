@@ -17,7 +17,6 @@
 
 class ASetAP: public GameAction {
 public:
-	ASetAP();
 	virtual ~ASetAP();
 
 	coordinates basecoords;
