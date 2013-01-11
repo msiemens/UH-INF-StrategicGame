@@ -8,6 +8,38 @@
 
 using namespace std;
 
+void GameClient::SendMoveArmy(int dir, int size){
+//prepare the action to send
+	AMovePtr action(new AMove);
+	action->what = ArmySelected;
+	action->from = ArmySelected->getCoords();
+//if enough steps left
+	if (size <= ArmySelected->GetStepsLeft()) {
+		switch (dir) {
+		case 0:
+			action->to.x = ArmySelected->getCoords().x;
+			action->to.y = ArmySelected->getCoords().y - size;
+			break;
+		case 1:
+			action->to.x = ArmySelected->getCoords().x +  size;
+			action->to.y = ArmySelected->getCoords().y;
+			break;
+		case 2:
+			action->to.x = ArmySelected->getCoords().x;
+			action->to.y = ArmySelected->getCoords().y +  size;
+			break;
+		case 3:
+			action->to.x = ArmySelected->getCoords().x - size;
+			action->to.y = ArmySelected->getCoords().y;
+			break;
+		}
+//remove Stepsleft
+		ArmySelected->SetStepsLeft( ArmySelected->GetStepsLeft() - size);
+//send the action
+		network.SendAction(action);
+	}
+}
+
 void GameClient::RecruitTroopInBuilding() {
 	EUnitPtr troop1(new EUnit);
 	troop1->setImgPath("client/gfx/entity/army.png");

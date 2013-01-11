@@ -17,6 +17,8 @@
 #include <gamemodel/GameMap.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/AMove.h>
+#include <gamemodel/actions/ASetAP.h>
 
 #include "CEvent.h"
 #include "CSurface.h"
@@ -147,8 +149,11 @@ public:
 	void CameraPosSet(int x, int y);
 
 	//send functions
-
+	void SendMoveArmy(int dir, int size);
 	void SendSetAP(coordinates coords);
+
+	//receive functions
+	void ReceiveMoveArmy(AMove* move);
 
 	// Network listeners
 	void OnNetworkAction(GameActionPtr action);

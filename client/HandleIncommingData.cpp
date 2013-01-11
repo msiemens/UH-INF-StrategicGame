@@ -22,7 +22,7 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 	}
 
 	if (move != NULL) {
-
+		ReceiveMoveArmy(move);
 	}
 
 	if (setAP != NULL) {
@@ -30,8 +30,26 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 		place->SetAssemblyPointCoords(setAP->apcoords);
 	}
 }
-void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 
+void GameClient::OnNetworkMessage(GameStateMessagePtr message){}
+
+void GameClient::ReceiveMoveArmy(AMove* move){
+//if moveable...move
+	if(map.isWalkable(move->to) == true and map.isPlace(move->to) == false and map.isArmyPositioned(move->to)==false){
+		map.setWalkable(ArmySelected->getCoords());
+		ArmySelected->setCoords(move->to);
+		map.setArmy(ArmySelected->getCoords());
+		if(ArmySelected->GetStepsLeft() == 0){
+			subGS.SET_GameState(SUB_NONE);
+		}
+	}else if(map.isPlace(move->to) == true){
+//if there is a place, merge into(if possible)
+		MergeArmyIntoPlace(move->to, ArmySelected);
+		subGS.SET_GameState(SUB_NONE);
+	}else if(map.isArmyPositioned(move->to) == true){
+		MergeArmies(move->to, ArmySelected);
+		subGS.SET_GameState(SUB_NONE);
+	}
 }
 
 void GameClient::RecruitInside(ARecruit* action){

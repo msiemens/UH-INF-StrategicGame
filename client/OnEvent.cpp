@@ -288,26 +288,16 @@ void GameClient::HandleArmyOptionInput(int mX,int mY){
 
 void GameClient::HandleMoveArmyInput(int mX,int mY){
 	int i=0;
+
 	if(ArmySelected){
 		//DIR UP
 		for(i=1; i <= ArmySelected->GetStepsLeft();i++){
+//Get coords move to
 			coordinates coord(ArmySelected->getCoords().x ,ArmySelected->getCoords().y- i);
+//if clicked inside the range
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					if(map.isWalkable(coord) == true and map.isPlace(coord) == false and map.isArmyPositioned(coord)==false){
-						map.setWalkable(ArmySelected->getCoords());
-						ArmySelected->Move(DIR_UP,i);
-						map.setArmy(ArmySelected->getCoords());
-						if(ArmySelected->GetStepsLeft() == 0){
-							subGS.SET_GameState(SUB_NONE);
-						}
-					}else if(map.isPlace(coord) == true){
-						MergeArmyIntoPlace(coord, ArmySelected);
-						subGS.SET_GameState(SUB_NONE);
-					}else if(map.isArmyPositioned(coord) == true){
-						MergeArmies(coord, ArmySelected);
-						subGS.SET_GameState(SUB_NONE);
-					}
+					SendMoveArmy(DIR_UP,i);
 					break;
 				}
 			}
@@ -320,20 +310,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			coordinates coord(ArmySelected->getCoords().x + i,ArmySelected->getCoords().y);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					if(map.isWalkable(coord) == true and map.isPlace(coord) == false and map.isArmyPositioned(coord)==false){
-						map.setWalkable(ArmySelected->getCoords());
-						ArmySelected->Move(DIR_RIGHT,i);
-						map.setArmy(ArmySelected->getCoords());
-						if(ArmySelected->GetStepsLeft() == 0){
-							subGS.SET_GameState(SUB_NONE);
-						}
-					}else if(map.isPlace(coord) == true){
-						MergeArmyIntoPlace(coord, ArmySelected);
-						subGS.SET_GameState(SUB_NONE);
-					}else if(map.isArmyPositioned(coord) == true){
-						MergeArmies(coord, ArmySelected);
-						subGS.SET_GameState(SUB_NONE);
-					}
+					SendMoveArmy(DIR_RIGHT,i);
 					break;
 				}
 			}
@@ -346,20 +323,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			coordinates coord(ArmySelected->getCoords().x,ArmySelected->getCoords().y + i);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					if(map.isWalkable(coord) == true and map.isPlace(coord) == false and map.isArmyPositioned(coord)==false){
-						map.setWalkable(ArmySelected->getCoords());
-						ArmySelected->Move(DIR_DOWN,i);
-						map.setArmy(ArmySelected->getCoords());
-						if(ArmySelected->GetStepsLeft() == 0){
-							subGS.SET_GameState(SUB_NONE);
-						}
-					}else if(map.isPlace(coord) == true){
-						MergeArmyIntoPlace(coord, ArmySelected);
-						subGS.SET_GameState(SUB_NONE);
-					}else if(map.isArmyPositioned(coord) == true){
-						MergeArmies(coord, ArmySelected);
-						subGS.SET_GameState(SUB_NONE);
-					}
+					SendMoveArmy(DIR_DOWN,i);
 					break;
 				}
 			}
@@ -373,26 +337,12 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			coordinates coord(ArmySelected->getCoords().x - i,ArmySelected->getCoords().y);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					if(map.isWalkable(coord) == true and map.isPlace(coord) == false and map.isArmyPositioned(coord)==false){
-						map.setWalkable(ArmySelected->getCoords());
-						ArmySelected->Move(DIR_LEFT,i);
-						map.setArmy(ArmySelected->getCoords());
-						if(ArmySelected->GetStepsLeft() == 0){
-							subGS.SET_GameState(SUB_NONE);
-						}
-					}else if(map.isPlace(coord) == true){
-						MergeArmyIntoPlace(coord, ArmySelected);
-						subGS.SET_GameState(SUB_NONE);
-					}else if(map.isArmyPositioned(coord) == true){
-						MergeArmies(coord, ArmySelected);
-						subGS.SET_GameState(SUB_NONE);
-					}
+					SendMoveArmy(DIR_LEFT,i);
 					break;
 				}
 			}
 		}
 	}
-
 }
 
 void GameClient::OnRButtonDown(int mX, int mY) {
