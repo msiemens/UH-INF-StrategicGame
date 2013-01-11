@@ -146,6 +146,9 @@ public:
 	void CameraOnMove(int x, int y);
 	void CameraPosSet(int x, int y);
 
+	//send functions
+
+	void SendSetAP(coordinates coords);
 
 	// Network listeners
 	void OnNetworkAction(GameActionPtr action);

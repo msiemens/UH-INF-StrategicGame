@@ -1,6 +1,7 @@
 #include "client/GameClient.h"
 
 #include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/ASetAP.h>
 
 #include <iostream>
 #include <list>
@@ -69,4 +70,15 @@ EArmyPtr GameClient::getArmyByCoords(coordinates coords){
 		}
 	}
 	return armyat;
+}
+
+void GameClient::SendSetAP(coordinates coords) {
+
+	ASetAPPtr action(new ASetAP);
+	action->basecoords.x = PlaceSelected->getCoords().x;
+	action->basecoords.y = PlaceSelected->getCoords().y;
+	action->ap_x = coords.x;
+	action->ap_y = coords.y;
+
+	network.SendAction(action);
 }
