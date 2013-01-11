@@ -7,6 +7,4 @@
 
 #include "ASetAP.h"
 
-using namespace std;
-
 ASetAP::~ASetAP() {}
