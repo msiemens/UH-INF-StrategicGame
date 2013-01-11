@@ -22,8 +22,7 @@ public:
 	virtual ~ASetAP();
 
 	coordinates basecoords;
-	int ap_x;
-	int ap_y;
+	coordinates apcoords;
 private:
 	friend class boost::serialization::access;
 
@@ -32,8 +31,7 @@ private:
 		ar & boost::serialization::base_object<GameAction>(*this);
 
 		ar & basecoords;
-		ar & ap_x;
-		ar & ap_y;
+		ar & apcoords;
 	}
 };
 
