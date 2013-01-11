@@ -28,6 +28,7 @@ GameClient::GameClient() :
 	SurfButtonSSExit = NULL;
 	SurfSlotSelected = NULL;
 	SurfWalkable = NULL;
+	SurfAssemblyPoint = NULL;
 	SurfBlock = NULL;
 	SurfPlace = NULL;
 	SurfSelected = NULL;

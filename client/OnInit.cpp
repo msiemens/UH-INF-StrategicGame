@@ -55,6 +55,10 @@ bool GameClient::OnInit() {
 			(char*) "client/gfx/gui/menu/villagemenubg.png")) == NULL) {
 		return false;
 	}
+	if ((SurfAssemblyPoint = CSurface::OnLoad(
+			(char*) "client/gfx/entity/assemblypoint.png")) == NULL) {
+		return false;
+	}
 	if ((SurfArmyOptionBackground = CSurface::OnLoad(
 			(char*) "client/gfx/gui/menu/armyoptions.png")) == NULL) {
 		return false;

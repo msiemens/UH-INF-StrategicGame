@@ -40,6 +40,14 @@ void GameClient::ShowSelected() {
 					PlaceSelected->getCoords().y * TILE_SIZE - camposy);
 			}
 		}
+
+		if (PlaceSelected->GetAssemblyPointCoords().x != 0 and PlaceSelected->GetAssemblyPointCoords().y != 0) {
+			int mX = PlaceSelected->GetAssemblyPointCoords().x * TILE_SIZE - camposx;
+			int mY = PlaceSelected->GetAssemblyPointCoords().y * TILE_SIZE - camposy;
+			if(mX > 12 and mX < 488 and mY > 12 and mY < 392){
+				CSurface::OnDraw(Surf_Display, SurfAssemblyPoint,mX,mY);
+			}
+		}
 	}
 
 	if (ArmySelected) {
@@ -74,6 +82,7 @@ void GameClient::ShowSelected() {
 
 void GameClient::RenderInGame() {
 	int i = 0;
+	int i2 = 0;
 	int x = 0;
 
 	CSurface::OnDraw(Surf_Display, SurfMap, 0, 0, camposx, camposy, WWIDTH,
@@ -226,6 +235,20 @@ void GameClient::RenderInGame() {
 		}
 	}
 
+	if (subGS.GET_GameState() == IG_ASSEMBLYPOINT) {
+		if (PlaceSelected){
+			for(i=0; i < 5;i++){
+				for(i2=0; i2 < 5;i2++){
+					coordinates coord(PlaceSelected->getCoords().x-2 + i2, PlaceSelected->getCoords().y-2 + i);
+					if (map.isWalkable(coord) == true) { //hoch
+						CSurface::OnDraw(Surf_Display, SurfWalkable,((coord.x) * TILE_SIZE) - camposx, (coord.y * TILE_SIZE) - camposy);
+					}else{
+						CSurface::OnDraw(Surf_Display, SurfBlock,((coord.x) * TILE_SIZE) - camposx, (coord.y * TILE_SIZE) - camposy);
+					}
+				}
+			}
+		}
+	}
 
 	CSurface::OnDraw(Surf_Display, SurfMain,0,0);
 

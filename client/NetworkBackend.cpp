@@ -20,7 +20,6 @@ void GameClient::RecruitTroopInBuilding() {
 }
 
 void GameClient::RecruitTroopOutside(coordinates coords) {
-	//if genug money =D
 	EUnitPtr troop1(new EUnit);
 	troop1->setImgPath("client/gfx/entity/army.png");
 	troop1->setIconPath("client/gfx/entity/icons/army.png");
@@ -46,6 +45,7 @@ void GameClient::MergeArmyIntoPlace(coordinates coords, EArmyPtr Army){
 		player.armies.remove(Army);
 	}
 }
+
 void GameClient::MergeArmies(coordinates coords, EArmyPtr Army){
 	int i=0;
 	EArmyPtr armyat = getArmyByCoords(coords);

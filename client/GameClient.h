@@ -30,7 +30,7 @@ enum {
 	START_SCREEN = 0, STARTUP_GAME, INGAME
 };
 enum{
-	SUB_NONE = 0, IG_VILLAGEMENU,SS_SERVER,SS_OPTION, IG_ARMYOPTION, IG_MOVEARMY
+	SUB_NONE = 0, IG_VILLAGEMENU,SS_SERVER,SS_OPTION, IG_ARMYOPTION, IG_MOVEARMY, IG_ASSEMBLYPOINT
 };
 enum{
 	DIR_UP = 0, DIR_RIGHT, DIR_DOWN, DIR_LEFT
@@ -76,6 +76,7 @@ private:
 	//VillageMenu
 	SDL_Surface* SurfVillageMenuBackground;
 	SDL_Surface* SurfArmyOptionBackground;
+	SDL_Surface* SurfAssemblyPoint;
 
 	//Zum test
 	SDL_Surface* SurfVillage;
@@ -117,6 +118,7 @@ public:
 	void HandleMapEditorModus(int mX, int mY);
 	void HandleArmyOptionInput(int mX,int mY);
 	void HandleMoveArmyInput(int mX,int mY);
+	void HandleSetAssemblyPoint(int mX,int mY);
 	//-----
 	void OnRButtonDown(int mX, int mY);
 	void OnExit();

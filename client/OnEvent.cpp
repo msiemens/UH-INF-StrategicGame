@@ -40,6 +40,9 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 	if (subGS.GET_GameState() == IG_MOVEARMY) {
 			HandleMoveArmyInput(mX,mY);
 	}
+	if (subGS.GET_GameState() == IG_ASSEMBLYPOINT) {
+			HandleSetAssemblyPoint(mX,mY);
+	}
 
 }
 
@@ -213,6 +216,27 @@ void GameClient::HandleMapEntities(int mX, int mY){
 		}
 	}
 }
+void GameClient::HandleSetAssemblyPoint(int mX, int mY){
+	int i=0;
+	int i2=0;
+
+	coordinates coordmouse(map.getClickPosX(mX + camposx),map.getClickPosY(mY + camposy));
+
+	if (subGS.GET_GameState() == IG_ASSEMBLYPOINT) {
+		if (PlaceSelected){
+			for(i=0; i < 5;i++){
+				for(i2=0; i2 < 5;i2++){
+					coordinates coord(PlaceSelected->getCoords().x-2 + i2, PlaceSelected->getCoords().y-2 + i);
+					if (coord.x == coordmouse.x and coord.y == coordmouse.y) { //hoch
+						PlaceSelected->SetAssemblyPointCoords(coordmouse);
+						//senden.
+						subGS.SET_GameState(IG_VILLAGEMENU);
+					}
+				}
+			}
+		}
+	}
+}
 
 void GameClient::HandleVillageMenuInput(int mX, int mY){
 	if (mX > 598 and mX < 685) {
@@ -223,14 +247,16 @@ void GameClient::HandleVillageMenuInput(int mX, int mY){
 
 		//recruit outside
 		if (mY > 474 and mY < 501) {
-				coordinates coord(PlaceSelected->getCoords().x +1,PlaceSelected->getCoords().y);
-				RecruitTroopOutside(coord);
+			coordinates coord(PlaceSelected->getCoords().x +1,PlaceSelected->getCoords().y);
+			RecruitTroopOutside(coord);
 		}
 
 		//Close
 		if (mY > 511 and mY < 538) {
-				subGS.SET_GameState(SUB_NONE);
-				ArmySelected.reset();
+			subGS.SET_GameState(IG_ASSEMBLYPOINT);
+
+//			subGS.SET_GameState(SUB_NONE);
+//			ArmySelected.reset();
 		}
 	}
 	else{

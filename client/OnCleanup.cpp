@@ -13,6 +13,7 @@ void GameClient::OnCleanup() {
 	SDL_FreeSurface(SurfBlock);
 	SDL_FreeSurface(SurfPlace);
 	SDL_FreeSurface(SurfVillage);
+	SDL_FreeSurface(SurfAssemblyPoint);
 	SDL_FreeSurface(SurfStartscreenBackground);
 	SDL_FreeSurface(SurfButtonSSStart);
 	SDL_FreeSurface(SurfButtonSSOption);
