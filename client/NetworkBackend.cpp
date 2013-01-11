@@ -36,7 +36,9 @@ void GameClient::SendMoveArmy(int dir, int size){
 //remove Stepsleft
 		ArmySelected->SetStepsLeft( ArmySelected->GetStepsLeft() - size);
 //send the action
-		network.SendAction(action);
+
+		OnNetworkAction(action);
+		//network.SendAction(action);
 	}
 }
 
@@ -49,7 +51,9 @@ void GameClient::RecruitTroopInBuilding() {
 	action->what = troop1;
 	action->base = PlaceSelected;
 	action->inside = true;
-	network.SendAction(action);
+
+	OnNetworkAction(action);
+	//network.SendAction(action);
 }
 
 void GameClient::RecruitTroopOutside(coordinates coords) {
@@ -62,7 +66,9 @@ void GameClient::RecruitTroopOutside(coordinates coords) {
 	action->what = troop1;
 	action->base = PlaceSelected;
 	action->inside = false;
-	network.SendAction(action);
+
+	OnNetworkAction(action);
+	//network.SendAction(action);
 }
 
 void GameClient::MergeArmyIntoPlace(coordinates coords, EArmyPtr Army){

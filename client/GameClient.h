@@ -138,7 +138,7 @@ public:
 	void RecruitTroopOutside(coordinates coords);
 
 	//incomming data
-	void RecruitOutside(ARecruitPtr action);
+	void RecruitOutside(ARecruit* action);
 	void RecruitInside(ARecruit* action);
 	void MergeArmyIntoPlace(coordinates coords, EArmyPtr Army);
 	void MergeArmies(coordinates coords, EArmyPtr Army);

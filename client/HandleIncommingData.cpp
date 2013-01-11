@@ -13,11 +13,11 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 	AMove* move = dynamic_cast<AMove*>(action.get());
 	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
 
-
-
 	if (recruit != NULL) {
 		if(recruit->inside == true){
 			RecruitInside(recruit);
+		}else{
+			RecruitOutside(recruit);
 		}
 	}
 
@@ -57,9 +57,9 @@ void GameClient::RecruitInside(ARecruit* action){
 	ELocationPtr place = map.getPlaceAt(action->base->getCoords());
 
 	if(onturn){
-		if(place->GetOwner() == player.id){
+		//if(place->GetOwner() == player.id){
 			place->town_army->AddTroop(action->what);
-		}
+		//}
 	}else{
 		if(place->GetOwner() != player.id){//verhindert dass der player seine truppen in gegnerische städte platziert
 			place->town_army->AddTroop(action->what);
@@ -67,7 +67,7 @@ void GameClient::RecruitInside(ARecruit* action){
 	}
 }
 
-void GameClient::RecruitOutside(ARecruitPtr action){
+void GameClient::RecruitOutside(ARecruit* action){
 	//Myturn
 	if(onturn){
 		if (map.isArmyPositioned(action->base->GetAssemblyPointCoords())) {
