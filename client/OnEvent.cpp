@@ -191,6 +191,7 @@ void GameClient::HandleMapEditorModus(int mX, int mY){
 }
 
 void GameClient::HandleMapEntities(int mX, int mY){
+	bool somethingfound=false;
 	if(mX > 12 and mX < 488 and mY > 12 and mY < 392){
 		for (auto place : map.placeList) {
 			if (mY > (place->getCoords().y * TILE_SIZE) - camposy and mY < (place->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
@@ -199,6 +200,7 @@ void GameClient::HandleMapEntities(int mX, int mY){
 					PlaceSelected = place;
 
 					subGS.SET_GameState(IG_VILLAGEMENU);
+					somethingfound = true;
 					break;
 				}
 			}
@@ -209,10 +211,16 @@ void GameClient::HandleMapEntities(int mX, int mY){
 				if(mX > (army->getCoords().x * TILE_SIZE) - camposx and mX < (army->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
 					PlaceSelected.reset();
 					ArmySelected = army;
+					somethingfound = true;
 					break;
 				}
 
 			}
+		}
+
+		if(somethingfound == false){
+			PlaceSelected.reset();
+			ArmySelected.reset();
 		}
 	}
 }
