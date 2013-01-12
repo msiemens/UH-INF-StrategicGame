@@ -45,8 +45,6 @@ void GameClient::SendMoveArmy(int dir, int size){
 
 void GameClient::RecruitTroopInBuilding() {
 	EUnitPtr troop1(new EUnit);
-	troop1->setImgPath("client/gfx/entity/army.png");
-	troop1->setIconPath("client/gfx/entity/icons/army.png");
 	troop1->setCoords(12,12);
 
 	ARecruitPtr action(new ARecruit);
@@ -60,9 +58,6 @@ void GameClient::RecruitTroopInBuilding() {
 
 void GameClient::RecruitTroopOutside(coordinates coords) {
 	EUnitPtr troop1(new EUnit);
-	troop1->setImgPath("client/gfx/entity/army.png");
-	troop1->setIconPath("client/gfx/entity/icons/army.png");
-
 
 	ARecruitPtr action(new ARecruit);
 	action->what = troop1;
