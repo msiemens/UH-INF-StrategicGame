@@ -8,6 +8,8 @@
 #ifndef ARECRUIT_H_
 #define ARECRUIT_H_
 
+#include <iostream>
+
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
@@ -29,10 +31,14 @@ private:
 
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
+		cout << "(De)serializing ARecruit" << std::endl;
 		ar & boost::serialization::base_object<GameAction>(*this);
 
+		cout << "(De)serializing what" << std::endl;
 		ar & what;
+		// cout << "(De)serializing base" << std::endl;
 		ar & base;
+		cout << "(De)serializing: Done!" << std::endl;
 	}
 };
 

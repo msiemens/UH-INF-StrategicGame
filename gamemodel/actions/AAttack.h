@@ -9,9 +9,9 @@
 #define AATTACK_H_
 
 #include <boost/shared_ptr.hpp>
+#include <boost/serialization/access.hpp>
 
 #include <gamemodel/utils/coordinates.h>
-
 #include <gamemodel/GameAction.h>
 
 class AAttack: public GameAction {
@@ -19,6 +19,14 @@ public:
 	virtual ~AAttack();
 
 	coordinates where;
+
+private:
+	friend class boost::serialization::access;
+
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & where;
+	}
 };
 
 typedef boost::shared_ptr<AAttack> AAttackPtr;

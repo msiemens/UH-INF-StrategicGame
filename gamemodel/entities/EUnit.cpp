@@ -7,7 +7,7 @@
 
 #include "EUnit.h"
 
-EUnit::EUnit() {
+EUnit::EUnit(): GameEntity() {
 }
 
 EUnit::~EUnit() {}

@@ -22,3 +22,8 @@ coordinates::coordinates(int x, int y) :
 coordinates::~coordinates() {
 
 }
+
+std::ostream& operator <<(std::ostream& out, const coordinates& coords) {
+	out << "[" << coords.x << ";" << coords.y << "]";
+	return out;
+}
