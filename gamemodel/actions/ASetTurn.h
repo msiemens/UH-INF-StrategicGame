@@ -28,5 +28,6 @@ private:
 		ar & endturn;
 	}
 };
+typedef boost::shared_ptr<ASetTurn> ASetTurnPtr;
 
 #endif /* ASETTURN_H_ */
