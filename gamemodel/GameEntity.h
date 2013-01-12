@@ -12,7 +12,7 @@
 #include <string>
 
 #include <boost/serialization/access.hpp>
-#include <boost/serialization/string.hpp>
+//#include <boost/serialization/string.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include "utils/counter.h"
@@ -50,8 +50,6 @@ private:
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & cost;
 		ar & coords;
-		ar & imgpath;
-		ar & iconpath;
 	}
 };
 
