@@ -8,6 +8,9 @@
 #ifndef COORDINATES_H_
 #define COORDINATES_H_
 
+#include <ostream>
+#include <iostream>
+
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
 
@@ -20,6 +23,7 @@ public:
 	int x;
 	int y;
 private:
+	friend std::ostream & operator << (std::ostream &, const coordinates &);
 	friend class boost::serialization::access;
 
 	template<typename Archive>
