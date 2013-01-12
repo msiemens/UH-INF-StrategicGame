@@ -23,7 +23,9 @@ public:
 	EArmy();
 	virtual ~EArmy();
 
-	void AddTroop(EUnitPtr unit);
+	void AddUnit(EUnitPtr unit);
+	void RemoveUnit(EUnitPtr unit);
+
 	void Move(int dir, int size);
 
 	void SetStepsLeft(int steps);
