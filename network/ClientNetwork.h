@@ -11,6 +11,8 @@
 #include <string>
 
 #include <boost/thread.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameMetaMessage.h>
@@ -42,6 +44,8 @@ private:
 	signal_state_t m_signal_on_message;
 
 	void OnMessage(char* msg, int length);
+	void registerTypes(boost::archive::text_iarchive* archive);
+	void registerTypes(boost::archive::text_oarchive* archive);
 };
 
 #endif /* CLIENTNETWORK_H_ */

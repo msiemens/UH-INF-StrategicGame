@@ -8,6 +8,9 @@
 #ifndef SERVERNETWORK_H_
 #define SERVERNETWORK_H_
 
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
 #include <gamemodel/Player.h>
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameStateMessage.h>
@@ -39,6 +42,9 @@ public:
 private:
 	void OnPlayerConnect(NetPlayerPtr netplayer);
 	void OnMessage(char* message, int length, NetPlayerPtr player);
+
+	void registerTypes(boost::archive::text_iarchive* archive);
+	void registerTypes(boost::archive::text_oarchive* archive);
 
 	ServerNetworkImpl m_network;
 
