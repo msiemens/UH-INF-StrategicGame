@@ -67,6 +67,19 @@ boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
 	return playerId;
 }
 
+EArmyPtr GameLogic::getArmyAt(coordinates coords){
+	EArmyPtr armyat;
+	for(auto player:*playerlist){
+	for (auto army: player->armies) {
+		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
+			armyat = army;
+			break;
+		}
+	}
+	}
+	return armyat;
+}
+
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 	cout << "GameLogic::checkPlayerAction(...)" << endl;
@@ -81,11 +94,18 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 
 //recruit
 	if (recruit != NULL) {
-		GameRessourcePtr costs(recruit->costs);
-		EUnitPtr troops(recruit->what);
-		ELocationPtr base(recruit->base);
 
-		valid = true;
+			GameRessourcePtr costs(recruit->costs);
+			EUnitPtr troops(recruit->what);
+			ELocationPtr base(recruit->base);
+		if(recruit->inside){
+			valid = (base->town_army->units.size()<10)?true:false;
+		} else {
+			valid= ((map->isArmyPositioned(base->GetAssemblyPointCoords()) and
+					whoseArmy(base->GetAssemblyPointCoords())==player->getPlayerId() and
+					getArmyAt(base->GetAssemblyPointCoords())->units.size()<10) or
+					map->isWalkable(base->GetAssemblyPointCoords()))?true:false;
+		}
 	}
 //move
 	else if (move != NULL) {

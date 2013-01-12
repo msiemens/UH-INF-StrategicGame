@@ -87,8 +87,8 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			player->addUnit(unit);
 			recruit->base=base;
 
-			ARecruitPtr retac(recruit);
-			m_network.SendAction(player,retac);
+			//ARecruitPtr retac(recruit);
+			m_network.SendAction(player,action);
 
 			std::cout << "GameEngine::doAction: successful.\n";
 
@@ -99,8 +99,16 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			GameRessourcePtr costs(recruit->costs);
 
 
+			if(map->isArmyPositioned(base->GetAssemblyPointCoords())==false){
+				createArmyAt(base->GetAssemblyPointCoords(),player);
+			}
+
+			EArmyPtr armyat=logic.getArmyAt(base->GetAssemblyPointCoords());
 
 			player->addUnit(unit);
+			armyat->AddTroop(unit);
+			unit->setCoords(base->GetAssemblyPointCoords());
+
 			recruit->base=base;
 
 			ARecruitPtr retac(recruit);
@@ -196,6 +204,14 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	}
 
 	std::cout << "\n---------------------------------------------------------------\n";
+}
+
+void GameEngine::createArmyAt(coordinates coords,PlayerPtr owner){
+	map->setArmy(coords);
+	EArmyPtr army(new EArmy);
+	army->setCoords(coords);
+	army->SetStepsLeft(3);
+	owner->addArmy(army);
 }
 
 void GameEngine::run() {
