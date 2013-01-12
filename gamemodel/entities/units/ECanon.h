@@ -8,7 +8,7 @@
 #ifndef ECANON_H_
 #define ECANON_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class ECanon: public EUnit {
 public:

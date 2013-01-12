@@ -8,7 +8,7 @@
 #ifndef ETOWER_H_
 #define ETOWER_H_
 
-#include <EBuilding.h>
+#include <gamemodel/entities/EBuilding.h>
 
 class ETower: public EBuilding {
 public:

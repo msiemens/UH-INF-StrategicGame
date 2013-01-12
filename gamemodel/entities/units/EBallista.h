@@ -8,7 +8,7 @@
 #ifndef EBALLISTA_H_
 #define EBALLISTA_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class EBallista: public EUnit {
 public:

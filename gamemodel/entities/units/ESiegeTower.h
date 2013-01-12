@@ -8,7 +8,7 @@
 #ifndef ESIEGETOWER_H_
 #define ESIEGETOWER_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class ESiegeTower: public EUnit {
 public:

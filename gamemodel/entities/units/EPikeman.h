@@ -8,7 +8,7 @@
 #ifndef EPIKEMAN_H_
 #define EPIKEMAN_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class EPikeman: public EUnit {
 public:

@@ -8,7 +8,7 @@
 #ifndef ECATAPULT_H_
 #define ECATAPULT_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class ECatapult: public EUnit {
 public:
