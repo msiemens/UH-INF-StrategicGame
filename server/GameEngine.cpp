@@ -16,6 +16,7 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ABuild.h>
 #include <gamemodel/actions/AAttack.h>
+#include <gamemodel/actions/ASetAP.h>
 
 #include <gamemodel/ressources/RMoney.h>
 
@@ -62,6 +63,8 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	std::cout << "GameEngine::doAction(...).\n";
 
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
+	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
+
 //	AMove* move = dynamic_cast<AMove*>(action.get());
 //	ABuild* build = dynamic_cast<ABuild*>(action.get());
 //	AAttack* attack = dynamic_cast<AAttack*>(action.get());
@@ -70,7 +73,6 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	if (recruit != NULL) {
 		std::cout << "GameEngine::doAction: got a ARecruit.\n";
 		if(recruit->inside == true){
-			std::cout << "GameEngine::doAction: inside!.\n";
 
 			EUnitPtr unit(recruit->what);
 			ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
@@ -78,8 +80,9 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			bool inside(recruit->inside);
 
 			base->town_army->AddTroop(unit);
-			std::cout << "GameEngine::doAction: got a ARecruprepare to send.\n";
-
+			cout << "===========================================" << endl;
+			cout << unit->getImgPath() << endl;
+			cout << "===========================================" << endl;
 			//prepare gameaction
 			ARecruitPtr action2(new ARecruit);
 			action2->what = unit;
@@ -94,6 +97,15 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			std::cout << "GameEngine::doAction: successful.\n";
 		}
 	}
+	if(setAP != NULL){
+		ASetAPPtr setAP2(new ASetAP);
+		setAP2->apcoords.x = setAP->apcoords.x;
+		setAP2->apcoords.y = setAP->apcoords.y;
+		setAP2->basecoords.x = setAP->basecoords.x;
+		setAP2->basecoords.y = setAP->basecoords.y;
+		m_network.SendAction(player,setAP2);
+	}
+
 //	if (move != NULL) {
 //		std::cout << "GameEngine::doAction: got a AMove.\n";
 //		map->printMapStatus();
@@ -138,6 +150,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 //		}
 //	}
 
+	//m_network.SendAction(player,action);
 	//GameNetwork.broadcast(action);
 
 }

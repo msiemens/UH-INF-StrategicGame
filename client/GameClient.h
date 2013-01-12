@@ -154,6 +154,7 @@ public:
 
 	//receive functions
 	void ReceiveMoveArmy(AMove* move);
+	void ReceiveSetAP(ELocationPtr place, coordinates coords);
 
 	// Network listeners
 	void OnNetworkAction(GameActionPtr action);

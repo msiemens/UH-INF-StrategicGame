@@ -235,9 +235,8 @@ void GameClient::HandleSetAssemblyPoint(int mX, int mY){
 			for(i=0; i < 5;i++){
 				for(i2=0; i2 < 5;i2++){
 					coordinates coord(PlaceSelected->getCoords().x-2 + i2, PlaceSelected->getCoords().y-2 + i);
-					if (coord.x == coordmouse.x and coord.y == coordmouse.y) { //hoch
-						PlaceSelected->SetAssemblyPointCoords(coordmouse);
-						//senden.
+					if (coord.x == coordmouse.x and coord.y == coordmouse.y) {
+						SendSetAP(coordmouse);
 						subGS.SET_GameState(IG_VILLAGEMENU);
 					}
 				}
