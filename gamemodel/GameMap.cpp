@@ -93,6 +93,7 @@ void GameMap::createPlaces() {
 			if (isPlace(coordinates(x, y))) {
 				ELocationPtr place(new ELocation);
 				place->setCoords(x, y);
+				place->SetAssemblyPointCoord(x+1,y);
 				place->setImgPath("client/gfx/entity/village.png");
 				place->setIconPath("client/gfx/entity/icons/castle.png");
 				placeList.insert(placeList.begin(), place);
