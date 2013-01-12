@@ -80,9 +80,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			bool inside(recruit->inside);
 
 			base->town_army->AddTroop(unit);
-			cout << "===========================================" << endl;
-			cout << unit->getImgPath() << endl;
-			cout << "===========================================" << endl;
+
 			//prepare gameaction
 			ARecruitPtr action2(new ARecruit);
 			action2->what = unit;

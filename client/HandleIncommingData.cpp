@@ -26,7 +26,6 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 	}
 
 	if (setAP != NULL) {
-		cout << "======HIERR========" << endl;
 		ReceiveSetAP(map.getPlaceAt(setAP->basecoords), setAP->apcoords);
 	}
 }
@@ -62,12 +61,7 @@ void GameClient::RecruitInside(ARecruit* action){
 
 	if(onturn){
 		//if(place->GetOwner() == player.id){
-		cout << "==============="<< endl;
-		cout << "JAAA!"<< endl;
-		cout << action->what->getImgPath() << endl;
 			place->town_army->AddTroop(action->what);
-			cout << place->town_army->units.size() << endl;
-			cout << "==============="<< endl;
 		//}
 	}else{
 		if(place->GetOwner() != player.id){//verhindert dass der player seine truppen in gegnerische städte platziert

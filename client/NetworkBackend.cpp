@@ -52,8 +52,8 @@ void GameClient::RecruitTroopInBuilding() {
 	action->base = PlaceSelected;
 	action->inside = true;
 
-	//OnNetworkAction(action);
-	network.SendAction(action);
+	OnNetworkAction(action);
+	//network.SendAction(action);
 }
 
 void GameClient::RecruitTroopOutside(coordinates coords) {
@@ -118,5 +118,6 @@ void GameClient::SendSetAP(coordinates coords) {
 	action->apcoords.x = coords.x;
 	action->apcoords.y = coords.y;
 
-	network.SendAction(action);
+	OnNetworkAction(action);
+	//network.SendAction(action);
 }
