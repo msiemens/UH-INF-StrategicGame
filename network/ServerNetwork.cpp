@@ -154,6 +154,7 @@ void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer)
 	boost::archive::text_iarchive archive(buffer);
 	archive.register_type<ARecruit>();
 	archive.register_type<ASetAP>();
+	archive.register_type<ASetTurn>();
 
 	// Read message type
 	int message_type;

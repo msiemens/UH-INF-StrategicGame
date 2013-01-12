@@ -17,6 +17,7 @@
 #include <gamemodel/actions/ABuild.h>
 #include <gamemodel/actions/AAttack.h>
 #include <gamemodel/actions/ASetAP.h>
+#include <gamemodel/actions/ASetTurn.h>
 
 #include <gamemodel/ressources/RMoney.h>
 
@@ -64,6 +65,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
 	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
+	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
 
 //	AMove* move = dynamic_cast<AMove*>(action.get());
 //	ABuild* build = dynamic_cast<ABuild*>(action.get());
@@ -103,6 +105,39 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 		setAP2->basecoords.y = setAP->basecoords.y;
 		m_network.SendAction(player,setAP2);
 	}
+
+	if(setTurn != NULL){
+		if(setTurn->endturn == true){
+			player->onturn = false;
+			ASetTurnPtr setturn2(new ASetTurn);
+			setturn2->endturn = true;
+			m_network.SendAction(player,setturn2);
+
+			setturn2->endturn = false;
+			for(auto players : *playerlist){
+				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
+					//dies funktioniert nur für 2 spieler!
+					m_network.SendAction(players,setturn2);
+					break;
+				}
+			}
+		}else{
+			player->onturn = true;
+			ASetTurnPtr setturn2(new ASetTurn);
+			setturn2->endturn = false;
+			m_network.SendAction(player,setturn2);
+
+			setturn2->endturn = true;
+			for(auto players : *playerlist){
+				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
+					//dies funktioniert nur für 2 spieler!
+					m_network.SendAction(players,setturn2);
+					break;
+				}
+			}
+		}
+	}
+
 
 //	if (move != NULL) {
 //		std::cout << "GameEngine::doAction: got a AMove.\n";

@@ -24,24 +24,29 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 			HandleMapEditorModus(mX,mY);
 		} else {
 			if (subGS.GET_GameState() == SUB_NONE) {
-				HandleMapEntities(mX,mY);
+				if(player.onturn){
+					HandleMapEntities(mX,mY);
+				}
 			}
 		}
 	}
 
-	if (subGS.GET_GameState() == IG_VILLAGEMENU) {
-		HandleVillageMenuInput(mX,mY);
-	}
 
-	if (subGS.GET_GameState() == IG_ARMYOPTION) {
-			HandleArmyOptionInput(mX,mY);
-	}
+	if(player.onturn){
+		if (subGS.GET_GameState() == IG_VILLAGEMENU) {
+			HandleVillageMenuInput(mX,mY);
+		}
 
-	if (subGS.GET_GameState() == IG_MOVEARMY) {
-			HandleMoveArmyInput(mX,mY);
-	}
-	if (subGS.GET_GameState() == IG_ASSEMBLYPOINT) {
-			HandleSetAssemblyPoint(mX,mY);
+		if (subGS.GET_GameState() == IG_ARMYOPTION) {
+				HandleArmyOptionInput(mX,mY);
+		}
+
+		if (subGS.GET_GameState() == IG_MOVEARMY) {
+				HandleMoveArmyInput(mX,mY);
+		}
+		if (subGS.GET_GameState() == IG_ASSEMBLYPOINT) {
+				HandleSetAssemblyPoint(mX,mY);
+		}
 	}
 
 }
@@ -66,6 +71,12 @@ void GameClient::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 		} else {
 			map.editMode = true;
 		}
+		break;
+	case SDLK_q:
+		SendSetTurn(true);
+		break;
+	case SDLK_p:
+		SendSetTurn(false);
 		break;
 	case SDLK_ESCAPE:
 		if(subGS.GET_GameState()== IG_MOVEARMY){

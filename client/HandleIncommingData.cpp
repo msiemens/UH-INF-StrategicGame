@@ -12,6 +12,7 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
 	AMove* move = dynamic_cast<AMove*>(action.get());
 	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
+	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
 
 	if (recruit != NULL) {
 		if(recruit->inside == true){
@@ -28,9 +29,23 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 	if (setAP != NULL) {
 		ReceiveSetAP(map.getPlaceAt(setAP->basecoords), setAP->apcoords);
 	}
+	if (setTurn != NULL) {
+		ReceiveSetTurn(setTurn->endturn);
+	}
 }
 
 void GameClient::OnNetworkMessage(GameStateMessagePtr message){}
+
+void GameClient::ReceiveSetTurn(bool endturn){
+	cout << "hab was id: " <<  player.getPlayerIdStr() << endl;
+	if(endturn==true){
+		player.onturn = false;
+		opponent.onturn = true;
+	}else{
+		player.onturn = true;
+		opponent.onturn = false;
+	}
+}
 
 void GameClient::ReceiveSetAP(ELocationPtr place, coordinates coords){
 	place->SetAssemblyPointCoords(coords);
@@ -59,7 +74,7 @@ void GameClient::RecruitInside(ARecruit* action){
 	//Myturn
 	ELocationPtr place = map.getPlaceAt(action->base->getCoords());
 
-	if(onturn){
+	if(player.onturn){
 		//if(place->GetOwner() == player.id){
 			place->town_army->AddUnit(action->what);
 		//}
@@ -72,7 +87,7 @@ void GameClient::RecruitInside(ARecruit* action){
 
 void GameClient::RecruitOutside(ARecruit* action){
 	//Myturn
-	if(onturn){
+	if(player.onturn){
 		if (map.isArmyPositioned(action->base->GetAssemblyPointCoords())) {
 			for (auto army : player.armies){
 				if (army->getCoords().x == action->base->GetAssemblyPointCoords().x

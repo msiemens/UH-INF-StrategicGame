@@ -22,6 +22,7 @@
 #include <gamemodel/actions/ABuild.h>
 #include <gamemodel/actions/AAttack.h>
 #include <gamemodel/actions/ASetAP.h>
+#include <gamemodel/actions/ASetTurn.h>
 
 #include <gamemodel/ressources/RMoney.h>
 
@@ -76,6 +77,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 	ABuild* build = dynamic_cast<ABuild*>(action.get());
 	AAttack* attack = dynamic_cast<AAttack*>(action.get());
 	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
+	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
 
 //recruit
 	if (recruit != NULL) {
@@ -105,6 +107,11 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		coordinates apcoord(setAP->apcoords);
 		coordinates basecoord(setAP->basecoords);
 
+		valid = true;
+	}
+//setTurn
+	else if (setTurn != NULL) {
+		bool endturn = setTurn->endturn;
 		valid = true;
 	}
 //attack

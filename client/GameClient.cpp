@@ -51,7 +51,6 @@ GameClient::GameClient() :
 	pressedleft = false;
 	cap = true;
 	frame = 0;
-	onturn = true; // eigentlich entscheidet das der server!
 
 	// Initiaize the network and connect the signal handlers
 	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
@@ -97,6 +96,7 @@ int GameClient::OnExecute() {
 		while (SDL_PollEvent(&Event)) { //Eventqueue
 			OnEvent(&Event);
 		}
+
 		OnLoop();
 		OnRender();
 

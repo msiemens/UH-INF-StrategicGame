@@ -56,7 +56,6 @@ private:
 	string ServerAddress;
 	ClientNetwork network;
 	GameMap map;
-	bool onturn;
 
 	SDL_Surface* Surf_Display;
 
@@ -157,7 +156,7 @@ public:
 	//receive functions
 	void ReceiveMoveArmy(AMove* move);
 	void ReceiveSetAP(ELocationPtr place, coordinates coords);
-	void ReceiveSetTurn(ASetTurn* setturn);
+	void ReceiveSetTurn(bool endturn);
 
 	// Network listeners
 	void OnNetworkAction(GameActionPtr action);
