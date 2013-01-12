@@ -15,7 +15,12 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
+#include <gamemodel/utils/coordinates.h>
+#include <gamemodel/utils/counter.h>
 #include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/AAttack.h>
+#include <gamemodel/actions/ABuild.h>
+#include <gamemodel/actions/AMove.h>
 #include "messages/message_types.h"
 
 #include "ClientNetwork.h"
@@ -49,8 +54,7 @@ void ClientNetwork::SendAction(GameActionPtr action) {
 
 	std::cout << "Doing Initialization of Serialization" << std::endl;
 	boost::archive::text_oarchive archive(buffer);
-
-	archive.register_type<ARecruit>();
+	registerTypes(&archive);
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
@@ -71,6 +75,7 @@ void ClientNetwork::SendAction(GameActionPtr action) {
 void ClientNetwork::SendMetaMessage(GameMetaMessagePtr message) {
 	std::stringstream buffer;
 	boost::archive::text_oarchive archive(buffer);
+	registerTypes(&archive);
 
 	// Serialize object
 	int type = MESSAGE_META;
@@ -92,6 +97,7 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 
 	// Initialize Deserialization
 	boost::archive::text_iarchive archive(buffer);
+	registerTypes(&archive);
 
 	// Read message type
 	int message_type;
@@ -119,4 +125,26 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 	}
 
 	std::cout << buffer.str() << std::endl;
+}
+
+void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
+	archive->register_type<ARecruit>();
+	archive->register_type<ABuild>();
+	archive->register_type<AMove>();
+	archive->register_type<AAttack>();
+	archive->register_type<ELocation>();
+	archive->register_type<EUnit>();
+	archive->register_type<coordinates>();
+	archive->register_type<counter<GameRessource> >();
+}
+
+void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
+	archive->register_type<ARecruit>();
+	archive->register_type<ABuild>();
+	archive->register_type<AMove>();
+	archive->register_type<AAttack>();
+	archive->register_type<ELocation>();
+	archive->register_type<EUnit>();
+	archive->register_type<coordinates>();
+	archive->register_type<counter<GameRessource> >();
 }
