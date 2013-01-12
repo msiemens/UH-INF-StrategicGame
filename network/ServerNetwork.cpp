@@ -19,6 +19,8 @@
 #include <gamemodel/actions/AAttack.h>
 #include <gamemodel/actions/ABuild.h>
 #include <gamemodel/actions/AMove.h>
+#include <gamemodel/actions/ASetAP.h>
+#include <gamemodel/actions/ASetTurn.h>
 #include "messages/message_types.h"
 #include "ServerNetwork.h"
 
@@ -187,8 +189,12 @@ void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 	archive->register_type<ABuild>();
 	archive->register_type<AMove>();
 	archive->register_type<AAttack>();
+	archive->register_type<ASetAP>();
+	archive->register_type<ASetTurn>();
+
 	archive->register_type<ELocation>();
 	archive->register_type<EUnit>();
+
 	archive->register_type<coordinates>();
 	archive->register_type<counter<GameRessource> >();
 }
@@ -198,8 +204,12 @@ void ServerNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 	archive->register_type<ABuild>();
 	archive->register_type<AMove>();
 	archive->register_type<AAttack>();
+	archive->register_type<ASetAP>();
+	archive->register_type<ASetTurn>();
+
 	archive->register_type<ELocation>();
 	archive->register_type<EUnit>();
+
 	archive->register_type<coordinates>();
 	archive->register_type<counter<GameRessource> >();
 }
