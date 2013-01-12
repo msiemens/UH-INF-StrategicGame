@@ -19,6 +19,7 @@
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
+#include <gamemodel/actions/ASetTurn.h>
 
 #include "CEvent.h"
 #include "CSurface.h"
@@ -151,10 +152,12 @@ public:
 	//send functions
 	void SendMoveArmy(int dir, int size);
 	void SendSetAP(coordinates coords);
+	void SendSetTurn(bool endturn);
 
 	//receive functions
 	void ReceiveMoveArmy(AMove* move);
 	void ReceiveSetAP(ELocationPtr place, coordinates coords);
+	void ReceiveSetTurn(ASetTurn* setturn);
 
 	// Network listeners
 	void OnNetworkAction(GameActionPtr action);

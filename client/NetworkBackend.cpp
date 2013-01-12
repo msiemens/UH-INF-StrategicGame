@@ -2,6 +2,7 @@
 
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/ASetAP.h>
+#include <gamemodel/actions/ASetTurn.h>
 
 #include <iostream>
 #include <list>
@@ -121,3 +122,13 @@ void GameClient::SendSetAP(coordinates coords) {
 	OnNetworkAction(action);
 	//network.SendAction(action);
 }
+
+void GameClient::SendSetTurn(bool endturn) {
+
+	ASetTurnPtr action(new ASetTurn);
+	action->endturn = endturn;
+
+	//OnNetworkAction(action);
+	network.SendAction(action);
+}
+

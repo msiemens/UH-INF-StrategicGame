@@ -17,6 +17,7 @@
 
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/ASetAP.h>
+#include <gamemodel/actions/ASetTurn.h>
 #include "messages/message_types.h"
 
 #include "ClientNetwork.h"
@@ -53,6 +54,7 @@ void ClientNetwork::SendAction(GameActionPtr action) {
 
 	archive.register_type<ARecruit>();
 	archive.register_type<ASetAP>();
+	archive.register_type<ASetTurn>();
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
@@ -96,6 +98,7 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 	boost::archive::text_iarchive archive(buffer);
 	archive.register_type<ARecruit>();
 	archive.register_type<ASetAP>();
+	archive.register_type<ASetTurn>();
 
 	// Read message type
 	int message_type;

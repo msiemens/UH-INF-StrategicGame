@@ -15,6 +15,7 @@
 
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/ASetAP.h>
+#include <gamemodel/actions/ASetTurn.h>
 #include "messages/message_types.h"
 #include "ServerNetwork.h"
 
@@ -57,6 +58,7 @@ void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
 	boost::archive::text_oarchive archive(buffer);
 	archive.register_type<ARecruit>();
 	archive.register_type<ASetAP>();
+	archive.register_type<ASetTurn>();
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
@@ -76,6 +78,8 @@ void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
 	archive.register_type<ARecruit>();
+	archive.register_type<ASetAP>();
+	archive.register_type<ASetTurn>();
 
 	// Serialize object
 	int type = MESSAGE_STATE;
@@ -96,6 +100,7 @@ void ServerNetwork::BroadcastAction(GameActionPtr action) {
 	boost::archive::text_oarchive archive(buffer);
 	archive.register_type<ARecruit>();
 	archive.register_type<ASetAP>();
+	archive.register_type<ASetTurn>();
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
