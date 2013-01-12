@@ -32,6 +32,8 @@ public:
 	void onPlayerAction(GameActionPtr action, PlayerPtr player);
 	void doAction(PlayerPtr player, GameActionPtr action);
 
+	void createArmyAt(coordinates coords,PlayerPtr owner);
+
 	void test();
 	void run();
 
