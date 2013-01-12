@@ -76,11 +76,11 @@ void GameClient::RecruitInside(ARecruit* action){
 
 	if(player.onturn){
 		//if(place->GetOwner() == player.id){
-			place->town_army->AddUnit(action->what);
+			place->town_army->AddTroop(action->what);
 		//}
 	}else{
 		if(place->GetOwner() != player.id){//verhindert dass der player seine truppen in gegnerische städte platziert
-			place->town_army->AddUnit(action->what);
+			place->town_army->AddTroop(action->what);
 		}
 	}
 }
@@ -92,13 +92,13 @@ void GameClient::RecruitOutside(ARecruit* action){
 			for (auto army : player.armies){
 				if (army->getCoords().x == action->base->GetAssemblyPointCoords().x
 						and army->getCoords().y == action->base->GetAssemblyPointCoords().y) {
-					army->AddUnit(action->what);
+					army->AddTroop(action->what);
 				}
 			}
 		} else {
 			EArmyPtr army(new EArmy);
 			army->setImgPath("client/gfx/entity/army.png");
-			army->AddUnit(action->what);
+			army->AddTroop(action->what);
 			army->SetStepsLeft(3);
 			army->setCoords(action->base->GetAssemblyPointCoords());
 			player.armies.insert(player.armies.end(), army);
@@ -109,13 +109,13 @@ void GameClient::RecruitOutside(ARecruit* action){
 			for (auto army : opponent.armies){
 				if (army->getCoords().x == action->base->GetAssemblyPointCoords().x
 						and army->getCoords().y == action->base->GetAssemblyPointCoords().y) {
-					army->AddUnit(action->what);
+					army->AddTroop(action->what);
 				}
 			}
 		} else {
 			EArmyPtr army(new EArmy);
 			army->setImgPath("client/gfx/entity/army.png");
-			army->AddUnit(action->what);
+			army->AddTroop(action->what);
 			army->SetStepsLeft(3);
 			army->setCoords(action->base->GetAssemblyPointCoords());
 			opponent.armies.insert(player.armies.end(), army);

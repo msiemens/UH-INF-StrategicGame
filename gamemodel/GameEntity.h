@@ -23,7 +23,6 @@ class GameEntity {
 public:
 	GameEntity();
 
-
 	coordinates getCoords();
 
 	void setCoords(int x, int y);

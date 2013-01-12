@@ -13,19 +13,8 @@ EArmy::EArmy() : m_steps_left_in_round(0) {
 EArmy::~EArmy() {
 }
 
-void EArmy::AddUnit(EUnitPtr unit) {
+void EArmy::AddTroop(EUnitPtr unit) {
 	units.push_back(unit);
-}
-
-void EArmy::RemoveUnit(EUnitPtr unit){
-	int pos=0;
-	for(int i=0;i<units.size();i++){
-		if(units[i]==unit){
-			pos=i;
-		}
-	}
-
-	units.erase(units.begin()+pos);
 }
 
 int EArmy::GetStepsLeft() {

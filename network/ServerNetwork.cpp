@@ -9,13 +9,19 @@
 #include <iostream>
 #include <string>
 
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
+#include <gamemodel/utils/coordinates.h>
+#include <gamemodel/utils/counter.h>
+#include <gamemodel/entities/ELocation.h>
+#include <gamemodel/entities/EUnit.h>
 #include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/AAttack.h>
+#include <gamemodel/actions/ABuild.h>
+#include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+
 #include "messages/message_types.h"
 #include "ServerNetwork.h"
 
@@ -56,9 +62,7 @@ void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
-	archive.register_type<ARecruit>();
-	archive.register_type<ASetAP>();
-	archive.register_type<ASetTurn>();
+	registerTypes(&archive);
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
@@ -77,9 +81,7 @@ void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
-	archive.register_type<ARecruit>();
-	archive.register_type<ASetAP>();
-	archive.register_type<ASetTurn>();
+	registerTypes(&archive);
 
 	// Serialize object
 	int type = MESSAGE_STATE;
@@ -98,9 +100,7 @@ void ServerNetwork::BroadcastAction(GameActionPtr action) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
-	archive.register_type<ARecruit>();
-	archive.register_type<ASetAP>();
-	archive.register_type<ASetTurn>();
+	registerTypes(&archive);
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
@@ -119,6 +119,7 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 
 	// Initialize Serialization
 	boost::archive::text_oarchive archive(buffer);
+	registerTypes(&archive);
 
 	// Serialize object
 	int type = MESSAGE_STATE;
@@ -152,9 +153,7 @@ void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer)
 
 	// Initialize Deserialization
 	boost::archive::text_iarchive archive(buffer);
-	archive.register_type<ARecruit>();
-	archive.register_type<ASetAP>();
-	archive.register_type<ASetTurn>();
+	registerTypes(&archive);
 
 	// Read message type
 	int message_type;
@@ -184,4 +183,38 @@ void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer)
 	}
 
 	std::cout << "ServerNetwork::OnMessage: done" << std::endl;
+}
+
+void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
+	archive->register_type<ARecruit>();
+	archive->register_type<ABuild>();
+	archive->register_type<AMove>();
+	archive->register_type<AAttack>();
+	archive->register_type<ASetAP>();
+	archive->register_type<ASetTurn>();
+
+	archive->register_type<ELocation>();
+	archive->register_type<EUnit>();
+
+	archive->register_type<coordinates>();
+	archive->register_type<ASetAP>();
+	archive->register_type<ASetTurn>();
+	archive->register_type<counter<GameRessource> >();
+}
+
+void ServerNetwork::registerTypes(boost::archive::text_iarchive* archive) {
+	archive->register_type<ARecruit>();
+	archive->register_type<ABuild>();
+	archive->register_type<AMove>();
+	archive->register_type<AAttack>();
+	archive->register_type<ASetAP>();
+	archive->register_type<ASetTurn>();
+
+	archive->register_type<ELocation>();
+	archive->register_type<EUnit>();
+
+	archive->register_type<coordinates>();
+	archive->register_type<ASetAP>();
+	archive->register_type<ASetTurn>();
+	archive->register_type<counter<GameRessource> >();
 }

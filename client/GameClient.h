@@ -88,7 +88,6 @@ private:
 
 
 	string selected;
-	GameEntity* gameentityselectedobject;
 	ELocationPtr PlaceSelected;
 	EArmyPtr ArmySelected;
 
