@@ -8,7 +8,7 @@
 #ifndef EBATTERINGRAM_H_
 #define EBATTERINGRAM_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class EBatteringRam: public EUnit {
 public:

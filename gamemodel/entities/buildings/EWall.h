@@ -8,7 +8,7 @@
 #ifndef EWALL_H_
 #define EWALL_H_
 
-#include <EBuilding.h>
+#include <gamemodel/entities/EBuilding.h>
 
 class EWall: public EBuilding {
 public:

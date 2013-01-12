@@ -8,7 +8,7 @@
 #ifndef ERIDGE_H_
 #define ERIDGE_H_
 
-#include <EBuilding.h>
+#include <gamemodel/entities/EBuilding.h>
 
 class ERidge: public EBuilding {
 public:

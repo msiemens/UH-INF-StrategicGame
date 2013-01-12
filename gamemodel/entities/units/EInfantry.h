@@ -8,7 +8,7 @@
 #ifndef EINFANTRY_H_
 #define EINFANTRY_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class EInfantry: public EUnit {
 public:

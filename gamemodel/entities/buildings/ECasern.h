@@ -8,7 +8,7 @@
 #ifndef ECASERN_H_
 #define ECASERN_H_
 
-#include <EBuilding.h>
+#include <gamemodel/entities/EBuilding.h>
 
 class ECasern: public EBuilding {
 public:

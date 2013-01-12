@@ -8,7 +8,7 @@
 #ifndef ECAVALRY_H_
 #define ECAVALRY_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class ECavalry: public EUnit {
 public:

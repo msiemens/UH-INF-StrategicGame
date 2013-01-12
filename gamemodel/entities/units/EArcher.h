@@ -8,7 +8,7 @@
 #ifndef EARCHER_H_
 #define EARCHER_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class EArcher: public EUnit {
 public:

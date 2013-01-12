@@ -8,7 +8,7 @@
 #ifndef EPAWN_H_
 #define EPAWN_H_
 
-#include <EUnit.h>
+#include <gamemodel/entities/EUnit.h>
 
 class EPawn: public EUnit {
 public:
