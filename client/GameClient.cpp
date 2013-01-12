@@ -38,11 +38,9 @@ GameClient::GameClient() :
 	SurfArmyOptionBackground = NULL;
 	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
-	gameentityselectedobject = NULL;
 	selected = "";
 	markx = 0;
 	marky = 0;
-	gameentityselectedobject = NULL;
 	camposx = -12;
 	camposy = -12;
 	pressedup = false;
