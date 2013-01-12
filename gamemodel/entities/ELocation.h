@@ -9,6 +9,7 @@
 #define EPLACE_H_
 
 #include <vector>
+#include <iostream>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
@@ -48,7 +49,6 @@ private:
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & boost::serialization::base_object<GameEntity>(*this);
-
 		ar & m_buildings;
 		ar & m_inhabitans;
 		ar & assemblypoint;
