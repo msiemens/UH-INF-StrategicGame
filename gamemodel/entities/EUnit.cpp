@@ -8,6 +8,8 @@
 #include "EUnit.h"
 
 EUnit::EUnit(): GameEntity() {
+	imgpath = "client/gfx/entity/army.png";
+	iconpath = "client/gfx/entity/icons/army.png";
 }
 
 EUnit::~EUnit() {}
