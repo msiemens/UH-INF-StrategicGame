@@ -8,7 +8,7 @@
 #ifndef EBANK_H_
 #define EBANK_H_
 
-#include <EBuilding.h>
+#include <gamemodel/entities/EBuilding.h>
 
 class EBank: public EBuilding {
 public:

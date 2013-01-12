@@ -79,7 +79,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			GameRessourcePtr costs(recruit->costs);
 			bool inside(recruit->inside);
 
-			base->town_army->AddTroop(unit);
+			base->town_army->AddUnit(unit);
 
 			//prepare gameaction
 			ARecruitPtr action2(new ARecruit);

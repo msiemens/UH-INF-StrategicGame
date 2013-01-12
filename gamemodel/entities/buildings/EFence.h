@@ -8,7 +8,7 @@
 #ifndef EFENCE_H_
 #define EFENCE_H_
 
-#include <EBuilding.h>
+#include <gamemodel/entities/EBuilding.h>
 
 class EFence: public EBuilding {
 public:
