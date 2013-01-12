@@ -23,6 +23,21 @@ GameMap::GameMap() {
 GameMap::~GameMap() {
 }
 
+//return whose Place is at coords
+boost::uuids::uuid GameMap::whosePlace(coordinates coords) {
+	boost::uuids::uuid playerId;
+
+	for (auto place : placeList) {
+		coordinates pos = place->getCoords();
+		if (pos.x == coords.x && pos.y == coords.y) {
+			playerId = place->GetOwner();
+		}
+	}
+
+	return playerId;
+}
+
+
 void GameMap::setWalkable(coordinates coords) {
 	setWalkable(coords.x, coords.y);
 }
@@ -78,6 +93,7 @@ void GameMap::createPlaces() {
 			if (isPlace(coordinates(x, y))) {
 				ELocationPtr place(new ELocation);
 				place->setCoords(x, y);
+				place->SetAssemblyPointCoord(x+1,y);
 				place->setImgPath("client/gfx/entity/village.png");
 				place->setIconPath("client/gfx/entity/icons/castle.png");
 				placeList.insert(placeList.begin(), place);
@@ -119,6 +135,11 @@ void GameMap::createMapFromTxt(string path) {
 
 	int x = 0;
 	int y = 0;
+
+	if (!in.is_open()) {
+		cerr << "File not found: " << path << endl;
+		return;
+	}
 
 	while (in.eof() != true) {
 		char c = in.get();

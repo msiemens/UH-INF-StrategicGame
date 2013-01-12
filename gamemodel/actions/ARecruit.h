@@ -18,6 +18,7 @@
 
 #include <gamemodel/entities/EUnit.h>
 #include <gamemodel/entities/ELocation.h>
+#include <gamemodel/utils/coordinates.h>
 
 class ARecruit: public GameAction {
 public:
@@ -25,6 +26,7 @@ public:
 
 	EUnitPtr what;
 	ELocationPtr base;
+	bool inside;
 
 private:
 	friend class boost::serialization::access;
@@ -38,7 +40,7 @@ private:
 		ar & what;
 		// cout << "(De)serializing base" << std::endl;
 		ar & base;
-		cout << "(De)serializing: Done!" << std::endl;
+		ar & inside;
 	}
 };
 

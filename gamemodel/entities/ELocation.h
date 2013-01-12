@@ -15,6 +15,7 @@
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
 #include <boost/serialization/vector.hpp>
+#include <boost/uuid/uuid.hpp>
 
 #include <gamemodel/GameEntity.h>
 #include <gamemodel/entities/EArmy.h>
@@ -26,13 +27,22 @@ public:
 	virtual ~ELocation();
 
 	void addBuilding(EBuildingPtr building);
+	coordinates GetAssemblyPointCoords();
+	void SetAssemblyPointCoords(coordinates coords);
+	void SetAssemblyPointCoord(int x, int y);
+
+	boost::uuids::uuid GetOwner();
+	void SetOwner(boost::uuids::uuid id);
+	bool owned;
 
 public:
 	EArmyPtr town_army;
 
 private:
+	boost::uuids::uuid owner;
 	std::vector<EBuildingPtr> m_buildings;
 	int m_inhabitans;
+	coordinates assemblypoint;
 
 	friend class boost::serialization::access;
 
@@ -41,6 +51,7 @@ private:
 		ar & boost::serialization::base_object<GameEntity>(*this);
 		ar & m_buildings;
 		ar & m_inhabitans;
+		ar & assemblypoint;
 	}
 };
 

@@ -7,7 +7,7 @@
 
 #include "EArmy.h"
 
-EArmy::EArmy() {
+EArmy::EArmy() : m_steps_left_in_round(0) {
 }
 
 EArmy::~EArmy() {
