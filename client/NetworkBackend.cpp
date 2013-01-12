@@ -47,14 +47,15 @@ void GameClient::RecruitTroopInBuilding() {
 	EUnitPtr troop1(new EUnit);
 	troop1->setImgPath("client/gfx/entity/army.png");
 	troop1->setIconPath("client/gfx/entity/icons/army.png");
+	troop1->setCoords(12,12);
 
 	ARecruitPtr action(new ARecruit);
 	action->what = troop1;
 	action->base = PlaceSelected;
 	action->inside = true;
 
-	OnNetworkAction(action);
-	//network.SendAction(action);
+	//OnNetworkAction(action);
+	network.SendAction(action);
 }
 
 void GameClient::RecruitTroopOutside(coordinates coords) {

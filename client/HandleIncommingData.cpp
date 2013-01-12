@@ -76,6 +76,10 @@ void GameClient::RecruitInside(ARecruit* action){
 
 	if(player.onturn){
 		//if(place->GetOwner() == player.id){
+			cout << "hieeeerrr =========" << endl;
+			cout << "X_unit: " << action->what->getCoords().x << endl;
+			cout << "X_base: " << action->base->getCoords().x << endl;
+
 			place->town_army->AddTroop(action->what);
 		//}
 	}else{
