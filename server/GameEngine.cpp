@@ -61,39 +61,51 @@ void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
 }
 
 void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
+	std::cout << "---------------------------------------------------------------\n";
 	std::cout << "GameEngine::doAction(...).\n";
 
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
 	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
 	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
 
-//	AMove* move = dynamic_cast<AMove*>(action.get());
-//	ABuild* build = dynamic_cast<ABuild*>(action.get());
-//	AAttack* attack = dynamic_cast<AAttack*>(action.get());
+	AMove* move = dynamic_cast<AMove*>(action.get());
+	ABuild* build = dynamic_cast<ABuild*>(action.get());
+	AAttack* attack = dynamic_cast<AAttack*>(action.get());
 
 	std::cout << "GameEngine::doAction: checking type.\n";
 	if (recruit != NULL) {
+
 		std::cout << "GameEngine::doAction: got a ARecruit.\n";
+
 		if(recruit->inside == true){
 
 			EUnitPtr unit(recruit->what);
 			ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
 			GameRessourcePtr costs(recruit->costs);
-			bool inside(recruit->inside);
 
 			base->town_army->AddTroop(unit);
+			player->addUnit(unit);
+			recruit->base=base;
 
-			//prepare gameaction
-			ARecruitPtr action2(new ARecruit);
-			action2->what = unit;
-			action2->base = base;
-			action2->inside = recruit->inside;
-			m_network.SendAction(player,action2);
+			ARecruitPtr retac(recruit);
+			m_network.SendAction(player,retac);
+
 			std::cout << "GameEngine::doAction: successful.\n";
 
-			//player->addUnit(unit);
 		}else{
-			m_network.BroadcastAction(action);
+
+			EUnitPtr unit(recruit->what);
+			ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
+			GameRessourcePtr costs(recruit->costs);
+
+
+
+			player->addUnit(unit);
+			recruit->base=base;
+
+			ARecruitPtr retac(recruit);
+			m_network.SendAction(player,retac);
+
 			std::cout << "GameEngine::doAction: successful.\n";
 		}
 	}
@@ -139,53 +151,51 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	}
 
 
-//	if (move != NULL) {
-//		std::cout << "GameEngine::doAction: got a AMove.\n";
-//		map->printMapStatus();
-//		GameEntityPtr what(move->what);
-//
-//		coordinates from = what->getCoords();
-//		coordinates to = move->to;
-//
-//		map->setArmy(to);
-//		map->setWalkable(from);
-//
-//		what->setCoords(to);
-//
-//		map->printMapStatus();
-//
-//	}
-//	if (build != NULL) {
-//		std::cout << "GameEngine::doAction: got a ABuild.\n";
-//		EBuildingPtr building(build->what);
-//		ELocationPtr where(build->where);
-//		where->addBuilding(building);
-//	}
-//	if (attack != NULL) {
-//		std::cout << "GameEngine::doAction: got a AAttack.\n";
-//		GameEntityPtr what(attack->what);
-//		coordinates where = attack->where;
-//
-//		EArmyPtr enemyarmy;
-//		PlayerPtr enemyplayer;
-//
-//		for (auto p : *playerlist) {
-//			for (auto army : p->armies) {
-//				if (army->getCoords().x == where.x
-//						&& army->getCoords().y == where.y) {
-//					EArmyPtr ea(army);
-//					PlayerPtr ep(p);
-//
-//					enemyarmy = ea;
-//					enemyplayer = ep;
-//				}
-//			}
-//		}
-//	}
+	if (move != NULL) {
+		std::cout << "GameEngine::doAction: got a AMove.\n";
+		map->printMapStatus();
+		GameEntityPtr what(move->what);
 
-	//m_network.SendAction(player,action);
-	//GameNetwork.broadcast(action);
+		coordinates from = what->getCoords();
+		coordinates to = move->to;
 
+		map->setArmy(to);
+		map->setWalkable(from);
+
+		what->setCoords(to);
+
+		map->printMapStatus();
+
+	}
+	if (build != NULL) {
+		std::cout << "GameEngine::doAction: got a ABuild.\n";
+		EBuildingPtr building(build->what);
+		ELocationPtr where(build->where);
+		where->addBuilding(building);
+	}
+	if (attack != NULL) {
+		std::cout << "GameEngine::doAction: got a AAttack.\n";
+		GameEntityPtr what(attack->what);
+		coordinates where = attack->where;
+
+		EArmyPtr enemyarmy;
+		PlayerPtr enemyplayer;
+
+		for (auto p : *playerlist) {
+			for (auto army : p->armies) {
+				if (army->getCoords().x == where.x
+						&& army->getCoords().y == where.y) {
+					EArmyPtr ea(army);
+					PlayerPtr ep(p);
+
+					enemyarmy = ea;
+					enemyplayer = ep;
+				}
+			}
+		}
+	}
+
+	std::cout << "\n---------------------------------------------------------------\n";
 }
 
 void GameEngine::run() {
