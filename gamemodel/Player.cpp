@@ -15,7 +15,7 @@
 using namespace std;
 
 Player::Player() :
-		id(boost::uuids::random_generator()()) {
+		id(boost::uuids::random_generator()()),actionsleft(5),onturn(false) {
 
 }
 
@@ -51,6 +51,14 @@ void Player::addRessource(GameRessourcePtr ressource) {
 
 int Player::getRessourceCount(GameRessourcePtr ressource) {
 	return 0;
+}
+
+void Player::SetActionLeft(int x) {
+	this->actionsleft = x;
+}
+
+int Player::GetActionLeft() {
+	return this->actionsleft;
 }
 
 string Player::getImgPath(){

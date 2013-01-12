@@ -41,9 +41,13 @@ public:
 
 	int getRessourceCount(GameRessourcePtr ressource);
 
+	int actionsleft;
+	int GetActionLeft();
+	void SetActionLeft(int x);
 	void setImgPath(string path);
 	string getImgPath();
 	string imgpath;
+	bool onturn;
 
 	boost::uuids::uuid id;
 
