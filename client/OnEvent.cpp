@@ -33,19 +33,19 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 
 
 	if(player.onturn){
-		if (subGS.GET_GameState() == IG_VILLAGEMENU) {
+		switch(subGS.GET_GameState()){
+		case IG_VILLAGEMENU:
 			HandleVillageMenuInput(mX,mY);
-		}
-
-		if (subGS.GET_GameState() == IG_ARMYOPTION) {
-				HandleArmyOptionInput(mX,mY);
-		}
-
-		if (subGS.GET_GameState() == IG_MOVEARMY) {
-				HandleMoveArmyInput(mX,mY);
-		}
-		if (subGS.GET_GameState() == IG_ASSEMBLYPOINT) {
-				HandleSetAssemblyPoint(mX,mY);
+			break;
+		case IG_ARMYOPTION:
+			HandleArmyOptionInput(mX,mY);
+			break;
+		case IG_MOVEARMY:
+			HandleMoveArmyInput(mX,mY);
+			break;
+		case IG_ASSEMBLYPOINT:
+			HandleSetAssemblyPoint(mX,mY);
+			break;
 		}
 	}
 
@@ -298,16 +298,16 @@ void GameClient::HandleArmyOptionInput(int mX,int mY){
 
 void GameClient::HandleMoveArmyInput(int mX,int mY){
 	int i=0;
+	bool inrange=false;
 
 	if(ArmySelected){
 		//DIR UP
 		for(i=1; i <= ArmySelected->GetStepsLeft();i++){
-//Get coords move to
 			coordinates coord(ArmySelected->getCoords().x ,ArmySelected->getCoords().y- i);
-//if clicked inside the range
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
 					SendMoveArmy(DIR_UP,i);
+					inrange=true;
 					break;
 				}
 			}
@@ -321,6 +321,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
 					SendMoveArmy(DIR_RIGHT,i);
+					inrange=true;
 					break;
 				}
 			}
@@ -334,6 +335,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
 					SendMoveArmy(DIR_DOWN,i);
+					inrange=true;
 					break;
 				}
 			}
@@ -348,10 +350,14 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
 					SendMoveArmy(DIR_LEFT,i);
+					inrange=true;
 					break;
 				}
 			}
 		}
+	}
+	if(inrange == false){
+		subGS.SET_GameState(SUB_NONE);
 	}
 }
 

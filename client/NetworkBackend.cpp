@@ -14,6 +14,7 @@ void GameClient::SendMoveArmy(int dir, int size){
 	AMovePtr action(new AMove);
 	action->what = ArmySelected;
 	action->from = ArmySelected->getCoords();
+	action->count = size;
 //if enough steps left
 	if (size <= ArmySelected->GetStepsLeft()) {
 		switch (dir) {
@@ -34,10 +35,7 @@ void GameClient::SendMoveArmy(int dir, int size){
 			action->to.y = ArmySelected->getCoords().y;
 			break;
 		}
-//remove Stepsleft
-		ArmySelected->SetStepsLeft( ArmySelected->GetStepsLeft() - size);
 //send the action
-
 		//OnNetworkAction(action);
 		network.SendAction(action);
 	}
