@@ -27,7 +27,7 @@ public:
 	boost::uuids::uuid whoseArmy(coordinates coords);
 	boost::uuids::uuid whosePlace(coordinates coords);
 
-	EArmyPtr getArmyAt(coordinates coords);
+	EArmyPtr getArmyAt(PlayerPtr player, coordinates coords);
 
 private:
 	GameMap *map;

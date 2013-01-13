@@ -68,6 +68,9 @@ void GameClient::ReceiveMoveArmy(AMove* move){
 		MergeArmies(move->to, ArmySelected);
 		subGS.SET_GameState(SUB_NONE);
 	}
+
+	//remove Stepsleft
+	ArmySelected->SetStepsLeft( ArmySelected->GetStepsLeft() - move->count);
 }
 
 void GameClient::RecruitInside(ARecruit* action){

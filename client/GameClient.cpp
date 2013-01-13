@@ -15,7 +15,8 @@
 using namespace std;
 
 GameClient::GameClient() :
-		player(),opponent(), network("localhost", 1337) {
+	//player(),opponent(), network("localhost", 1337) {
+	player(),opponent(), network("localhost", 1337) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfMain = NULL;

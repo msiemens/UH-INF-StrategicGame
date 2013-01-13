@@ -67,15 +67,21 @@ boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
 	return playerId;
 }
 
-EArmyPtr GameLogic::getArmyAt(coordinates coords){
+EArmyPtr GameLogic::getArmyAt(PlayerPtr player,coordinates coords){
 	EArmyPtr armyat;
-	for(auto player:*playerlist){
+	if(map->isArmyPositioned(coords)){
+//		std::cout <<"jaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << endl;
+//	for(auto player:*playerlist){
+//		std::cout <<"hab player" << endl;
 	for (auto army: player->armies) {
+		std::cout <<"hab armies" << endl;
 		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
+			std::cout <<"hab was" << endl;
 			armyat = army;
 			break;
 		}
 	}
+	//}
 	}
 	return armyat;
 }
@@ -101,9 +107,15 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		if(recruit->inside){
 			valid = (base->town_army->units.size()<10)?true:false;
 		} else {
-			valid= ((map->isArmyPositioned(base->GetAssemblyPointCoords()) and
-					whoseArmy(base->GetAssemblyPointCoords())==player->getPlayerId() and
-					getArmyAt(base->GetAssemblyPointCoords())->units.size()<10) or
+			boost::uuids::uuid playeridofarmy=whoseArmy(base->GetAssemblyPointCoords());
+			std::string id="";
+			if(playeridofarmy==player->getPlayerId()){
+				id=player->getPlayerIdStr();
+				std::cout << "In der if" << endl;
+			}
+			std::cout << "Armee von" << id << endl;
+			valid= ((map->isArmyPositioned(base->GetAssemblyPointCoords())  and
+					getArmyAt(player,base->GetAssemblyPointCoords())->units.size()<10) or
 					map->isWalkable(base->GetAssemblyPointCoords()))?true:false;
 		}
 	}
@@ -113,6 +125,8 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		coordinates to = move->to;
 
 		valid = (map->isWalkable(to)) ? true : false;
+		valid = (map->isArmyPositioned(to)) ? true : false;
+		valid = (map->isPlace(to)) ? true : false;
 	}
 //build
 	else if (build != NULL) {

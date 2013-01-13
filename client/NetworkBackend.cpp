@@ -14,6 +14,7 @@ void GameClient::SendMoveArmy(int dir, int size){
 	AMovePtr action(new AMove);
 	action->what = ArmySelected;
 	action->from = ArmySelected->getCoords();
+	action->count = size;
 //if enough steps left
 	if (size <= ArmySelected->GetStepsLeft()) {
 		switch (dir) {
@@ -34,42 +35,35 @@ void GameClient::SendMoveArmy(int dir, int size){
 			action->to.y = ArmySelected->getCoords().y;
 			break;
 		}
-//remove Stepsleft
-		ArmySelected->SetStepsLeft( ArmySelected->GetStepsLeft() - size);
 //send the action
-
-		OnNetworkAction(action);
-		//network.SendAction(action);
+		//OnNetworkAction(action);
+		network.SendAction(action);
 	}
 }
 
 void GameClient::RecruitTroopInBuilding() {
 	EUnitPtr troop1(new EUnit);
-	troop1->setImgPath("client/gfx/entity/army.png");
-	troop1->setIconPath("client/gfx/entity/icons/army.png");
+	troop1->setCoords(12,12);
 
 	ARecruitPtr action(new ARecruit);
 	action->what = troop1;
 	action->base = PlaceSelected;
 	action->inside = true;
 
-	OnNetworkAction(action);
-	//network.SendAction(action);
+	//OnNetworkAction(action);
+	network.SendAction(action);
 }
 
 void GameClient::RecruitTroopOutside(coordinates coords) {
 	EUnitPtr troop1(new EUnit);
-	troop1->setImgPath("client/gfx/entity/army.png");
-	troop1->setIconPath("client/gfx/entity/icons/army.png");
-
 
 	ARecruitPtr action(new ARecruit);
 	action->what = troop1;
 	action->base = PlaceSelected;
 	action->inside = false;
 
-	OnNetworkAction(action);
-	//network.SendAction(action);
+	//OnNetworkAction(action);
+	network.SendAction(action);
 }
 
 void GameClient::MergeArmyIntoPlace(coordinates coords, EArmyPtr Army){
@@ -119,8 +113,8 @@ void GameClient::SendSetAP(coordinates coords) {
 	action->apcoords.x = coords.x;
 	action->apcoords.y = coords.y;
 
-	OnNetworkAction(action);
-	//network.SendAction(action);
+	//OnNetworkAction(action);
+	network.SendAction(action);
 }
 
 void GameClient::SendSetTurn(bool endturn) {
