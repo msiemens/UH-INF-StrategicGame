@@ -40,7 +40,7 @@ GameEngine::~GameEngine() {
 }
 
 bool GameEngine::onPlayerConnect(PlayerPtr player) {
-	//std::cout << "\nSpieler mit ID "<< player->getPlayerId() << " hat sich connected";
+	std::cout << "\nSpieler mit ID "<< player->getPlayerIdStr() << " hat sich connected" << endl;
 	playerlist->insert(playerlist->end(), player);
 	return true;
 }
@@ -49,6 +49,19 @@ void GameEngine::onPlayerDisconnect(PlayerPtr player) {
 }
 
 void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
+	bool exists=false;
+	if(playerlist->size()<1){
+		onPlayerConnect(player);
+	} else{
+	for(auto p:*playerlist){
+		if(player->getPlayerId()==p->getPlayerId()){
+			exists=true;
+		}else{
+			onPlayerConnect(player);
+		}
+	}
+	}
+
 	cout << "GameEngine::onPlayerAction(...)" << endl;
 	if (logic.checkPlayerAction(player, action) == true) {
 		std::cout << "Action ist gueltig.\n";
@@ -87,7 +100,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			recruit->base=base;
 
 			//ARecruitPtr retac(recruit);
-			m_network.SendAction(player,action);
+			m_network.BroadcastAction(action);
 
 			std::cout << "GameEngine::doAction: successful.\n";
 
@@ -100,7 +113,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 				createArmyAt(base->GetAssemblyPointCoords(),player);
 			}
 
-			EArmyPtr armyat(logic.getArmyAt(player, base->GetAssemblyPointCoords()));
+			EArmyPtr armyat(logic.getArmyAt(base->GetAssemblyPointCoords()));
 			unit->setCoords(base->GetAssemblyPointCoords());
 			player->addUnit(unit);
 			armyat->AddTroop(unit);
@@ -108,7 +121,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			recruit->base=base;
 
 			ARecruitPtr retac(recruit);
-			m_network.SendAction(player,action);
+			m_network.BroadcastAction(action);
 
 			std::cout << "GameEngine::doAction: successful.\n";
 		}
@@ -123,7 +136,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 		ELocationPtr place(map->getPlaceAt(setAP->basecoords));
 		place->SetAssemblyPointCoords(setAP->apcoords);
-		m_network.SendAction(player,setAP2);
+		m_network.BroadcastAction(setAP2);
 	}
 
 	if(setTurn != NULL){
@@ -138,7 +151,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			for(auto players : *playerlist){
 				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 					//dies funktioniert nur für 2 spieler!
-					m_network.SendAction(players,setturn2);
+					m_network.BroadcastAction(setturn2);
 					break;
 				}
 			}
@@ -146,13 +159,13 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 			player->onturn = true;
 			ASetTurnPtr setturn2(new ASetTurn);
 			setturn2->endturn = false;
-			m_network.SendAction(player,setturn2);
+			m_network.BroadcastAction(setturn2);
 
 			setturn2->endturn = true;
 			for(auto players : *playerlist){
 				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 					//dies funktioniert nur für 2 spieler!
-					m_network.SendAction(players,setturn2);
+					m_network.BroadcastAction(setturn2);
 					break;
 				}
 			}
@@ -168,7 +181,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 		coordinates to = move->to;
 		int size = move->count;
 
-		EArmyPtr army(logic.getArmyAt(player, from));
+		EArmyPtr army(logic.getArmyAt(from));
 
 		if((army->GetStepsLeft() - size) >= 0){
 			if(map->isBlocked(to) == false){
@@ -182,7 +195,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 					//merge into army
 				}
 				army->SetStepsLeft(army->GetStepsLeft() - size);
-				m_network.SendAction(player,action);
+				m_network.BroadcastAction(action);
 			}
 		}
 	}
@@ -226,7 +239,6 @@ void GameEngine::createArmyAt(coordinates coords,PlayerPtr owner){
 }
 
 void GameEngine::run() {
-	m_network.ConnectOnAction(
-			boost::bind(&GameEngine::onPlayerAction, this, _1, _2));
+	m_network.ConnectOnAction(boost::bind(&GameEngine::onPlayerAction, this, _1, _2));
 	m_network.thread()->join();
 }

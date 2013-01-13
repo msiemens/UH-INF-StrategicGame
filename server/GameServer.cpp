@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
 
 	engine.run();
 
-	std::cout << "Here" << std::endl;
 	return 0;
 }
 

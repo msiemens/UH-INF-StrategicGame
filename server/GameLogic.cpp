@@ -67,21 +67,17 @@ boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
 	return playerId;
 }
 
-EArmyPtr GameLogic::getArmyAt(PlayerPtr player,coordinates coords){
+EArmyPtr GameLogic::getArmyAt(coordinates coords){
 	EArmyPtr armyat;
 	if(map->isArmyPositioned(coords)){
-//		std::cout <<"jaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << endl;
-//	for(auto player:*playerlist){
-//		std::cout <<"hab player" << endl;
+	for(auto player:*playerlist){
 	for (auto army: player->armies) {
-		std::cout <<"hab armies" << endl;
 		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
-			std::cout <<"hab was" << endl;
 			armyat = army;
 			break;
 		}
 	}
-	//}
+	}
 	}
 	return armyat;
 }
@@ -101,21 +97,25 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 //recruit
 	if (recruit != NULL) {
 
-			GameRessourcePtr costs(recruit->costs);
-			EUnitPtr troops(recruit->what);
-			ELocationPtr base(recruit->base);
+		GameRessourcePtr costs(recruit->costs);
+		EUnitPtr troops(recruit->what);
+		ELocationPtr base(recruit->base);
+
+
 		if(recruit->inside){
 			valid = (base->town_army->units.size()<10)?true:false;
 		} else {
 			boost::uuids::uuid playeridofarmy=whoseArmy(base->GetAssemblyPointCoords());
 			std::string id="";
+
 			if(playeridofarmy==player->getPlayerId()){
 				id=player->getPlayerIdStr();
 				std::cout << "In der if" << endl;
 			}
 			std::cout << "Armee von" << id << endl;
 			valid= ((map->isArmyPositioned(base->GetAssemblyPointCoords())  and
-					getArmyAt(player,base->GetAssemblyPointCoords())->units.size()<10) or
+					getArmyAt(base->GetAssemblyPointCoords())->units.size()<10 and
+					whoseArmy(base->GetAssemblyPointCoords())==player->getPlayerId()) or
 					map->isWalkable(base->GetAssemblyPointCoords()))?true:false;
 		}
 	}
@@ -124,9 +124,8 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		GameEntityPtr what(move->what);
 		coordinates to = move->to;
 
-		valid = (map->isWalkable(to)) ? true : false;
-		valid = (map->isArmyPositioned(to)) ? true : false;
-		valid = (map->isPlace(to)) ? true : false;
+		valid= (map->isWalkable(to) or (map->isArmyPositioned(to) and whoseArmy(to)==player->getPlayerId()
+				and getArmyAt(to)->units.size()<10) ) ? true : false;
 	}
 //build
 	else if (build != NULL) {
