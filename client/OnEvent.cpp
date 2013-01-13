@@ -165,8 +165,8 @@ void GameClient::HandleStartScreenInput(int mX, int mY){
 			GS.SET_GameState(INGAME);
 			subGS.SET_GameState(SUB_NONE);
 
-			Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
-			//Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_FULLSCREEN | SDL_HWSURFACE);
+			//Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
+			Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_FULLSCREEN | SDL_HWSURFACE);
 		}
 		//Button Option
 		if (mX > 163 && mX < 252) {
