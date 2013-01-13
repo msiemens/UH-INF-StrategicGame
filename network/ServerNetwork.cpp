@@ -51,9 +51,17 @@ void ServerNetwork::ConnectOnMessage(
 	m_signal_on_message.connect(subscriber);
 }
 
+void ServerNetwork::ConnectOnPlayerConnect(
+		const signal_connect_t::slot_type &subscriber) {
+	m_signal_on_connect.connect(subscriber);
+}
+
 void ServerNetwork::OnPlayerConnect(NetPlayerPtr netplayer) {
 	PlayerPtr player(new Player);
 	m_players[player] = netplayer;
+
+	// Call onConnect handler
+	m_signal_on_connect(player);
 }
 
 void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
@@ -132,7 +140,8 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 	m_network.game()->Broadcast(msg);
 }
 
-void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer) {
+void ServerNetwork::OnMessage(char* message, int length,
+		NetPlayerPtr netplayer) {
 	std::cout << "ServerNetwork::OnMessage(...)" << std::endl;
 	std::cout << "Seeking Player oject" << std::endl;
 
