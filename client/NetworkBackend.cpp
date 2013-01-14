@@ -14,11 +14,7 @@ void GameClient::SendLogIn(){
 	ALogInPtr action(new ALogIn);
 	action->verified=false;
 	//action->id = player.getPlayerId();
-	cout << "======================================" << endl;
-	cout << "prepare to send" << endl;
 	network.SendAction(action);
-	cout << "send success" << endl;
-	cout << "======================================" << endl;
 }
 
 void GameClient::SendMoveArmy(int dir, int size){
@@ -53,55 +49,6 @@ void GameClient::SendMoveArmy(int dir, int size){
 	}
 }
 
-void GameClient::MergeArmyIntoPlace(coordinates coords, EArmyPtr Army){
-	int i=0;
-	ELocationPtr place = map.getPlaceAt(coords);
-	if(10 - place->town_army->units.size() > Army->units.size()){
-		for(i=0; i<Army->units.size(); i++){
-			place->town_army->units.push_back(Army->units[i]);
-		}
-		Army->units.clear();
-		map.setWalkable(ArmySelected->getCoords());
-		ArmySelected.reset();
-		player.armies.remove(Army);
-	}
-}
-
-void GameClient::MergeArmies(coordinates coords, EArmyPtr Army){
-	int i=0;
-	EArmyPtr armyat = getArmyByCoords(coords);
-	if(armyat->units.size() + Army->units.size() <= 10){
-		for(i=0; i<Army->units.size(); i++){
-			armyat->units.push_back(Army->units[i]);
-		}
-		Army->units.clear();
-		map.setWalkable(ArmySelected->getCoords());
-		ArmySelected=armyat;
-		player.armies.remove(Army);
-	}
-}
-
-EArmyPtr GameClient::getArmyByCoords(coordinates coords){
-	EArmyPtr armyat;
-	for (auto army: player.armies) {
-		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
-			armyat = army;
-			break;
-		}
-	}
-	return armyat;
-}
-
-EArmyPtr GameClient::getOpponentArmyByCoords(coordinates coords){
-	EArmyPtr armyat;
-	for (auto army: opponent.armies) {
-		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
-			armyat = army;
-			break;
-		}
-	}
-	return armyat;
-}
 void GameClient::SendSetAP(coordinates coords) {
 
 	ASetAPPtr action(new ASetAP);
@@ -115,7 +62,9 @@ void GameClient::SendSetAP(coordinates coords) {
 }
 
 void GameClient::SendEndTurn() {
-
+	subGS.SET_GameState(SUB_NONE);
+	ArmySelected.reset();
+	PlaceSelected.reset();
 	ASetTurnPtr action(new ASetTurn);
 	action->endturn = true;
 
@@ -123,7 +72,7 @@ void GameClient::SendEndTurn() {
 	network.SendAction(action);
 }
 
-void GameClient::RecruitTroopInBuilding() {
+void GameClient::SendRecruitTroopInBuilding() {
 	EUnitPtr troop1(new EUnit);
 	troop1->setCoords(PlaceSelected->getCoords());
 
@@ -136,7 +85,7 @@ void GameClient::RecruitTroopInBuilding() {
 	network.SendAction(action);
 }
 
-void GameClient::RecruitTroopOutside(coordinates coords) {
+void GameClient::SendRecruitTroopOutside(coordinates coords) {
 	EUnitPtr troop1(new EUnit);
 
 	ARecruitPtr action(new ARecruit);

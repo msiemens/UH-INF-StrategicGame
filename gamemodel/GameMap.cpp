@@ -84,6 +84,19 @@ bool GameMap::isPlace(coordinates coords) {
 	return (map[coords.y][coords.x] & place) ? true : false;
 }
 
+bool GameMap::isStartBase(coordinates coords){
+	for (auto place : placeList) {
+		if(place->getCoords().x == coords.x and place->getCoords().y == coords.y){
+			if(place->IsStartBase()){
+				return true;
+			}
+		}
+
+	}
+	return false;
+}
+
+
 void GameMap::createPlaces() {
 
 	int counter = 0;
@@ -96,10 +109,15 @@ void GameMap::createPlaces() {
 				place->setImgPath("client/gfx/entity/village.png");
 				place->setIconPath("client/gfx/entity/icons/castle.png");
 				placeList.insert(placeList.begin(), place);
+			}else{
+				if(isStartBase(coordinates(x,y))){
+					setPlace(x,y);
+				}
 			}
 		}
 	}
 }
+
 
 ELocationPtr GameMap::getPlaceAt(coordinates coords) {
 	ELocationPtr placeAt;
@@ -114,7 +132,6 @@ ELocationPtr GameMap::getPlaceAt(coordinates coords) {
 
 int GameMap::getClickPosX(int x){
 	int posx=0;
-
 	posx =x/20;
 
 	return posx;
@@ -147,13 +164,22 @@ void GameMap::createMapFromTxt(string path) {
 				y++;
 				mapSizeX = 0;
 				x = 0;
+			} else if (c == 's'){
+				ELocationPtr place(new ELocation);
+				place->setCoords(x, y);
+				place->SetAssemblyPointCoord(x+1,y);
+				place->setStartBase(true);
+				place->setImgPath("client/gfx/entity/village.png");
+				place->setIconPath("client/gfx/entity/icons/castle.png");
+				placeList.insert(placeList.begin(), place);
+				x++;
 			} else if (c == 'w') {
 				setWalkable(x, y);
 				x++;
 			} else if (c == 'p') {
 				setPlace(x, y);
 				x++;
-			} else {
+			}  else {
 				setBlocked(x, y);
 				x++;
 			}
@@ -173,6 +199,8 @@ void GameMap::printMapStatus() {
 				cout << "w";
 			} else if (isPlace(coords)) {
 				cout << "p";
+			}else if(isStartBase(coords)){
+				cout << "s";
 			}else if (isBlocked(coords)) {
 				cout << "b";
 			}

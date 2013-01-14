@@ -52,6 +52,10 @@ public:
 
 	void createArmyAt(coordinates coords,PlayerPtr owner);
 
+	void onNextTurn();
+
+	void startSession();
+
 	void test();
 	void run();
 

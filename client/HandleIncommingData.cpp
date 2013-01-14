@@ -44,7 +44,6 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 void GameClient::OnNetworkMessage(GameStateMessagePtr message){}
 
 void GameClient::ReceiveSetTurn(bool endturn){
-	cout << "hab was id: " <<  player.getPlayerIdStr() << endl;
 	if(endturn==true){
 		player.onturn = false;
 		opponent.onturn = true;
@@ -52,6 +51,7 @@ void GameClient::ReceiveSetTurn(bool endturn){
 		player.onturn = true;
 		opponent.onturn = false;
 	}
+	OnNextTurn();
 }
 
 void GameClient::ReceiveSetAP(ELocationPtr place, coordinates coords){
@@ -116,10 +116,12 @@ void GameClient::RecruitInside(ARecruit* action){
 
 	if(player.onturn){
 		//if(place->GetOwner() == player.id){
+			action->what->SetOwner(player.getPlayerId());
 			place->town_army->AddTroop(action->what);
 		//}
-	}else{
+	}else if(opponent.onturn){
 		if(place->GetOwner() != player.id){//verhindert dass der player seine truppen in gegnerische städte platziert
+			action->what->SetOwner(opponent.getPlayerId());
 			place->town_army->AddTroop(action->what);
 		}
 	}
@@ -127,20 +129,29 @@ void GameClient::RecruitInside(ARecruit* action){
 
 void GameClient::RecruitOutside(ARecruit* action){
 	//Myturn
-	if(player.onturn){
+	cout << "Player ID: " << player.getPlayerIdStr() << endl;
+
+	std::stringstream ss;
+
+	if(player.onturn){ // action->what->GetOwner() == player.getPlayerId() and
 		if (map.isArmyPositioned(action->base->GetAssemblyPointCoords())) {
 			for (auto army : player.armies){
 				if (army->getCoords().x == action->base->GetAssemblyPointCoords().x
 						and army->getCoords().y == action->base->GetAssemblyPointCoords().y) {
+					action->what->SetOwner(player.getPlayerId());
 					army->AddTroop(action->what);
 				}
 			}
 		} else {
 			EArmyPtr army(new EArmy);
 			army->setImgPath("client/gfx/entity/army.png");
+
+			army->SetOwner(player.getPlayerId());
+			action->what->SetOwner(player.getPlayerId());
 			army->AddTroop(action->what);
 			army->SetStepsLeft(3);
 			army->setCoords(action->base->GetAssemblyPointCoords());
+			army->SetOwner(player.getPlayerId());
 			player.armies.insert(player.armies.end(), army);
 			map.setArmy(action->base->GetAssemblyPointCoords());
 		}
@@ -149,6 +160,7 @@ void GameClient::RecruitOutside(ARecruit* action){
 			for (auto army : opponent.armies){
 				if (army->getCoords().x == action->base->GetAssemblyPointCoords().x
 						and army->getCoords().y == action->base->GetAssemblyPointCoords().y) {
+					action->what->SetOwner(opponent.getPlayerId());
 					army->AddTroop(action->what);
 				}
 			}
@@ -158,6 +170,7 @@ void GameClient::RecruitOutside(ARecruit* action){
 			army->AddTroop(action->what);
 			army->SetStepsLeft(3);
 			army->setCoords(action->base->GetAssemblyPointCoords());
+			army->SetOwner(opponent.getPlayerId());
 			opponent.armies.insert(opponent.armies.end(), army);
 			map.setArmy(action->base->GetAssemblyPointCoords());
 		}

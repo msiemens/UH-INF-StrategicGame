@@ -118,6 +118,7 @@ public:
 	void HandleStartScreenInput(int mX, int mY);
 	void HandleVillageMenuInput(int mX, int mY);
 	void HandleMapEntities(int mX, int mY);
+	void HandleInGameMenu(int mX, int mY);
 	void HandleMapEditorModus(int mX, int mY);
 	void HandleArmyOptionInput(int mX,int mY);
 	void HandleMoveArmyInput(int mX,int mY);
@@ -136,8 +137,6 @@ public:
 	void ShowSelected();
 	//-----
 
-	void RecruitTroopInBuilding();
-	void RecruitTroopOutside(coordinates coords);
 
 	//incomming data
 	void RecruitOutside(ARecruit* action);
@@ -156,6 +155,8 @@ public:
 	void SendMoveArmy(int dir, int size);
 	void SendSetAP(coordinates coords);
 	void SendEndTurn();
+	void SendRecruitTroopInBuilding();
+	void SendRecruitTroopOutside(coordinates coords);
 
 	//receive functions
 	void ReceiveLogIn(ALogIn* login);
@@ -163,6 +164,7 @@ public:
 	void ReceiveSetAP(ELocationPtr place, coordinates coords);
 	void ReceiveSetTurn(bool endturn);
 
+	void OnNextTurn();
 	// Network listeners
 	void OnNetworkAction(GameActionPtr action);
 	void OnNetworkMessage(GameStateMessagePtr message);

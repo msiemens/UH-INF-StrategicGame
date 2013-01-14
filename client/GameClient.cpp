@@ -42,8 +42,8 @@ GameClient::GameClient() :
 	selected = "";
 	markx = 0;
 	marky = 0;
-	camposx = -12;
-	camposy = -12;
+	camposx = 300;
+	camposy = 300;
 	pressedup = false;
 	pressedright = false;
 	presseddown = false;

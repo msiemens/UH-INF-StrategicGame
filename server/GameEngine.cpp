@@ -41,6 +41,7 @@ GameEngine::~GameEngine() {
 }
 
 bool GameEngine::onPlayerConnect(PlayerPtr player) {
+	map->printMapStatus();
 	std::cout << "\nSpieler mit ID "<< player->getPlayerIdStr() << " hat sich connected" << endl;
 	playerlist->insert(playerlist->end(), player);
 	return true;
@@ -132,9 +133,26 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 				}
 			}
 		}
+		if(playerlist->size()==2){
+			startSession();
+			for(auto player : *playerlist){
+				for(auto place: player->places){
+					std::cout << "Location von Spieler " << player->getPlayerIdStr() << "X:" << place->getCoords().x << ", Y:" << place->getCoords().y << endl;
+				}
+			}
+		}
 	}
 
 	std::cout << "\n---------------------------------------------------------------\n";
+}
+
+void GameEngine::onNextTurn(){
+	//reset StepsLeft
+	for(auto player : *playerlist){
+		for(auto army : player->armies){
+			army->SetStepsLeft(3);
+		}
+	}
 }
 
 void GameEngine::createArmyAt(coordinates coords,PlayerPtr owner){
@@ -157,6 +175,8 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruit* recruit) {
 				base->town_army->AddTroop(unit);
 				player->addUnit(unit);
 				recruit->base=base;
+				unit->SetOwner(player->getPlayerId());
+
 
 
 				std::cout << "GameEngine::doAction: successful.\n";
@@ -191,10 +211,10 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMove* move) {
 			coordinates from = what->getCoords();
 			coordinates to = move->to;
 			int size = move->count;
-
 			EArmyPtr army(logic.getArmyAt(from));
 
 			if((army->GetStepsLeft() - size) >= 0){
+				cout << "SEPS:" << army->GetStepsLeft() << "| Size: " << size << endl;
 				if(map->isBlocked(to) == false){
 					if(map->isWalkable(to) == true and map->isPlace(to) == false and map->isArmyPositioned(to)==false){
 						map->setWalkable(from);
@@ -209,6 +229,7 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMove* move) {
 				}
 			}
 
+			cout << "JAAAAAAAAAAAAAAAAA2222222222" << endl;
 			AMovePtr action(move);
 			return action;
 
@@ -304,12 +325,32 @@ void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurn* setTurn){
 			}
 		}
 	}
+	onNextTurn();
 }
 
 
 void GameEngine::BroadcastAction(GameActionPtr action) {
 	for(auto player:*playerlist){
 		m_network.SendAction(player,action);
+	}
+}
+
+void GameEngine::startSession(){
+	int counter=1;
+	for(auto place:map->placeList){
+		if(map->isStartBase(place->getCoords())){
+
+			int i=1;
+			for(auto player:*playerlist){
+				if(counter==i){
+					player->addLocation(place);
+					place->owned=true;
+					place->SetOwner(player->getPlayerId());
+				}
+				counter++;
+			}
+			counter=0;
+		}
 	}
 }
 

@@ -18,7 +18,7 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 	if (GS.GET_GameState() == START_SCREEN) {
 		HandleStartScreenInput(mX, mY);
 	}
-
+	if(mX > 11 and mY > 11 and mX < 488 and mY < 392)
 	if (GS.GET_GameState() == INGAME) {
 		if (map.editMode) {
 			HandleMapEditorModus(mX,mY);
@@ -29,8 +29,10 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 				}
 			}
 		}
+
 	}
 
+	HandleInGameMenu(mX,mY);
 
 	if(player.onturn){
 		switch(subGS.GET_GameState()){
@@ -71,9 +73,6 @@ void GameClient::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 		} else {
 			map.editMode = true;
 		}
-		break;
-	case SDLK_q:
-		SendEndTurn();
 		break;
 	case SDLK_ESCAPE:
 		if(subGS.GET_GameState()== IG_MOVEARMY){
@@ -154,6 +153,34 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool
 		}
 	}
 }
+void GameClient::HandleInGameMenu(int mX, int mY){
+
+	if(mY > 190 and mY < 219){
+		if(mX > 522 and mX < 592){
+
+		}
+		if(mX > 602 and mX < 672){
+
+		}
+		if(mX > 682 and mX < 752){
+
+		}
+	}
+	if(mY > 230 and mY < 259){
+		if(mX > 522 and mX < 592){
+
+		}
+		if(mX > 602 and mX < 672){
+
+		}
+		if(mX > 682 and mX < 752){
+			if(player.onturn){
+				SendEndTurn();
+			}
+		}
+	}
+
+}
 
 void GameClient::HandleStartScreenInput(int mX, int mY){
 	if (mY > 287 && mY < 315) {
@@ -197,36 +224,34 @@ void GameClient::HandleMapEditorModus(int mX, int mY){
 
 void GameClient::HandleMapEntities(int mX, int mY){
 	bool somethingfound=false;
-	if(mX > 12 and mX < 488 and mY > 12 and mY < 392){
-		for (auto place : map.placeList) {
-			if (mY > (place->getCoords().y * TILE_SIZE) - camposy and mY < (place->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
-				if (mX > (place->getCoords().x * TILE_SIZE) - camposx and mX < (place->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					ArmySelected.reset();
-					PlaceSelected = place;
+	for (auto place : map.placeList) {
+		if (mY > (place->getCoords().y * TILE_SIZE) - camposy and mY < (place->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
+			if (mX > (place->getCoords().x * TILE_SIZE) - camposx and mX < (place->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
+				ArmySelected.reset();
+				PlaceSelected = place;
 
-					subGS.SET_GameState(IG_VILLAGEMENU);
-					somethingfound = true;
-					break;
-				}
+				subGS.SET_GameState(IG_VILLAGEMENU);
+				somethingfound = true;
+				break;
 			}
 		}
+	}
 
-		for (auto army : player.armies) {
-			if (mY > (army->getCoords().y * TILE_SIZE) - camposy and mY < (army->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
-				if(mX > (army->getCoords().x * TILE_SIZE) - camposx and mX < (army->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					PlaceSelected.reset();
-					ArmySelected = army;
-					somethingfound = true;
-					break;
-				}
-
+	for (auto army : player.armies) {
+		if (mY > (army->getCoords().y * TILE_SIZE) - camposy and mY < (army->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
+			if(mX > (army->getCoords().x * TILE_SIZE) - camposx and mX < (army->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
+				PlaceSelected.reset();
+				ArmySelected = army;
+				somethingfound = true;
+				break;
 			}
-		}
 
-		if(somethingfound == false){
-			PlaceSelected.reset();
-			ArmySelected.reset();
 		}
+	}
+
+	if(somethingfound == false){
+		PlaceSelected.reset();
+		ArmySelected.reset();
 	}
 }
 void GameClient::HandleSetAssemblyPoint(int mX, int mY){
@@ -254,13 +279,13 @@ void GameClient::HandleVillageMenuInput(int mX, int mY){
 	if (mX > 598 and mX < 685) {
 		//Recruit
 		if (mY > 435 and mY < 462) {
-			RecruitTroopInBuilding();
+			SendRecruitTroopInBuilding();
 		}
 
 		//recruit outside
 		if (mY > 474 and mY < 501) {
 			coordinates coord(PlaceSelected->getCoords().x +1,PlaceSelected->getCoords().y);
-			RecruitTroopOutside(coord);
+			SendRecruitTroopOutside(coord);
 		}
 
 		//Close
