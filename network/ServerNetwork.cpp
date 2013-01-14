@@ -21,6 +21,7 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+#include <gamemodel/actions/ALogIn.h>
 
 #include "messages/message_types.h"
 #include "ServerNetwork.h"
@@ -186,6 +187,7 @@ void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer)
 }
 
 void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
+	archive->register_type<ALogIn>();
 	archive->register_type<ARecruit>();
 	archive->register_type<ABuild>();
 	archive->register_type<AMove>();
@@ -203,6 +205,7 @@ void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 }
 
 void ServerNetwork::registerTypes(boost::archive::text_iarchive* archive) {
+	archive->register_type<ALogIn>();
 	archive->register_type<ARecruit>();
 	archive->register_type<ABuild>();
 	archive->register_type<AMove>();

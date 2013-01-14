@@ -18,6 +18,7 @@
 #include <gamemodel/actions/AAttack.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+#include <gamemodel/actions/ALogIn.h>
 
 #include <gamemodel/ressources/RMoney.h>
 
@@ -49,19 +50,6 @@ void GameEngine::onPlayerDisconnect(PlayerPtr player) {
 }
 
 void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
-	bool exists=false;
-	if(playerlist->size()<1){
-		onPlayerConnect(player);
-	} else{
-	for(auto p:*playerlist){
-		if(player->getPlayerId()==p->getPlayerId()){
-			exists=true;
-		}else{
-			onPlayerConnect(player);
-		}
-	}
-	}
-
 	cout << "GameEngine::onPlayerAction(...)" << endl;
 	if (logic.checkPlayerAction(player, action) == true) {
 		std::cout << "Action ist gueltig.\n";
@@ -85,143 +73,62 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	ABuild* build = dynamic_cast<ABuild*>(action.get());
 	AAttack* attack = dynamic_cast<AAttack*>(action.get());
 
+	ALogIn* logIn= dynamic_cast<ALogIn*>(action.get());
+
+
+
 	std::cout << "GameEngine::doAction: checking type.\n";
 	if (recruit != NULL) {
-		std::cout << "GameEngine::doAction: got a ARecruit.\n";
-
-		if(recruit->inside == true){
-
-			EUnitPtr unit(recruit->what);
-			ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
-			GameRessourcePtr costs(recruit->costs);
-
-			base->town_army->AddTroop(unit);
-			player->addUnit(unit);
-			recruit->base=base;
-
-			//ARecruitPtr retac(recruit);
-			m_network.BroadcastAction(action);
-
-			std::cout << "GameEngine::doAction: successful.\n";
-
-		}else{
-			EUnitPtr unit(recruit->what);
-			ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
-			GameRessourcePtr costs(recruit->costs);
-
-			if(map->isArmyPositioned(base->GetAssemblyPointCoords())==false){
-				createArmyAt(base->GetAssemblyPointCoords(),player);
-			}
-
-			EArmyPtr armyat(logic.getArmyAt(base->GetAssemblyPointCoords()));
-			unit->setCoords(base->GetAssemblyPointCoords());
-			player->addUnit(unit);
-			armyat->AddTroop(unit);
-
-			recruit->base=base;
-
-			ARecruitPtr retac(recruit);
-			m_network.BroadcastAction(action);
-
-			std::cout << "GameEngine::doAction: successful.\n";
-		}
+		BroadcastAction(onPlayerRecruit(player,recruit));
 	}
 	if(setAP != NULL){
-		std::cout << "GameEngine::doAction: got a ASetAP.\n";
-		ASetAPPtr setAP2(new ASetAP);
-		setAP2->apcoords.x = setAP->apcoords.x;
-		setAP2->apcoords.y = setAP->apcoords.y;
-		setAP2->basecoords.x = setAP->basecoords.x;
-		setAP2->basecoords.y = setAP->basecoords.y;
-
-		ELocationPtr place(map->getPlaceAt(setAP->basecoords));
-		place->SetAssemblyPointCoords(setAP->apcoords);
-		m_network.BroadcastAction(setAP2);
+		BroadcastAction(onPlayerSetAP(player,setAP));
 	}
-
 	if(setTurn != NULL){
-		std::cout << "GameEngine::doAction: got a ASetTurn.\n";
-		if(setTurn->endturn == true){
-			player->onturn = false;
-			ASetTurnPtr setturn2(new ASetTurn);
-			setturn2->endturn = true;
-			m_network.SendAction(player,setturn2);
-
-			setturn2->endturn = false;
-			for(auto players : *playerlist){
-				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
-					//dies funktioniert nur für 2 spieler!
-					m_network.BroadcastAction(setturn2);
-					break;
-				}
-			}
-		}else{
-			player->onturn = true;
-			ASetTurnPtr setturn2(new ASetTurn);
-			setturn2->endturn = false;
-			m_network.BroadcastAction(setturn2);
-
-			setturn2->endturn = true;
-			for(auto players : *playerlist){
-				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
-					//dies funktioniert nur für 2 spieler!
-					m_network.BroadcastAction(setturn2);
-					break;
-				}
-			}
-		}
+		onPlayerSetTurn(player,setTurn);
 	}
-
-
 	if (move != NULL) {
-		std::cout << "GameEngine::doAction: got a AMove.\n";
-		GameEntityPtr what(move->what);
-
-		coordinates from = what->getCoords();
-		coordinates to = move->to;
-		int size = move->count;
-
-		EArmyPtr army(logic.getArmyAt(from));
-
-		if((army->GetStepsLeft() - size) >= 0){
-			if(map->isBlocked(to) == false){
-				if(map->isWalkable(to) == true and map->isPlace(to) == false and map->isArmyPositioned(to)==false){
-					map->setWalkable(from);
-					army->setCoords(to);
-					map->setArmy(to);
-				}else if(map->isPlace(to) == true){
-					//merge into place
-				}else if(map->isArmyPositioned(to) == true){
-					//merge into army
-				}
-				army->SetStepsLeft(army->GetStepsLeft() - size);
-				m_network.BroadcastAction(action);
-			}
-		}
+		BroadcastAction(onPlayerMove(player,move));
 	}
 	if (build != NULL) {
-		std::cout << "GameEngine::doAction: got a ABuild.\n";
-		EBuildingPtr building(build->what);
-		ELocationPtr where(build->where);
-		where->addBuilding(building);
+		BroadcastAction(onPlayerBuild(player,build));
 	}
 	if (attack != NULL) {
-		std::cout << "GameEngine::doAction: got a AAttack.\n";
-		GameEntityPtr what(attack->what);
-		coordinates where = attack->where;
+		BroadcastAction(onPlayerAttack(player,attack));
+	}
+	if(logIn != NULL){
+		onPlayerConnect(player);
+		logIn->verified=true;
+		GameActionPtr ret(logIn);
+		m_network.SendAction(player,ret);
+		if(playerlist->size() > 1){
+			if((rand()% 2) == 0){
+				ASetTurnPtr setturn2(new ASetTurn);
 
-		EArmyPtr enemyarmy;
-		PlayerPtr enemyplayer;
+				setturn2->endturn = false;
+				m_network.SendAction(player,setturn2);
 
-		for (auto p : *playerlist) {
-			for (auto army : p->armies) {
-				if (army->getCoords().x == where.x
-						&& army->getCoords().y == where.y) {
-					EArmyPtr ea(army);
-					PlayerPtr ep(p);
+				setturn2->endturn = true;
+				for(auto players : *playerlist){
+					if(players->getPlayerIdStr() != player->getPlayerIdStr()){
+						m_network.SendAction(players,setturn2);
+						//dies funktioniert nur für 2 spieler!
+						break;
+					}
+				}
+			}else{
+				ASetTurnPtr setturn2(new ASetTurn);
 
-					enemyarmy = ea;
-					enemyplayer = ep;
+				setturn2->endturn = true;
+				m_network.SendAction(player,setturn2);
+
+				setturn2->endturn = false;
+				for(auto players : *playerlist){
+					if(players->getPlayerIdStr() != player->getPlayerIdStr()){
+						m_network.SendAction(players,setturn2);
+						//dies funktioniert nur für 2 spieler!
+						break;
+					}
 				}
 			}
 		}
@@ -236,6 +143,174 @@ void GameEngine::createArmyAt(coordinates coords,PlayerPtr owner){
 	army->setCoords(coords);
 	army->SetStepsLeft(3);
 	owner->addArmy(army);
+}
+
+GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruit* recruit) {
+	std::cout << "GameEngine::doAction: got a ARecruit.\n";
+
+			if(recruit->inside == true){
+
+				EUnitPtr unit(recruit->what);
+				ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
+				GameRessourcePtr costs(recruit->costs);
+
+				base->town_army->AddTroop(unit);
+				player->addUnit(unit);
+				recruit->base=base;
+
+
+				std::cout << "GameEngine::doAction: successful.\n";
+
+			}else{
+				EUnitPtr unit(recruit->what);
+				ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
+				GameRessourcePtr costs(recruit->costs);
+
+				if(map->isArmyPositioned(base->GetAssemblyPointCoords())==false){
+					createArmyAt(base->GetAssemblyPointCoords(),player);
+				}
+
+				EArmyPtr armyat(logic.getArmyAt(base->GetAssemblyPointCoords()));
+				unit->setCoords(base->GetAssemblyPointCoords());
+				player->addUnit(unit);
+				armyat->AddTroop(unit);
+
+				recruit->base=base;
+
+				std::cout << "GameEngine::doAction: successful.\n";
+			}
+
+			ARecruitPtr action(recruit);
+			return action;
+}
+
+GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMove* move) {
+	std::cout << "GameEngine::doAction: got a AMove.\n";
+			GameEntityPtr what(move->what);
+
+			coordinates from = what->getCoords();
+			coordinates to = move->to;
+			int size = move->count;
+
+			EArmyPtr army(logic.getArmyAt(from));
+
+			if((army->GetStepsLeft() - size) >= 0){
+				if(map->isBlocked(to) == false){
+					if(map->isWalkable(to) == true and map->isPlace(to) == false and map->isArmyPositioned(to)==false){
+						map->setWalkable(from);
+						army->setCoords(to);
+						map->setArmy(to);
+					}else if(map->isPlace(to) == true){
+						//merge into place
+					}else if(map->isArmyPositioned(to) == true){
+						//merge into army
+					}
+					army->SetStepsLeft(army->GetStepsLeft() - size);
+				}
+			}
+
+			AMovePtr action(move);
+			return action;
+
+}
+
+GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuild* build) {
+	std::cout << "GameEngine::doAction: got a ABuild.\n";
+	EBuildingPtr building(build->what);
+	ELocationPtr where(build->where);
+	where->addBuilding(building);
+
+	ABuildPtr action(build);
+	return action;
+}
+
+GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttack* attack) {
+	std::cout << "GameEngine::doAction: got a AAttack.\n";
+	GameEntityPtr what(attack->what);
+	coordinates where = attack->where;
+
+	EArmyPtr enemyarmy;
+	PlayerPtr enemyplayer;
+
+	for (auto p : *playerlist) {
+		for (auto army : p->armies) {
+			if (army->getCoords().x == where.x
+					&& army->getCoords().y == where.y) {
+				EArmyPtr ea(army);
+				PlayerPtr ep(p);
+
+				enemyarmy = ea;
+				enemyplayer = ep;
+			}
+		}
+	}
+	AAttackPtr action(attack);
+	return action;
+}
+
+GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAP* setAP) {
+	std::cout << "GameEngine::doAction: got a ASetAP.\n";
+	ASetAPPtr setAP2(new ASetAP);
+	setAP2->apcoords.x = setAP->apcoords.x;
+	setAP2->apcoords.y = setAP->apcoords.y;
+	setAP2->basecoords.x = setAP->basecoords.x;
+	setAP2->basecoords.y = setAP->basecoords.y;
+
+	ELocationPtr place(map->getPlaceAt(setAP->basecoords));
+	place->SetAssemblyPointCoords(setAP->apcoords);
+
+	ASetAPPtr action(setAP);
+	return action;
+}
+
+void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurn* setTurn){
+
+	std::cout << "GameEngine::doAction: got a ASetTurn.\n";
+
+	if(setTurn->endturn == true){
+		//player end the turn
+		player->onturn = false;
+		ASetTurnPtr setturn2(new ASetTurn);
+
+		setturn2->endturn = true;
+		m_network.SendAction(player,setturn2);
+
+		if(playerlist->size() > 1){
+		// opponnent's on turn
+			setturn2->endturn = false;
+			for(auto players : *playerlist){
+				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
+					m_network.SendAction(players,setturn2);
+					//dies funktioniert nur für 2 spieler!
+					break;
+				}
+			}
+		}
+	}else{
+		//player start turn
+		player->onturn = true;
+		ASetTurnPtr setturn2(new ASetTurn);
+		setturn2->endturn = false;
+		m_network.SendAction(player,setturn2);
+
+		if(playerlist->size() > 1){
+			setturn2->endturn = true;
+			for(auto players : *playerlist){
+				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
+					m_network.SendAction(players,setturn2);
+					//dies funktioniert nur für 2 spieler!
+					break;
+				}
+			}
+		}
+	}
+}
+
+
+void GameEngine::BroadcastAction(GameActionPtr action) {
+	for(auto player:*playerlist){
+		m_network.SendAction(player,action);
+	}
 }
 
 void GameEngine::run() {

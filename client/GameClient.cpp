@@ -50,6 +50,7 @@ GameClient::GameClient() :
 	pressedleft = false;
 	cap = true;
 	frame = 0;
+	ingame = false;
 
 	// Initiaize the network and connect the signal handlers
 	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));

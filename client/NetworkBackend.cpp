@@ -1,13 +1,25 @@
 #include "client/GameClient.h"
 
 #include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+#include <gamemodel/actions/ALogIn.h>
 
 #include <iostream>
 #include <list>
 
 using namespace std;
+void GameClient::SendLogIn(){
+	ALogInPtr action(new ALogIn);
+	action->verified=false;
+	//action->id = player.getPlayerId();
+	cout << "======================================" << endl;
+	cout << "prepare to send" << endl;
+	network.SendAction(action);
+	cout << "send success" << endl;
+	cout << "======================================" << endl;
+}
 
 void GameClient::SendMoveArmy(int dir, int size){
 //prepare the action to send
@@ -39,31 +51,6 @@ void GameClient::SendMoveArmy(int dir, int size){
 		//OnNetworkAction(action);
 		network.SendAction(action);
 	}
-}
-
-void GameClient::RecruitTroopInBuilding() {
-	EUnitPtr troop1(new EUnit);
-	troop1->setCoords(12,12);
-
-	ARecruitPtr action(new ARecruit);
-	action->what = troop1;
-	action->base = PlaceSelected;
-	action->inside = true;
-
-	//OnNetworkAction(action);
-	network.SendAction(action);
-}
-
-void GameClient::RecruitTroopOutside(coordinates coords) {
-	EUnitPtr troop1(new EUnit);
-
-	ARecruitPtr action(new ARecruit);
-	action->what = troop1;
-	action->base = PlaceSelected;
-	action->inside = false;
-
-	//OnNetworkAction(action);
-	network.SendAction(action);
 }
 
 void GameClient::MergeArmyIntoPlace(coordinates coords, EArmyPtr Army){
@@ -105,6 +92,16 @@ EArmyPtr GameClient::getArmyByCoords(coordinates coords){
 	return armyat;
 }
 
+EArmyPtr GameClient::getOpponentArmyByCoords(coordinates coords){
+	EArmyPtr armyat;
+	for (auto army: opponent.armies) {
+		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
+			armyat = army;
+			break;
+		}
+	}
+	return armyat;
+}
 void GameClient::SendSetAP(coordinates coords) {
 
 	ASetAPPtr action(new ASetAP);
@@ -117,12 +114,36 @@ void GameClient::SendSetAP(coordinates coords) {
 	network.SendAction(action);
 }
 
-void GameClient::SendSetTurn(bool endturn) {
+void GameClient::SendEndTurn() {
 
 	ASetTurnPtr action(new ASetTurn);
-	action->endturn = endturn;
+	action->endturn = true;
 
 	//OnNetworkAction(action);
 	network.SendAction(action);
 }
 
+void GameClient::RecruitTroopInBuilding() {
+	EUnitPtr troop1(new EUnit);
+	troop1->setCoords(PlaceSelected->getCoords());
+
+	ARecruitPtr action(new ARecruit);
+	action->what = troop1;
+	action->base = PlaceSelected;
+	action->inside = true;
+
+	//OnNetworkAction(action);
+	network.SendAction(action);
+}
+
+void GameClient::RecruitTroopOutside(coordinates coords) {
+	EUnitPtr troop1(new EUnit);
+
+	ARecruitPtr action(new ARecruit);
+	action->what = troop1;
+	action->base = PlaceSelected;
+	action->inside = false;
+
+	//OnNetworkAction(action);
+	network.SendAction(action);
+}

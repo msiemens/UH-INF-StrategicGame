@@ -20,6 +20,7 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+#include <gamemodel/actions/ALogIn.h>
 
 #include "CEvent.h"
 #include "CSurface.h"
@@ -47,6 +48,7 @@ public:
 
 private:
 	bool running;
+	bool ingame;
 
 	GameState GS;
 	GameState subGS;
@@ -127,6 +129,7 @@ public:
 
 
 	//Render function
+	void SetVideoModeInGame();
 	void OnRender();
 	void RenderInGame();
 	void RenderStartScreen();
@@ -142,17 +145,20 @@ public:
 	void MergeArmyIntoPlace(coordinates coords, EArmyPtr Army);
 	void MergeArmies(coordinates coords, EArmyPtr Army);
 	EArmyPtr getArmyByCoords(coordinates coords);
+	EArmyPtr getOpponentArmyByCoords(coordinates coords);
 
 	void OnCleanup();
 	void CameraOnMove(int x, int y);
 	void CameraPosSet(int x, int y);
 
 	//send functions
+	void SendLogIn();
 	void SendMoveArmy(int dir, int size);
 	void SendSetAP(coordinates coords);
-	void SendSetTurn(bool endturn);
+	void SendEndTurn();
 
 	//receive functions
+	void ReceiveLogIn(ALogIn* login);
 	void ReceiveMoveArmy(AMove* move);
 	void ReceiveSetAP(ELocationPtr place, coordinates coords);
 	void ReceiveSetTurn(bool endturn);

@@ -24,7 +24,7 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 			HandleMapEditorModus(mX,mY);
 		} else {
 			if (subGS.GET_GameState() == SUB_NONE) {
-				if(player.onturn){
+				if(player.onturn and ingame){
 					HandleMapEntities(mX,mY);
 				}
 			}
@@ -73,10 +73,7 @@ void GameClient::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 		}
 		break;
 	case SDLK_q:
-		SendSetTurn(true);
-		break;
-	case SDLK_p:
-		SendSetTurn(false);
+		SendEndTurn();
 		break;
 	case SDLK_ESCAPE:
 		if(subGS.GET_GameState()== IG_MOVEARMY){
@@ -162,11 +159,8 @@ void GameClient::HandleStartScreenInput(int mX, int mY){
 	if (mY > 287 && mY < 315) {
 		//Button Start
 		if (mX > 63 && mX < 152) {
-			GS.SET_GameState(INGAME);
-			subGS.SET_GameState(SUB_NONE);
-
-			//Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
-			Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_FULLSCREEN | SDL_HWSURFACE);
+			SetVideoModeInGame();
+			SendLogIn();
 		}
 		//Button Option
 		if (mX > 163 && mX < 252) {

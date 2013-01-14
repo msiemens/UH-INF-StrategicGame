@@ -23,6 +23,7 @@
 #include <gamemodel/actions/AAttack.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+#include <gamemodel/actions/ALogIn.h>
 
 #include <gamemodel/ressources/RMoney.h>
 
@@ -70,14 +71,14 @@ boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
 EArmyPtr GameLogic::getArmyAt(coordinates coords){
 	EArmyPtr armyat;
 	if(map->isArmyPositioned(coords)){
-	for(auto player:*playerlist){
-	for (auto army: player->armies) {
-		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
-			armyat = army;
-			break;
+		for(auto player:*playerlist){
+			for (auto army: player->armies) {
+				if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
+					armyat = army;
+					break;
+				}
+			}
 		}
-	}
-	}
 	}
 	return armyat;
 }
@@ -93,6 +94,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 	AAttack* attack = dynamic_cast<AAttack*>(action.get());
 	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
 	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
+	ALogIn* logIn=dynamic_cast<ALogIn*>(action.get());
 
 //recruit
 	if (recruit != NULL) {
@@ -135,12 +137,15 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 
 		valid = true;
 	}
-//build
+//setAP
 	else if (setAP != NULL) {
 		coordinates apcoord(setAP->apcoords);
 		coordinates basecoord(setAP->basecoords);
-
-		valid = true;
+		if(apcoord.x == basecoord.x and apcoord.y == basecoord.y){
+			valid=false;
+		}else{
+			valid = true;
+		}
 	}
 //setTurn
 	else if (setTurn != NULL) {
@@ -160,6 +165,22 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 					<< " ist keine Armee positioniert\n";
 		}
 
+	}
+//login
+	else if(logIn != NULL){
+			if(playerlist->size()<1){
+				valid=true;
+			}
+			else{
+
+			for (auto p : *playerlist) {
+				if (player->getPlayerId() == p->getPlayerId()) {
+					valid = false;
+				} else {
+					valid = true;
+				}
+			}
+			}
 	}
 
 	return valid;
