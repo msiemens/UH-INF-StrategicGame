@@ -11,9 +11,7 @@
 #include <list>
 #include <fstream>
 #include <string>
-
 #include <boost/uuid/uuid.hpp>
-
 #include <gamemodel/utils/coordinates.h>
 #include <gamemodel/entities/ELocation.h>
 
@@ -47,6 +45,10 @@ bool isWalkable(coordinates coords);
 bool isBlocked(coordinates coords);
 bool isArmyPositioned(coordinates coords);
 bool isPlace(coordinates coords);
+bool isStartBase(coordinates coords);
+
+
+
 bool editMode;
 
 void createMapFromTxt(std::string path);

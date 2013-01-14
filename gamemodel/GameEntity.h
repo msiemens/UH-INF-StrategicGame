@@ -11,12 +11,18 @@
 
 #include <string>
 
+
 #include <boost/serialization/access.hpp>
-//#include <boost/serialization/string.hpp>
+
+#include <boost/uuid/uuid_serialize.hpp>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_io.hpp>
+
 #include <boost/shared_ptr.hpp>
 
 #include "utils/counter.h"
 #include "utils/coordinates.h"
+
 using namespace std;
 class GameRessource;
 
@@ -29,6 +35,10 @@ public:
 	void setCoords(int x, int y);
 	void setCoords(coordinates coords);
 
+
+	boost::uuids::uuid GetOwner();
+	void SetOwner(boost::uuids::uuid id);
+
 public:
 	counter<GameRessource> cost;
 
@@ -40,6 +50,7 @@ protected:
 	std::string name;
 
 private:
+	boost::uuids::uuid owner;
 	coordinates coords;
 	string imgpath;
 	string iconpath;
@@ -50,6 +61,7 @@ private:
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & cost;
 		ar & coords;
+		ar & owner;
 	}
 };
 

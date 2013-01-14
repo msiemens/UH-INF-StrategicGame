@@ -15,7 +15,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
-#include <boost/uuid/uuid.hpp>
+//#include <boost/uuid/uuid.hpp>
 
 using namespace std;
 
@@ -23,7 +23,7 @@ class ALogIn: public GameAction{
 public:
 	virtual ~ALogIn();
 
-	boost::uuids::uuid id;
+	//boost::uuids::uuid id;
 	bool verified;
 
 private:
@@ -32,7 +32,7 @@ private:
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & boost::serialization::base_object<GameAction>(*this);
-		ar & id;
+		//ar & id;
 		ar & verified;
 
 	}
