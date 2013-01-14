@@ -5,6 +5,11 @@
 #include <cstring>
 
 using namespace std;
+void GameClient::SetVideoModeInGame(){
+	Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
+	GS.SET_GameState(INGAME);
+	subGS.SET_GameState(SUB_NONE);
+}
 
 void GameClient::RenderStartScreen() {
 	Surf_Display = SDL_SetVideoMode(515, 352, 32,
@@ -100,6 +105,17 @@ void GameClient::RenderInGame() {
 	}
 	//show Troops
 	for (auto army : player.armies) {
+		char * path = new char[army->getImgPath().length()];
+		strcpy(path, army->getImgPath().c_str());
+		SurfVillage = CSurface::OnLoad(path);
+
+		CSurface::OnDraw(Surf_Display, SurfVillage,
+				(army->getCoords().x * TILE_SIZE) - camposx,
+				(army->getCoords().y * 20) - camposy);
+	}
+
+	//show opponent Troops
+	for (auto army : opponent.armies) {
 		char * path = new char[army->getImgPath().length()];
 		strcpy(path, army->getImgPath().c_str());
 		SurfVillage = CSurface::OnLoad(path);

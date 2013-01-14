@@ -45,6 +45,10 @@ bool isWalkable(coordinates coords);
 bool isBlocked(coordinates coords);
 bool isArmyPositioned(coordinates coords);
 bool isPlace(coordinates coords);
+bool isStartBase(coordinates coords);
+
+
+
 bool editMode;
 
 void createMapFromTxt(std::string path);

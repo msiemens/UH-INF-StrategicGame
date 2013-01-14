@@ -23,8 +23,9 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
-#include "messages/message_types.h"
+#include <gamemodel/actions/ALogIn.h>
 
+#include "messages/message_types.h"
 #include "ClientNetwork.h"
 
 using namespace std;
@@ -130,6 +131,7 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 }
 
 void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
+	archive->register_type<ALogIn>();
 	archive->register_type<ARecruit>();
 	archive->register_type<ABuild>();
 	archive->register_type<AMove>();
@@ -147,6 +149,7 @@ void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 }
 
 void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
+	archive->register_type<ALogIn>();
 	archive->register_type<ARecruit>();
 	archive->register_type<ABuild>();
 	archive->register_type<AMove>();
