@@ -127,11 +127,15 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 				std::cout << "In der if" << endl;
 			}
 			std::cout << "Armee von" << id << endl;
-			valid= ((map->whosePlace(base->getCoords())==player->getPlayerId()) and ((
+			if(map->whosePlace(base->getCoords())==player->getPlayerId() and
 					map->isArmyPositioned(base->GetAssemblyPointCoords())  and
 					getArmyAt(base->GetAssemblyPointCoords())->units.size()<10 and
-					whoseArmy(base->GetAssemblyPointCoords())==player->getPlayerId()) or
-					map->isWalkable(base->GetAssemblyPointCoords())))?true:false;
+					whoseArmy(base->GetAssemblyPointCoords())==player->getPlayerId()){
+				valid = true;
+
+			}else if(map->isWalkable(base->GetAssemblyPointCoords())){
+				valid = true;
+			}
 		}
 	}
 //move
