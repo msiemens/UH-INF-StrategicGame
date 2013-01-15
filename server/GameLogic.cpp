@@ -121,20 +121,15 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		} else {
 			boost::uuids::uuid playeridofarmy=whoseArmy(base->GetAssemblyPointCoords());
 			std::string id="";
-
-			if(playeridofarmy==player->getPlayerId()){
-				id=player->getPlayerIdStr();
-				std::cout << "In der if" << endl;
-			}
-			std::cout << "Armee von" << id << endl;
-			if(map->whosePlace(base->getCoords())==player->getPlayerId() and
-					map->isArmyPositioned(base->GetAssemblyPointCoords())  and
+			if(map->whosePlace(base->getCoords())==player->getPlayerId()){
+				if( map->isArmyPositioned(base->GetAssemblyPointCoords())  and
 					getArmyAt(base->GetAssemblyPointCoords())->units.size()<10 and
 					whoseArmy(base->GetAssemblyPointCoords())==player->getPlayerId()){
-				valid = true;
+					valid = true;
 
-			}else if(map->isWalkable(base->GetAssemblyPointCoords())){
-				valid = true;
+				}else if(map->isWalkable(base->GetAssemblyPointCoords())){
+					valid = true;
+				}
 			}
 		}
 	}
