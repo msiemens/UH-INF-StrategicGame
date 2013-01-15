@@ -5,10 +5,15 @@
  *      Author: Henrik
  */
 
-#include "gamemodel/entities/units/ECavalry.h"
+#include <gamemodel/entities/units/ECavalry.h>
 
-ECavalry::ECavalry():atk(7),def(4),mor(4),pac(10),tac(2) {
+ECavalry::ECavalry() {
 	// TODO Auto-generated constructor stub
+	atk=(7);
+	def=(4);
+	mor=(4);
+	pac=(10);
+	tac=(2);
 
 }
 
