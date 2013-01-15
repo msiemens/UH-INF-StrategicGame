@@ -40,6 +40,7 @@ GameClient::GameClient() :
 	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
 	selected = "";
+	FRAMES_PER_SECOND  = 20;
 	markx = 0;
 	marky = 0;
 	camposx = 300;
