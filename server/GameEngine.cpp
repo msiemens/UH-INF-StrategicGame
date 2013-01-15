@@ -149,7 +149,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruit* recruit) {
 				ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
 				GameRessourcePtr costs(recruit->costs);
 
-				base->town_army->AddTroop(unit);
+				base->town_army->AddUnit(unit);
 				player->addUnit(unit);
 				recruit->base=base;
 				unit->SetOwner(player->getPlayerId());
@@ -167,7 +167,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruit* recruit) {
 				EArmyPtr armyat(logic.getArmyAt(base->GetAssemblyPointCoords()));
 				unit->setCoords(base->GetAssemblyPointCoords());
 				player->addUnit(unit);
-				armyat->AddTroop(unit);
+				armyat->AddUnit(unit);
 
 				recruit->base=base;
 			}
@@ -190,13 +190,27 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMove* move) {
 						map->setWalkable(from);
 						army->setCoords(to);
 						map->setArmy(to);
+
+						army->SetStepsLeft(army->GetStepsLeft() - size);
 					}else if(map->isPlace(to) == true){
 						//merge into place
 						for(auto unit:army->units){
-							map->getPlaceAt(to)->town_army->AddTroop(unit);
+							map->getPlaceAt(to)->town_army->AddUnit(unit);
+							army->RemoveUnit(unit);
+
+							map->setWalkable(from);
+							army->~EArmy();
 						}
 					}else if(map->isArmyPositioned(to) == true){
 						//merge into army
+						for(auto unit:army->units){
+							logic.getArmyAt(to)->AddUnit(unit);
+							army->RemoveUnit(unit);
+
+							map->setWalkable(from);
+							army->~EArmy();
+						}
+
 					}
 					army->SetStepsLeft(army->GetStepsLeft() - size);
 				}
