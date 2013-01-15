@@ -267,6 +267,11 @@ void GameClient::RenderInGame() {
 	}
 
 	CSurface::OnDraw(Surf_Display, SurfMain,0,0);
+	if(player.onturn){
+		CSurface::OnDraw(Surf_Display, SurfOnTurn,720,98);
+	}else{
+		CSurface::OnDraw(Surf_Display, SurfOffTurn,720,98);
+	}
 
 
 	ShowSelected();
