@@ -24,7 +24,6 @@
 #include "GameLogic.h"
 
 class Player;
-//class GameMap;
 
 using namespace std;
 
@@ -56,7 +55,6 @@ public:
 
 	void startSession();
 
-	void test();
 	void run();
 
 	GameMap *map;
@@ -65,7 +63,6 @@ public:
 	bool isRunning;
 private:
 	list<PlayerPtr> *playerlist;
-
 	ServerNetwork m_network;
 };
 
