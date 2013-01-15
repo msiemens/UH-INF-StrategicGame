@@ -7,8 +7,13 @@
 
 #include "gamemodel/entities/units/EPawn.h"
 
-EPawn::EPawn() :atk(1),def(1),mor(1),tac(1),pac(1){
+EPawn::EPawn(){
 	// TODO Auto-generated constructor stub
+	atk=(1);
+	def=(1);
+	mor=(1);
+	tac=(1);
+	pac=(1);
 }
 
 EPawn::~EPawn() {
