@@ -55,7 +55,7 @@ void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
 	if (logic.checkPlayerAction(player, action) == true) {
 		std::cout << "Action ist gueltig.\n";
 		doAction(player, action);
-		std::cout << "Action ausgeführt.\n";
+		std::cout << "Action ausgefï¿½hrt.\n";
 	} else {
 		std::cout << "Action von Spieler #" << player->getPlayerIdStr()
 				<< " ist ungueltig.\n";
@@ -66,6 +66,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	std::cout << "---------------------------------------------------------------\n";
 	std::cout << "GameEngine::doAction(...).\n";
 
+	/*
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
 	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
 	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
@@ -76,6 +77,17 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 	ALogIn* logIn= dynamic_cast<ALogIn*>(action.get());
 
+	// */
+
+    ARecruitPtr recruit = boost::dynamic_pointer_cast<ARecruit>(action);
+    ASetAPPtr setAP = boost::dynamic_pointer_cast<ASetAP>(action);
+    ASetTurnPtr setTurn = boost::dynamic_pointer_cast<ASetTurn>(action);
+
+    AMovePtr move = boost::dynamic_pointer_cast<AMove>(action);
+    ABuildPtr build = boost::dynamic_pointer_cast<ABuild>(action);
+    AAttackPtr attack = boost::dynamic_pointer_cast<AAttack>(action);
+
+    ALogInPtr logIn= boost::dynamic_pointer_cast<ALogIn>(action);
 
 
 	std::cout << "GameEngine::doAction: checking type.\n";
@@ -113,7 +125,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 				for(auto players : *playerlist){
 					if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 						m_network.SendAction(players,setturn2);
-						//dies funktioniert nur für 2 spieler!
+						//dies funktioniert nur fï¿½r 2 spieler!
 						break;
 					}
 				}
@@ -127,7 +139,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 				for(auto players : *playerlist){
 					if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 						m_network.SendAction(players,setturn2);
-						//dies funktioniert nur für 2 spieler!
+						//dies funktioniert nur fï¿½r 2 spieler!
 						break;
 					}
 				}
@@ -163,7 +175,7 @@ void GameEngine::createArmyAt(coordinates coords,PlayerPtr owner){
 	owner->addArmy(army);
 }
 
-GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruit* recruit) {
+GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) {
 	std::cout << "GameEngine::doAction: got a ARecruit.\n";
 
 			if(recruit->inside == true){
@@ -204,7 +216,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruit* recruit) {
 			return action;
 }
 
-GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMove* move) {
+GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 	std::cout << "GameEngine::doAction: got a AMove.\n";
 			GameEntityPtr what(move->what);
 
@@ -235,7 +247,7 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMove* move) {
 
 }
 
-GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuild* build) {
+GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuildPtr build) {
 	std::cout << "GameEngine::doAction: got a ABuild.\n";
 	EBuildingPtr building(build->what);
 	ELocationPtr where(build->where);
@@ -245,7 +257,7 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuild* build) {
 	return action;
 }
 
-GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttack* attack) {
+GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
 	std::cout << "GameEngine::doAction: got a AAttack.\n";
 	GameEntityPtr what(attack->what);
 	coordinates where = attack->where;
@@ -269,7 +281,7 @@ GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttack* attack) {
 	return action;
 }
 
-GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAP* setAP) {
+GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAPPtr setAP) {
 	std::cout << "GameEngine::doAction: got a ASetAP.\n";
 	ASetAPPtr setAP2(new ASetAP);
 	setAP2->apcoords.x = setAP->apcoords.x;
@@ -284,7 +296,7 @@ GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAP* setAP) {
 	return action;
 }
 
-void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurn* setTurn){
+void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurnPtr setTurn){
 
 	std::cout << "GameEngine::doAction: got a ASetTurn.\n";
 
@@ -302,7 +314,7 @@ void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurn* setTurn){
 			for(auto players : *playerlist){
 				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 					m_network.SendAction(players,setturn2);
-					//dies funktioniert nur für 2 spieler!
+					//dies funktioniert nur fï¿½r 2 spieler!
 					break;
 				}
 			}
@@ -319,7 +331,7 @@ void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurn* setTurn){
 			for(auto players : *playerlist){
 				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 					m_network.SendAction(players,setturn2);
-					//dies funktioniert nur für 2 spieler!
+					//dies funktioniert nur fï¿½r 2 spieler!
 					break;
 				}
 			}

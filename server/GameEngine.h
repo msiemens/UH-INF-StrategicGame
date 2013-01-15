@@ -40,13 +40,13 @@ public:
 	void onPlayerAction(GameActionPtr action, PlayerPtr player);
 	void doAction(PlayerPtr player, GameActionPtr action);
 
-	GameActionPtr onPlayerRecruit(PlayerPtr player,ARecruit* recruit);
-	GameActionPtr onPlayerMove(PlayerPtr player,AMove* move);
-	GameActionPtr onPlayerBuild(PlayerPtr player,ABuild* build);
-	GameActionPtr onPlayerAttack(PlayerPtr player,AAttack* attack);
-	GameActionPtr onPlayerSetAP(PlayerPtr player,ASetAP* setap);
-	void onPlayerSetTurn(PlayerPtr player,ASetTurn* setturn);
-	GameActionPtr onPlayerLogIn(PlayerPtr player,ALogIn* logIn);
+    GameActionPtr onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit);
+    GameActionPtr onPlayerMove(PlayerPtr player,AMovePtr move);
+    GameActionPtr onPlayerBuild(PlayerPtr player,ABuildPtr build);
+    GameActionPtr onPlayerAttack(PlayerPtr player,AAttackPtr attack);
+    GameActionPtr onPlayerSetAP(PlayerPtr player,ASetAPPtr setap);
+    void onPlayerSetTurn(PlayerPtr player,ASetTurnPtr setturn);
+    GameActionPtr onPlayerLogIn(PlayerPtr player,ALogInPtr logIn);
 
 	void BroadcastAction(GameActionPtr action);
 
