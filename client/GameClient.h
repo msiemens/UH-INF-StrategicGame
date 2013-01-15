@@ -95,9 +95,9 @@ private:
 
 
 	//The frames per second
-	const int FRAMES_PER_SECOND = 20;
+	int FRAMES_PER_SECOND;
 	//Keep track of the current frame
-	int frame = 0;
+	int frame;
 	//Whether or not to cap the frame rate
 	bool cap;
 	//The frame rate regulator
