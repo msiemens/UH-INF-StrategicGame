@@ -30,6 +30,8 @@ GameClient::GameClient() :
 	SurfSlotSelected = NULL;
 	SurfWalkable = NULL;
 	SurfAssemblyPoint = NULL;
+	SurfOnTurn = NULL;
+	SurfOffTurn = NULL;
 	SurfBlock = NULL;
 	SurfPlace = NULL;
 	SurfSelected = NULL;

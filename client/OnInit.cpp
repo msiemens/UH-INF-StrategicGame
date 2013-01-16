@@ -81,6 +81,17 @@ bool GameClient::OnInit() {
 		return false;
 	}
 
+	if ((SurfOnTurn = CSurface::OnLoad((char*) "client/gfx/gui/main/onturntrue.png"))
+			== NULL) {
+		return false;
+	}
+
+	if ((SurfOffTurn = CSurface::OnLoad((char*) "client/gfx/gui/main/onturnfalse.png"))
+			== NULL) {
+		return false;
+	}
+
+
 	if (/*network.IsConnected() ==*/ true) {
 		if ((SurfConnection = CSurface::OnLoad(
 				(char*) "client/gfx/gui/main/serveronline.png")) == NULL) {

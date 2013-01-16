@@ -66,6 +66,9 @@ private:
 	SDL_Surface* SurfStartscreenBackground;
 	SDL_Surface* SurfMap;
 
+	SDL_Surface* SurfOnTurn;
+	SDL_Surface* SurfOffTurn;
+
 	SDL_Surface* SurfButtonSSStart;
 	SDL_Surface* SurfButtonSSOption;
 	SDL_Surface* SurfButtonSSServer;

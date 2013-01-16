@@ -118,9 +118,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		if(recruit->inside){
 			valid = (base->town_army->units.size()<10 and map->whosePlace(base->getCoords())==player->getPlayerId())?true:false;
 		} else {
-			boost::uuids::uuid playeridofarmy=whoseArmy(base->GetAssemblyPointCoords());
-
-			if(whosePlace(base->getCoords())==player->getPlayerId()){
+			if(map->whosePlace(base->getCoords()) == player->getPlayerId()){
 				if( map->isArmyPositioned(base->GetAssemblyPointCoords())  and
 					getArmyAt(base->GetAssemblyPointCoords())->units.size()<10 and
 					whoseArmy(base->GetAssemblyPointCoords())==player->getPlayerId()){
