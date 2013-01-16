@@ -56,6 +56,7 @@ void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
 
 void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
+	/*
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
 	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
 	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
@@ -63,6 +64,21 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	ABuild* build = dynamic_cast<ABuild*>(action.get());
 	AAttack* attack = dynamic_cast<AAttack*>(action.get());
 	ALogIn* logIn= dynamic_cast<ALogIn*>(action.get());
+
+<<<<<<< HEAD
+=======
+	// */
+
+    ARecruitPtr recruit = boost::dynamic_pointer_cast<ARecruit>(action);
+    ASetAPPtr setAP = boost::dynamic_pointer_cast<ASetAP>(action);
+    ASetTurnPtr setTurn = boost::dynamic_pointer_cast<ASetTurn>(action);
+
+    AMovePtr move = boost::dynamic_pointer_cast<AMove>(action);
+    ABuildPtr build = boost::dynamic_pointer_cast<ABuild>(action);
+    AAttackPtr attack = boost::dynamic_pointer_cast<AAttack>(action);
+
+    ALogInPtr logIn= boost::dynamic_pointer_cast<ALogIn>(action);
+
 
 	if (recruit != NULL) {
 		BroadcastAction(onPlayerRecruit(player,recruit));
@@ -87,6 +103,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 		logIn->verified=true;
 		GameActionPtr ret(logIn);
 		m_network.SendAction(player,ret);
+
 		if(playerlist->size() > 1){
 			if((rand()% 2) == 0){
 				ASetTurnPtr setturn2(new ASetTurn);
@@ -98,6 +115,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 				for(auto players : *playerlist){
 					if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 						m_network.SendAction(players,setturn2);
+
 						break;
 					}
 				}
@@ -111,11 +129,13 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 				for(auto players : *playerlist){
 					if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 						m_network.SendAction(players,setturn2);
+
 						break;
 					}
 				}
 			}
 		}
+
 		if(playerlist->size()==2){
 			startSession();
 		}
@@ -141,47 +161,51 @@ void GameEngine::createArmyAt(coordinates coords,PlayerPtr owner){
 	owner->addArmy(army);
 }
 
-GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruit* recruit) {
+GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) {
+
+
+//get attributes from recruit-object
+			EUnitPtr unit(recruit->what);
+			ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
+			GameRessourcePtr costs(recruit->costs);
 
 			if(recruit->inside == true){
-
-				EUnitPtr unit(recruit->what);
-				ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
-				GameRessourcePtr costs(recruit->costs);
-
+//unit added to town_army and to player
 				base->town_army->AddUnit(unit);
 				player->addUnit(unit);
-				recruit->base=base;
+//set owner to unit
 				unit->SetOwner(player->getPlayerId());
-
-
 			}else{
-				EUnitPtr unit(recruit->what);
-				ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
-				GameRessourcePtr costs(recruit->costs);
-
+//creates new army at assembly point coords, if not exists
 				if(map->isArmyPositioned(base->GetAssemblyPointCoords())==false){
 					createArmyAt(base->GetAssemblyPointCoords(),player);
 				}
 
+//the new army object
 				EArmyPtr armyat(logic.getArmyAt(base->GetAssemblyPointCoords()));
+//set coords of unit
 				unit->setCoords(base->GetAssemblyPointCoords());
+//unit added to player and army
 				player->addUnit(unit);
 				armyat->AddUnit(unit);
 
-				recruit->base=base;
 			}
+
+			recruit->base=base;
 
 			ARecruitPtr action(recruit);
 			return action;
 }
 
-GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMove* move) {
-			GameEntityPtr what(move->what);
 
+GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
+
+//
+			GameEntityPtr what(move->what);
 			coordinates from = what->getCoords();
 			coordinates to = move->to;
 			int size = move->count;
+
 			EArmyPtr army(logic.getArmyAt(from));
 
 			if((army->GetStepsLeft() - size) >= 0){
@@ -220,7 +244,8 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMove* move) {
 
 }
 
-GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuild* build) {
+
+GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuildPtr build) {
 	EBuildingPtr building(build->what);
 	ELocationPtr where(build->where);
 	where->addBuilding(building);
@@ -229,7 +254,8 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuild* build) {
 	return action;
 }
 
-GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttack* attack) {
+
+GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
 	GameEntityPtr what(attack->what);
 	coordinates where = attack->where;
 
@@ -252,7 +278,8 @@ GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttack* attack) {
 	return action;
 }
 
-GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAP* setAP) {
+
+GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAPPtr setAP) {
 	ASetAPPtr setAP2(new ASetAP);
 	setAP2->apcoords.x = setAP->apcoords.x;
 	setAP2->apcoords.y = setAP->apcoords.y;
@@ -266,7 +293,7 @@ GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAP* setAP) {
 	return action;
 }
 
-void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurn* setTurn){
+void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurnPtr setTurn){
 
 	if(setTurn->endturn == true){
 		//player end the turn
@@ -281,6 +308,7 @@ void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurn* setTurn){
 			for(auto players : *playerlist){
 				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
 					m_network.SendAction(players,setturn2);
+
 					break;
 				}
 			}
@@ -314,15 +342,21 @@ void GameEngine::BroadcastAction(GameActionPtr action) {
 
 void GameEngine::startSession(){
 	int counter=1;
-	for(auto place:map->placeList){
-		if(map->isStartBase(place->getCoords())){
 
+	std::cout << "start session" << endl;
+	std::cout << "placelist size: " << map->placeList.size() <<  endl;
+	for(auto place:map->placeList){
+		std::cout << "In place schleife" << endl;
+		if(map->isStartBase(place->getCoords())){
+			std::cout << "In if schleife bla" << endl;
 			int i=1;
 			for(auto player:*playerlist){
 				if(counter==i){
 					player->addLocation(place);
 					place->owned=true;
 					place->SetOwner(player->getPlayerId());
+
+					std::cout << "Start session add Location Player "  << player->getPlayerIdStr() << endl;
 				}
 				counter++;
 			}

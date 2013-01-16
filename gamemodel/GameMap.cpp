@@ -25,10 +25,13 @@ GameMap::~GameMap() {
 //return whose Place is at coords
 boost::uuids::uuid GameMap::whosePlace(coordinates coords) {
 	boost::uuids::uuid playerId;
-
+	std::cout << "whose Place funktion" << endl;
 	for (auto place : placeList) {
+		std::cout << "In schleife" << endl;
 		coordinates pos = place->getCoords();
 		if (pos.x == coords.x && pos.y == coords.y) {
+			std:cout << "found place" << endl;
+
 			playerId = place->GetOwner();
 		}
 	}
@@ -108,6 +111,7 @@ void GameMap::createPlaces() {
 				place->SetAssemblyPointCoord(x+1,y);
 				place->setImgPath("client/gfx/entity/village.png");
 				place->setIconPath("client/gfx/entity/icons/castle.png");
+				place->setStartBase(true);
 				placeList.insert(placeList.begin(), place);
 			}else{
 				if(isStartBase(coordinates(x,y))){

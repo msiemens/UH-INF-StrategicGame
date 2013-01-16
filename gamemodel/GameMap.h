@@ -24,7 +24,7 @@ virtual ~GameMap();
 unsigned char map[768][1024];
 
 enum attributes {
-walkable = 0x01, blocked = 0x02, place = 0x04, army = 0x08
+walkable = 0x01, blocked = 0x02, place = 0x04, army = 0x08, startbase=0x10
 };
 
 boost::uuids::uuid whosePlace(coordinates coords);

@@ -12,8 +12,8 @@ void GameClient::SetVideoModeInGame(){
 }
 
 void GameClient::RenderStartScreen() {
-	Surf_Display = SDL_SetVideoMode(515, 352, 32,
-			SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
+//	Surf_Display = SDL_SetVideoMode(515, 352, 32,
+//			SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
 
 	CSurface::OnDraw(Surf_Display, SurfStartscreenBackground, 0, 0);
 
