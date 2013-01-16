@@ -200,7 +200,6 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) 
 
 GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 
-//
 			GameEntityPtr what(move->what);
 			coordinates from = what->getCoords();
 			coordinates to = move->to;
@@ -256,36 +255,12 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuildPtr build) {
 
 
 GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
-	GameEntityPtr what(attack->what);
-	coordinates where = attack->where;
-
-	EArmyPtr enemyarmy;
-	PlayerPtr enemyplayer;
-
-	for (auto p : *playerlist) {
-		for (auto army : p->armies) {
-			if (army->getCoords().x == where.x
-					&& army->getCoords().y == where.y) {
-				EArmyPtr ea(army);
-				PlayerPtr ep(p);
-
-				enemyarmy = ea;
-				enemyplayer = ep;
-			}
-		}
-	}
-	AAttackPtr action(attack);
+	GameActionPtr action(new GameAction);
 	return action;
 }
 
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAPPtr setAP) {
-	ASetAPPtr setAP2(new ASetAP);
-	setAP2->apcoords.x = setAP->apcoords.x;
-	setAP2->apcoords.y = setAP->apcoords.y;
-	setAP2->basecoords.x = setAP->basecoords.x;
-	setAP2->basecoords.y = setAP->basecoords.y;
-
 	ELocationPtr place(map->getPlaceAt(setAP->basecoords));
 	place->SetAssemblyPointCoords(setAP->apcoords);
 
@@ -343,20 +318,17 @@ void GameEngine::BroadcastAction(GameActionPtr action) {
 void GameEngine::startSession(){
 	int counter=1;
 
-	std::cout << "start session" << endl;
-	std::cout << "placelist size: " << map->placeList.size() <<  endl;
 	for(auto place:map->placeList){
 		std::cout << "In place schleife" << endl;
 		if(map->isStartBase(place->getCoords())){
-			std::cout << "In if schleife bla" << endl;
 			int i=1;
 			for(auto player:*playerlist){
 				if(counter==i){
 					player->addLocation(place);
+					//das kann auch in playerfkt addLocation
 					place->owned=true;
 					place->SetOwner(player->getPlayerId());
-
-					std::cout << "Start session add Location Player "  << player->getPlayerIdStr() << endl;
+					//--------------------------------------
 				}
 				counter++;
 			}

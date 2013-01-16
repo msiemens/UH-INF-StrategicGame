@@ -52,21 +52,6 @@ boost::uuids::uuid GameLogic::whoseArmy(coordinates coords) {
 	return playerId;
 }
 
-//return whose Place is at coords
-boost::uuids::uuid GameLogic::whosePlace(coordinates coords) {
-	boost::uuids::uuid playerId;
-	for (auto player : *playerlist) {
-		for (auto place : player->places) {
-			coordinates pos = place->getCoords();
-			if (pos.x == coords.x && pos.y == coords.y) {
-				playerId = player->getPlayerId();
-			}
-		}
-	}
-
-	return playerId;
-}
-
 EArmyPtr GameLogic::getArmyAt(coordinates coords){
 	EArmyPtr armyat;
 	if(map->isArmyPositioned(coords)){
@@ -84,18 +69,7 @@ EArmyPtr GameLogic::getArmyAt(coordinates coords){
 
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
-	cout << "GameLogic::checkPlayerAction(...)" << endl;
 	bool valid = false;
-
-	/*
-	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
-	AMove* move = dynamic_cast<AMove*>(action.get());
-	ABuild* build = dynamic_cast<ABuild*>(action.get());
-	AAttack* attack = dynamic_cast<AAttack*>(action.get());
-	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
-	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
-	ALogIn* logIn=dynamic_cast<ALogIn*>(action.get());
-	// */
 
     ARecruitPtr recruit = boost::dynamic_pointer_cast<ARecruit>(action);
     ASetAPPtr setAP = boost::dynamic_pointer_cast<ASetAP>(action);

@@ -72,6 +72,14 @@ void GameMap::setBlocked(coordinates coords) {
 	setBlocked(coords.x, coords.y);
 }
 
+void GameMap::setStartBase(int x, int y){
+	map[y][x] = startbase;
+}
+
+void GameMap::setStartBase(coordinates coords){
+	setStartBase(coords.x,coords.y);
+}
+
 bool GameMap::isBlocked(coordinates coords) {
 	return (map[coords.y][coords.x] & blocked) ? true : false;
 }
@@ -87,7 +95,7 @@ bool GameMap::isPlace(coordinates coords) {
 	return (map[coords.y][coords.x] & place) ? true : false;
 }
 
-bool GameMap::isStartBase(coordinates coords){
+bool GameMap::isStartBase(coordinates coords){/*
 	for (auto place : placeList) {
 		if(place->getCoords().x == coords.x and place->getCoords().y == coords.y){
 			if(place->IsStartBase()){
@@ -95,8 +103,10 @@ bool GameMap::isStartBase(coordinates coords){
 			}
 		}
 
-	}
-	return false;
+	}*/
+	//return false;
+	return (map[coords.y][coords.x] & startbase) ? true : false;
+
 }
 
 
@@ -113,10 +123,15 @@ void GameMap::createPlaces() {
 				place->setIconPath("client/gfx/entity/icons/castle.png");
 				place->setStartBase(true);
 				placeList.insert(placeList.begin(), place);
-			}else{
-				if(isStartBase(coordinates(x,y))){
-					setPlace(x,y);
-				}
+			}else if(isStartBase(coordinates(x,y))){
+				std::cout << "startbase setted at "<< x << ", " << y << endl;
+					ELocationPtr place(new ELocation);
+					place->setCoords(x, y);
+					place->SetAssemblyPointCoord(x+1,y);
+					place->setStartBase(true);
+					place->setImgPath("client/gfx/entity/village.png");
+					place->setIconPath("client/gfx/entity/icons/castle.png");
+					placeList.insert(placeList.begin(), place);
 			}
 		}
 	}
@@ -168,7 +183,7 @@ void GameMap::createMapFromTxt(string path) {
 				y++;
 				mapSizeX = 0;
 				x = 0;
-			} else if (c == 's'){
+			} else if (c == 's'){/*
 				ELocationPtr place(new ELocation);
 				place->setCoords(x, y);
 				place->SetAssemblyPointCoord(x+1,y);
@@ -176,6 +191,8 @@ void GameMap::createMapFromTxt(string path) {
 				place->setImgPath("client/gfx/entity/village.png");
 				place->setIconPath("client/gfx/entity/icons/castle.png");
 				placeList.insert(placeList.begin(), place);
+				x++;*/
+				setStartBase(x,y);
 				x++;
 			} else if (c == 'w') {
 				setWalkable(x, y);
