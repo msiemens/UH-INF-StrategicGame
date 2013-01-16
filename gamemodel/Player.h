@@ -38,10 +38,10 @@ public:
 	void addUnit(EUnitPtr unit);
 
 	template<class T_VALUE>
-	void addRessource(GameRessourcePtr ressource) {
+	void addRessource() {
 		// Find existing counter
 		for (auto c : has) {
-			if (c.GetType() == typeid(ressource.get())) {
+			if (c.GetType() == typeid(T_VALUE)) {
 				c.how_many++;
 				return;
 			}
