@@ -8,6 +8,8 @@
 #ifndef COUNT_H_
 #define COUNT_H_
 
+#include <typeinfo>
+
 #include <boost/serialization/access.hpp>
 
 template<class T_VALUE>
@@ -19,6 +21,11 @@ public:
 	counter(int count) :
 			how_many(count) {
 	}
+
+	std::type_info GetType() {
+		return typeid(T_VALUE);
+	}
+
 
 public:
 	int how_many;

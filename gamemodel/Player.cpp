@@ -45,14 +45,6 @@ void Player::addUnit(EUnitPtr unit) {
 
 }
 
-void Player::addRessource(GameRessourcePtr ressource) {
-
-}
-
-int Player::getRessourceCount(GameRessourcePtr ressource) {
-	return 0;
-}
-
 void Player::SetActionLeft(int x) {
 	this->actionsleft = x;
 }
