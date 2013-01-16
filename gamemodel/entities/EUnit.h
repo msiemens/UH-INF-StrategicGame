@@ -21,12 +21,26 @@ public:
 	EUnit();
 	virtual ~EUnit();
 
+	int GetAtk();
+	int GetDef();
+	int GetMor();
+	int GetPac();
+	int GetTac();
+
+protected:
+	int atk,def,mor,pac,tac;
+
 private:
 	friend class boost::serialization::access;
 
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & boost::serialization::base_object<GameEntity>(*this);
+		ar & atk;
+		ar & def;
+		ar & mor;
+		ar & pac;
+		ar & tac;
 	}
 
 };

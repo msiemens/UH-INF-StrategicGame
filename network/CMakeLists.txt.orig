@@ -1,0 +1,7 @@
+file(GLOB_RECURSE this "*.cpp")
+add_library(network ${this})
+<<<<<<< HEAD
+target_link_libraries(network gamemodel ${Boost_LIBRARIES} ${LINK_WIN32})
+=======
+target_link_libraries(network ${Boost_LIBRARIES} mswsock ws2_32) 
+>>>>>>> !Forget this!
