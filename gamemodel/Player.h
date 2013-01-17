@@ -40,6 +40,44 @@ public:
 	void addRessource(GameRessourcePtr ressource);
 
 	int getRessourceCount(GameRessourcePtr ressource);
+	void addRessource(int count) {
+		// Find existing counter
+		for (auto c : has) {
+			if (c.GetType() == typeid(T_VALUE)) {
+				c.how_many += count;
+				return;
+			}
+		}
+		// Not found, insert it
+		has.insert(counter<T_VALUE>(count));
+	}
+
+	void addRessource(GameRessource res) {
+		// Find existing counter
+		for (auto c : has) {
+			if (c.GetType() == typeid(res)) {
+				c.how_many++;
+				return;
+			}
+		}
+		// Not found, insert it
+		has.insert(counter<res>());
+	}
+
+	template<class T_VALUE>
+	void addRessource(int count) {
+		// Find existing counter
+		for (auto c : has) {
+			if (c.GetType() == typeid(T_VALUE)) {
+				c.how_many += count;
+				return;
+			}
+		}
+		// Not found, insert it
+		has.insert(counter<T_VALUE>(count));
+	}
+
+	template<class T_VALUE>
 
 	int actionsleft;
 	int GetActionLeft();
