@@ -13,6 +13,7 @@
 #include <gamemodel/GameMap.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/entities/ELocation.h>
+#include <server/GameContainer.h>
 
 class GameMapServer: public GameMap {
 public:

@@ -44,18 +44,16 @@ public:
 	ELocationPtr getLocation(int index);
 	PlayerPtr getPlayer(int index);
 
-	void createArmyAt(coordinates coords,PlayerPtr owner);
-	void createLocationAt(coordinates coords,bool startbase);
-
 	EArmyPtr getArmyAt(coordinates coords);
 	ELocationPtr getLocationAt(coordinates coords);
 	PlayerPtr getPlayerById(boost::uuids::uuid playerId);
 	vector<EUnitPtr> *getUnitVectorPtrByArmy(EArmyPtr army);
 
-	boost::uuids::uuid whosePlaceAt(coordinates coords);
-	boost::uuids::uuid whoseArmyAt(coordinates coords);
 
 	int getPlayerCount();
+	int getArmyCount();
+	int getUnitCount();
+	int getLocationCount();
 
 	vector<EArmyPtr> *getArmyListPtr();
 	vector<ELocationPtr> *getLocationListPtr();

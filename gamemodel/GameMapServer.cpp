@@ -31,9 +31,10 @@ ELocationPtr GameMapServer::getPlaceAt(coordinates coords) {
 
 boost::uuids::uuid GameMapServer::whoseLocationAt(coordinates coords) {
 	if(this->isPlace(coords) or this->isStartBase(coords)){
-		for(auto location:*(container->locationlist)){
-			if(location->getCoords().x==coords.x and location->getCoords().y==coords.y){
-				return location->GetOwner();
+		for(int i=0;i<container->getLocationCount();i++){
+			if(container->getLocation(i)->getCoords().x==coords.x and
+					container->getLocation(i)->getCoords().y==coords.y){
+				return container->getLocation(i);
 			}
 		}
 	}
@@ -41,14 +42,14 @@ boost::uuids::uuid GameMapServer::whoseLocationAt(coordinates coords) {
 
 EArmyPtr GameMapServer::getArmyAt(coordinates coords) {
 	if(this->isArmyPositioned(coords)){
-		for(auto army:*(container->getArmyListPtr())){
-			if(army->getCoords().x==coords.x and army->getCoords().y==coords.y){
-				return army;
+		for(int i=0;i<container->getArmyCount();i++){
+			if(container->getArmy(i)->getCoords().x==coords.x and
+					container->getArmy(i)->getCoords().y==coords.y){
+				return container->getLocation(i);
 			}
 		}
 	}
 }
 
 boost::uuids::uuid GameMapServer::whoseArmyAt(coordinates coords) {
-
 }
