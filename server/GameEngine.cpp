@@ -191,7 +191,7 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 					}else if(map->isPlace(to) == true){
 						//merge into place
 						for(auto unit:army->units){
-							map->getPlaceAt(to)->town_army->AddUnit(unit);
+						//	map->getPlaceAt(to)->town_army->AddUnit(unit);
 							army->RemoveUnit(unit);
 
 							map->setWalkable(from);
@@ -234,11 +234,11 @@ GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
 
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAPPtr setAP) {
-	ELocationPtr place(map->getPlaceAt(setAP->basecoords));
+	/*ELocationPtr place(map->getPlaceAt(setAP->basecoords));
 	place->SetAssemblyPointCoords(setAP->apcoords);
 
 	ASetAPPtr action(setAP);
-	return action;
+	return action;*/
 }
 
 void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurnPtr setTurn){
@@ -288,7 +288,7 @@ void GameEngine::BroadcastAction(GameActionPtr action) {
 
 void GameEngine::startSession(){
 	int counter=1;
-
+/*
 	for(auto place:map->placeList){
 		std::cout << "In place schleife" << endl;
 		if(map->isStartBase(place->getCoords())){
@@ -305,7 +305,7 @@ void GameEngine::startSession(){
 			}
 			counter=0;
 		}
-	}
+	}*/
 }
 
 void GameEngine::run() {

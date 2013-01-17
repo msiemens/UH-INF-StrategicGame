@@ -16,27 +16,9 @@ GameMap::GameMap() {
 	mapSizeX = 64;
 	mapSizeY = 48;
 	createMapFromTxt("client/maps/map3.txt");
-	createPlaces();
 }
 
 GameMap::~GameMap() {
-}
-
-//return whose Place is at coords
-boost::uuids::uuid GameMap::whosePlace(coordinates coords) {
-	boost::uuids::uuid playerId;
-	std::cout << "whose Place funktion" << endl;
-	for (auto place : placeList) {
-		std::cout << "In schleife" << endl;
-		coordinates pos = place->getCoords();
-		if (pos.x == coords.x && pos.y == coords.y) {
-			std:cout << "found place" << endl;
-
-			playerId = place->GetOwner();
-		}
-	}
-
-	return playerId;
 }
 
 
@@ -95,59 +77,12 @@ bool GameMap::isPlace(coordinates coords) {
 	return (map[coords.y][coords.x] & place) ? true : false;
 }
 
-bool GameMap::isStartBase(coordinates coords){/*
-	for (auto place : placeList) {
-		if(place->getCoords().x == coords.x and place->getCoords().y == coords.y){
-			if(place->IsStartBase()){
-				return true;
-			}
-		}
 
-	}*/
-	//return false;
+bool GameMap::isStartBase(coordinates coords){
 	return (map[coords.y][coords.x] & startbase) ? true : false;
 
 }
 
-
-void GameMap::createPlaces() {
-
-	int counter = 0;
-	for (int y = 0; y < mapSizeY; y++) {
-		for (int x = 0; x < mapSizeX; x++) {
-			if (isPlace(coordinates(x, y))) {
-				ELocationPtr place(new ELocation);
-				place->setCoords(x, y);
-				place->SetAssemblyPointCoord(x+1,y);
-				place->setImgPath("client/gfx/entity/village.png");
-				place->setIconPath("client/gfx/entity/icons/castle.png");
-				place->setStartBase(true);
-				placeList.insert(placeList.begin(), place);
-			}else if(isStartBase(coordinates(x,y))){
-				std::cout << "startbase setted at "<< x << ", " << y << endl;
-					ELocationPtr place(new ELocation);
-					place->setCoords(x, y);
-					place->SetAssemblyPointCoord(x+1,y);
-					place->setStartBase(true);
-					place->setImgPath("client/gfx/entity/village.png");
-					place->setIconPath("client/gfx/entity/icons/castle.png");
-					placeList.insert(placeList.begin(), place);
-			}
-		}
-	}
-}
-
-
-ELocationPtr GameMap::getPlaceAt(coordinates coords) {
-	ELocationPtr placeAt;
-	for (auto place : placeList) {
-		coordinates placeCoords = place->getCoords();
-		if (placeCoords.x == coords.x and placeCoords.y == coords.y) {
-			placeAt = place;
-		}
-	}
-	return placeAt;
-}
 
 int GameMap::getClickPosX(int x){
 	int posx=0;
@@ -162,6 +97,10 @@ int GameMap::getClickPosY(int y){
 
 	return posy;
 }
+
+
+
+
 void GameMap::createMapFromTxt(string path) {
 	ifstream in(path);
 
@@ -183,15 +122,7 @@ void GameMap::createMapFromTxt(string path) {
 				y++;
 				mapSizeX = 0;
 				x = 0;
-			} else if (c == 's'){/*
-				ELocationPtr place(new ELocation);
-				place->setCoords(x, y);
-				place->SetAssemblyPointCoord(x+1,y);
-				place->setStartBase(true);
-				place->setImgPath("client/gfx/entity/village.png");
-				place->setIconPath("client/gfx/entity/icons/castle.png");
-				placeList.insert(placeList.begin(), place);
-				x++;*/
+			} else if (c == 's'){
 				setStartBase(x,y);
 				x++;
 			} else if (c == 'w') {
@@ -206,6 +137,16 @@ void GameMap::createMapFromTxt(string path) {
 			}
 		mapSizeX++;
 	}
+}
+
+ELocationPtr GameMap::getPlaceAt(coordinates coords){
+	ELocationPtr loc(new ELocation);
+	return loc;
+}
+
+boost::uuids::uuid GameMap::whosePlace(coordinates coords){
+	PlayerPtr p;
+	return p->getPlayerId();
 }
 
 void GameMap::printMapStatus() {

@@ -8,14 +8,14 @@
 #include <iostream>
 
 #include "GameEngine.h"
-#include "gamemodel/GameMap.h"
+#include "gamemodel/GameMapServer.h"
 #include <gamemodel/Player.h>
 #include <list>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	GameMap map;
+	GameMapServer map;
 	GameContainer container;
 
 	GameEngine engine(&map, &container);

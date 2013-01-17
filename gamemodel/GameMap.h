@@ -14,6 +14,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <gamemodel/utils/coordinates.h>
 #include <gamemodel/entities/ELocation.h>
+#include <gamemodel/Player.h>
 
 
 class GameMap {
@@ -32,6 +33,7 @@ enum attributes {
 	// 0x20 ==  32 == "00100000"
 	// 0x40 ==  64 == "01000000"
 	// 0x80 == 128 == "10000000"
+
 walkable = 0x01, blocked = 0x02, place = 0x04, army = 0x08, startbase=0x10
 };
 
@@ -65,13 +67,12 @@ bool editMode;
 void createMapFromTxt(std::string path);
 
 void printMapStatus();
-void createPlaces();
 
 int getClickPosX(int x);
 int getClickPosY(int y);
-ELocationPtr getPlaceAt(coordinates coords);
 
-std::list<ELocationPtr> placeList;
+ELocationPtr getPlaceAt(coordinates coords);
+list<ELocationPtr> placeList;
 
 int mapSizeX;
 int mapSizeY;
