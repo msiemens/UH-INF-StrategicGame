@@ -39,6 +39,7 @@ GameClient::GameClient() :
 	SurfVillage = NULL;
 	SurfVillageMenuBackground = NULL;
 	SurfArmyOptionBackground = NULL;
+	SurfRecruitMenuBackground = NULL;
 	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
 	selected = "";
@@ -51,6 +52,7 @@ GameClient::GameClient() :
 	pressedright = false;
 	presseddown = false;
 	pressedleft = false;
+	recruitinside = false;
 	cap = true;
 	frame = 0;
 	ingame = false;

@@ -14,6 +14,8 @@ class EInfantry: public EUnit {
 public:
 	EInfantry();
 	virtual ~EInfantry();
+
 };
 
+typedef boost::shared_ptr<EInfantry> EInfantryPtr;
 #endif /* EINFANTRY_H_ */

@@ -16,4 +16,6 @@ public:
 	virtual ~ECavalry();
 };
 
+typedef boost::shared_ptr<ECavalry> ECavalryPtr;
+
 #endif /* ECAVALRY_H_ */

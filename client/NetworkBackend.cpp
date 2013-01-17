@@ -72,12 +72,11 @@ void GameClient::SendEndTurn() {
 	network.SendAction(action);
 }
 
-void GameClient::SendRecruitTroopInBuilding() {
-	EUnitPtr troop1(new EUnit);
-	troop1->setCoords(PlaceSelected->getCoords());
+void GameClient::SendRecruitTroopInBuilding(EUnitPtr unit) {
+	unit->setCoords(PlaceSelected->getCoords());
 
 	ARecruitPtr action(new ARecruit);
-	action->what = troop1;
+	action->what = unit;
 	action->base = PlaceSelected;
 	action->inside = true;
 
@@ -85,11 +84,11 @@ void GameClient::SendRecruitTroopInBuilding() {
 	network.SendAction(action);
 }
 
-void GameClient::SendRecruitTroopOutside(coordinates coords) {
-	EUnitPtr troop1(new EUnit);
+void GameClient::SendRecruitTroopOutside(EUnitPtr unit) {
+	unit->setCoords(PlaceSelected->GetAssemblyPointCoords());
 
 	ARecruitPtr action(new ARecruit);
-	action->what = troop1;
+	action->what = unit;
 	action->base = PlaceSelected;
 	action->inside = false;
 

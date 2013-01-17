@@ -13,7 +13,7 @@ bool GameClient::OnInit() {
 	}
 
 	 //Open the font
-	font = TTF_OpenFont( "wilhlmk.ttf", 12 );
+	font = TTF_OpenFont( "constanb.ttf", 12 );
 
 	// init ressourcen
 //	player.addRessource<RMoney>();
@@ -64,6 +64,10 @@ bool GameClient::OnInit() {
 		return false;
 	}
 
+	if ((SurfRecruitMenuBackground = CSurface::OnLoad(
+			(char*) "client/gfx/gui/menu/recruitmenu.png")) == NULL) {
+		return false;
+	}
 	if ((SurfVillageMenuBackground = CSurface::OnLoad(
 			(char*) "client/gfx/gui/menu/villagemenubg.png")) == NULL) {
 		return false;

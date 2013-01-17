@@ -291,7 +291,12 @@ void GameClient::RenderInGame() {
 
 	if (subGS.GET_GameState() == IG_VILLAGEMENU) {
 		CSurface::OnDraw(Surf_Display, SurfVillageMenuBackground, 546, 423);
+	}
+	if (subGS.GET_GameState() == IG_RECRUITOPTION) {
+		CSurface::OnDraw(Surf_Display, SurfRecruitMenuBackground, 546, 423);
+	}
 
+	if (subGS.GET_GameState() == IG_RECRUITOPTION or subGS.GET_GameState() == IG_VILLAGEMENU) {
 		//show troops
 		if (PlaceSelected) {
 			if (PlaceSelected->town_army) {

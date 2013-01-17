@@ -36,7 +36,7 @@ enum {
 	START_SCREEN = 0, STARTUP_GAME, INGAME
 };
 enum{
-	SUB_NONE = 0, IG_VILLAGEMENU,SS_SERVER,SS_OPTION, IG_ARMYOPTION, IG_MOVEARMY, IG_ASSEMBLYPOINT
+	SUB_NONE = 0, IG_VILLAGEMENU,SS_SERVER,SS_OPTION, IG_ARMYOPTION, IG_MOVEARMY, IG_ASSEMBLYPOINT, IG_RECRUITOPTION
 };
 enum{
 	DIR_UP = 0, DIR_RIGHT, DIR_DOWN, DIR_LEFT
@@ -87,6 +87,9 @@ private:
 	SDL_Surface* SurfArmyOptionBackground;
 	SDL_Surface* SurfAssemblyPoint;
 
+	//recruit Menu
+	SDL_Surface* SurfRecruitMenuBackground;
+
 	//Zum test
 	SDL_Surface* SurfVillage;
 	SDL_Surface* SurfWalkable;
@@ -98,6 +101,7 @@ private:
 	ELocationPtr PlaceSelected;
 	EArmyPtr ArmySelected;
 
+	bool recruitinside;
 	//================================
 	//===========TTF VARS=============
 	//================================
@@ -138,6 +142,7 @@ public:
 	//HandleInput-Function
 	void HandleStartScreenInput(int mX, int mY);
 	void HandleVillageMenuInput(int mX, int mY);
+	void HandleRecruitMenuInput(int mX, int mY);
 	void HandleMapEntities(int mX, int mY);
 	void HandleInGameMenu(int mX, int mY);
 	void HandleMapEditorModus(int mX, int mY);
@@ -176,8 +181,8 @@ public:
 	void SendMoveArmy(int dir, int size);
 	void SendSetAP(coordinates coords);
 	void SendEndTurn();
-	void SendRecruitTroopInBuilding();
-	void SendRecruitTroopOutside(coordinates coords);
+	void SendRecruitTroopInBuilding(EUnitPtr unit);
+	void SendRecruitTroopOutside(EUnitPtr unit);
 
 	//receive functions
 	void ReceiveLogIn(ALogIn* login);

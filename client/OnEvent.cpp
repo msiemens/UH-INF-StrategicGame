@@ -1,5 +1,8 @@
 #include "client/GameClient.h"
 #include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/entities/units/ECavalry.h>
+#include <gamemodel/entities/units/EInfantry.h>
+#include <gamemodel/entities/units/EPawn.h>
 
 #include <iostream>
 #include <list>
@@ -41,6 +44,9 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 			break;
 		case IG_ARMYOPTION:
 			HandleArmyOptionInput(mX,mY);
+			break;
+		case IG_RECRUITOPTION:
+			HandleRecruitMenuInput(mX,mY);
 			break;
 		case IG_MOVEARMY:
 			HandleMoveArmyInput(mX,mY);
@@ -242,6 +248,7 @@ void GameClient::HandleMapEntities(int mX, int mY){
 			if(mX > (army->getCoords().x * TILE_SIZE) - camposx and mX < (army->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
 				PlaceSelected.reset();
 				ArmySelected = army;
+				subGS.SET_GameState(IG_MOVEARMY);
 				somethingfound = true;
 				break;
 			}
@@ -279,13 +286,14 @@ void GameClient::HandleVillageMenuInput(int mX, int mY){
 	if (mX > 598 and mX < 685) {
 		//Recruit
 		if (mY > 435 and mY < 462) {
-			SendRecruitTroopInBuilding();
+			recruitinside = true;
+			subGS.SET_GameState(IG_RECRUITOPTION);
 		}
 
 		//recruit outside
 		if (mY > 474 and mY < 501) {
-			coordinates coord(PlaceSelected->getCoords().x +1,PlaceSelected->getCoords().y);
-			SendRecruitTroopOutside(coord);
+			recruitinside = false;
+			subGS.SET_GameState(IG_RECRUITOPTION);
 		}
 
 		//Close
@@ -303,6 +311,44 @@ void GameClient::HandleVillageMenuInput(int mX, int mY){
 	}
 }
 
+void GameClient::HandleRecruitMenuInput(int mX, int mY){
+	if (mX > 598 and mX < 685) {
+		//Pawn
+		if (mY > 435 and mY < 462) {
+			EUnitPtr unit(new EPawn);
+			if(recruitinside){
+				cout << "=============================================0" << endl;
+				SendRecruitTroopInBuilding(unit);
+			}else{
+				SendRecruitTroopOutside(unit);
+			}
+		}
+
+		//infantry
+		if (mY > 474 and mY < 501) {
+			EUnitPtr unit(new EInfantry);
+			if(recruitinside){
+				SendRecruitTroopInBuilding(unit);
+			}else{
+				SendRecruitTroopOutside(unit);
+			}
+		}
+
+		//cavalry
+		if (mY > 511 and mY < 538) {
+			EUnitPtr unit(new ECavalry);
+			if(recruitinside){
+				SendRecruitTroopInBuilding(unit);
+			}else{
+				SendRecruitTroopOutside(unit);
+			}
+		}
+	}else{
+		subGS.SET_GameState(SUB_NONE);
+		ArmySelected.reset();
+		HandleMapEntities(mX,mY);
+	}
+}
 void GameClient::HandleArmyOptionInput(int mX,int mY){
 	if(mY > (ArmySelected->getCoords().y*TILE_SIZE) - camposy + 27 and mY < ArmySelected->getCoords().y*TILE_SIZE - camposy + 54 ){
 		if(mX > (ArmySelected->getCoords().x*TILE_SIZE - camposx + TILE_SIZE) and mX < (ArmySelected->getCoords().x*TILE_SIZE-camposx + 167 ) and ArmySelected->GetStepsLeft() > 0){
@@ -377,6 +423,7 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 	}
 	if(inrange == false){
 		subGS.SET_GameState(SUB_NONE);
+		HandleMapEntities(mX,mY);
 	}
 }
 
@@ -401,19 +448,19 @@ void GameClient::OnRButtonDown(int mX, int mY) {
 //				}
 //			}
 
-			for (auto army : player.armies) {
-				if (mY > (army->getCoords().y * TILE_SIZE) - camposy and mY < (army->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
-					if (mX > (army->getCoords().x * TILE_SIZE) - camposx and mX < (army->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
-
-						PlaceSelected.reset();
-						ArmySelected = army;
-
-						subGS.SET_GameState(IG_ARMYOPTION);
-						//schleife kann verlassen werden
-						break;
-					}
-				}
-			}
+//			for (auto army : player.armies) {
+//				if (mY > (army->getCoords().y * TILE_SIZE) - camposy and mY < (army->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
+//					if (mX > (army->getCoords().x * TILE_SIZE) - camposx and mX < (army->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
+//
+//						PlaceSelected.reset();
+//						ArmySelected = army;
+//
+//						subGS.SET_GameState(IG_ARMYOPTION);
+//						//schleife kann verlassen werden
+//						break;
+//					}
+//				}
+//			}
 		}
 	}
 }

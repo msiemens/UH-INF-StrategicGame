@@ -24,6 +24,9 @@
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
 #include <gamemodel/actions/ALogIn.h>
+#include <gamemodel/entities/units/ECavalry.h>
+#include <gamemodel/entities/units/EInfantry.h>
+#include <gamemodel/entities/units/EPawn.h>
 
 #include "messages/message_types.h"
 #include "ClientNetwork.h"
@@ -141,6 +144,9 @@ void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 
 	archive->register_type<ELocation>();
 	archive->register_type<EUnit>();
+	archive->register_type<EPawn>();
+	archive->register_type<ECavalry>();
+	archive->register_type<EInfantry>();
 
 	archive->register_type<coordinates>();
 	archive->register_type<ASetAP>();
@@ -159,6 +165,9 @@ void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 
 	archive->register_type<ELocation>();
 	archive->register_type<EUnit>();
+	archive->register_type<EPawn>();
+	archive->register_type<ECavalry>();
+	archive->register_type<EInfantry>();
 
 	archive->register_type<coordinates>();
 	archive->register_type<ASetAP>();
