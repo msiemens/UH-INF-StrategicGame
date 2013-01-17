@@ -27,45 +27,14 @@
 
 #include <gamemodel/ressources/RMoney.h>
 
-GameLogic::GameLogic(GameMap *map, list<PlayerPtr> *playerlist) :
+GameLogic::GameLogic(GameMap *map, GameContainer *container) :
 		map(map),
-		playerlist(playerlist) {
+		container(container) {
 }
 
 GameLogic::~GameLogic() {
 }
 
-//returns whose Army is positioned at coords
-boost::uuids::uuid GameLogic::whoseArmy(coordinates coords) {
-	boost::uuids::uuid playerId;
-
-	for (auto player : *playerlist) {
-		for (auto army : player->armies) {
-			coordinates pos = army->getCoords();
-
-			if (pos.x == coords.x && pos.y == coords.y) {
-				playerId = player->getPlayerId();
-			}
-		}
-	}
-
-	return playerId;
-}
-
-EArmyPtr GameLogic::getArmyAt(coordinates coords){
-	EArmyPtr armyat;
-	if(map->isArmyPositioned(coords)){
-		for(auto player:*playerlist){
-			for (auto army: player->armies) {
-				if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
-					armyat = army;
-					break;
-				}
-			}
-		}
-	}
-	return armyat;
-}
 
 //checks whether PlacerAction is valid or not
 bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
@@ -94,8 +63,8 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		} else {
 			if(map->whosePlace(base->getCoords()) == player->getPlayerId()){
 				if( map->isArmyPositioned(base->GetAssemblyPointCoords())  and
-					getArmyAt(base->GetAssemblyPointCoords())->units.size()<10 and
-					whoseArmy(base->GetAssemblyPointCoords())==player->getPlayerId()){
+					container->getArmyAt(base->GetAssemblyPointCoords())->units.size()<10 and
+					container->whoseArmyAt(base->GetAssemblyPointCoords())==player->getPlayerId()){
 					valid = true;
 
 				}else if(map->isWalkable(base->GetAssemblyPointCoords())){
@@ -109,8 +78,8 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		GameEntityPtr what(move->what);
 		coordinates to = move->to;
 
-		valid= (map->isWalkable(to) or (map->isArmyPositioned(to) and whoseArmy(to)==player->getPlayerId()
-				and getArmyAt(to)->units.size()<10) ) ? true : false;
+		valid= (map->isWalkable(to) or (map->isArmyPositioned(to) and container->whoseArmyAt(to)==player->getPlayerId()
+				and container->getArmyAt(to)->units.size()<10) ) ? true : false;
 	}
 //build
 	else if (build != NULL) {
@@ -142,19 +111,19 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		coordinates where = attack->where;
 
 		if (map->isArmyPositioned(where)) {
-			valid = (player->getPlayerId() != whoseArmy(where)) ? true : false;
+			valid = (player->getPlayerId() != container->whoseArmyAt(where)) ? true : false;
 		} else {
 		}
 
 	}
 //login
 	else if(logIn != NULL){
-			if(playerlist->size()<1){
+			if(container->getPlayerCount()<1){
 				valid=true;
 			}
 			else{
 
-			for (auto p : *playerlist) {
+			for (auto p : *(container->getPlayerListPtr())) {
 				if (player->getPlayerId() == p->getPlayerId()) {
 					valid = false;
 				} else {

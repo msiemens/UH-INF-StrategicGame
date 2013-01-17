@@ -21,6 +21,7 @@
 #include <gamemodel/actions/ASetTurn.h>
 #include <gamemodel/actions/ALogIn.h>
 
+#include <server/GameContainer.h>
 #include "GameLogic.h"
 
 class Player;
@@ -29,7 +30,7 @@ using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap *map, list<PlayerPtr> *playerlist);
+	GameEngine(GameMap *map, GameContainer *container);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
@@ -59,10 +60,10 @@ public:
 
 	GameMap *map;
 	GameLogic logic;
+	GameContainer *container;
 
 	bool isRunning;
 private:
-	list<PlayerPtr> *playerlist;
 	ServerNetwork m_network;
 };
 

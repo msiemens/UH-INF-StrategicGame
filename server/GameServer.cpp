@@ -16,8 +16,9 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 	GameMap map;
-	list<PlayerPtr> playerlist;
-	GameEngine engine(&map, &playerlist);
+	GameContainer container;
+
+	GameEngine engine(&map, &container);
 
 	engine.run();
 
