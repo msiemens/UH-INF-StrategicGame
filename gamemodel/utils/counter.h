@@ -9,7 +9,9 @@
 #define COUNT_H_
 
 #include <typeinfo>
+#include <string>
 
+#include <boost/functional/hash.hpp>
 #include <boost/serialization/access.hpp>
 
 template<class T_VALUE>
