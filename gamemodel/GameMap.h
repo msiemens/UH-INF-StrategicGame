@@ -24,7 +24,7 @@ virtual ~GameMap();
 unsigned char map[768][1024];
 
 enum attributes {
-walkable = 0x01, blocked = 0x02, place = 0x04, army = 0x08
+walkable = 0x01, blocked = 0x02, place = 0x04, army = 0x08, startbase=0x10
 };
 
 boost::uuids::uuid whosePlace(coordinates coords);
@@ -41,6 +41,9 @@ void setPlace(int x, int y);
 void setBlocked(coordinates coords);
 void setBlocked(int x, int y);
 
+void setStartBase(coordinates coords);
+void setStartBase(int x, int y);
+
 bool isWalkable(coordinates coords);
 bool isBlocked(coordinates coords);
 bool isArmyPositioned(coordinates coords);
@@ -54,13 +57,9 @@ bool editMode;
 void createMapFromTxt(std::string path);
 
 void printMapStatus();
-void createPlaces();
 
 int getClickPosX(int x);
 int getClickPosY(int y);
-ELocationPtr getPlaceAt(coordinates coords);
-
-std::list<ELocationPtr> placeList;
 
 int mapSizeX;
 int mapSizeY;
