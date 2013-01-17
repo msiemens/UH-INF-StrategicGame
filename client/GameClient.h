@@ -22,6 +22,8 @@
 #include <gamemodel/actions/ASetTurn.h>
 #include <gamemodel/actions/ALogIn.h>
 
+#include <SDL/SDL_ttf.h>
+
 #include "CEvent.h"
 #include "CSurface.h"
 #include "Define.h"
@@ -95,6 +97,22 @@ private:
 	string selected;
 	ELocationPtr PlaceSelected;
 	EArmyPtr ArmySelected;
+
+	//================================
+	//===========TTF VARS=============
+	//================================
+
+	//The font that's going to be used
+	TTF_Font *font;
+	 //The color of the font
+	SDL_Color textColor;
+	//used to show the message
+	SDL_Surface* message;
+
+	//================================
+	//========END TTF VARS============
+	//================================
+
 
 
 	//The frames per second

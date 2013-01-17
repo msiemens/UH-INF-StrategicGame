@@ -267,6 +267,9 @@ void GameClient::RenderInGame() {
 	}
 
 	CSurface::OnDraw(Surf_Display, SurfMain,0,0);
+	message = TTF_RenderText_Solid( font, "test", textColor );
+	CSurface::OnDraw(Surf_Display, message,571,102);
+
 	if(player.onturn){
 		CSurface::OnDraw(Surf_Display, SurfOnTurn,720,98);
 	}else{

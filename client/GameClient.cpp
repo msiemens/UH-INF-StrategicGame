@@ -55,6 +55,11 @@ GameClient::GameClient() :
 	frame = 0;
 	ingame = false;
 
+	font = NULL;
+	 //The color of the font
+	textColor = { 255, 255, 255 };
+	//used to show the message
+	message = NULL;
 	// Initiaize the network and connect the signal handlers
 	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
 	network.ConnectOnMessage(boost::bind(&GameClient::OnNetworkMessage, this, _1));

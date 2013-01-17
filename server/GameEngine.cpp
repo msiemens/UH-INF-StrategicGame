@@ -184,7 +184,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) 
 				ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
 				GameRessourcePtr costs(recruit->costs);
 
-				base->town_army->AddTroop(unit);
+				base->town_army->AddUnit(unit);
 				player->addUnit(unit);
 				recruit->base=base;
 				unit->SetOwner(player->getPlayerId());
@@ -205,7 +205,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) 
 				EArmyPtr armyat(logic.getArmyAt(base->GetAssemblyPointCoords()));
 				unit->setCoords(base->GetAssemblyPointCoords());
 				player->addUnit(unit);
-				armyat->AddTroop(unit);
+				armyat->AddUnit(unit);
 
 				recruit->base=base;
 

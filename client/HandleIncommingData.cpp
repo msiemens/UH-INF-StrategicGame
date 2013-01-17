@@ -117,12 +117,12 @@ void GameClient::RecruitInside(ARecruit* action){
 	if(player.onturn){
 		//if(place->GetOwner() == player.id){
 			action->what->SetOwner(player.getPlayerId());
-			place->town_army->AddTroop(action->what);
+			place->town_army->AddUnit(action->what);
 		//}
 	}else if(opponent.onturn){
 		if(place->GetOwner() != player.id){//verhindert dass der player seine truppen in gegnerische städte platziert
 			action->what->SetOwner(opponent.getPlayerId());
-			place->town_army->AddTroop(action->what);
+			place->town_army->AddUnit(action->what);
 		}
 	}
 }
@@ -139,7 +139,7 @@ void GameClient::RecruitOutside(ARecruit* action){
 				if (army->getCoords().x == action->base->GetAssemblyPointCoords().x
 						and army->getCoords().y == action->base->GetAssemblyPointCoords().y) {
 					action->what->SetOwner(player.getPlayerId());
-					army->AddTroop(action->what);
+					army->AddUnit(action->what);
 				}
 			}
 		} else {
@@ -148,7 +148,7 @@ void GameClient::RecruitOutside(ARecruit* action){
 
 			army->SetOwner(player.getPlayerId());
 			action->what->SetOwner(player.getPlayerId());
-			army->AddTroop(action->what);
+			army->AddUnit(action->what);
 			army->SetStepsLeft(3);
 			army->setCoords(action->base->GetAssemblyPointCoords());
 			army->SetOwner(player.getPlayerId());
@@ -161,13 +161,13 @@ void GameClient::RecruitOutside(ARecruit* action){
 				if (army->getCoords().x == action->base->GetAssemblyPointCoords().x
 						and army->getCoords().y == action->base->GetAssemblyPointCoords().y) {
 					action->what->SetOwner(opponent.getPlayerId());
-					army->AddTroop(action->what);
+					army->AddUnit(action->what);
 				}
 			}
 		} else {
 			EArmyPtr army(new EArmy);
 			army->setImgPath("client/gfx/entity/army_opp.png");
-			army->AddTroop(action->what);
+			army->AddUnit(action->what);
 			army->SetStepsLeft(3);
 			army->setCoords(action->base->GetAssemblyPointCoords());
 			army->SetOwner(opponent.getPlayerId());
