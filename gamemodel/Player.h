@@ -36,7 +36,7 @@ public:
 	void addArmy(EArmyPtr army);
 	void addLocation(ELocationPtr place);
 	void addUnit(EUnitPtr unit);
-
+/*
 	template<class T_VALUE>
 	void addRessource() {
 		// Find existing counter
@@ -99,7 +99,7 @@ public:
 	}
 
 	template<class T_VALUE>
-
+*/
 	int actionsleft;
 	int GetActionLeft();
 	void SetActionLeft(int x);
