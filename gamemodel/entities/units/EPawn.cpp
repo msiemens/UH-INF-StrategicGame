@@ -14,6 +14,7 @@ EPawn::EPawn(){
 	mor=(1);
 	tac=(1);
 	pac=(1);
+	setIconPath("client/gfx/entity/icons/pawn.png");
 }
 
 EPawn::~EPawn() {

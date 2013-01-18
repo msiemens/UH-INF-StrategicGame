@@ -13,6 +13,15 @@ class EPawn: public EUnit {
 public:
 	EPawn();
 	virtual ~EPawn();
+
+
+private:
+	friend class boost::serialization::access;
+
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & boost::serialization::base_object<EUnit>(*this);
+	}
 };
 typedef boost::shared_ptr<EPawn> EPawnPtr;
 

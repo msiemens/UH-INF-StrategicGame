@@ -53,6 +53,17 @@ void GameClient::ShowSelected() {
 				CSurface::OnDraw(Surf_Display, SurfAssemblyPoint,mX,mY);
 			}
 		}
+		//show located units
+		if (PlaceSelected->town_army) {
+			for (i = 0; i < PlaceSelected->town_army->units.size();
+					i++) {
+				char * path = new char[PlaceSelected->town_army->units[i]->getIconPath().length()];
+				strcpy(path,
+						PlaceSelected->town_army->units[i]->getIconPath().c_str());
+				SurfSlotOwns = CSurface::OnLoad(path);
+				CSurface::OnDraw(Surf_Display, SurfSlotOwns,14 + (i * 40), 401);
+			}
+		}
 	}
 
 	if (ArmySelected) {
@@ -74,12 +85,13 @@ void GameClient::ShowSelected() {
 			}
 		}
 
+		//show located units
 		for (i = 0; i < ArmySelected->units.size(); i++) {
 			char * path =
-					new char[ArmySelected->units[i]->getImgPath().length()];
-			strcpy(path, ArmySelected->units[i]->getImgPath().c_str());
+					new char[ArmySelected->units[i]->getIconPath().length()];
+			strcpy(path, ArmySelected->units[i]->getIconPath().c_str());
 			SurfSlotOwns = CSurface::OnLoad(path);
-			CSurface::OnDraw(Surf_Display, SurfSlotOwns, 18 + (i * 40), 405);
+			CSurface::OnDraw(Surf_Display, SurfSlotOwns, 14 + (i * 40), 401);
 		}
 
 	}
@@ -299,17 +311,16 @@ void GameClient::RenderInGame() {
 	if (subGS.GET_GameState() == IG_RECRUITOPTION or subGS.GET_GameState() == IG_VILLAGEMENU) {
 		//show troops
 		if (PlaceSelected) {
-			if (PlaceSelected->town_army) {
-				for (i = 0; i < PlaceSelected->town_army->units.size();
-						i++) {
-					char * path =
-							new char[PlaceSelected->town_army->units[i]->getImgPath().length()];
-					strcpy(path,
-							PlaceSelected->town_army->units[i]->getImgPath().c_str());
-					SurfSlotOwns = CSurface::OnLoad(path);
-					CSurface::OnDraw(Surf_Display, SurfSlotOwns,18 + (i * 40), 405);
-				}
-			}
+//			if (PlaceSelected->town_army) {
+//				for (i = 0; i < PlaceSelected->town_army->units.size();
+//						i++) {
+//					char * path = new char[PlaceSelected->town_army->units[i]->getIconPath().length()];
+//					strcpy(path,
+//							PlaceSelected->town_army->units[i]->getIconPath().c_str());
+//					SurfSlotOwns = CSurface::OnLoad(path);
+//					CSurface::OnDraw(Surf_Display, SurfSlotOwns,18 + (i * 40), 405);
+//				}
+//			}
 		}
 	}
 }

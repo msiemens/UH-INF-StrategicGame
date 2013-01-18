@@ -14,7 +14,7 @@ ECavalry::ECavalry() {
 	mor=(4);
 	pac=(10);
 	tac=(2);
-
+	setIconPath("client/gfx/entity/icons/cavalry.png");
 }
 
 ECavalry::~ECavalry() {

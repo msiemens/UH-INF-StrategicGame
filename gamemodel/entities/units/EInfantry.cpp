@@ -14,6 +14,7 @@ EInfantry::EInfantry() {
 	mor=(3);
 	pac=(3);
 	tac=(10);
+	setIconPath("client/gfx/entity/icons/infantry.png");
 
 }
 
