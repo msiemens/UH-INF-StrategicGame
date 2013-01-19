@@ -30,7 +30,7 @@ using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap *map, GameContainer *container);
+	GameEngine(GameMapServer *map, GameContainer *container);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
@@ -58,7 +58,7 @@ public:
 
 	void run();
 
-	GameMap *map;
+	GameMapServer *map;
 	GameLogic logic;
 	GameContainer *container;
 

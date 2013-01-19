@@ -44,8 +44,6 @@ public:
 	ELocationPtr getLocation(int index);
 	PlayerPtr getPlayer(int index);
 
-	EArmyPtr getArmyAt(coordinates coords);
-	ELocationPtr getLocationAt(coordinates coords);
 	PlayerPtr getPlayerById(boost::uuids::uuid playerId);
 	vector<EUnitPtr> *getUnitVectorPtrByArmy(EArmyPtr army);
 

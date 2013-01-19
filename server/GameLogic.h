@@ -20,13 +20,13 @@ using namespace std;
 
 class GameLogic {
 public:
-	GameLogic(GameMap *map, GameContainer *container);
+	GameLogic(GameMapServer *map, GameContainer *container);
 	virtual ~GameLogic();
 
 	bool checkPlayerAction(PlayerPtr player, GameActionPtr action);
 
 private:
-	GameMap *map;
+	GameMapServer *map;
 	GameContainer *container;
 };
 

@@ -27,7 +27,7 @@
 
 #include <gamemodel/ressources/RMoney.h>
 
-GameLogic::GameLogic(GameMap *map, GameContainer *container) :
+GameLogic::GameLogic(GameMapServer *map, GameContainer *container) :
 		map(map),
 		container(container) {
 }
@@ -63,8 +63,8 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		} else {
 			if(map->whosePlace(base->getCoords()) == player->getPlayerId()){
 				if( map->isArmyPositioned(base->GetAssemblyPointCoords())  and
-					container->getArmyAt(base->GetAssemblyPointCoords())->units.size()<10 and
-					container->whoseArmyAt(base->GetAssemblyPointCoords())==player->getPlayerId()){
+					map->getArmyAt(base->GetAssemblyPointCoords())->units.size()<10 //and
+					/*map->whoseArmyAt(base->GetAssemblyPointCoords())==player->getPlayerId()*/){
 					valid = true;
 
 				}else if(map->isWalkable(base->GetAssemblyPointCoords())){
@@ -78,8 +78,8 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		GameEntityPtr what(move->what);
 		coordinates to = move->to;
 
-		valid= (map->isWalkable(to) or (map->isArmyPositioned(to) and container->whoseArmyAt(to)==player->getPlayerId()
-				and container->getArmyAt(to)->units.size()<10) ) ? true : false;
+		valid= (map->isWalkable(to) or (map->isArmyPositioned(to) /*and map->whoseArmyAt(to)==player->getPlayerId()*/
+				and map->getArmyAt(to)->units.size()<10) ) ? true : false;
 	}
 //build
 	else if (build != NULL) {
@@ -111,7 +111,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		coordinates where = attack->where;
 
 		if (map->isArmyPositioned(where)) {
-			valid = (player->getPlayerId() != container->whoseArmyAt(where)) ? true : false;
+			//valid = (player->getPlayerId()/* != map->whoseArmyAt(where)*/) ? true : false;
 		} else {
 		}
 

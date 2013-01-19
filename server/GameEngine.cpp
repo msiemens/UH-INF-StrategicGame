@@ -28,7 +28,7 @@
 
 using namespace std;
 
-GameEngine::GameEngine(GameMap *map, GameContainer *container) :
+GameEngine::GameEngine(GameMapServer *map, GameContainer *container) :
 		map(map),
 		container(container),
 		isRunning(true),
@@ -155,7 +155,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) 
 				}
 
 //the new army object
-				EArmyPtr armyat(container->getArmyAt(base->GetAssemblyPointCoords()));
+				EArmyPtr armyat(map->getArmyAt(base->GetAssemblyPointCoords()));
 //set coords of unit
 				unit->setCoords(base->GetAssemblyPointCoords());
 //unit added to player and army
@@ -178,7 +178,7 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 			coordinates to = move->to;
 			int size = move->count;
 
-			EArmyPtr army(container->getArmyAt(from));
+			EArmyPtr army(map->getArmyAt(from));
 
 			if((army->GetStepsLeft() - size) >= 0){
 				if(map->isBlocked(to) == false){
@@ -191,7 +191,7 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 					}else if(map->isPlace(to) == true){
 						//merge into place
 						for(auto unit:army->units){
-						//	map->getPlaceAt(to)->town_army->AddUnit(unit);
+							map->getPlaceAt(to)->town_army->AddUnit(unit);
 							army->RemoveUnit(unit);
 
 							map->setWalkable(from);
@@ -200,7 +200,7 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 					}else if(map->isArmyPositioned(to) == true){
 						//merge into army
 						for(auto unit:army->units){
-							container->getArmyAt(to)->AddUnit(unit);
+							map->getArmyAt(to)->AddUnit(unit);
 							army->RemoveUnit(unit);
 
 							map->setWalkable(from);
@@ -234,11 +234,11 @@ GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
 
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAPPtr setAP) {
-	/*ELocationPtr place(map->getPlaceAt(setAP->basecoords));
+	ELocationPtr place(map->getPlaceAt(setAP->basecoords));
 	place->SetAssemblyPointCoords(setAP->apcoords);
 
 	ASetAPPtr action(setAP);
-	return action;*/
+	return action;
 }
 
 void GameEngine::onPlayerSetTurn(PlayerPtr player,ASetTurnPtr setTurn){
@@ -288,24 +288,24 @@ void GameEngine::BroadcastAction(GameActionPtr action) {
 
 void GameEngine::startSession(){
 	int counter=1;
-/*
-	for(auto place:map->placeList){
-		std::cout << "In place schleife" << endl;
-		if(map->isStartBase(place->getCoords())){
+
+	for(auto location:*(container->getLocationListPtr())){
+
+		if(map->isStartBase(location->getCoords())){
 			int i=1;
 			for(auto player:*(container->getPlayerListPtr())){
 				if(counter==i){
-					player->addLocation(place);
+					player->addLocation(location);
 					//das kann auch in playerfkt addLocation
-					place->owned=true;
-					place->SetOwner(player->getPlayerId());
+					location->owned=true;
+					location->SetOwner(player->getPlayerId());
 					//--------------------------------------
 				}
 				counter++;
 			}
 			counter=0;
 		}
-	}*/
+	}
 }
 
 void GameEngine::run() {
