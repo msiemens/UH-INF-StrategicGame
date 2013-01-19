@@ -23,7 +23,10 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+
 #include "messages/message_types.h"
+#include "messages/metamessages/MMTest.h"
+#include "messages/statemessages/SMTest.h"
 
 #include "ClientNetwork.h"
 
@@ -142,6 +145,9 @@ void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 
 	archive->register_type<coordinates>();
 	archive->register_type<counter<GameRessource> >();
+
+	archive->register_type<MMTest>();
+	archive->register_type<SMTest>();
 }
 
 void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
@@ -157,4 +163,7 @@ void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 
 	archive->register_type<coordinates>();
 	archive->register_type<counter<GameRessource> >();
+
+	archive->register_type<MMTest>();
+	archive->register_type<SMTest>();
 }

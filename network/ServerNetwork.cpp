@@ -21,7 +21,11 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+
 #include "messages/message_types.h"
+#include "messages/metamessages/MMTest.h"
+#include "messages/statemessages/SMTest.h"
+
 #include "ServerNetwork.h"
 
 ServerNetwork::ServerNetwork(int port) :
@@ -206,6 +210,9 @@ void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 
 	archive->register_type<coordinates>();
 	archive->register_type<counter<GameRessource> >();
+
+	archive->register_type<MMTest>();
+	archive->register_type<SMTest>();
 }
 
 void ServerNetwork::registerTypes(boost::archive::text_iarchive* archive) {
@@ -221,4 +228,7 @@ void ServerNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 
 	archive->register_type<coordinates>();
 	archive->register_type<counter<GameRessource> >();
+
+	archive->register_type<MMTest>();
+	archive->register_type<SMTest>();
 }
