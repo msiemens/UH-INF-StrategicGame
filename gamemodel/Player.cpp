@@ -15,7 +15,7 @@
 using namespace std;
 
 Player::Player() :
-		id(boost::uuids::random_generator()()),actionsleft(5),onturn(false) {
+		id(boost::uuids::random_generator()()),actionsleft(5),onturn(false),gold(0),wood(0),stone(0) {
 
 }
 

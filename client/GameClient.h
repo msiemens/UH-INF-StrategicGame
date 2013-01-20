@@ -68,9 +68,11 @@ private:
 	SDL_Surface* SurfStartscreenBackground;
 	SDL_Surface* SurfMap;
 
+	//show Turn
 	SDL_Surface* SurfOnTurn;
 	SDL_Surface* SurfOffTurn;
 
+	//Startscreen-Buttons
 	SDL_Surface* SurfButtonSSStart;
 	SDL_Surface* SurfButtonSSOption;
 	SDL_Surface* SurfButtonSSServer;
@@ -112,6 +114,9 @@ private:
 	SDL_Color textColor;
 	//used to show the message
 	SDL_Surface* message;
+	SDL_Surface* gold;
+	SDL_Surface* wood;
+	SDL_Surface* stone;
 
 	//================================
 	//========END TTF VARS============
@@ -164,6 +169,7 @@ public:
 	void OnRender();
 	void RenderInGame();
 	void RenderStartScreen();
+	void RenderRessources();
 	void ShowSelected();
 
 //======================================
@@ -172,7 +178,8 @@ public:
 	EArmyPtr getArmyByCoords(coordinates coords);
 	EArmyPtr getOpponentArmyByCoords(coordinates coords);
 	coordinates getCoordsByClick(int mX,int mY);
-
+	char* getCharArrayByInt(int value);
+	char* getCharArrayByString(string text);
 
 
 //======================================

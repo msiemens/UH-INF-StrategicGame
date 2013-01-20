@@ -1,6 +1,6 @@
 #include "client/GameClient.h"
 
-
+#include <sstream>
 #include <iostream>
 #include <list>
 
@@ -18,6 +18,20 @@ void GameClient::OnNextTurn(){
 	}
 
 	// check buildings
+}
+
+char* GameClient::getCharArrayByString(string text){
+	char * buffer = new char[text.length()];
+	strcpy(buffer, text.c_str());
+	return buffer;
+}
+
+char* GameClient::getCharArrayByInt(int value){
+	stringstream temp;
+	temp << value;
+	char * buffer = new char[temp.str().length()];
+	strcpy(buffer, temp.str().c_str());
+	return buffer;
 }
 
 coordinates GameClient::getCoordsByClick(int mX, int mY){

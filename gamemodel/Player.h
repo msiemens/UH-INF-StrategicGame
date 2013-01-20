@@ -59,6 +59,9 @@ public:
 		}
 	}
 
+	int wood;
+	int gold;
+	int stone;
 	int actionsleft;
 	int GetActionLeft();
 	void SetActionLeft(int x);

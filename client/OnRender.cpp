@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstring>
 
+
 using namespace std;
 void GameClient::SetVideoModeInGame(){
 	Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
@@ -27,13 +28,22 @@ void GameClient::RenderStartScreen() {
 	}
 }
 
+void GameClient::RenderRessources() {
+	gold = TTF_RenderText_Solid( font, getCharArrayByInt(player.gold) , textColor );
+	CSurface::OnDraw(Surf_Display, gold,572,102);
+
+	stone = TTF_RenderText_Solid( font, getCharArrayByInt(player.stone) , textColor );
+	CSurface::OnDraw(Surf_Display, stone,572,129);
+
+	wood = TTF_RenderText_Solid( font, getCharArrayByInt(player.wood) , textColor );
+	CSurface::OnDraw(Surf_Display, wood,691,129);
+}
+
 void GameClient::ShowSelected() {
 	int i=0;
 
 	if (PlaceSelected) {
-		char * buffer = new char[PlaceSelected->getIconPath().length()];
-		strcpy(buffer, PlaceSelected->getIconPath().c_str());
-		SurfSelected = CSurface::OnLoad(buffer);
+		SurfSelected = CSurface::OnLoad(getCharArrayByString(PlaceSelected->getIconPath()));
 		CSurface::OnDraw(Surf_Display, SurfSelected, 608, 347);
 
 		if (PlaceSelected->getCoords().x != 0 and PlaceSelected->getCoords().y != 0) {
@@ -279,7 +289,6 @@ void GameClient::RenderInGame() {
 	}
 
 	CSurface::OnDraw(Surf_Display, SurfMain,0,0);
-	CSurface::OnDraw(Surf_Display, message,571,102);
 
 	if(player.onturn){
 		CSurface::OnDraw(Surf_Display, SurfOnTurn,720,98);
@@ -289,6 +298,7 @@ void GameClient::RenderInGame() {
 
 
 	ShowSelected();
+	RenderRessources();
 
 	if (subGS.GET_GameState() == IG_ARMYOPTION) {
 		if (ArmySelected) {
