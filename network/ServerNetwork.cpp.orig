@@ -21,10 +21,13 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+<<<<<<< HEAD
 #include <gamemodel/actions/ALogIn.h>
 #include <gamemodel/entities/units/ECavalry.h>
 #include <gamemodel/entities/units/EInfantry.h>
 #include <gamemodel/entities/units/EPawn.h>
+=======
+>>>>>>> network
 
 #include "messages/message_types.h"
 #include "messages/metamessages/MMTest.h"
@@ -148,7 +151,8 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 	m_network.game()->Broadcast(msg);
 }
 
-void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer) {
+void ServerNetwork::OnMessage(char* message, int length,
+		NetPlayerPtr netplayer) {
 	std::cout << "ServerNetwork::OnMessage(...)" << std::endl;
 	std::cout << "Seeking Player oject" << std::endl;
 

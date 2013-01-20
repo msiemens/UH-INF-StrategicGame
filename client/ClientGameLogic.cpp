@@ -20,6 +20,33 @@ void GameClient::OnNextTurn(){
 	// check buildings
 }
 
+coordinates GameClient::getCoordsByClick(int mX, int mY){
+	int i = 1;
+	int x=0;
+	int y=0;
+	mX += camposx;
+	mY += camposy;
+
+	for(i=1; i < map.mapSizeX; i++){
+		if(mX > TILE_SIZE){
+			mX = mX-TILE_SIZE;
+			x++;
+		}else{
+			break;
+		}
+	}
+
+	for(i=1; i < map.mapSizeY; i++){
+		if(mY > TILE_SIZE){
+			mY = mY-TILE_SIZE;
+			y++;
+		}else{
+			break;
+		}
+	}
+	coordinates coords(x,y);
+	return coords;
+}
 
 EArmyPtr GameClient::getArmyByCoords(coordinates coords){
 	EArmyPtr armyat;

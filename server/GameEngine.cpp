@@ -260,7 +260,7 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuildPtr build) {
 GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
 	std::cout << "GameEngine::doAction: got a AAttack.\n";
 	GameEntityPtr what(attack->what);
-	coordinates where = attack->where;
+	coordinates where = attack->target;
 
 	EArmyPtr enemyarmy;
 	PlayerPtr enemyplayer;

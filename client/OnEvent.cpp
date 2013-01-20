@@ -49,6 +49,7 @@ void GameClient::OnLButtonDown(int mX, int mY) {
 			HandleRecruitMenuInput(mX,mY);
 			break;
 		case IG_MOVEARMY:
+			HandleAttack(mX,mY);
 			HandleMoveArmyInput(mX,mY);
 			break;
 		case IG_ASSEMBLYPOINT:
@@ -317,7 +318,6 @@ void GameClient::HandleRecruitMenuInput(int mX, int mY){
 		if (mY > 435 and mY < 462) {
 			EUnitPtr unit(new EPawn);
 			if(recruitinside){
-				cout << "=============================================0" << endl;
 				SendRecruitTroopInBuilding(unit);
 			}else{
 				SendRecruitTroopOutside(unit);
@@ -361,6 +361,20 @@ void GameClient::HandleArmyOptionInput(int mX,int mY){
 	}
 }
 
+void GameClient::HandleAttack(int mX,int mY){
+	if(ArmySelected){
+		coordinates coords(getCoordsByClick(mX,mY));
+		if(getOpponentArmyByCoords(coords)){
+			SendAttack(ArmySelected->getCoords(),coords);
+		}
+		ELocationPtr place(map.getPlaceAt(coords));
+		if(place){
+			if(place->GetOwner() != player.getPlayerId()){
+				SendAttack(ArmySelected->getCoords(),coords);
+			}
+		}
+	}
+}
 void GameClient::HandleMoveArmyInput(int mX,int mY){
 	int i=0;
 	bool inrange=false;
@@ -371,9 +385,11 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			coordinates coord(ArmySelected->getCoords().x ,ArmySelected->getCoords().y- i);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					SendMoveArmy(DIR_UP,i);
-					inrange=true;
-					break;
+					if(!getOpponentArmyByCoords(coord)){
+						SendMoveArmy(DIR_UP,i);
+						inrange=true;
+						break;
+					}
 				}
 			}
 		}
@@ -385,9 +401,11 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			coordinates coord(ArmySelected->getCoords().x + i,ArmySelected->getCoords().y);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					SendMoveArmy(DIR_RIGHT,i);
-					inrange=true;
-					break;
+					if(!getOpponentArmyByCoords(coord)){
+						SendMoveArmy(DIR_RIGHT,i);
+						inrange=true;
+						break;
+					}
 				}
 			}
 		}
@@ -399,9 +417,11 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			coordinates coord(ArmySelected->getCoords().x,ArmySelected->getCoords().y + i);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					SendMoveArmy(DIR_DOWN,i);
-					inrange=true;
-					break;
+					if(!getOpponentArmyByCoords(coord)){
+						SendMoveArmy(DIR_DOWN,i);
+						inrange=true;
+						break;
+					}
 				}
 			}
 		}
@@ -414,9 +434,11 @@ void GameClient::HandleMoveArmyInput(int mX,int mY){
 			coordinates coord(ArmySelected->getCoords().x - i,ArmySelected->getCoords().y);
 			if (mY > (coord.y * TILE_SIZE) - camposy and mY < (coord.y*TILE_SIZE) - camposy + TILE_SIZE) {
 				if (mX > (coord.x * TILE_SIZE) - camposx and mX < (coord.x * TILE_SIZE) - camposx+ TILE_SIZE) {
-					SendMoveArmy(DIR_LEFT,i);
-					inrange=true;
-					break;
+					if(!getOpponentArmyByCoords(coord)){
+						SendMoveArmy(DIR_LEFT,i);
+						inrange=true;
+						break;
+					}
 				}
 			}
 		}

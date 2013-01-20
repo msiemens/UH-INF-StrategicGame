@@ -129,10 +129,6 @@ void GameClient::RecruitInside(ARecruit* action){
 
 void GameClient::RecruitOutside(ARecruit* action){
 	//Myturn
-	cout << "Player ID: " << player.getPlayerIdStr() << endl;
-
-	std::stringstream ss;
-
 	if(player.onturn){ // action->what->GetOwner() == player.getPlayerId() and
 		if (map.isArmyPositioned(action->base->GetAssemblyPointCoords())) {
 			for (auto army : player.armies){

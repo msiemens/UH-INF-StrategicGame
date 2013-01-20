@@ -2,6 +2,7 @@
 
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/AMove.h>
+#include <gamemodel/actions/AAttack.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
 #include <gamemodel/actions/ALogIn.h>
@@ -14,6 +15,18 @@ void GameClient::SendLogIn(){
 	ALogInPtr action(new ALogIn);
 	action->verified=false;
 	//action->id = player.getPlayerId();
+	network.SendAction(action);
+}
+
+void GameClient::SendAttack(coordinates attacker, coordinates target){
+	AAttackPtr action(new AAttack);
+	action->attacker.x=attacker.x;
+	action->attacker.y=attacker.y;
+	action->target.x=target.x;
+	action->target.y=target.y;
+
+//send the action
+	//OnNetworkAction(action);
 	network.SendAction(action);
 }
 

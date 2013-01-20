@@ -139,7 +139,13 @@ public:
 	void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
 	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right, bool Middle);
 	void OnLButtonDown(int mX, int mY);
-	//HandleInput-Function
+	void OnRButtonDown(int mX, int mY);
+	void OnExit();
+	void OnLoop();
+
+//======================================
+//============ HandleInput =============
+//======================================
 	void HandleStartScreenInput(int mX, int mY);
 	void HandleVillageMenuInput(int mX, int mY);
 	void HandleRecruitMenuInput(int mX, int mY);
@@ -148,29 +154,35 @@ public:
 	void HandleMapEditorModus(int mX, int mY);
 	void HandleArmyOptionInput(int mX,int mY);
 	void HandleMoveArmyInput(int mX,int mY);
+	void HandleAttack(int mX,int mY);
 	void HandleSetAssemblyPoint(int mX,int mY);
-	//-----
-	void OnRButtonDown(int mX, int mY);
-	void OnExit();
-	void OnLoop();
 
-
-	//Render function
+//======================================
+//============= Render =================
+//======================================
 	void SetVideoModeInGame();
 	void OnRender();
 	void RenderInGame();
 	void RenderStartScreen();
 	void ShowSelected();
-	//-----
+
+//======================================
+//=============== Get ==================
+//======================================
+	EArmyPtr getArmyByCoords(coordinates coords);
+	EArmyPtr getOpponentArmyByCoords(coordinates coords);
+	coordinates getCoordsByClick(int mX,int mY);
 
 
+
+//======================================
+//============= Network ================
+//======================================
 	//incomming data
 	void RecruitOutside(ARecruit* action);
 	void RecruitInside(ARecruit* action);
 	void MergeArmyIntoPlace(coordinates coords, EArmyPtr Army);
 	void MergeArmies(coordinates coords, EArmyPtr Army);
-	EArmyPtr getArmyByCoords(coordinates coords);
-	EArmyPtr getOpponentArmyByCoords(coordinates coords);
 
 	void OnCleanup();
 	void CameraOnMove(int x, int y);
@@ -179,6 +191,7 @@ public:
 	//send functions
 	void SendLogIn();
 	void SendMoveArmy(int dir, int size);
+	void SendAttack(coordinates attacker, coordinates target);
 	void SendSetAP(coordinates coords);
 	void SendEndTurn();
 	void SendRecruitTroopInBuilding(EUnitPtr unit);

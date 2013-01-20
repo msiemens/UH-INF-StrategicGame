@@ -164,9 +164,9 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 	}
 //attack
 	else if (attack != NULL) {
-		cout << 4 << endl;
+		cout << "Got an attack" << endl;
 		GameEntityPtr what(attack->what);
-		coordinates where = attack->where;
+		coordinates where = attack->target;
 
 		if (map->isArmyPositioned(where)) {
 			valid = (player->getPlayerId() != whoseArmy(where)) ? true : false;

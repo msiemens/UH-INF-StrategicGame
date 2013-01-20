@@ -61,7 +61,7 @@ GameClient::GameClient() :
 	 //The color of the font
 	textColor = { 255, 255, 255 };
 	//used to show the message
-	message = NULL;
+	message = TTF_RenderText_Solid( font, "test", textColor );
 	// Initiaize the network and connect the signal handlers
 	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
 	network.ConnectOnMessage(boost::bind(&GameClient::OnNetworkMessage, this, _1));

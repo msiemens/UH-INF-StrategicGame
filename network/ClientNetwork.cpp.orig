@@ -23,13 +23,17 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+<<<<<<< HEAD
 #include <gamemodel/actions/ALogIn.h>
 #include <gamemodel/entities/units/ECavalry.h>
 #include <gamemodel/entities/units/EInfantry.h>
 #include <gamemodel/entities/units/EPawn.h>
+=======
+
+#include "messages/message_types.h"
 #include "messages/metamessages/MMTest.h"
 #include "messages/statemessages/SMTest.h"
-
+>>>>>>> network
 
 #include "messages/message_types.h"
 #include "ClientNetwork.h"
