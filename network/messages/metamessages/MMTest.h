@@ -16,7 +16,6 @@
 
 class MMTest: public GameMetaMessage {
 public:
-    MMTest();
     virtual ~MMTest();
 
     int test;

@@ -23,6 +23,7 @@
 #include <gamemodel/ressources/RMoney.h>
 
 #include <network/ServerNetwork.h>
+#include <network/messages/statemessages/SMUpdateRessources.h>
 
 #include "GameEngine.h"
 
@@ -60,6 +61,14 @@ void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
 		std::cout << "Action von Spieler #" << player->getPlayerIdStr()
 				<< " ist ungueltig.\n";
 	}
+}
+void GameEngine::SendUpdateRessources(PlayerPtr player){
+	SMUpdateRessourcesPtr updatres(new SMUpdateRessources);
+	updatres->gold=player->getGold();
+	updatres->wood=player->getWood();
+	updatres->stone=player->getStone();
+	GameStateMessagePtr message(updatres);
+	m_network.SendMessageA(player,message);
 }
 
 void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
@@ -110,54 +119,58 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 		BroadcastAction(onPlayerAttack(player,attack));
 	}
 	if(logIn != NULL){
-		onPlayerConnect(player);
-		logIn->verified=true;
-		GameActionPtr ret(logIn);
-		m_network.SendAction(player,ret);
-		if(playerlist->size() > 1){
-			if((rand()% 2) == 0){
-				ASetTurnPtr setturn2(new ASetTurn);
-
-				setturn2->endturn = false;
-				m_network.SendAction(player,setturn2);
-
-				setturn2->endturn = true;
-				for(auto players : *playerlist){
-					if(players->getPlayerIdStr() != player->getPlayerIdStr()){
-						m_network.SendAction(players,setturn2);
-						//dies funktioniert nur f�r 2 spieler!
-						break;
-					}
-				}
-			}else{
-				ASetTurnPtr setturn2(new ASetTurn);
-
-				setturn2->endturn = true;
-				m_network.SendAction(player,setturn2);
-
-				setturn2->endturn = false;
-				for(auto players : *playerlist){
-					if(players->getPlayerIdStr() != player->getPlayerIdStr()){
-						m_network.SendAction(players,setturn2);
-						//dies funktioniert nur f�r 2 spieler!
-						break;
-					}
-				}
-			}
-		}
-		if(playerlist->size()==2){
-			startSession();
-			for(auto player : *playerlist){
-				for(auto place: player->places){
-					std::cout << "Location von Spieler " << player->getPlayerIdStr() << "X:" << place->getCoords().x << ", Y:" << place->getCoords().y << endl;
-				}
-			}
-		}
+		onPlayerLogIn(player,logIn);
 	}
 
 	std::cout << "\n---------------------------------------------------------------\n";
 }
+void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn){
 
+	onPlayerConnect(player);
+	logIn->verified=true;
+	GameActionPtr ret(logIn);
+	m_network.SendAction(player,ret);
+
+	if(playerlist->size() > 1){
+		if((rand()% 2) == 0){
+			ASetTurnPtr setturn2(new ASetTurn);
+
+			setturn2->endturn = false;
+			m_network.SendAction(player,setturn2);
+
+			setturn2->endturn = true;
+			for(auto players : *playerlist){
+				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
+					m_network.SendAction(players,setturn2);
+					//dies funktioniert nur f�r 2 spieler!
+					break;
+				}
+			}
+		}else{
+			ASetTurnPtr setturn2(new ASetTurn);
+
+			setturn2->endturn = true;
+			m_network.SendAction(player,setturn2);
+
+			setturn2->endturn = false;
+			for(auto players : *playerlist){
+				if(players->getPlayerIdStr() != player->getPlayerIdStr()){
+					m_network.SendAction(players,setturn2);
+					//dies funktioniert nur f�r 2 spieler!
+					break;
+				}
+			}
+		}
+	}
+	if(playerlist->size()==2){
+		startSession();
+		for(auto player : *playerlist){
+			for(auto place: player->places){
+				std::cout << "Location von Spieler " << player->getPlayerIdStr() << "X:" << place->getCoords().x << ", Y:" << place->getCoords().y << endl;
+			}
+		}
+	}
+}
 void GameEngine::onNextTurn(){
 	//reset StepsLeft
 	for(auto player : *playerlist){
@@ -226,7 +239,6 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 			EArmyPtr army(logic.getArmyAt(from));
 
 			if((army->GetStepsLeft() - size) >= 0){
-				cout << "SEPS:" << army->GetStepsLeft() << "| Size: " << size << endl;
 				if(map->isBlocked(to) == false){
 					if(map->isWalkable(to) == true and map->isPlace(to) == false and map->isArmyPositioned(to)==false){
 						map->setWalkable(from);
@@ -240,8 +252,6 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 					army->SetStepsLeft(army->GetStepsLeft() - size);
 				}
 			}
-
-			cout << "JAAAAAAAAAAAAAAAAA2222222222" << endl;
 			AMovePtr action(move);
 			return action;
 

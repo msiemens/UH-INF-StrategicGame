@@ -46,7 +46,10 @@ public:
     GameActionPtr onPlayerAttack(PlayerPtr player,AAttackPtr attack);
     GameActionPtr onPlayerSetAP(PlayerPtr player,ASetAPPtr setap);
     void onPlayerSetTurn(PlayerPtr player,ASetTurnPtr setturn);
-    GameActionPtr onPlayerLogIn(PlayerPtr player,ALogInPtr logIn);
+    void onPlayerLogIn(PlayerPtr player,ALogInPtr logIn);
+
+    //statemessages
+    void SendUpdateRessources(PlayerPtr);
 
 	void BroadcastAction(GameActionPtr action);
 

@@ -29,13 +29,13 @@ void GameClient::RenderStartScreen() {
 }
 
 void GameClient::RenderRessources() {
-	gold = TTF_RenderText_Solid( font, getCharArrayByInt(player.gold) , textColor );
+	gold = TTF_RenderText_Solid( font, getCharArrayByInt(player.getGold()) , textColor );
 	CSurface::OnDraw(Surf_Display, gold,572,102);
 
-	stone = TTF_RenderText_Solid( font, getCharArrayByInt(player.stone) , textColor );
+	stone = TTF_RenderText_Solid( font, getCharArrayByInt(player.getStone()) , textColor );
 	CSurface::OnDraw(Surf_Display, stone,572,129);
 
-	wood = TTF_RenderText_Solid( font, getCharArrayByInt(player.wood) , textColor );
+	wood = TTF_RenderText_Solid( font, getCharArrayByInt(player.getWood()) , textColor );
 	CSurface::OnDraw(Surf_Display, wood,691,129);
 }
 

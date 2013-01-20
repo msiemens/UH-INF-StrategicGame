@@ -44,6 +44,26 @@ void Player::addUnit(EUnitPtr unit) {
 
 }
 
+void Player::setGold(int value){
+	this->gold = value;
+}
+void Player::setWood(int value){
+	this->wood = value;
+}
+void Player::setStone(int value){
+	this->stone = value;
+}
+int Player::getGold(){
+ return this->gold;
+}
+int Player::getWood(){
+	 return this->wood;
+}
+int Player::getStone(){
+	 return this->stone;
+}
+
+
 void Player::SetActionLeft(int x) {
 	this->actionsleft = x;
 }

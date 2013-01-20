@@ -28,6 +28,8 @@
 #include <gamemodel/entities/units/EInfantry.h>
 #include <gamemodel/entities/units/EPawn.h>
 #include "messages/metamessages/MMTest.h"
+#include "messages/statemessages/SMUpdateRessources.h"
+
 #include "messages/statemessages/SMTest.h"
 
 
@@ -157,6 +159,8 @@ void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 	archive->register_type<counter<GameRessource> >();
 
 	archive->register_type<MMTest>();
+	archive->register_type<SMUpdateRessources>();
+
 	archive->register_type<SMTest>();
 }
 
@@ -181,5 +185,7 @@ void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 	archive->register_type<counter<GameRessource> >();
 
 	archive->register_type<MMTest>();
+	archive->register_type<SMUpdateRessources>();
+
 	archive->register_type<SMTest>();
 }

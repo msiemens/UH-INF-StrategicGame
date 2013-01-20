@@ -58,10 +58,19 @@ public:
 			}
 		}
 	}
-
+private:
 	int wood;
 	int gold;
 	int stone;
+
+public:
+	void setGold(int value);
+	void setWood(int value);
+	void setStone(int value);
+	int getGold();
+	int getWood();
+	int getStone();
+
 	int actionsleft;
 	int GetActionLeft();
 	void SetActionLeft(int x);

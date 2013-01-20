@@ -7,8 +7,6 @@
 
 #include "MMTest.h"
 
-MMTest::MMTest() {
-}
 
 MMTest::~MMTest() {
 }

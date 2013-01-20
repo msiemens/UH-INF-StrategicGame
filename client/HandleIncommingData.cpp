@@ -5,6 +5,9 @@
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
 
+
+#include "network/messages/statemessages/SMUpdateRessources.h"
+
 #include <iostream>
 #include <list>
 
@@ -41,7 +44,15 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 	}
 }
 
-void GameClient::OnNetworkMessage(GameStateMessagePtr message){}
+void GameClient::OnNetworkMessage(GameStateMessagePtr message){
+	SMUpdateRessources* updateress = dynamic_cast<SMUpdateRessources*>(message.get());
+
+	if(updateress != NULL){
+		player.setGold(updateress->gold);
+		player.setWood(updateress->wood);
+		player.setStone(updateress->stone);
+	}
+}
 
 void GameClient::ReceiveSetTurn(bool endturn){
 	if(endturn==true){
