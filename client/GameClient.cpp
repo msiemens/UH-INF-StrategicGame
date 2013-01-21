@@ -15,7 +15,6 @@
 using namespace std;
 
 GameClient::GameClient() :
-	//player(),opponent(), network("localhost", 1337) {
 	player(),opponent(), network("localhost", 1337) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
@@ -39,6 +38,7 @@ GameClient::GameClient() :
 	SurfVillage = NULL;
 	SurfVillageMenuBackground = NULL;
 	SurfArmyOptionBackground = NULL;
+	SurfRecruitMenuBackground = NULL;
 	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
 	selected = "";
@@ -51,10 +51,14 @@ GameClient::GameClient() :
 	pressedright = false;
 	presseddown = false;
 	pressedleft = false;
+	recruitinside = false;
 	cap = true;
 	frame = 0;
 	ingame = false;
 
+	font = NULL;
+	 //The color of the font
+	textColor = { 255, 255, 255 };
 	// Initiaize the network and connect the signal handlers
 	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
 	network.ConnectOnMessage(boost::bind(&GameClient::OnNetworkMessage, this, _1));

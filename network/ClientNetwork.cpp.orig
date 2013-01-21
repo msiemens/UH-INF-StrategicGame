@@ -23,18 +23,17 @@
 #include <gamemodel/actions/AMove.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
+<<<<<<< HEAD
 #include <gamemodel/actions/ALogIn.h>
 #include <gamemodel/entities/units/ECavalry.h>
 #include <gamemodel/entities/units/EInfantry.h>
 #include <gamemodel/entities/units/EPawn.h>
+=======
+
+#include "messages/message_types.h"
 #include "messages/metamessages/MMTest.h"
-#include "messages/statemessages/SMUpdateRessources.h"
-#include "messages/statemessages/SMUpdateUUID.h"
-#include "messages/statemessages/SMSetStartBase.h"
-#include "messages/statemessages/SMUpdateActionsLeft.h"
-
 #include "messages/statemessages/SMTest.h"
-
+>>>>>>> network
 
 #include "messages/message_types.h"
 #include "ClientNetwork.h"
@@ -162,11 +161,6 @@ void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 	archive->register_type<counter<GameRessource> >();
 
 	archive->register_type<MMTest>();
-	archive->register_type<SMUpdateRessources>();
-	archive->register_type<SMUpdateUUID>();
-	archive->register_type<SMSetStartBase>();
-	archive->register_type<SMUpdateActionsLeft>();
-
 	archive->register_type<SMTest>();
 }
 
@@ -191,10 +185,5 @@ void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 	archive->register_type<counter<GameRessource> >();
 
 	archive->register_type<MMTest>();
-	archive->register_type<SMUpdateRessources>();
-	archive->register_type<SMUpdateUUID>();
-	archive->register_type<SMSetStartBase>();
-	archive->register_type<SMUpdateActionsLeft>();
-
 	archive->register_type<SMTest>();
 }

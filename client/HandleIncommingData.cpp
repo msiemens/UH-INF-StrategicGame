@@ -5,6 +5,12 @@
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
 
+
+#include "network/messages/statemessages/SMUpdateRessources.h"
+#include "network/messages/statemessages/SMUpdateUUID.h"
+#include "network/messages/statemessages/SMSetStartBase.h"
+#include "network/messages/statemessages/SMUpdateActionsLeft.h"
+
 #include <iostream>
 #include <list>
 
@@ -41,7 +47,30 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 	}
 }
 
-void GameClient::OnNetworkMessage(GameStateMessagePtr message){}
+void GameClient::OnNetworkMessage(GameStateMessagePtr message){
+	SMUpdateRessources* updateress = dynamic_cast<SMUpdateRessources*>(message.get());
+	SMUpdateUUID* uuid =  dynamic_cast<SMUpdateUUID*>(message.get());
+	SMSetStartBase* setstartbase = dynamic_cast<SMSetStartBase*>(message.get());
+	SMUpdateActionsLeft* updateactionsleft = dynamic_cast<SMUpdateActionsLeft*>(message.get());
+
+	if(updateress != NULL){
+		player.setGold(updateress->gold);
+		player.setWood(updateress->wood);
+		player.setStone(updateress->stone);
+	}
+	if(uuid != NULL){
+		cout << "old id: " << player.getPlayerIdStr() << endl;
+		player.setPlayerId(uuid->id);
+		cout << "new id: " << player.getPlayerIdStr() << endl;
+	}
+	if(setstartbase != NULL){
+		ELocationPtr location(map.getPlaceAt(setstartbase->coords));
+		location->SetOwner(player.getPlayerId());
+	}
+	if(updateactionsleft != NULL){
+		player.SetActionLeft(updateactionsleft->actions_left);
+	}
+}
 
 void GameClient::ReceiveSetTurn(bool endturn){
 	if(endturn==true){
@@ -129,11 +158,7 @@ void GameClient::RecruitInside(ARecruit* action){
 
 void GameClient::RecruitOutside(ARecruit* action){
 	//Myturn
-	cout << "Player ID: " << player.getPlayerIdStr() << endl;
-
-	std::stringstream ss;
-
-	if(player.onturn){ // action->what->GetOwner() == player.getPlayerId() and
+	if(player.onturn and action->what->GetOwner() == player.getPlayerId()){ // action->what->GetOwner() == player.getPlayerId() and
 		if (map.isArmyPositioned(action->base->GetAssemblyPointCoords())) {
 			for (auto army : player.armies){
 				if (army->getCoords().x == action->base->GetAssemblyPointCoords().x
@@ -149,7 +174,7 @@ void GameClient::RecruitOutside(ARecruit* action){
 			army->SetOwner(player.getPlayerId());
 			action->what->SetOwner(player.getPlayerId());
 			army->AddUnit(action->what);
-			army->SetStepsLeft(3);
+			army->SetStepsLeft(2);
 			army->setCoords(action->base->GetAssemblyPointCoords());
 			army->SetOwner(player.getPlayerId());
 			player.armies.insert(player.armies.end(), army);
@@ -168,7 +193,7 @@ void GameClient::RecruitOutside(ARecruit* action){
 			EArmyPtr army(new EArmy);
 			army->setImgPath("client/gfx/entity/army_opp.png");
 			army->AddUnit(action->what);
-			army->SetStepsLeft(3);
+			army->SetStepsLeft(2);
 			army->setCoords(action->base->GetAssemblyPointCoords());
 			army->SetOwner(opponent.getPlayerId());
 			opponent.armies.insert(opponent.armies.end(), army);

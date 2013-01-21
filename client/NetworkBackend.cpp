@@ -2,6 +2,7 @@
 
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/AMove.h>
+#include <gamemodel/actions/AAttack.h>
 #include <gamemodel/actions/ASetAP.h>
 #include <gamemodel/actions/ASetTurn.h>
 #include <gamemodel/actions/ALogIn.h>
@@ -14,6 +15,18 @@ void GameClient::SendLogIn(){
 	ALogInPtr action(new ALogIn);
 	action->verified=false;
 	//action->id = player.getPlayerId();
+	network.SendAction(action);
+}
+
+void GameClient::SendAttack(coordinates attacker, coordinates target){
+	AAttackPtr action(new AAttack);
+	action->attacker.x=attacker.x;
+	action->attacker.y=attacker.y;
+	action->target.x=target.x;
+	action->target.y=target.y;
+
+//send the action
+	//OnNetworkAction(action);
 	network.SendAction(action);
 }
 
@@ -72,12 +85,11 @@ void GameClient::SendEndTurn() {
 	network.SendAction(action);
 }
 
-void GameClient::SendRecruitTroopInBuilding() {
-	EUnitPtr troop1(new EUnit);
-	troop1->setCoords(PlaceSelected->getCoords());
+void GameClient::SendRecruitTroopInBuilding(EUnitPtr unit) {
+	unit->setCoords(PlaceSelected->getCoords());
 
 	ARecruitPtr action(new ARecruit);
-	action->what = troop1;
+	action->what = unit;
 	action->base = PlaceSelected;
 	action->inside = true;
 
@@ -85,11 +97,11 @@ void GameClient::SendRecruitTroopInBuilding() {
 	network.SendAction(action);
 }
 
-void GameClient::SendRecruitTroopOutside(coordinates coords) {
-	EUnitPtr troop1(new EUnit);
+void GameClient::SendRecruitTroopOutside(EUnitPtr unit) {
+	unit->setCoords(PlaceSelected->GetAssemblyPointCoords());
 
 	ARecruitPtr action(new ARecruit);
-	action->what = troop1;
+	action->what = unit;
 	action->base = PlaceSelected;
 	action->inside = false;
 

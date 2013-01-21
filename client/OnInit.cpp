@@ -1,11 +1,24 @@
 #include "client/GameClient.h"
 #include <iostream>
+#include <gamemodel/ressources/RMoney.h>
 
 using namespace std;
 bool GameClient::OnInit() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		return true;
 	}
+	 //Initialize SDL_ttf
+	if( TTF_Init() == -1 ){
+		return false;
+	}
+
+	 //Open the font
+	font = TTF_OpenFont( "constanb.ttf", 12 );
+
+	// init ressourcen
+//	player.addRessource<RMoney>();
+//	player.addRessource<RMoney>();
+//	player.addRessource<RMoney>();
 
 	//startscreen solution
 	if ((Surf_Display = SDL_SetVideoMode(515, 352, 32,
@@ -51,6 +64,10 @@ bool GameClient::OnInit() {
 		return false;
 	}
 
+	if ((SurfRecruitMenuBackground = CSurface::OnLoad(
+			(char*) "client/gfx/gui/menu/recruitmenu.png")) == NULL) {
+		return false;
+	}
 	if ((SurfVillageMenuBackground = CSurface::OnLoad(
 			(char*) "client/gfx/gui/menu/villagemenubg.png")) == NULL) {
 		return false;
