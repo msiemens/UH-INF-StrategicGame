@@ -117,19 +117,23 @@ void GameClient::RenderInGame() {
 
 	//show villages
 	for (auto place : map.placeList) {
-		char * path = new char[place->getImgPath().length()];
-		strcpy(path, place->getImgPath().c_str());
-		SurfVillage = CSurface::OnLoad(path);
+		if(place->GetOwner() == player.getPlayerId()){
+			SurfVillage = CSurface::OnLoad(getCharArrayByString(place->getImgPath()));
 
-		CSurface::OnDraw(Surf_Display, SurfVillage,
-				(place->getCoords().x * TILE_SIZE) - camposx,
-				(place->getCoords().y * 20) - camposy);
+			CSurface::OnDraw(Surf_Display, SurfVillage,
+					(place->getCoords().x * TILE_SIZE) - camposx,
+					(place->getCoords().y * 20) - camposy);
+		}else{
+			SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/village_opp.png"));
+
+			CSurface::OnDraw(Surf_Display, SurfVillage,
+					(place->getCoords().x * TILE_SIZE) - camposx,
+					(place->getCoords().y * 20) - camposy);
+		}
 	}
 	//show Troops
 	for (auto army : player.armies) {
-		char * path = new char[army->getImgPath().length()];
-		strcpy(path, army->getImgPath().c_str());
-		SurfVillage = CSurface::OnLoad(path);
+		SurfVillage = CSurface::OnLoad(getCharArrayByString(army->getImgPath()));
 
 		CSurface::OnDraw(Surf_Display, SurfVillage,
 				(army->getCoords().x * TILE_SIZE) - camposx,
