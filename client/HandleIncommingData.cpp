@@ -74,6 +74,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	}
 	if(battle_result != NULL){
 		map.setWalkable(battle_result->looser_cords);
+
 		if(battle_result->winner->GetOwner() == player.getPlayerId()){
 			opponent.armies.remove(getOpponentArmyByCoords(battle_result->looser_cords));
 			player.armies.remove(getArmyByCoords(battle_result->winner->getCoords()));
