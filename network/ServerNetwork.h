@@ -8,6 +8,9 @@
 #ifndef SERVERNETWORK_H_
 #define SERVERNETWORK_H_
 
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+
 #include <gamemodel/Player.h>
 #include <gamemodel/GameAction.h>
 #include <network/messages/GameStateMessage.h>
@@ -21,6 +24,7 @@ class ServerNetwork {
 public:
 	typedef boost::signals2::signal<void(GameActionPtr, PlayerPtr)> signal_action_t;
 	typedef boost::signals2::signal<void(GameMetaMessagePtr, PlayerPtr)> signal_meta_t;
+	typedef boost::signals2::signal<void(PlayerPtr)> signal_connect_t;
 
 	ServerNetwork(int port);
 	virtual ~ServerNetwork();
@@ -29,6 +33,7 @@ public:
 
 	void ConnectOnAction(const signal_action_t::slot_type &subscriber);
 	void ConnectOnMessage(const signal_meta_t::slot_type &subscriber);
+	void ConnectOnPlayerConnect(const signal_connect_t::slot_type &subscriber);
 
 	void SendAction(PlayerPtr dest, GameActionPtr action);
 	void BroadcastAction(GameActionPtr action);
@@ -40,10 +45,14 @@ private:
 	void OnPlayerConnect(NetPlayerPtr netplayer);
 	void OnMessage(char* message, int length, NetPlayerPtr player);
 
+	void registerTypes(boost::archive::text_iarchive* archive);
+	void registerTypes(boost::archive::text_oarchive* archive);
+
 	ServerNetworkImpl m_network;
 
 	signal_action_t m_signal_on_action;
 	signal_meta_t m_signal_on_message;
+	signal_connect_t m_signal_on_connect;
 
 	std::unordered_map<PlayerPtr, NetPlayerPtr> m_players;
 };

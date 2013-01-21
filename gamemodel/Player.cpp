@@ -15,8 +15,7 @@
 using namespace std;
 
 Player::Player() :
-		id(boost::uuids::random_generator()()),actionsleft(5),onturn(false) {
-
+		id(boost::uuids::random_generator()()),actionsleft(10),onturn(false),gold(1000),wood(1000),stone(1000) {
 }
 
 Player::~Player() {
@@ -25,6 +24,11 @@ Player::~Player() {
 
 boost::uuids::uuid Player::getPlayerId() {
 	return id;
+}
+
+
+void Player::setPlayerId(boost::uuids::uuid new_id) {
+	 this->id = new_id;
 }
 
 std::string Player::getPlayerIdStr() {
@@ -44,6 +48,26 @@ void Player::addLocation(ELocationPtr place) {
 void Player::addUnit(EUnitPtr unit) {
 
 }
+
+void Player::setGold(int value){
+	this->gold = value;
+}
+void Player::setWood(int value){
+	this->wood = value;
+}
+void Player::setStone(int value){
+	this->stone = value;
+}
+int Player::getGold(){
+ return this->gold;
+}
+int Player::getWood(){
+	 return this->wood;
+}
+int Player::getStone(){
+	 return this->stone;
+}
+
 
 void Player::SetActionLeft(int x) {
 	this->actionsleft = x;

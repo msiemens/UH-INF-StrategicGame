@@ -13,10 +13,7 @@
 #include <gamemodel/GameAction.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/utils/coordinates.h>
-
-
-#include "GameMap.h"
-
+#include <gamemodel/GameMap.h>
 
 using namespace std;
 
@@ -29,6 +26,8 @@ public:
 
 	boost::uuids::uuid whoseArmy(coordinates coords);
 	boost::uuids::uuid whosePlace(coordinates coords);
+
+	EArmyPtr getArmyAt(coordinates coords);
 
 private:
 	GameMap *map;

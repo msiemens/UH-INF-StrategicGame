@@ -14,7 +14,10 @@ ECavalry::ECavalry() {
 	mor=(4);
 	pac=(10);
 	tac=(2);
-
+	cost_gold = 20;
+	cost_stone = 12;
+	cost_wood = 15;
+	setIconPath("client/gfx/entity/icons/cavalry.png");
 }
 
 ECavalry::~ECavalry() {

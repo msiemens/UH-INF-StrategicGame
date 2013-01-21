@@ -31,6 +31,7 @@ public:
 	Player();
 	virtual ~Player();
 
+	void setPlayerId(boost::uuids::uuid new_id);
 	boost::uuids::uuid getPlayerId();
 	std::string getPlayerIdStr();
 
@@ -49,6 +50,18 @@ public:
 	int getRessourceCount() {
 		return has[typeid(T_VALUE).name()];
 	}
+private:
+	int wood;
+	int gold;
+	int stone;
+
+public:
+	void setGold(int value);
+	void setWood(int value);
+	void setStone(int value);
+	int getGold();
+	int getWood();
+	int getStone();
 
 	int actionsleft;
 	int GetActionLeft();

@@ -16,6 +16,7 @@
 
 #include <gamemodel/GameAction.h>
 
+
 #include <gamemodel/entities/EUnit.h>
 #include <gamemodel/entities/ELocation.h>
 #include <gamemodel/utils/coordinates.h>
@@ -24,21 +25,18 @@ class ARecruit: public GameAction {
 public:
 	virtual ~ARecruit();
 
-	EUnitPtr what;
 	ELocationPtr base;
 	bool inside;
+	EUnitPtr what;
 
 private:
 	friend class boost::serialization::access;
 
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
-		cout << "(De)serializing ARecruit" << std::endl;
 		ar & boost::serialization::base_object<GameAction>(*this);
 
-		cout << "(De)serializing what" << std::endl;
 		ar & what;
-		// cout << "(De)serializing base" << std::endl;
 		ar & base;
 		ar & inside;
 	}

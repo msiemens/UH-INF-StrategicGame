@@ -3,18 +3,32 @@
 using namespace std;
 void GameClient::OnCleanup() {
 	SDL_FreeSurface(Surf_Display);
+	SDL_FreeSurface(SurfMain);
 	SDL_FreeSurface(SurfMap);
 	SDL_FreeSurface(SurfSlotSelected);
 	SDL_FreeSurface(SurfSelected);
 	SDL_FreeSurface(SurfSlotOwns);
 	SDL_FreeSurface(SurfMark);
+	SDL_FreeSurface(SurfWalkable);
+	SDL_FreeSurface(SurfBlock);
+	SDL_FreeSurface(SurfPlace);
 	SDL_FreeSurface(SurfVillage);
+	SDL_FreeSurface(SurfAssemblyPoint);
 	SDL_FreeSurface(SurfStartscreenBackground);
 	SDL_FreeSurface(SurfButtonSSStart);
 	SDL_FreeSurface(SurfButtonSSOption);
 	SDL_FreeSurface(SurfButtonSSServer);
 	SDL_FreeSurface(SurfButtonSSExit);
+	SDL_FreeSurface(SurfOnTurn);
+	SDL_FreeSurface(SurfOffTurn);
+	SDL_FreeSurface(SurfRecruitMenuBackground);
 	SDL_FreeSurface(SurfVillageMenuBackground);
-
+	SDL_FreeSurface(SurfArmyOptionBackground);
+	SDL_FreeSurface(message);
+	SDL_FreeSurface(gold);
+	SDL_FreeSurface(wood);
+	SDL_FreeSurface(stone);
+	SDL_FreeSurface(actions_left);
+	SDL_FreeSurface(SurfConnection);
 	SDL_Quit();
 }

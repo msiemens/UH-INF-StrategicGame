@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "GameEngine.h"
-#include "GameMap.h"
+#include "gamemodel/GameMap.h"
 #include <gamemodel/Player.h>
 #include <list>
 
@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
 
 	engine.run();
 
-	std::cout << "Here" << std::endl;
 	return 0;
 }
 

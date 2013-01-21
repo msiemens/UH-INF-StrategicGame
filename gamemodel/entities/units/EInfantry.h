@@ -14,6 +14,16 @@ class EInfantry: public EUnit {
 public:
 	EInfantry();
 	virtual ~EInfantry();
+
+
+private:
+	friend class boost::serialization::access;
+
+	template<typename Archive>
+	void serialize(Archive &ar, const unsigned int version) {
+		ar & boost::serialization::base_object<EUnit>(*this);
+	}
 };
 
+typedef boost::shared_ptr<EInfantry> EInfantryPtr;
 #endif /* EINFANTRY_H_ */

@@ -22,10 +22,12 @@ include_directories("${Boost_INCLUDE_DIRS}")
 
 ## Include SDL
 find_package(SDL REQUIRED)
-find_package(SDL_image REQUIRED) # if using SDL_image
+find_package(SDL_image REQUIRED)
+find_package(SDL_ttf REQUIRED)
 
 include_directories("${SDL_INCLUDE_DIR}")
 include_directories("${SDLIMAGE_INCLUDE_DIR}")
+include_directories("${SDLTTF_INCLUDE_DIR}")
 
 message("Include Path is: ${CMAKE_INCLUDE_PATH}")
 
@@ -38,7 +40,7 @@ add_subdirectory(client)
 
 # Executables
 add_executable(xclient client/GameClient)
-target_link_libraries(xclient client gamemodel network ${Boost_LIBRARIES} ${LINK_WIN32} ${SDLIMAGE_LIBRARY} ${SDLMAIN_LIBRARY} ${SDL_LIBRARY})
+target_link_libraries(xclient client gamemodel network ${Boost_LIBRARIES} ${LINK_WIN32} ${SDLIMAGE_LIBRARY} ${SDLTTF_LIBRARY} ${SDLMAIN_LIBRARY} ${SDL_LIBRARY})
 
 add_executable(xserver server/GameServer)
 target_link_libraries(xserver server gamemodel network ${Boost_LIBRARIES} ${LINK_WIN32})
