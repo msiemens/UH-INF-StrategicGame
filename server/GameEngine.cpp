@@ -27,6 +27,7 @@
 #include <network/messages/statemessages/SMUpdateUUID.h>
 #include <network/messages/statemessages/SMSetStartBase.h>
 #include <network/messages/statemessages/SMUpdateActionsLeft.h>
+#include <network/messages/statemessages/SMBattleResult.h>
 
 #include "GameEngine.h"
 
@@ -97,6 +98,15 @@ void GameEngine::SendUpdateRessources(PlayerPtr player){
 	m_network.SendMessageA(player,message);
 }
 
+void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr army, coordinates coords){
+	SMBattleResultPtr battle_result(new SMBattleResult);
+	battle_result->winner=army;
+	battle_result->looser_cords.x = coords.x;
+	battle_result->looser_cords.y = coords.y;
+
+	GameStateMessagePtr message(battle_result);
+	m_network.SendMessageA(player,message);
+}
 void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	std::cout << "---------------------------------------------------------------\n";
 	std::cout << "GameEngine::doAction(...).\n";
@@ -143,7 +153,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 		BroadcastAction(onPlayerBuild(player,build));
 	}
 	if (attack != NULL) {
-		BroadcastAction(onPlayerAttack(player,attack));
+		onPlayerAttack(player,attack);
 	}
 	if(logIn != NULL){
 		onPlayerLogIn(player,logIn);
@@ -309,18 +319,27 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuildPtr build) {
 	return action;
 }
 
-GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
+void GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
 	std::cout << "GameEngine::doAction: got a AAttack.\n";
-	GameEntityPtr what(attack->what);
 	coordinates where = attack->target;
+
+	EArmyPtr attacker_army;
+
+	for(auto player:*playerlist){
+		for (auto army: player->armies) {
+			if (army->getCoords().x == attack->attacker.x and  army->getCoords().y == attack->attacker.y) {
+				attacker_army = army;
+				break;
+			}
+		}
+	}
 
 	EArmyPtr enemyarmy;
 	PlayerPtr enemyplayer;
 
 	for (auto p : *playerlist) {
 		for (auto army : p->armies) {
-			if (army->getCoords().x == where.x
-					&& army->getCoords().y == where.y) {
+			if (army->getCoords().x == where.x && army->getCoords().y == where.y) {
 				EArmyPtr ea(army);
 				PlayerPtr ep(p);
 
@@ -329,8 +348,19 @@ GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
 			}
 		}
 	}
-	AAttackPtr action(attack);
-	return action;
+	if(attacker_army->units.size() > enemyarmy->units.size()){
+		map->setWalkable(where);
+		enemyplayer->armies.remove(enemyarmy);
+		attacker_army->SetOwner(player->getPlayerId());
+		SendBattleResult(player, attacker_army,where);
+		SendBattleResult(enemyplayer, attacker_army,where);
+	}else{
+		map->setWalkable(attack->attacker);
+		player->armies.remove(attacker_army);
+		enemyarmy->SetOwner(enemyplayer->getPlayerId());
+		SendBattleResult(player, enemyarmy,attack->attacker);
+		SendBattleResult(enemyplayer, enemyarmy,attack->attacker);
+	}
 }
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player,ASetAPPtr setAP) {

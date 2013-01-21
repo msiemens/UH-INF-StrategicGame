@@ -13,6 +13,7 @@
 
 #include <gamemodel/utils/coordinates.h>
 #include <gamemodel/utils/counter.h>
+#include <gamemodel/entities/EArmy.h>
 #include <gamemodel/entities/ELocation.h>
 #include <gamemodel/entities/EUnit.h>
 #include <gamemodel/actions/ARecruit.h>
@@ -32,6 +33,7 @@
 #include "messages/statemessages/SMUpdateUUID.h"
 #include "messages/statemessages/SMSetStartBase.h"
 #include "messages/statemessages/SMUpdateActionsLeft.h"
+#include "messages/statemessages/SMBattleResult.h"
 
 #include "messages/statemessages/SMTest.h"
 
@@ -214,6 +216,7 @@ void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 	archive->register_type<ASetAP>();
 	archive->register_type<ASetTurn>();
 
+	archive->register_type<EArmy>();
 	archive->register_type<ELocation>();
 	archive->register_type<EUnit>();
 	archive->register_type<EPawn>();
@@ -230,6 +233,7 @@ void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 	archive->register_type<SMUpdateUUID>();
 	archive->register_type<SMSetStartBase>();
 	archive->register_type<SMUpdateActionsLeft>();
+	archive->register_type<SMBattleResult>();
 
 	archive->register_type<SMTest>();
 }
@@ -243,6 +247,7 @@ void ServerNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 	archive->register_type<ASetAP>();
 	archive->register_type<ASetTurn>();
 
+	archive->register_type<EArmy>();
 	archive->register_type<ELocation>();
 	archive->register_type<EUnit>();
 	archive->register_type<EPawn>();
@@ -259,6 +264,7 @@ void ServerNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 	archive->register_type<SMUpdateUUID>();
 	archive->register_type<SMSetStartBase>();
 	archive->register_type<SMUpdateActionsLeft>();
+	archive->register_type<SMBattleResult>();
 
 	archive->register_type<SMTest>();
 }

@@ -8,6 +8,7 @@
 #include "EArmy.h"
 
 EArmy::EArmy() : m_steps_left_in_round(0) {
+	this->setImgPath("client/gfx/entity/army.png");
 }
 
 EArmy::~EArmy() {
