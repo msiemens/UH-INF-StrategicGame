@@ -11,7 +11,7 @@
 #include <list>
 
 #include <network/ServerNetwork.h>
-#include <gamemodel/GameMap.h>
+#include <gamemodel/GameMapServer.h>
 
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/AMove.h>

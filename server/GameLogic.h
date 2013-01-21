@@ -13,7 +13,7 @@
 #include <gamemodel/GameAction.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/utils/coordinates.h>
-#include <gamemodel/GameMap.h>
+#include <gamemodel/GameMapServer.h>
 #include <server/GameContainer.h>
 
 using namespace std;
