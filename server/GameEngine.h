@@ -52,6 +52,9 @@ public:
 
 	void createArmyAt(coordinates coords,PlayerPtr owner);
 
+	void attackArmy(EArmyPtr attacker,EArmyPtr defender);
+	void attackLocation(EArmyPtr attack,EArmyPtr defender);
+
 	void onNextTurn();
 
 	void startSession();

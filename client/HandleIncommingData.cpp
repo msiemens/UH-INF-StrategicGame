@@ -10,6 +10,7 @@
 #include "network/messages/statemessages/SMUpdateUUID.h"
 #include "network/messages/statemessages/SMSetStartBase.h"
 #include "network/messages/statemessages/SMUpdateActionsLeft.h"
+#include "network/messages/statemessages/SMBattleResult.h"
 
 #include <iostream>
 #include <list>
@@ -52,6 +53,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMUpdateUUID* uuid =  dynamic_cast<SMUpdateUUID*>(message.get());
 	SMSetStartBase* setstartbase = dynamic_cast<SMSetStartBase*>(message.get());
 	SMUpdateActionsLeft* updateactionsleft = dynamic_cast<SMUpdateActionsLeft*>(message.get());
+	SMBattleResult* battle_result = dynamic_cast<SMBattleResult*>(message.get());
 
 	if(updateress != NULL){
 		player.setGold(updateress->gold);
@@ -69,6 +71,22 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	}
 	if(updateactionsleft != NULL){
 		player.SetActionLeft(updateactionsleft->actions_left);
+	}
+	if(battle_result != NULL){
+		map.setWalkable(battle_result->looser_cords);
+
+		if(battle_result->winner->GetOwner() == player.getPlayerId()){
+			opponent.armies.remove(getOpponentArmyByCoords(battle_result->looser_cords));
+			player.armies.remove(getArmyByCoords(battle_result->winner->getCoords()));
+			battle_result->winner->SetOwner(player.getPlayerId());
+			player.addArmy(battle_result->winner);
+		}else{
+			opponent.armies.remove(getOpponentArmyByCoords(battle_result->winner->getCoords()));
+			player.armies.remove(getArmyByCoords(battle_result->looser_cords));
+			battle_result->winner->SetOwner(opponent.getPlayerId());
+			battle_result->winner->setImgPath("client/gfx/entity/army_opp.png");
+			opponent.addArmy(battle_result->winner);
+		}
 	}
 }
 

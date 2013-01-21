@@ -228,7 +228,7 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player,ABuildPtr build) {
 
 
 GameActionPtr GameEngine::onPlayerAttack(PlayerPtr player,AAttackPtr attack) {
-	GameActionPtr action(new GameAction);
+	attackArmy(map->getArmyAt(attack->attacker),map->getArmyAt(attack->target));
 	return action;
 }
 
@@ -306,6 +306,10 @@ void GameEngine::startSession(){
 			counter=0;
 		}
 	}
+}
+
+void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
+
 }
 
 void GameEngine::run() {

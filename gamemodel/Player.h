@@ -30,13 +30,14 @@ public:
 	Player();
 	virtual ~Player();
 
+	void setPlayerId(boost::uuids::uuid new_id);
 	boost::uuids::uuid getPlayerId();
 	std::string getPlayerIdStr();
 
 	void addArmy(EArmyPtr army);
 	void addLocation(ELocationPtr place);
 	void addUnit(EUnitPtr unit);
-/*
+
 	template<class T_VALUE>
 	void addRessource() {
 		// Find existing counter
@@ -50,7 +51,6 @@ public:
 		has.insert(counter<T_VALUE>());
 	}
 
-
 	template<class T_VALUE>
 	int getRessourceCount() {
 		for (auto c : has) {
@@ -59,47 +59,19 @@ public:
 			}
 		}
 	}
+private:
+	int wood;
+	int gold;
+	int stone;
 
-	int getRessourceCount(GameRessourcePtr ressource);
-	void addRessource(int count) {
-		// Find existing counter
-		for (auto c : has) {
-			if (c.GetType() == typeid(T_VALUE)) {
-				c.how_many += count;
-				return;
-			}
-		}
-		// Not found, insert it
-		has.insert(counter<T_VALUE>(count));
-	}
+public:
+	void setGold(int value);
+	void setWood(int value);
+	void setStone(int value);
+	int getGold();
+	int getWood();
+	int getStone();
 
-	void addRessource(GameRessource res) {
-		// Find existing counter
-		for (auto c : has) {
-			if (c.GetType() == typeid(res)) {
-				c.how_many++;
-				return;
-			}
-		}
-		// Not found, insert it
-		has.insert(counter<res>());
-	}
-
-	template<class T_VALUE>
-	void addRessource(int count) {
-		// Find existing counter
-		for (auto c : has) {
-			if (c.GetType() == typeid(T_VALUE)) {
-				c.how_many += count;
-				return;
-			}
-		}
-		// Not found, insert it
-		has.insert(counter<T_VALUE>(count));
-	}
-
-	template<class T_VALUE>
-*/
 	int actionsleft;
 	int GetActionLeft();
 	void SetActionLeft(int x);
