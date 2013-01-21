@@ -26,6 +26,7 @@
 #include <network/messages/statemessages/SMUpdateRessources.h>
 #include <network/messages/statemessages/SMUpdateUUID.h>
 #include <network/messages/statemessages/SMSetStartBase.h>
+#include <network/messages/statemessages/SMUpdateActionsLeft.h>
 
 #include "GameEngine.h"
 
@@ -70,6 +71,13 @@ void GameEngine::SendSetStartbase(PlayerPtr player, coordinates coords){
 	setstartbase->coords.x = coords.x;
 	setstartbase->coords.y = coords.y;
 	GameStateMessagePtr message(setstartbase);
+	m_network.SendMessageA(player,message);
+}
+
+void GameEngine::SendUpdateActionsLeft(PlayerPtr player){
+	SMUpdateActionsLeftPtr update_action_left(new SMUpdateActionsLeft);
+	update_action_left->actions_left =player->GetActionLeft();
+	GameStateMessagePtr message(update_action_left);
 	m_network.SendMessageA(player,message);
 }
 
@@ -141,6 +149,11 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 		onPlayerLogIn(player,logIn);
 	}
 
+	if(recruit != NULL or move != NULL or build != NULL or attack != NULL){
+		player->SetActionLeft(player->GetActionLeft() - 1);
+		SendUpdateActionsLeft(player);
+	}
+
 	std::cout << "\n---------------------------------------------------------------\n";
 }
 void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn){
@@ -195,8 +208,9 @@ void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn){
 void GameEngine::onNextTurn(){
 	//reset StepsLeft
 	for(auto player : *playerlist){
+		player->SetActionLeft(10);
 		for(auto army : player->armies){
-			army->SetStepsLeft(3);
+			army->SetStepsLeft(2);
 		}
 	}
 }
@@ -205,7 +219,8 @@ void GameEngine::createArmyAt(coordinates coords,PlayerPtr owner){
 	map->setArmy(coords);
 	EArmyPtr army(new EArmy);
 	army->setCoords(coords);
-	army->SetStepsLeft(3);
+	army->SetOwner(owner->getPlayerId());
+	army->SetStepsLeft(2);
 	owner->addArmy(army);
 }
 
@@ -240,12 +255,10 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) 
 				}
 
 				EArmyPtr armyat(logic.getArmyAt(base->GetAssemblyPointCoords()));
-				armyat->SetOwner(player->getPlayerId());
 				unit->setCoords(base->GetAssemblyPointCoords());
 				unit->SetOwner(player->getPlayerId());
 				player->addUnit(unit);
 				armyat->AddUnit(unit);
-
 				recruit->base=base;
 
 				std::cout << "GameEngine::doAction: successful.\n";

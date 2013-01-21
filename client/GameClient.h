@@ -117,6 +117,7 @@ private:
 	SDL_Surface* gold;
 	SDL_Surface* wood;
 	SDL_Surface* stone;
+	SDL_Surface* actions_left;
 
 	//================================
 	//========END TTF VARS============

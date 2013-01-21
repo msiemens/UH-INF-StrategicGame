@@ -300,6 +300,10 @@ void GameClient::RenderInGame() {
 	ShowSelected();
 	RenderRessources();
 
+	// draw actions_left
+	actions_left = TTF_RenderText_Solid( font, getCharArrayByInt(player.GetActionLeft()) , textColor );
+	CSurface::OnDraw(Surf_Display, actions_left,755,12);
+
 	if (subGS.GET_GameState() == IG_ARMYOPTION) {
 		if (ArmySelected) {
 			CSurface::OnDraw(Surf_Display, SurfArmyOptionBackground,

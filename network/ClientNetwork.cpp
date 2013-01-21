@@ -31,6 +31,7 @@
 #include "messages/statemessages/SMUpdateRessources.h"
 #include "messages/statemessages/SMUpdateUUID.h"
 #include "messages/statemessages/SMSetStartBase.h"
+#include "messages/statemessages/SMUpdateActionsLeft.h"
 
 #include "messages/statemessages/SMTest.h"
 
@@ -164,6 +165,7 @@ void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 	archive->register_type<SMUpdateRessources>();
 	archive->register_type<SMUpdateUUID>();
 	archive->register_type<SMSetStartBase>();
+	archive->register_type<SMUpdateActionsLeft>();
 
 	archive->register_type<SMTest>();
 }
@@ -192,6 +194,7 @@ void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 	archive->register_type<SMUpdateRessources>();
 	archive->register_type<SMUpdateUUID>();
 	archive->register_type<SMSetStartBase>();
+	archive->register_type<SMUpdateActionsLeft>();
 
 	archive->register_type<SMTest>();
 }

@@ -24,6 +24,11 @@ void GameClient::OnCleanup() {
 	SDL_FreeSurface(SurfRecruitMenuBackground);
 	SDL_FreeSurface(SurfVillageMenuBackground);
 	SDL_FreeSurface(SurfArmyOptionBackground);
+	SDL_FreeSurface(message);
+	SDL_FreeSurface(gold);
+	SDL_FreeSurface(wood);
+	SDL_FreeSurface(stone);
+	SDL_FreeSurface(actions_left);
 	SDL_FreeSurface(SurfConnection);
 	SDL_Quit();
 }

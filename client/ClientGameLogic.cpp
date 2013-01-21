@@ -11,11 +11,12 @@ void GameClient::OnNextTurn(){
 	//reset armies m_steps_left_in_round
 
 	for(auto army: player.armies){
-		army->SetStepsLeft(3);
+		army->SetStepsLeft(2);
 	}
 	for(auto army: opponent.armies){
-		army->SetStepsLeft(3);
+		army->SetStepsLeft(2);
 	}
+	player.SetActionLeft(10);
 
 	// check buildings
 }

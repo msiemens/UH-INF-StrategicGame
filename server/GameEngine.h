@@ -51,6 +51,7 @@ public:
     //statemessages
     void SendUpdateRessources(PlayerPtr);
     void SendUpdateUUID(PlayerPtr player);
+    void SendUpdateActionsLeft(PlayerPtr player);
     void SendSetStartbase(PlayerPtr player, coordinates coords);
 	void BroadcastAction(GameActionPtr action);
 
