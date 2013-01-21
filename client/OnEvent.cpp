@@ -234,11 +234,13 @@ void GameClient::HandleMapEntities(int mX, int mY){
 	for (auto place : map.placeList) {
 		if (mY > (place->getCoords().y * TILE_SIZE) - camposy and mY < (place->getCoords().y*TILE_SIZE) - camposy + TILE_SIZE) {
 			if (mX > (place->getCoords().x * TILE_SIZE) - camposx and mX < (place->getCoords().x * TILE_SIZE) - camposx+ TILE_SIZE) {
-				ArmySelected.reset();
-				PlaceSelected = place;
+				if(place->GetOwner() == player.getPlayerId()){
+					ArmySelected.reset();
+					PlaceSelected = place;
 
-				subGS.SET_GameState(IG_VILLAGEMENU);
-				somethingfound = true;
+					subGS.SET_GameState(IG_VILLAGEMENU);
+					somethingfound = true;
+				}
 				break;
 			}
 		}

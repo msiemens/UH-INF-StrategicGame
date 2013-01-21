@@ -30,6 +30,7 @@ public:
 	Player();
 	virtual ~Player();
 
+	void setPlayerId(boost::uuids::uuid new_id);
 	boost::uuids::uuid getPlayerId();
 	std::string getPlayerIdStr();
 

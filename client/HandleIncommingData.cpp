@@ -7,6 +7,8 @@
 
 
 #include "network/messages/statemessages/SMUpdateRessources.h"
+#include "network/messages/statemessages/SMUpdateUUID.h"
+#include "network/messages/statemessages/SMSetStartBase.h"
 
 #include <iostream>
 #include <list>
@@ -46,11 +48,22 @@ void GameClient::OnNetworkAction(GameActionPtr action){
 
 void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMUpdateRessources* updateress = dynamic_cast<SMUpdateRessources*>(message.get());
+	SMUpdateUUID* uuid =  dynamic_cast<SMUpdateUUID*>(message.get());
+	SMSetStartBase* setstartbase = dynamic_cast<SMSetStartBase*>(message.get());
 
 	if(updateress != NULL){
 		player.setGold(updateress->gold);
 		player.setWood(updateress->wood);
 		player.setStone(updateress->stone);
+	}
+	if(uuid != NULL){
+		cout << "old id: " << player.getPlayerIdStr() << endl;
+		player.setPlayerId(uuid->id);
+		cout << "new id: " << player.getPlayerIdStr() << endl;
+	}
+	if(setstartbase != NULL){
+		ELocationPtr location(map.getPlaceAt(setstartbase->coords));
+		location->SetOwner(player.getPlayerId());
 	}
 }
 

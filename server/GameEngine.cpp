@@ -24,6 +24,8 @@
 
 #include <network/ServerNetwork.h>
 #include <network/messages/statemessages/SMUpdateRessources.h>
+#include <network/messages/statemessages/SMUpdateUUID.h>
+#include <network/messages/statemessages/SMSetStartBase.h>
 
 #include "GameEngine.h"
 
@@ -62,12 +64,28 @@ void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
 				<< " ist ungueltig.\n";
 	}
 }
+
+void GameEngine::SendSetStartbase(PlayerPtr player, coordinates coords){
+	SMSetStartBasePtr setstartbase(new SMSetStartBase);
+	setstartbase->coords.x = coords.x;
+	setstartbase->coords.y = coords.y;
+	GameStateMessagePtr message(setstartbase);
+	m_network.SendMessageA(player,message);
+}
+
+void GameEngine::SendUpdateUUID(PlayerPtr player){
+	SMUpdateUUIDPtr update_id(new SMUpdateUUID);
+	update_id->id =player->getPlayerId();
+	GameStateMessagePtr message(update_id);
+	m_network.SendMessageA(player,message);
+}
+
 void GameEngine::SendUpdateRessources(PlayerPtr player){
-	SMUpdateRessourcesPtr updatres(new SMUpdateRessources);
-	updatres->gold=player->getGold();
-	updatres->wood=player->getWood();
-	updatres->stone=player->getStone();
-	GameStateMessagePtr message(updatres);
+	SMUpdateRessourcesPtr updateres(new SMUpdateRessources);
+	updateres->gold=player->getGold();
+	updateres->wood=player->getWood();
+	updateres->stone=player->getStone();
+	GameStateMessagePtr message(updateres);
 	m_network.SendMessageA(player,message);
 }
 
@@ -102,6 +120,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 	std::cout << "GameEngine::doAction: checking type.\n";
 	if (recruit != NULL) {
 		BroadcastAction(onPlayerRecruit(player,recruit));
+		SendUpdateRessources(player);
 	}
 	if(setAP != NULL){
 		BroadcastAction(onPlayerSetAP(player,setAP));
@@ -110,7 +129,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 		onPlayerSetTurn(player,setTurn);
 	}
 	if (move != NULL) {
-		BroadcastAction(onPlayerMove(player,move));
+		onPlayerMove(player,move);
 	}
 	if (build != NULL) {
 		BroadcastAction(onPlayerBuild(player,build));
@@ -126,6 +145,8 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 }
 void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn){
 
+	//we need the same id
+	SendUpdateUUID(player);
 	onPlayerConnect(player);
 	logIn->verified=true;
 	GameActionPtr ret(logIn);
@@ -190,6 +211,9 @@ void GameEngine::createArmyAt(coordinates coords,PlayerPtr owner){
 
 GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) {
 	std::cout << "GameEngine::doAction: got a ARecruit.\n";
+		player->setGold(player->getGold() - recruit->what->cost_gold);
+		player->setWood(player->getWood() - recruit->what->cost_wood);
+		player->setStone(player->getStone() - recruit->what->cost_stone);
 
 			if(recruit->inside == true){
 
@@ -216,7 +240,9 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) 
 				}
 
 				EArmyPtr armyat(logic.getArmyAt(base->GetAssemblyPointCoords()));
+				armyat->SetOwner(player->getPlayerId());
 				unit->setCoords(base->GetAssemblyPointCoords());
+				unit->SetOwner(player->getPlayerId());
 				player->addUnit(unit);
 				armyat->AddUnit(unit);
 
@@ -229,7 +255,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit) 
 			return action;
 }
 
-GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
+void GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 	std::cout << "GameEngine::doAction: got a AMove.\n";
 			GameEntityPtr what(move->what);
 
@@ -238,22 +264,25 @@ GameActionPtr GameEngine::onPlayerMove(PlayerPtr player,AMovePtr move) {
 			int size = move->count;
 			EArmyPtr army(logic.getArmyAt(from));
 
-			if((army->GetStepsLeft() - size) >= 0){
-				if(map->isBlocked(to) == false){
-					if(map->isWalkable(to) == true and map->isPlace(to) == false and map->isArmyPositioned(to)==false){
-						map->setWalkable(from);
-						army->setCoords(to);
-						map->setArmy(to);
-					}else if(map->isPlace(to) == true){
-						//merge into place
-					}else if(map->isArmyPositioned(to) == true){
-						//merge into army
+			if(army->GetOwner() == player->getPlayerId()){
+				if((army->GetStepsLeft() - size) >= 0){
+					if(map->isBlocked(to) == false){
+						if(map->isWalkable(to) == true and map->isPlace(to) == false and map->isArmyPositioned(to)==false){
+							map->setWalkable(from);
+							army->setCoords(to);
+							map->setArmy(to);
+						}else if(map->isPlace(to) == true){
+							//merge into place
+						}else if(map->isArmyPositioned(to) == true){
+							//merge into army
+						}
+						army->SetStepsLeft(army->GetStepsLeft() - size);
 					}
-					army->SetStepsLeft(army->GetStepsLeft() - size);
 				}
+				AMovePtr action(move);
+				BroadcastAction(action);
 			}
-			AMovePtr action(move);
-			return action;
+
 
 }
 
@@ -368,6 +397,7 @@ void GameEngine::startSession(){
 					player->addLocation(place);
 					place->owned=true;
 					place->SetOwner(player->getPlayerId());
+					SendSetStartbase(player,place->getCoords());
 				}
 				counter++;
 			}

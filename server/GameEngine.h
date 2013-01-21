@@ -41,7 +41,7 @@ public:
 	void doAction(PlayerPtr player, GameActionPtr action);
 
     GameActionPtr onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit);
-    GameActionPtr onPlayerMove(PlayerPtr player,AMovePtr move);
+    void onPlayerMove(PlayerPtr player,AMovePtr move);
     GameActionPtr onPlayerBuild(PlayerPtr player,ABuildPtr build);
     GameActionPtr onPlayerAttack(PlayerPtr player,AAttackPtr attack);
     GameActionPtr onPlayerSetAP(PlayerPtr player,ASetAPPtr setap);
@@ -50,7 +50,8 @@ public:
 
     //statemessages
     void SendUpdateRessources(PlayerPtr);
-
+    void SendUpdateUUID(PlayerPtr player);
+    void SendSetStartbase(PlayerPtr player, coordinates coords);
 	void BroadcastAction(GameActionPtr action);
 
 	void createArmyAt(coordinates coords,PlayerPtr owner);

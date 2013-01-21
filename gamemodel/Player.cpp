@@ -26,6 +26,11 @@ boost::uuids::uuid Player::getPlayerId() {
 	return id;
 }
 
+
+void Player::setPlayerId(boost::uuids::uuid new_id) {
+	 this->id = new_id;
+}
+
 std::string Player::getPlayerIdStr() {
 	std::stringstream ss;
 	ss << getPlayerId();
