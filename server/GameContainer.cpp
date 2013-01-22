@@ -22,6 +22,18 @@ void GameContainer::addArmy(EArmyPtr army) {
 	armylist.insert(armylist.end(),army);
 }
 
+EArmyPtr GameContainer::getArmyAt(coordinates coords) {
+	//if(map->isArmyPositioned(coords)){
+
+		EArmyPtr army;
+		for(int i=0;i<getArmyCount();i++){
+			if(getArmy(i)->getCoords().x==coords.x and getArmy(i)->getCoords().y==coords.y){
+				army=getArmy(i);
+			}
+		}
+		return army;
+	//}
+}
 void GameContainer::removeArmy(EArmyPtr army) {
 	int counter=0;
 	for(auto ar:armylist){
@@ -107,8 +119,7 @@ vector<PlayerPtr>* GameContainer::getPlayerListPtr() {
 }
 
 EArmyPtr GameContainer::getArmy(int index) {
-	EArmyPtr army(armylist[index]);
-	return army;
+	return armylist[index];
 }
 
 EUnitPtr GameContainer::getUnit(int index) {

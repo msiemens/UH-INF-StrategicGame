@@ -31,6 +31,7 @@ public:
 	void removeUnit(EUnitPtr unit);
 
 	void addArmy(EArmyPtr army);
+	EArmyPtr getArmyAt(coordinates coords);
 	void removeArmy(EArmyPtr army);
 
 	void addLocation(ELocationPtr location);

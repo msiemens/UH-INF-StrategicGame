@@ -72,9 +72,9 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 							== player->getPlayerId()) {
 						if (map->isArmyPositioned(
 								base->GetAssemblyPointCoords())
-								and map->getArmyAt(base->GetAssemblyPointCoords())->units.size()
+								and container->getArmyAt(base->GetAssemblyPointCoords())->units.size()
 										< 10
-								and map->getArmyAt(base->GetAssemblyPointCoords())->GetOwner()
+								and container->getArmyAt(base->GetAssemblyPointCoords())->GetOwner()
 										== player->getPlayerId()) {
 							valid = true;
 
@@ -96,7 +96,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		coordinates to = move->to;
 
 		valid = (map->isWalkable(to) or (map->isArmyPositioned(to) and map->whoseArmyAt(to)==player->getPlayerId()
-		and map->getArmyAt(to)->units.size() < 10)) ? true : false;
+		and container->getArmyAt(to)->units.size() < 10)) ? true : false;
 	}
 //build
 	else if (build != NULL) {

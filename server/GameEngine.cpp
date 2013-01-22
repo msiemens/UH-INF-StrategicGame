@@ -71,6 +71,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 	if (recruit != NULL) {
 		BroadcastAction(onPlayerRecruit(player, recruit));
+		SendUpdateRessources(player);
 	}
 	if (setAP != NULL) {
 		BroadcastAction(onPlayerSetAP(player, setAP));
@@ -236,7 +237,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,
 		}
 
 //the new army object
-		EArmyPtr armyat(map->getArmyAt(base->GetAssemblyPointCoords()));
+		EArmyPtr armyat(container->getArmyAt(base->GetAssemblyPointCoords()));
 		armyat->SetOwner(player->getPlayerId());
 
 //set coords of unit
@@ -260,7 +261,7 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 	coordinates from = what->getCoords();
 	coordinates to = move->to;
 	int size = move->count;
-	EArmyPtr army(map->getArmyAt(from));
+	EArmyPtr army(container->getArmyAt(from));
 
 	if (army->GetOwner() == player->getPlayerId()) {
 		if ((army->GetStepsLeft() - size) >= 0) {
@@ -339,7 +340,7 @@ void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 }
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player, ASetAPPtr setAP) {
-	ELocationPtr place(map->getPlaceAt(setAP->basecoords));
+	ELocationPtr place(map->getLocationAt(setAP->basecoords));
 	place->SetAssemblyPointCoords(setAP->apcoords);
 
 	ASetAPPtr action(setAP);
