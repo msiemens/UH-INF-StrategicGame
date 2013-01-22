@@ -14,6 +14,10 @@ EInfantry::EInfantry() {
 	mor=(3);
 	pac=(3);
 	tac=(10);
+	cost_gold = 20;
+	cost_stone = 5;
+	cost_wood = 7;
+	setIconPath("client/gfx/entity/icons/infantry.png");
 
 }
 

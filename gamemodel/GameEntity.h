@@ -41,6 +41,9 @@ public:
 
 public:
 	counter<GameRessource> cost;
+	int cost_gold;
+	int cost_wood;
+	int cost_stone;
 
 	void setImgPath(string path);
 	string getImgPath();
@@ -62,6 +65,9 @@ private:
 		ar & cost;
 		ar & coords;
 		ar & owner;
+		ar & cost_gold;
+		ar & cost_wood;
+		ar & cost_stone;
 	}
 };
 

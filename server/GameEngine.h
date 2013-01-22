@@ -41,12 +41,19 @@ public:
 	void doAction(PlayerPtr player, GameActionPtr action);
 
     GameActionPtr onPlayerRecruit(PlayerPtr player,ARecruitPtr recruit);
-    GameActionPtr onPlayerMove(PlayerPtr player,AMovePtr move);
+    void onPlayerMove(PlayerPtr player,AMovePtr move);
     GameActionPtr onPlayerBuild(PlayerPtr player,ABuildPtr build);
-    GameActionPtr onPlayerAttack(PlayerPtr player,AAttackPtr attack);
+    void onPlayerAttack(PlayerPtr player,AAttackPtr attack);
     GameActionPtr onPlayerSetAP(PlayerPtr player,ASetAPPtr setap);
     void onPlayerSetTurn(PlayerPtr player,ASetTurnPtr setturn);
-    GameActionPtr onPlayerLogIn(PlayerPtr player,ALogInPtr logIn);
+    void onPlayerLogIn(PlayerPtr player,ALogInPtr logIn);
+
+    //statemessages
+    void SendUpdateRessources(PlayerPtr player);
+    void SendUpdateUUID(PlayerPtr player);
+    void SendUpdateActionsLeft(PlayerPtr player);
+    void SendSetStartbase(PlayerPtr player, coordinates coords);
+    void SendBattleResult(PlayerPtr player, EArmyPtr army, coordinates coords);
 
 	void BroadcastAction(GameActionPtr action);
 

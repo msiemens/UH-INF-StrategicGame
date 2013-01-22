@@ -14,6 +14,10 @@ EPawn::EPawn(){
 	mor=(1);
 	tac=(1);
 	pac=(1);
+	cost_gold = 10;
+	cost_stone = 0;
+	cost_wood = 2;
+	setIconPath("client/gfx/entity/icons/pawn.png");
 }
 
 EPawn::~EPawn() {

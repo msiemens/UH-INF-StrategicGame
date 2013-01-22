@@ -55,6 +55,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMUpdateActionsLeft* updateactionsleft = dynamic_cast<SMUpdateActionsLeft*>(message.get());
 	SMBattleResult* battle_result = dynamic_cast<SMBattleResult*>(message.get());
 
+
 	if(updateress != NULL){
 		player.setGold(updateress->gold);
 		player.setWood(updateress->wood);

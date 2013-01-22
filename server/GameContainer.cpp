@@ -107,7 +107,8 @@ vector<PlayerPtr>* GameContainer::getPlayerListPtr() {
 }
 
 EArmyPtr GameContainer::getArmy(int index) {
-	return armylist[index];
+	EArmyPtr army(armylist[index]);
+	return army;
 }
 
 EUnitPtr GameContainer::getUnit(int index) {
