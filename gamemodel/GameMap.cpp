@@ -165,7 +165,7 @@ void GameMap::createMapFromTxt(string path) {
 				mapSizeX = 0;
 				x = 0;
 			} else if (c == 's'){
-				ELocationPtr place(new ELocation);
+				ELocationPtr place(new ELocation);//
 				place->setCoords(x, y);
 				place->SetAssemblyPointCoord(x+1,y);
 				place->setStartBase(true);

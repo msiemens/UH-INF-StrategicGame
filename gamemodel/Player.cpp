@@ -77,14 +77,6 @@ int Player::GetActionLeft() {
 	return this->actionsleft;
 }
 
-void Player::addRessource(GameRessource res, int count) {
-	has[typeid(res).name()] += count;
-}
-
-int Player::getRessourceCount(GameRessource res) {
-	return has[typeid(res).name()];
-}
-
 string Player::getImgPath(){
 	return this->imgpath;
 }

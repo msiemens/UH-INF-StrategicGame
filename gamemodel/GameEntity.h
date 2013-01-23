@@ -45,7 +45,6 @@ public:
 	int cost_wood;
 	int cost_stone;
 
-
 	void setImgPath(string path);
 	string getImgPath();
 	void setIconPath(string path);

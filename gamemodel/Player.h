@@ -10,7 +10,6 @@
 
 #include <list>
 #include <string>
-#include <unordered_map>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/functional/hash.hpp>
@@ -39,16 +38,26 @@ public:
 	void addLocation(ELocationPtr place);
 	void addUnit(EUnitPtr unit);
 
-	void addRessource(GameRessource res, int count);
 	template<class T_VALUE>
-	void addRessource(int count) {
-		has[typeid(T_VALUE).name()] += count;
+	void addRessource() {
+		// Find existing counter
+		for (auto c : has) {
+			if (c.GetType() == typeid(T_VALUE)) {
+				c.how_many++;
+				return;
+			}
+		}
+		// Not found, insert it
+		has.insert(counter<T_VALUE>());
 	}
 
-	int getRessourceCount(GameRessource res);
 	template<class T_VALUE>
 	int getRessourceCount() {
-		return has[typeid(T_VALUE).name()];
+		for (auto c : has) {
+			if (c.GetType() == typeid(T_VALUE)) {
+				return c.how_many;
+			}
+		}
 	}
 private:
 	int wood;
@@ -74,7 +83,7 @@ public:
 	boost::uuids::uuid id;
 
 	std::list<counter<GameEntityPtr> > owns;
-	std::unordered_map<const char*, int> has;
+	std::list<counter<GameRessourcePtr> > has;
 
 	std::list<EArmyPtr> armies;
 	std::list<ELocationPtr> places;
