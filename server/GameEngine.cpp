@@ -27,6 +27,7 @@
 #include <network/messages/statemessages/SMSetStartBase.h>
 #include <network/messages/statemessages/SMUpdateActionsLeft.h>
 #include <network/messages/statemessages/SMBattleResult.h>
+#include <network/messages/statemessages/SMSetLocationOwner.h>
 
 #include <network/ServerNetwork.h>
 
