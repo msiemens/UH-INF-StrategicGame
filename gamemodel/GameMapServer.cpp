@@ -13,7 +13,7 @@ GameMapServer::GameMapServer() {
 }
 
 GameMapServer::GameMapServer(GameContainer *container):container(container){
-
+	createPlaces();
 }
 
 GameMapServer::~GameMapServer() {
@@ -39,6 +39,7 @@ void GameMapServer::createArmyAt(coordinates coords, PlayerPtr player) {
 }
 
 ELocationPtr GameMapServer::getLocationAt(coordinates coords) {
+	ELocationPtr loc(new ELocation);
 	if(this->isPlace(coords) or this->isStartBase(coords)){
 			for(int i=0;i<container->getLocationCount();i++){
 				ELocationPtr location(container->getLocation(i));
@@ -47,34 +48,41 @@ ELocationPtr GameMapServer::getLocationAt(coordinates coords) {
 				}
 			}
 		}
+	return loc;
 }
 
 boost::uuids::uuid GameMapServer::whoseLocationAt(coordinates coords) {
+	boost::uuids::uuid id;
 	if(this->isPlace(coords)){
 		return getLocationAt(coords)->GetOwner();
 	}
+	return id;
 }
-//
-//EArmyPtr GameMapServer::getArmyAt(coordinates coords) {
-//	if(this->isArmyPositioned(coords)){
-//		cout << "====================================1" << endl;
-//
-//		cout << "size: "  << container->armylist.size() << endl;
-//		cout << "size: "  << container->getArmyCount() << endl;
-//		for(int i=0;i<container->getArmyCount();i++){
-//			cout << "i:" << i << endl;
-//			EArmyPtr army(container->getArmy(i));
-//			cout << "x:" << army->getCoords().x << endl;
-//			if(army->getCoords().x==coords.x and army->getCoords().y==coords.y){
-//				cout << "====================================2" << endl;
-//				return army;
-//			}
-//		}
-//	}
-//}
+
+EArmyPtr GameMapServer::getArmyAt(coordinates coords) {
+	EArmyPtr a(new EArmy);
+	if(this->isArmyPositioned(coords)){
+		cout << "====================================1" << endl;
+
+		cout << "size: "  << container->armylist.size() << endl;
+		cout << "size: "  << container->getArmyCount() << endl;
+		for(int i=0;i<container->getArmyCount();i++){
+			cout << "i:" << i << endl;
+			EArmyPtr army(container->getArmy(i));
+			cout << "x:" << army->getCoords().x << endl;
+			if(army->getCoords().x==coords.x and army->getCoords().y==coords.y){
+				cout << "====================================2" << endl;
+				return army;
+			}
+		}
+	}
+	return a;
+}
 
 boost::uuids::uuid GameMapServer::whoseArmyAt(coordinates coords) {
+	boost::uuids::uuid id;
 	if(this->isArmyPositioned(coords)){
-		container->getArmyAt(coords)->GetOwner();
+		return container->getArmyAt(coords)->GetOwner();
 	}
+	return id;
 }

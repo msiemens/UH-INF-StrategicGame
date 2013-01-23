@@ -15,8 +15,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	GameMapServer map;
 	GameContainer container;
+	GameMapServer map(&container);
 
 	GameEngine engine(&map, &container);
 

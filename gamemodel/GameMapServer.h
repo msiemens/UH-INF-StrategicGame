@@ -25,7 +25,7 @@ public:
 	void createArmyAt(coordinates coords, PlayerPtr player);
 
 	ELocationPtr getLocationAt(coordinates coords);
-	//EArmyPtr getArmyAt(coordinates coords);
+	EArmyPtr getArmyAt(coordinates coords);
 
 	boost::uuids::uuid whoseLocationAt(coordinates coords);
 	boost::uuids::uuid whoseArmyAt(coordinates coords);

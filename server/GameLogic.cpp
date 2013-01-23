@@ -110,13 +110,13 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 	}
 //setAP
 	else if (setAP != NULL) {
+		std::cout << "logic setap" << endl;
 		coordinates apcoord(setAP->apcoords);
 		coordinates basecoord(setAP->basecoords);
-		if ((apcoord.x == basecoord.x and apcoord.y == basecoord.y ) or map->isBlocked(apcoord) == true or map->whoseArmyAt(apcoord) != player->getPlayerId()) {
-			valid = false;
-		} else {
-			valid = true;
-		}
+
+		valid=((apcoord.x != basecoord.x and apcoord.y != basecoord.y)
+				or map->isBlocked(apcoord)
+				or map->whoseArmyAt(apcoord) != player->getPlayerId())?true:false;
 	}
 //setTurn
 	else if (setTurn != NULL) {

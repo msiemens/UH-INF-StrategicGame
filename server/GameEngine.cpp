@@ -58,7 +58,6 @@ void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
 }
 
 void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
-
 	ARecruitPtr recruit = boost::dynamic_pointer_cast<ARecruit>(action);
 	ASetAPPtr setAP = boost::dynamic_pointer_cast<ASetAP>(action);
 	ASetTurnPtr setTurn = boost::dynamic_pointer_cast<ASetTurn>(action);
@@ -189,7 +188,7 @@ void GameEngine::SendUpdateActionsLeft(PlayerPtr player){
 
 void GameEngine::SendUpdateRessources(PlayerPtr player) {
 	SMUpdateRessourcesPtr updateres(new SMUpdateRessources);
-	updateres->gold = player->getGold();
+	updateres->gold = player->getGold();//test
 
 	updateres->wood = player->getWood();
 	updateres->stone = player->getStone();
@@ -225,7 +224,7 @@ GameActionPtr GameEngine::onPlayerRecruit(PlayerPtr player,
 	player->setStone(player->getStone() - recruit->what->cost_stone);
 
 	EUnitPtr unit(recruit->what);
-	ELocationPtr base(map->getPlaceAt(recruit->base->getCoords()));
+	ELocationPtr base(map->getLocationAt(recruit->base->getCoords()));
 	GameRessourcePtr costs(recruit->costs);
 
 	if (recruit->inside == true) {
@@ -297,33 +296,11 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player, ABuildPtr build) {
 void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 	coordinates where = attack->target;
 
-	EArmyPtr attacker_army;
+	EArmyPtr attacker_army(map->getArmyAt(attack->attacker));
+	EArmyPtr enemyarmy(map->getArmyAt(attack->target));
 
-	for (auto player : *(container->getPlayerListPtr())) {
-		for (auto army : player->armies) {
-			if (army->getCoords().x == attack->attacker.x
-					and army->getCoords().y == attack->attacker.y) {
-				attacker_army = army;
-				break;
-			}
-		}
-	}
+	PlayerPtr enemyplayer(container->getPlayerById(map->whoseArmyAt(attack->target)));
 
-	EArmyPtr enemyarmy;
-	PlayerPtr enemyplayer;
-
-	for (auto p : *(container->getPlayerListPtr())) {
-		for (auto army : p->armies) {
-			if (army->getCoords().x == where.x
-					&& army->getCoords().y == where.y) {
-				EArmyPtr ea(army);
-				PlayerPtr ep(p);
-
-				enemyarmy = ea;
-				enemyplayer = ep;
-			}
-		}
-	}
 	if (attacker_army->units.size() > enemyarmy->units.size()) {
 		map->setWalkable(where);
 		enemyplayer->armies.remove(enemyarmy);
@@ -421,7 +398,6 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 }
 
 void GameEngine::run() {
-	m_network.ConnectOnAction(
-			boost::bind(&GameEngine::onPlayerAction, this, _1, _2));
+	m_network.ConnectOnAction(boost::bind(&GameEngine::onPlayerAction, this, _1, _2));
 	m_network.thread()->join();
 }
