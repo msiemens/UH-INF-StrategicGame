@@ -57,16 +57,14 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMBattleResult* battle_result = dynamic_cast<SMBattleResult*>(message.get());
 	SMSetLocationOwner* set_location_owner = dynamic_cast<SMSetLocationOwner*>(message.get());
 
-
+	cout << "hier 11111" << endl;
 	if(updateress != NULL){
 		player.setGold(updateress->gold);
 		player.setWood(updateress->wood);
 		player.setStone(updateress->stone);
 	}
 	if(uuid != NULL){
-		cout << "old id: " << player.getPlayerIdStr() << endl;
 		player.setPlayerId(uuid->id);
-		cout << "new id: " << player.getPlayerIdStr() << endl;
 	}
 	if(setstartbase != NULL){
 		ELocationPtr location(map.getPlaceAt(setstartbase->coords));
@@ -76,17 +74,26 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 		player.SetActionLeft(updateactionsleft->actions_left);
 	}
 	if(battle_result != NULL){
-		map.setWalkable(battle_result->looser->getCoords());
 
 		if(battle_result->winner->GetOwner() == player.getPlayerId()){
 			opponent.armies.remove(getOpponentArmyByCoords(battle_result->looser->getCoords()));
 			player.armies.remove(getArmyByCoords(battle_result->winner->getCoords()));
-			battle_result->winner->SetOwner(player.getPlayerId());
+			if(battle_result->looser->units.size() > 0){
+				battle_result->looser->setImgPath("client/gfx/entity/army_opp.png");
+				opponent.addArmy(battle_result->looser);
+			}else{
+				map.setWalkable(battle_result->looser->getCoords());
+			}
 			player.addArmy(battle_result->winner);
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(battle_result->winner->getCoords()));
 			player.armies.remove(getArmyByCoords(battle_result->looser->getCoords()));
-			battle_result->winner->SetOwner(opponent.getPlayerId());
+
+			if(battle_result->looser->units.size() > 0){
+				player.addArmy(battle_result->looser);
+			}else{
+				map.setWalkable(battle_result->looser->getCoords());
+			}
 			battle_result->winner->setImgPath("client/gfx/entity/army_opp.png");
 			opponent.addArmy(battle_result->winner);
 		}

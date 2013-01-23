@@ -299,9 +299,6 @@ void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 	EArmyPtr attacker_army(map->getArmyAt(attack->attacker));
 	EArmyPtr defender_army(map->getArmyAt(attack->target));
 
-	std::cout << "Attacker army size " << attacker_army->units.size() << endl;
-	std::cout << "Defender army size " << defender_army->units.size() << endl;
-
 	attackArmy(attacker_army,defender_army);
 
 
@@ -371,7 +368,6 @@ void GameEngine::startSession() {
 			for (auto player : *(container->getPlayerListPtr())) {
 				if (counter == i) {
 					player->addLocation(location);
-					//das kann auch in playerfkt addLocation
 					location->owned = true;
 					location->SetOwner(player->getPlayerId());
 					SendSetStartbase(player,location->getCoords());
@@ -386,14 +382,16 @@ void GameEngine::startSession() {
 
 void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 	for(int i=0;i<3;i++){
-		int damagepoints_defender=(attacker->GetAtk()/defender->GetDef())*10;
-		int damagepoints_attacker=(defender->GetAtk()/attacker->GetDef())*10;
+		int damagepoints_defender=/*(attacker->GetAtk()/defender->GetDef())*10;*/10;
+		int damagepoints_attacker=/*(defender->GetAtk()/attacker->GetDef())*10;*/5;
 
-		std::cout << "DamagePoints defender " << damagepoints_defender << endl;
-		std::cout << "DamagePoints attacker " << damagepoints_attacker << endl;
+		attacker->SetDamagePoints(damagepoints_attacker);
+		defender->SetDamagePoints(damagepoints_defender);
 
-		//attacker->SetDamagePoints(damagepoints_attacker);
-		//defender->SetDamagePoints(damagepoints_defender);
+
+	}
+	for(auto player:*(container->getPlayerListPtr())){
+		SendBattleResult(player,attacker,defender);
 	}
 }
 

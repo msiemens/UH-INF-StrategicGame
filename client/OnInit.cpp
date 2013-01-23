@@ -14,7 +14,7 @@ bool GameClient::OnInit() {
 
 	 //Open the font
 	font = TTF_OpenFont( "constanb.ttf", 12 );
-
+	font_amount = TTF_OpenFont( "constanb.ttf", 10 );
 	// init ressourcen
 //	player.addRessource<RMoney>();
 //	player.addRessource<RMoney>();
