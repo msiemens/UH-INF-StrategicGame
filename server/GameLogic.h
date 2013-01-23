@@ -13,25 +13,21 @@
 #include <gamemodel/GameAction.h>
 #include <gamemodel/Player.h>
 #include <gamemodel/utils/coordinates.h>
-#include <gamemodel/GameMap.h>
+#include <gamemodel/GameMapServer.h>
+#include <server/GameContainer.h>
 
 using namespace std;
 
 class GameLogic {
 public:
-	GameLogic(GameMap *map, list<PlayerPtr> *playerlist);
+	GameLogic(GameMapServer *map, GameContainer *container);
 	virtual ~GameLogic();
 
 	bool checkPlayerAction(PlayerPtr player, GameActionPtr action);
 
-	boost::uuids::uuid whoseArmy(coordinates coords);
-	boost::uuids::uuid whosePlace(coordinates coords);
-
-	EArmyPtr getArmyAt(coordinates coords);
-
 private:
-	GameMap *map;
-	list<PlayerPtr> *playerlist;
+	GameMapServer *map;
+	GameContainer *container;
 };
 
 #endif /* GAMELOGIC_H_ */

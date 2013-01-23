@@ -11,7 +11,7 @@
 #include <list>
 
 #include <network/ServerNetwork.h>
-#include <gamemodel/GameMap.h>
+#include <gamemodel/GameMapServer.h>
 
 #include <gamemodel/actions/ARecruit.h>
 #include <gamemodel/actions/AMove.h>
@@ -21,16 +21,16 @@
 #include <gamemodel/actions/ASetTurn.h>
 #include <gamemodel/actions/ALogIn.h>
 
+#include <server/GameContainer.h>
 #include "GameLogic.h"
 
 class Player;
-//class GameMap;
 
 using namespace std;
 
 class GameEngine {
 public:
-	GameEngine(GameMap *map, list<PlayerPtr> *playerlist);
+	GameEngine(GameMapServer *map, GameContainer *container);
 	virtual ~GameEngine();
 
 	bool gameIsRunning();
@@ -52,26 +52,28 @@ public:
     void SendUpdateRessources(PlayerPtr player);
     void SendUpdateUUID(PlayerPtr player);
     void SendUpdateActionsLeft(PlayerPtr player);
-    void SendBattleResult(PlayerPtr player, EArmyPtr army, coordinates coords);
     void SendSetStartbase(PlayerPtr player, coordinates coords);
+    void SendBattleResult(PlayerPtr player, EArmyPtr army, coordinates coords);
+
 	void BroadcastAction(GameActionPtr action);
 
 	void createArmyAt(coordinates coords,PlayerPtr owner);
+
+	void attackArmy(EArmyPtr attacker,EArmyPtr defender);
+	void attackLocation(EArmyPtr attack,EArmyPtr defender);
 
 	void onNextTurn();
 
 	void startSession();
 
-	void test();
 	void run();
 
-	GameMap *map;
+	GameMapServer *map;
 	GameLogic logic;
+	GameContainer *container;
 
 	bool isRunning;
 private:
-	list<PlayerPtr> *playerlist;
-
 	ServerNetwork m_network;
 };
 

@@ -8,16 +8,17 @@
 #include <iostream>
 
 #include "GameEngine.h"
-#include "gamemodel/GameMap.h"
+#include "gamemodel/GameMapServer.h"
 #include <gamemodel/Player.h>
 #include <list>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	GameMap map;
-	list<PlayerPtr> playerlist;
-	GameEngine engine(&map, &playerlist);
+	GameContainer container;
+	GameMapServer map(&container);
+
+	GameEngine engine(&map, &container);
 
 	engine.run();
 
