@@ -8,6 +8,29 @@
 #include "EUnit.h"
 
 EUnit::EUnit(): GameEntity() {
+	setImgPath("client/gfx/entity/army.png");
+	setIconPath("client/gfx/entity/icons/army.png");
 }
 
-EUnit::~EUnit() {}
+EUnit::~EUnit() {
+}
+
+int EUnit::GetAtk(){
+	return atk;
+}
+
+int EUnit::GetDef() {
+	return def;
+}
+
+int EUnit::GetMor() {
+	return mor;
+}
+
+int EUnit::GetPac() {
+	return pac;
+}
+
+int EUnit::GetTac() {
+	return tac;
+}

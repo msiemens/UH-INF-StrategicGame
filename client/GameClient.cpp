@@ -15,7 +15,7 @@
 using namespace std;
 
 GameClient::GameClient() :
-		player(), network("localhost", 1337) {
+	player(),opponent(), network("localhost", 1337) {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfMain = NULL;
@@ -28,6 +28,9 @@ GameClient::GameClient() :
 	SurfButtonSSExit = NULL;
 	SurfSlotSelected = NULL;
 	SurfWalkable = NULL;
+	SurfAssemblyPoint = NULL;
+	SurfOnTurn = NULL;
+	SurfOffTurn = NULL;
 	SurfBlock = NULL;
 	SurfPlace = NULL;
 	SurfSelected = NULL;
@@ -35,22 +38,27 @@ GameClient::GameClient() :
 	SurfVillage = NULL;
 	SurfVillageMenuBackground = NULL;
 	SurfArmyOptionBackground = NULL;
+	SurfRecruitMenuBackground = NULL;
 	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
-	gameentityselectedobject = NULL;
 	selected = "";
+	FRAMES_PER_SECOND  = 20;
 	markx = 0;
 	marky = 0;
-	gameentityselectedobject = NULL;
-	camposx = -12;
-	camposy = -12;
+	camposx = 300;
+	camposy = 300;
 	pressedup = false;
 	pressedright = false;
 	presseddown = false;
 	pressedleft = false;
+	recruitinside = false;
 	cap = true;
 	frame = 0;
+	ingame = false;
 
+	font = NULL;
+	 //The color of the font
+	textColor = { 255, 255, 255 };
 	// Initiaize the network and connect the signal handlers
 	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
 	network.ConnectOnMessage(boost::bind(&GameClient::OnNetworkMessage, this, _1));
@@ -95,6 +103,7 @@ int GameClient::OnExecute() {
 		while (SDL_PollEvent(&Event)) { //Eventqueue
 			OnEvent(&Event);
 		}
+
 		OnLoop();
 		OnRender();
 
@@ -107,15 +116,7 @@ int GameClient::OnExecute() {
 	}
 
 	OnCleanup();
-
 	return 0;
-}
-
-void GameClient::OnNetworkAction(GameActionPtr action){
-
-}
-void GameClient::OnNetworkMessage(GameStateMessagePtr message){
-
 }
 
 int main(int argc, char* argv[]) {

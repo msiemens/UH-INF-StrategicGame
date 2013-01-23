@@ -30,6 +30,7 @@ public:
 	Player();
 	virtual ~Player();
 
+	void setPlayerId(boost::uuids::uuid new_id);
 	boost::uuids::uuid getPlayerId();
 	std::string getPlayerIdStr();
 
@@ -37,9 +38,39 @@ public:
 	void addLocation(ELocationPtr place);
 	void addUnit(EUnitPtr unit);
 
-	void addRessource(GameRessourcePtr ressource);
+	template<class T_VALUE>
+	void addRessource() {
+		// Find existing counter
+		for (auto c : has) {
+			if (c.GetType() == typeid(T_VALUE)) {
+				c.how_many++;
+				return;
+			}
+		}
+		// Not found, insert it
+		has.insert(counter<T_VALUE>());
+	}
 
-	int getRessourceCount(GameRessourcePtr ressource);
+	template<class T_VALUE>
+	int getRessourceCount() {
+		for (auto c : has) {
+			if (c.GetType() == typeid(T_VALUE)) {
+				return c.how_many;
+			}
+		}
+	}
+private:
+	int wood;
+	int gold;
+	int stone;
+
+public:
+	void setGold(int value);
+	void setWood(int value);
+	void setStone(int value);
+	int getGold();
+	int getWood();
+	int getStone();
 
 	int actionsleft;
 	int GetActionLeft();

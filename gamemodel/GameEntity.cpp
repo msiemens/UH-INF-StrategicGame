@@ -38,3 +38,11 @@ string GameEntity::getIconPath(){
 void GameEntity::setIconPath(string path){
 	this->iconpath=path;
 }
+
+boost::uuids::uuid GameEntity::GetOwner(){
+	return this->owner;
+}
+
+void GameEntity::SetOwner(boost::uuids::uuid id){
+	this->owner = id;
+}

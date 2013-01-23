@@ -16,6 +16,13 @@
 #include <gamemodel/GameEntity.h>
 #include <gamemodel/GameMap.h>
 #include <gamemodel/Player.h>
+#include <gamemodel/actions/ARecruit.h>
+#include <gamemodel/actions/AMove.h>
+#include <gamemodel/actions/ASetAP.h>
+#include <gamemodel/actions/ASetTurn.h>
+#include <gamemodel/actions/ALogIn.h>
+
+#include <SDL/SDL_ttf.h>
 
 #include "CEvent.h"
 #include "CSurface.h"
@@ -29,7 +36,7 @@ enum {
 	START_SCREEN = 0, STARTUP_GAME, INGAME
 };
 enum{
-	SUB_NONE = 0, IG_VILLAGEMENU,SS_SERVER,SS_OPTION, IG_ARMYOPTION, IG_MOVEARMY
+	SUB_NONE = 0, IG_VILLAGEMENU,SS_SERVER,SS_OPTION, IG_ARMYOPTION, IG_MOVEARMY, IG_ASSEMBLYPOINT, IG_RECRUITOPTION
 };
 enum{
 	DIR_UP = 0, DIR_RIGHT, DIR_DOWN, DIR_LEFT
@@ -43,11 +50,13 @@ public:
 
 private:
 	bool running;
+	bool ingame;
 
 	GameState GS;
 	GameState subGS;
 
 	Player player;
+	Player opponent;
 	string ServerAddress;
 	ClientNetwork network;
 	GameMap map;
@@ -59,6 +68,11 @@ private:
 	SDL_Surface* SurfStartscreenBackground;
 	SDL_Surface* SurfMap;
 
+	//show Turn
+	SDL_Surface* SurfOnTurn;
+	SDL_Surface* SurfOffTurn;
+
+	//Startscreen-Buttons
 	SDL_Surface* SurfButtonSSStart;
 	SDL_Surface* SurfButtonSSOption;
 	SDL_Surface* SurfButtonSSServer;
@@ -73,6 +87,10 @@ private:
 	//VillageMenu
 	SDL_Surface* SurfVillageMenuBackground;
 	SDL_Surface* SurfArmyOptionBackground;
+	SDL_Surface* SurfAssemblyPoint;
+
+	//recruit Menu
+	SDL_Surface* SurfRecruitMenuBackground;
 
 	//Zum test
 	SDL_Surface* SurfVillage;
@@ -82,15 +100,35 @@ private:
 
 
 	string selected;
-	GameEntity* gameentityselectedobject;
 	ELocationPtr PlaceSelected;
 	EArmyPtr ArmySelected;
 
+	bool recruitinside;
+	//================================
+	//===========TTF VARS=============
+	//================================
+
+	//The font that's going to be used
+	TTF_Font *font;
+	 //The color of the font
+	SDL_Color textColor;
+	//used to show the message
+	SDL_Surface* message;
+	SDL_Surface* gold;
+	SDL_Surface* wood;
+	SDL_Surface* stone;
+	SDL_Surface* actions_left;
+
+	//================================
+	//========END TTF VARS============
+	//================================
+
+
 
 	//The frames per second
-	const int FRAMES_PER_SECOND = 20;
+	int FRAMES_PER_SECOND;
 	//Keep track of the current frame
-	int frame = 0;
+	int frame;
 	//Whether or not to cap the frame rate
 	bool cap;
 	//The frame rate regulator
@@ -107,39 +145,73 @@ public:
 	void OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
 	void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right, bool Middle);
 	void OnLButtonDown(int mX, int mY);
-	//HandleInput-Function
-	void HandleStartScreenInput(int mX, int mY);
-	void HandleVillageMenuInput(int mX, int mY);
-	void HandleMapEntities(int mX, int mY);
-	void HandleMapEditorModus(int mX, int mY);
-	void HandleArmyOptionInput(int mX,int mY);
-	void HandleMoveArmyInput(int mX,int mY);
-	//-----
 	void OnRButtonDown(int mX, int mY);
 	void OnExit();
 	void OnLoop();
 
+//======================================
+//============ HandleInput =============
+//======================================
+	void HandleStartScreenInput(int mX, int mY);
+	void HandleVillageMenuInput(int mX, int mY);
+	void HandleRecruitMenuInput(int mX, int mY);
+	void HandleMapEntities(int mX, int mY);
+	void HandleInGameMenu(int mX, int mY);
+	void HandleMapEditorModus(int mX, int mY);
+	void HandleArmyOptionInput(int mX,int mY);
+	void HandleMoveArmyInput(int mX,int mY);
+	void HandleAttack(int mX,int mY);
+	void HandleSetAssemblyPoint(int mX,int mY);
 
-	//Render function
+//======================================
+//============= Render =================
+//======================================
+	void SetVideoModeInGame();
 	void OnRender();
 	void RenderInGame();
 	void RenderStartScreen();
+	void RenderRessources();
 	void ShowSelected();
-	//-----
 
+//======================================
+//=============== Get ==================
+//======================================
+	EArmyPtr getArmyByCoords(coordinates coords);
+	EArmyPtr getOpponentArmyByCoords(coordinates coords);
+	coordinates getCoordsByClick(int mX,int mY);
+	char* getCharArrayByInt(int value);
+	char* getCharArrayByString(string text);
+
+
+//======================================
+//============= Network ================
+//======================================
 	//incomming data
-	void RecruitTroopInBuilding();
-	void RecruitTroopOutside(coordinates coords);
+	void RecruitOutside(ARecruit* action);
+	void RecruitInside(ARecruit* action);
 	void MergeArmyIntoPlace(coordinates coords, EArmyPtr Army);
 	void MergeArmies(coordinates coords, EArmyPtr Army);
-	EArmyPtr getArmyByCoords(coordinates coords);
 
 	void OnCleanup();
 	void CameraOnMove(int x, int y);
 	void CameraPosSet(int x, int y);
 
-	ELocationPtr getPlaceFromCoords(coordinates coords);
+	//send functions
+	void SendLogIn();
+	void SendMoveArmy(int dir, int size);
+	void SendAttack(coordinates attacker, coordinates target);
+	void SendSetAP(coordinates coords);
+	void SendEndTurn();
+	void SendRecruitTroopInBuilding(EUnitPtr unit);
+	void SendRecruitTroopOutside(EUnitPtr unit);
 
+	//receive functions
+	void ReceiveLogIn(ALogIn* login);
+	void ReceiveMoveArmy(AMove* move);
+	void ReceiveSetAP(ELocationPtr place, coordinates coords);
+	void ReceiveSetTurn(bool endturn);
+
+	void OnNextTurn();
 	// Network listeners
 	void OnNetworkAction(GameActionPtr action);
 	void OnNetworkMessage(GameStateMessagePtr message);

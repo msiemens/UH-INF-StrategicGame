@@ -4,11 +4,17 @@
 #include <iostream>
 #include <cstring>
 
+
 using namespace std;
+void GameClient::SetVideoModeInGame(){
+	Surf_Display = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
+	GS.SET_GameState(INGAME);
+	subGS.SET_GameState(SUB_NONE);
+}
 
 void GameClient::RenderStartScreen() {
-	Surf_Display = SDL_SetVideoMode(515, 352, 32,
-			SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
+//	Surf_Display = SDL_SetVideoMode(515, 352, 32,
+//			SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER);
 
 	CSurface::OnDraw(Surf_Display, SurfStartscreenBackground, 0, 0);
 
@@ -22,13 +28,22 @@ void GameClient::RenderStartScreen() {
 	}
 }
 
+void GameClient::RenderRessources() {
+	gold = TTF_RenderText_Solid( font, getCharArrayByInt(player.getGold()) , textColor );
+	CSurface::OnDraw(Surf_Display, gold,572,102);
+
+	stone = TTF_RenderText_Solid( font, getCharArrayByInt(player.getStone()) , textColor );
+	CSurface::OnDraw(Surf_Display, stone,572,129);
+
+	wood = TTF_RenderText_Solid( font, getCharArrayByInt(player.getWood()) , textColor );
+	CSurface::OnDraw(Surf_Display, wood,691,129);
+}
+
 void GameClient::ShowSelected() {
 	int i=0;
 
 	if (PlaceSelected) {
-		char * buffer = new char[PlaceSelected->getIconPath().length()];
-		strcpy(buffer, PlaceSelected->getIconPath().c_str());
-		SurfSelected = CSurface::OnLoad(buffer);
+		SurfSelected = CSurface::OnLoad(getCharArrayByString(PlaceSelected->getIconPath()));
 		CSurface::OnDraw(Surf_Display, SurfSelected, 608, 347);
 
 		if (PlaceSelected->getCoords().x != 0 and PlaceSelected->getCoords().y != 0) {
@@ -38,6 +53,25 @@ void GameClient::ShowSelected() {
 				CSurface::OnDraw(Surf_Display, SurfMark,
 					PlaceSelected->getCoords().x * TILE_SIZE - camposx,
 					PlaceSelected->getCoords().y * TILE_SIZE - camposy);
+			}
+		}
+
+		if (PlaceSelected->GetAssemblyPointCoords().x != 0 and PlaceSelected->GetAssemblyPointCoords().y != 0) {
+			int mX = PlaceSelected->GetAssemblyPointCoords().x * TILE_SIZE - camposx;
+			int mY = PlaceSelected->GetAssemblyPointCoords().y * TILE_SIZE - camposy;
+			if(mX > 12 and mX < 488 and mY > 12 and mY < 392){
+				CSurface::OnDraw(Surf_Display, SurfAssemblyPoint,mX,mY);
+			}
+		}
+		//show located units
+		if (PlaceSelected->town_army) {
+			for (i = 0; i < PlaceSelected->town_army->units.size();
+					i++) {
+				char * path = new char[PlaceSelected->town_army->units[i]->getIconPath().length()];
+				strcpy(path,
+						PlaceSelected->town_army->units[i]->getIconPath().c_str());
+				SurfSlotOwns = CSurface::OnLoad(path);
+				CSurface::OnDraw(Surf_Display, SurfSlotOwns,14 + (i * 40), 401);
 			}
 		}
 	}
@@ -61,12 +95,13 @@ void GameClient::ShowSelected() {
 			}
 		}
 
+		//show located units
 		for (i = 0; i < ArmySelected->units.size(); i++) {
 			char * path =
-					new char[ArmySelected->units[i]->getImgPath().length()];
-			strcpy(path, ArmySelected->units[i]->getImgPath().c_str());
+					new char[ArmySelected->units[i]->getIconPath().length()];
+			strcpy(path, ArmySelected->units[i]->getIconPath().c_str());
 			SurfSlotOwns = CSurface::OnLoad(path);
-			CSurface::OnDraw(Surf_Display, SurfSlotOwns, 18 + (i * 40), 405);
+			CSurface::OnDraw(Surf_Display, SurfSlotOwns, 14 + (i * 40), 401);
 		}
 
 	}
@@ -74,6 +109,7 @@ void GameClient::ShowSelected() {
 
 void GameClient::RenderInGame() {
 	int i = 0;
+	int i2 = 0;
 	int x = 0;
 
 	CSurface::OnDraw(Surf_Display, SurfMap, 0, 0, camposx, camposy, WWIDTH,
@@ -81,16 +117,31 @@ void GameClient::RenderInGame() {
 
 	//show villages
 	for (auto place : map.placeList) {
-		char * path = new char[place->getImgPath().length()];
-		strcpy(path, place->getImgPath().c_str());
-		SurfVillage = CSurface::OnLoad(path);
+		if(place->GetOwner() == player.getPlayerId()){
+			SurfVillage = CSurface::OnLoad(getCharArrayByString(place->getImgPath()));
 
-		CSurface::OnDraw(Surf_Display, SurfVillage,
-				(place->getCoords().x * TILE_SIZE) - camposx,
-				(place->getCoords().y * 20) - camposy);
+			CSurface::OnDraw(Surf_Display, SurfVillage,
+					(place->getCoords().x * TILE_SIZE) - camposx,
+					(place->getCoords().y * 20) - camposy);
+		}else{
+			SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/village_opp.png"));
+
+			CSurface::OnDraw(Surf_Display, SurfVillage,
+					(place->getCoords().x * TILE_SIZE) - camposx,
+					(place->getCoords().y * 20) - camposy);
+		}
 	}
 	//show Troops
 	for (auto army : player.armies) {
+		SurfVillage = CSurface::OnLoad(getCharArrayByString(army->getImgPath()));
+
+		CSurface::OnDraw(Surf_Display, SurfVillage,
+				(army->getCoords().x * TILE_SIZE) - camposx,
+				(army->getCoords().y * 20) - camposy);
+	}
+
+	//show opponent Troops
+	for (auto army : opponent.armies) {
 		char * path = new char[army->getImgPath().length()];
 		strcpy(path, army->getImgPath().c_str());
 		SurfVillage = CSurface::OnLoad(path);
@@ -226,11 +277,36 @@ void GameClient::RenderInGame() {
 		}
 	}
 
+	if (subGS.GET_GameState() == IG_ASSEMBLYPOINT) {
+		if (PlaceSelected){
+			for(i=0; i < 5;i++){
+				for(i2=0; i2 < 5;i2++){
+					coordinates coord(PlaceSelected->getCoords().x-2 + i2, PlaceSelected->getCoords().y-2 + i);
+					if (map.isWalkable(coord) == true) { //hoch
+						CSurface::OnDraw(Surf_Display, SurfWalkable,((coord.x) * TILE_SIZE) - camposx, (coord.y * TILE_SIZE) - camposy);
+					}else{
+						CSurface::OnDraw(Surf_Display, SurfBlock,((coord.x) * TILE_SIZE) - camposx, (coord.y * TILE_SIZE) - camposy);
+					}
+				}
+			}
+		}
+	}
 
 	CSurface::OnDraw(Surf_Display, SurfMain,0,0);
 
+	if(player.onturn){
+		CSurface::OnDraw(Surf_Display, SurfOnTurn,720,98);
+	}else{
+		CSurface::OnDraw(Surf_Display, SurfOffTurn,720,98);
+	}
+
 
 	ShowSelected();
+	RenderRessources();
+
+	// draw actions_left
+	actions_left = TTF_RenderText_Solid( font, getCharArrayByInt(player.GetActionLeft()) , textColor );
+	CSurface::OnDraw(Surf_Display, actions_left,755,12);
 
 	if (subGS.GET_GameState() == IG_ARMYOPTION) {
 		if (ArmySelected) {
@@ -244,20 +320,24 @@ void GameClient::RenderInGame() {
 
 	if (subGS.GET_GameState() == IG_VILLAGEMENU) {
 		CSurface::OnDraw(Surf_Display, SurfVillageMenuBackground, 546, 423);
+	}
+	if (subGS.GET_GameState() == IG_RECRUITOPTION) {
+		CSurface::OnDraw(Surf_Display, SurfRecruitMenuBackground, 546, 423);
+	}
 
+	if (subGS.GET_GameState() == IG_RECRUITOPTION or subGS.GET_GameState() == IG_VILLAGEMENU) {
 		//show troops
 		if (PlaceSelected) {
-			if (PlaceSelected->town_army) {
-				for (i = 0; i < PlaceSelected->town_army->units.size();
-						i++) {
-					char * path =
-							new char[PlaceSelected->town_army->units[i]->getImgPath().length()];
-					strcpy(path,
-							PlaceSelected->town_army->units[i]->getImgPath().c_str());
-					SurfSlotOwns = CSurface::OnLoad(path);
-					CSurface::OnDraw(Surf_Display, SurfSlotOwns,18 + (i * 40), 405);
-				}
-			}
+//			if (PlaceSelected->town_army) {
+//				for (i = 0; i < PlaceSelected->town_army->units.size();
+//						i++) {
+//					char * path = new char[PlaceSelected->town_army->units[i]->getIconPath().length()];
+//					strcpy(path,
+//							PlaceSelected->town_army->units[i]->getIconPath().c_str());
+//					SurfSlotOwns = CSurface::OnLoad(path);
+//					CSurface::OnDraw(Surf_Display, SurfSlotOwns,18 + (i * 40), 405);
+//				}
+//			}
 		}
 	}
 }

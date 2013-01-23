@@ -12,6 +12,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
+#include <boost/serialization/vector.hpp>
 #include <boost/serialization/base_object.hpp>
 
 #include <gamemodel/GameEntity.h>
@@ -23,20 +24,36 @@ public:
 	EArmy();
 	virtual ~EArmy();
 
-	void AddTroop(EUnitPtr unit);
+	void AddUnit(EUnitPtr unit);
+	void RemoveUnit(EUnitPtr unit);
+
 	void Move(int dir, int size);
 
 	void SetStepsLeft(int steps);
 	int GetStepsLeft();
+
+
+	int GetAtk();
+	int GetDef();
+	int GetMor();
+	int GetPac();
+	int GetTac();
+
 
 	std::vector<EUnitPtr> units;
 
 private:
 	int m_steps_left_in_round;
 
+	int atk,def,mor,pac,tac;
+
+	friend class boost::serialization::access;
+
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & boost::serialization::base_object<GameEntity>(*this);
+		ar & m_steps_left_in_round;
+		ar & units;
 	}
 };
 
