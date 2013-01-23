@@ -13,14 +13,13 @@
 #include <boost/serialization/base_object.hpp>
 
 #include <network/messages/GameStateMessage.h>
-#include <gamemodel/utils/coordinates.h>
 #include <gamemodel/entities/EArmy.h>
 
 class SMBattleResult: public GameStateMessage {
 public:
 	virtual ~SMBattleResult();
 	EArmyPtr winner;
-	coordinates looser_cords;
+	EArmyPtr looser;
 
 private:
 	friend class boost::serialization::access;
@@ -29,7 +28,7 @@ private:
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & boost::serialization::base_object<GameStateMessage>(*this);
 		ar & winner;
-		ar & looser_cords;
+		ar & looser;
 	}
 };
 

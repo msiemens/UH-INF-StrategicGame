@@ -27,6 +27,7 @@
 #include <network/messages/statemessages/SMSetStartBase.h>
 #include <network/messages/statemessages/SMUpdateActionsLeft.h>
 #include <network/messages/statemessages/SMBattleResult.h>
+#include <network/messages/statemessages/SMSetLocationOwner.h>
 
 #include <network/ServerNetwork.h>
 
@@ -169,11 +170,10 @@ void GameEngine::SendUpdateUUID(PlayerPtr player) {
 	m_network.SendMessageA(player, message);
 }
 
-void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr army, coordinates coords){
+void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr winner, EArmyPtr looser){
 	SMBattleResultPtr battle_result(new SMBattleResult);
-	battle_result->winner=army;
-	battle_result->looser_cords.x = coords.x;
-	battle_result->looser_cords.y = coords.y;
+	battle_result->winner=winner;
+	battle_result->looser = looser;
 
 	GameStateMessagePtr message(battle_result);
 	m_network.SendMessageA(player,message);
@@ -305,14 +305,14 @@ void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 		map->setWalkable(where);
 		enemyplayer->armies.remove(enemyarmy);
 		attacker_army->SetOwner(player->getPlayerId());
-		SendBattleResult(player, attacker_army, where);
-		SendBattleResult(enemyplayer, attacker_army, where);
+		SendBattleResult(player, attacker_army, enemyarmy);
+		SendBattleResult(enemyplayer, attacker_army, enemyarmy);
 	} else {
 		map->setWalkable(attack->attacker);
 		player->armies.remove(attacker_army);
 		enemyarmy->SetOwner(enemyplayer->getPlayerId());
-		SendBattleResult(player, enemyarmy, attack->attacker);
-		SendBattleResult(enemyplayer, enemyarmy, attack->attacker);
+		SendBattleResult(player, enemyarmy, attacker_army);
+		SendBattleResult(enemyplayer, enemyarmy, attacker_army);
 	}
 }
 

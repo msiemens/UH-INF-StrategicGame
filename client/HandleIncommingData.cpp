@@ -11,6 +11,7 @@
 #include "network/messages/statemessages/SMSetStartBase.h"
 #include "network/messages/statemessages/SMUpdateActionsLeft.h"
 #include "network/messages/statemessages/SMBattleResult.h"
+#include "network/messages/statemessages/SMSetLocationOwner.h"
 
 #include <iostream>
 #include <list>
@@ -54,6 +55,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMSetStartBase* setstartbase = dynamic_cast<SMSetStartBase*>(message.get());
 	SMUpdateActionsLeft* updateactionsleft = dynamic_cast<SMUpdateActionsLeft*>(message.get());
 	SMBattleResult* battle_result = dynamic_cast<SMBattleResult*>(message.get());
+	SMSetLocationOwner* set_location_owner = dynamic_cast<SMSetLocationOwner*>(message.get());
 
 
 	if(updateress != NULL){
@@ -74,20 +76,24 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 		player.SetActionLeft(updateactionsleft->actions_left);
 	}
 	if(battle_result != NULL){
-		map.setWalkable(battle_result->looser_cords);
+		map.setWalkable(battle_result->looser->getCoords());
 
 		if(battle_result->winner->GetOwner() == player.getPlayerId()){
-			opponent.armies.remove(getOpponentArmyByCoords(battle_result->looser_cords));
+			opponent.armies.remove(getOpponentArmyByCoords(battle_result->looser->getCoords()));
 			player.armies.remove(getArmyByCoords(battle_result->winner->getCoords()));
 			battle_result->winner->SetOwner(player.getPlayerId());
 			player.addArmy(battle_result->winner);
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(battle_result->winner->getCoords()));
-			player.armies.remove(getArmyByCoords(battle_result->looser_cords));
+			player.armies.remove(getArmyByCoords(battle_result->looser->getCoords()));
 			battle_result->winner->SetOwner(opponent.getPlayerId());
 			battle_result->winner->setImgPath("client/gfx/entity/army_opp.png");
 			opponent.addArmy(battle_result->winner);
 		}
+	}
+	if(set_location_owner != NULL){
+		ELocationPtr location(map.getPlaceAt(set_location_owner->coords));
+		location->SetOwner(set_location_owner->owner);
 	}
 }
 
