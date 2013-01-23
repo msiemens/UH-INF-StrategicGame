@@ -106,3 +106,9 @@ int EArmy::GetTac() {
 	tac_avg=tac_avg/units.size();
 	return tac_avg;
 }
+
+void EArmy::SetDamagePoints(int damage) {
+	for(auto unit:units){
+		unit->SetDamagePoints(damage);
+	}
+}

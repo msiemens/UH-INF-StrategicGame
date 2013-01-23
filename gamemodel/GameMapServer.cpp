@@ -26,7 +26,9 @@ void GameMapServer::createPlaces() {
 			if(this->isPlace(coordinates(x,y)) or this->isStartBase(coordinates(x,y))){
 				ELocationPtr location(new ELocation);
 				location->setCoords(coordinates(x,y));
-				container->addLocation(location);			}
+				location->SetAssemblyPointCoord(x+1,y);
+				container->addLocation(location);
+			}
 		}
 	}
 }
@@ -62,16 +64,8 @@ boost::uuids::uuid GameMapServer::whoseLocationAt(coordinates coords) {
 EArmyPtr GameMapServer::getArmyAt(coordinates coords) {
 	EArmyPtr a(new EArmy);
 	if(this->isArmyPositioned(coords)){
-		cout << "====================================1" << endl;
-
-		cout << "size: "  << container->armylist.size() << endl;
-		cout << "size: "  << container->getArmyCount() << endl;
-		for(int i=0;i<container->getArmyCount();i++){
-			cout << "i:" << i << endl;
-			EArmyPtr army(container->getArmy(i));
-			cout << "x:" << army->getCoords().x << endl;
+		for(auto army:*(container->getArmyListPtr())){
 			if(army->getCoords().x==coords.x and army->getCoords().y==coords.y){
-				cout << "====================================2" << endl;
 				return army;
 			}
 		}

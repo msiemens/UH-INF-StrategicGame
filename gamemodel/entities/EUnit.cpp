@@ -34,3 +34,21 @@ int EUnit::GetPac() {
 int EUnit::GetTac() {
 	return tac;
 }
+
+int EUnit::GetAmount() {
+	return amount;
+}
+
+void EUnit::SetAmount(int amount) {
+	this->amount=amount;
+}
+
+void EUnit::SetDamagePoints(int damage) {
+	int newamount=GetAmount()-damage;
+	if(newamount<0){
+		SetAmount(0);
+	} else {
+		SetAmount(newamount);
+	}
+
+}
