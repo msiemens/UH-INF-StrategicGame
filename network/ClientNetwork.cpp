@@ -34,6 +34,7 @@
 #include "messages/statemessages/SMSetStartBase.h"
 #include "messages/statemessages/SMUpdateActionsLeft.h"
 #include "messages/statemessages/SMBattleResult.h"
+#include "messages/statemessages/SMSetLocationOwner.h"
 
 #include "messages/statemessages/SMTest.h"
 
@@ -170,6 +171,7 @@ void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 	archive->register_type<SMSetStartBase>();
 	archive->register_type<SMUpdateActionsLeft>();
 	archive->register_type<SMBattleResult>();
+	archive->register_type<SMSetLocationOwner>();
 
 	archive->register_type<SMTest>();
 }
@@ -201,6 +203,7 @@ void ClientNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 	archive->register_type<SMSetStartBase>();
 	archive->register_type<SMUpdateActionsLeft>();
 	archive->register_type<SMBattleResult>();
+	archive->register_type<SMSetLocationOwner>();
 
 	archive->register_type<SMTest>();
 }
