@@ -7,7 +7,7 @@
 
 #include "EUnit.h"
 
-EUnit::EUnit(): GameEntity() , amount(67){
+EUnit::EUnit(): GameEntity() {
 	setImgPath("client/gfx/entity/army.png");
 	setIconPath("client/gfx/entity/icons/army.png");
 }
@@ -44,5 +44,11 @@ void EUnit::SetAmount(int amount) {
 }
 
 void EUnit::SetDamagePoints(int damage) {
-	SetAmount(GetAmount()-damage);
+	int newamount=GetAmount()-damage;
+	if(newamount<0){
+		SetAmount(0);
+	} else {
+		SetAmount(newamount);
+	}
+
 }

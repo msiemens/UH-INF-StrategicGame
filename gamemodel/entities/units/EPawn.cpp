@@ -14,6 +14,7 @@ EPawn::EPawn(){
 	mor=(1);
 	tac=(1);
 	pac=(1);
+	amount=60;
 	cost_gold = 10;
 	cost_stone = 0;
 	cost_wood = 2;

@@ -14,6 +14,7 @@ EInfantry::EInfantry() {
 	mor=(3);
 	pac=(3);
 	tac=(10);
+	amount=40;
 	cost_gold = 20;
 	cost_stone = 5;
 	cost_wood = 7;

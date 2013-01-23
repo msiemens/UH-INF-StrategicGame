@@ -297,23 +297,11 @@ void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 	coordinates where = attack->target;
 
 	EArmyPtr attacker_army(map->getArmyAt(attack->attacker));
-	EArmyPtr enemyarmy(map->getArmyAt(attack->target));
+	EArmyPtr defender_army(map->getArmyAt(attack->target));
 
-	PlayerPtr enemyplayer(container->getPlayerById(map->whoseArmyAt(attack->target)));
+	attackArmy(attacker_army,defender_army);
 
-	if (attacker_army->units.size() > enemyarmy->units.size()) {
-		map->setWalkable(where);
-		enemyplayer->armies.remove(enemyarmy);
-		attacker_army->SetOwner(player->getPlayerId());
-		SendBattleResult(player, attacker_army, enemyarmy);
-		SendBattleResult(enemyplayer, attacker_army, enemyarmy);
-	} else {
-		map->setWalkable(attack->attacker);
-		player->armies.remove(attacker_army);
-		enemyarmy->SetOwner(enemyplayer->getPlayerId());
-		SendBattleResult(player, enemyarmy, attacker_army);
-		SendBattleResult(enemyplayer, enemyarmy, attacker_army);
-	}
+
 }
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player, ASetAPPtr setAP) {
@@ -380,7 +368,6 @@ void GameEngine::startSession() {
 			for (auto player : *(container->getPlayerListPtr())) {
 				if (counter == i) {
 					player->addLocation(location);
-					//das kann auch in playerfkt addLocation
 					location->owned = true;
 					location->SetOwner(player->getPlayerId());
 					SendSetStartbase(player,location->getCoords());
@@ -394,7 +381,18 @@ void GameEngine::startSession() {
 }
 
 void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
+	for(int i=0;i<3;i++){
+		int damagepoints_defender=/*(attacker->GetAtk()/defender->GetDef())*10;*/10;
+		int damagepoints_attacker=/*(defender->GetAtk()/attacker->GetDef())*10;*/5;
 
+		attacker->SetDamagePoints(damagepoints_attacker);
+		defender->SetDamagePoints(damagepoints_defender);
+
+
+	}
+	for(auto player:*(container->getPlayerListPtr())){
+		SendBattleResult(player,attacker,defender);
+	}
 }
 
 void GameEngine::run() {
