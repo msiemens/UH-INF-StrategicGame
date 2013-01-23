@@ -26,7 +26,9 @@ void GameMapServer::createPlaces() {
 			if(this->isPlace(coordinates(x,y)) or this->isStartBase(coordinates(x,y))){
 				ELocationPtr location(new ELocation);
 				location->setCoords(coordinates(x,y));
-				container->addLocation(location);			}
+				location->SetAssemblyPointCoord(x+1,y);
+				container->addLocation(location);
+			}
 		}
 	}
 }

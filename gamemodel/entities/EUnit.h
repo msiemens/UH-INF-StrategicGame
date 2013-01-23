@@ -27,8 +27,13 @@ public:
 	int GetPac();
 	int GetTac();
 
+	int GetAmount();
+
+	void SetAmount(int amount);
+	void SetDamagePoints(int damage);
+
 protected:
-	int atk,def,mor,pac,tac;
+	int atk,def,mor,pac,tac,amount;
 
 private:
 	friend class boost::serialization::access;
@@ -41,6 +46,7 @@ private:
 		ar & mor;
 		ar & pac;
 		ar & tac;
+		ar & amount;
 	}
 
 };

@@ -110,10 +110,12 @@ private:
 
 	//The font that's going to be used
 	TTF_Font *font;
+	TTF_Font *font_amount;
 	 //The color of the font
 	SDL_Color textColor;
 	//used to show the message
 	SDL_Surface* message;
+	SDL_Surface* amount;
 	SDL_Surface* gold;
 	SDL_Surface* wood;
 	SDL_Surface* stone;
