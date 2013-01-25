@@ -51,4 +51,5 @@ void EUnit::SetDamagePoints(int damage) {
 		SetAmount(newamount);
 	}
 
+
 }

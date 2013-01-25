@@ -65,7 +65,7 @@ void EArmy::Move(int dir, int size) {
 int EArmy::GetAtk() {
 	int atk_ges=0;
 	for(auto unit:units){
-		atk_ges+=unit->GetAtk();
+		atk_ges+=(unit->GetAtk()/unit->GetAmount());
 	}
 	return atk_ges;
 }
@@ -110,5 +110,9 @@ int EArmy::GetTac() {
 void EArmy::SetDamagePoints(int damage) {
 	for(auto unit:units){
 		unit->SetDamagePoints(damage);
+
+		if(unit->GetAmount()==0){
+			RemoveUnit(unit);
+		}
 	}
 }

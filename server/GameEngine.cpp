@@ -382,8 +382,14 @@ void GameEngine::startSession() {
 
 void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 	for(int i=0;i<3;i++){
-		int damagepoints_defender=/*(attacker->GetAtk()/defender->GetDef())*10;*/10;
-		int damagepoints_attacker=/*(defender->GetAtk()/attacker->GetDef())*10;*/5;
+		int damagepoints_defender=(attacker->GetAtk()*10/defender->GetDef());
+		int damagepoints_attacker=(defender->GetAtk()*10/attacker->GetDef());
+
+		std::cout << "Attacker ATK/DEF " << attacker->GetAtk() << "/" << attacker->GetDef() << endl;
+		std::cout << "Defender ATK/DEF " << defender->GetAtk() << "/" << defender->GetDef() << endl;
+
+		std::cout << damagepoints_defender << endl;
+		std::cout << damagepoints_attacker << endl;
 
 		attacker->SetDamagePoints(damagepoints_attacker);
 		defender->SetDamagePoints(damagepoints_defender);
