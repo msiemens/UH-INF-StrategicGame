@@ -53,9 +53,6 @@ void NetPlayer::OnHeader(const boost::system::error_code& error) {
 // Handle incoming body
 void NetPlayer::OnBody(const boost::system::error_code& error) {
 	if (!error) {
-		cout << "Message: "
-				<< string(m_read_msg->body(), m_read_msg->body_length()) << " ("
-				<< m_read_msg->body_length() << ")" << endl;
 		m_signal_on_message(m_read_msg->body(), m_read_msg->body_length(), NetPlayerPtr(shared_from_this()));
 		_ReadHeader();
 	} else {
