@@ -55,17 +55,13 @@ void ServerNetworkImpl::HandleAccept(NetPlayerPtr player,
 	if (!error) {
 		// Connect all onMessage handlers to the current player
 		for (auto handler : m_signals_on_message) {
-			std::cout << "Registring OnMessag handler" << std::endl;
 			player->ConnectOnMessage(handler);
 		}
-		std::cout << "Calling player->Start()" << std::endl;
 		player->Start();
 	}
 
-	std::cout << "Running onPlayerConnect handler" << std::endl;
 	m_signal_on_player_connect(player);
 
 	// Listen for more connections
-	std::cout << "Starting accepting more for more clients" << std::endl;
 	StartAccept();
 }

@@ -58,7 +58,6 @@ boost::shared_ptr<boost::thread> ClientNetworkImpl::thread() {
 void ClientNetworkImpl::OnConnect(const boost::system::error_code& error) {
 	if (!error) {
 		m_timer.cancel(); // Cancel connection timeout timer
-		std::cout << ":: Connected!" << std::endl;
 		ReadHeader();
 	} else {
 		std::cout << "Error: " << error.message() << std::endl;
@@ -67,8 +66,6 @@ void ClientNetworkImpl::OnConnect(const boost::system::error_code& error) {
 
 // Handle a incoming header
 void ClientNetworkImpl::OnHeader(const boost::system::error_code& error) {
-	std::cout << "// Recieving a message" << std::endl;
-
 	// Decode the header
 	if (!error && m_read_msg.DecodeHeader()) {
 		ReadBody();
@@ -80,7 +77,6 @@ void ClientNetworkImpl::OnHeader(const boost::system::error_code& error) {
 
 // Handle a incoming body message
 void ClientNetworkImpl::OnBody(const boost::system::error_code& error) {
-	std::cout << "// Reading the message" << std::endl;
 	if (!error) {
 		m_signal_on_message(m_read_msg.body(), m_read_msg.body_length());
 
@@ -111,7 +107,6 @@ void ClientNetworkImpl::ReadBody() {
 
 // Send a message to the server
 void ClientNetworkImpl::Send(NetworkMessagePtr msg) {
-	std::cout << ":::: Sending message" << std::endl;
 	bool write_in_progress = !m_write_msgs.empty();
 	m_write_msgs.push_back(msg);
 

@@ -100,6 +100,8 @@ void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
 }
 
 void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
+	std::cout << "Sending Message" << std::endl;
+
 	std::stringstream buffer;
 
 	// Initialize Serialization
@@ -119,6 +121,8 @@ void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
 }
 
 void ServerNetwork::BroadcastAction(GameActionPtr action) {
+	std::cout << "Broadcasting Action" << std::endl;
+
 	std::stringstream buffer;
 
 	// Initialize Serialization
@@ -157,14 +161,10 @@ void ServerNetwork::BroadcastMessage(GameStateMessagePtr message) {
 }
 
 void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer) {
-	std::cout << "ServerNetwork::OnMessage(...)" << std::endl;
-	std::cout << "Seeking Player oject" << std::endl;
-
 	PlayerPtr player;
 
 	for (auto pair : m_players) {
 		if (pair.second == netplayer) {
-			std::cout << "Found player object for NetPlayer" << std::endl;
 			player = pair.first;
 		}
 	}
@@ -184,17 +184,15 @@ void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer)
 
 	switch (message_type) {
 	case MESSAGE_ACTION: {
-		std::cout << "Got an action!" << std::endl;
+		std::cout << "Got an action" << std::endl;
 		GameActionPtr action(new GameAction);
 		archive >> action;
-
-		std::cout << "Deserialization done!" << std::endl;
 
 		m_signal_on_action(action, player);
 		break;
 	}
 	case MESSAGE_META: {
-		std::cout << "Got an metamessage!" << std::endl;
+		std::cout << "Got an metamessage" << std::endl;
 		GameMetaMessagePtr message(new GameMetaMessage);
 		archive >> message;
 
@@ -204,8 +202,6 @@ void ServerNetwork::OnMessage(char* message, int length, NetPlayerPtr netplayer)
 	default:
 		break;
 	}
-
-	std::cout << "ServerNetwork::OnMessage: done" << std::endl;
 }
 
 void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
