@@ -56,8 +56,6 @@ bool NetworkMessage::DecodeHeader() {
 	strncat(header, m_data, header_length);
 	m_body_length = atoi(header);
 
-	std::cout << "Decoding Header: body length " << m_body_length << " (from: " << header << ")" << std::endl;
-
 	if (m_body_length > max_body_length) {
 		m_body_length = 0;
 		return false;
@@ -72,6 +70,4 @@ void NetworkMessage::EncodeHeader() {
 	char header[header_length + 1] = "";
 	sprintf(header, "%4d", m_body_length);
 	memcpy(m_data, header, header_length);
-
-	std::cout << "Encoding Header: body length " << m_body_length << " (from: " << header << ")" << std::endl;
 }

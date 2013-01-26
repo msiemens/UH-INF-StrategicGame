@@ -67,30 +67,30 @@ void ClientNetwork::ConnectOnMessage(const signal_state_t::slot_type &subscriber
 }
 
 void ClientNetwork::SendAction(GameActionPtr action) {
+	std::cout << "Sending Action" << std::endl;
+
 	std::stringstream buffer;
 
-	std::cout << "Doing Initialization of Serialization" << std::endl;
 	boost::archive::text_oarchive archive(buffer);
 	registerTypes(&archive);
 
 	// Serialize object
 	int type = MESSAGE_ACTION;
-	std::cout << "Serializing MessageType" << std::endl;
 	archive << type;
-	std::cout << "Serializing GameAction" << std::endl;
 	archive << action;
 
 	// Create NetworkMessage
-	std::cout << "Creating NetworkMessage" << std::endl;
 	NetworkMessagePtr msg(new NetworkMessage(buffer.str().c_str()));
 
 	// Pass message to m_network.send
-	std::cout << "Sending Message" << std::endl;
 	m_network.Write(msg);
 }
 
 void ClientNetwork::SendMetaMessage(GameMetaMessagePtr message) {
+	std::cout << "Sending MetaMessage" << std::endl;
+
 	std::stringstream buffer;
+
 	boost::archive::text_oarchive archive(buffer);
 	registerTypes(&archive);
 
@@ -122,7 +122,7 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 
 	switch (message_type) {
 		case MESSAGE_ACTION: {
-			std::cout << "Got an action!" << std::endl;
+			std::cout << "Got an action" << std::endl;
 			GameActionPtr action(new GameAction);
 			archive >> action;
 
@@ -130,7 +130,7 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 			break;
 		}
 		case MESSAGE_STATE: {
-			std::cout << "Got an metamessage!" << std::endl;
+			std::cout << "Got an metamessage" << std::endl;
 			GameStateMessagePtr message(new GameStateMessage);
 			archive >> message;
 
@@ -140,8 +140,6 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 	default:
 		break;
 	}
-
-	std::cout << buffer.str() << std::endl;
 }
 
 void ClientNetwork::registerTypes(boost::archive::text_oarchive* archive) {
