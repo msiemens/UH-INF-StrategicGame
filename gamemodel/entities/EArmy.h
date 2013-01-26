@@ -39,6 +39,7 @@ public:
 	int GetPac();
 	int GetTac();
 
+	void SetDamagePoints(int damage);
 
 	std::vector<EUnitPtr> units;
 

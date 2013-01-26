@@ -170,11 +170,10 @@ void GameEngine::SendUpdateUUID(PlayerPtr player) {
 	m_network.SendMessageA(player, message);
 }
 
-void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr army, coordinates coords){
+void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr winner, EArmyPtr looser){
 	SMBattleResultPtr battle_result(new SMBattleResult);
-	battle_result->winner=army;
-	battle_result->looser_cords.x = coords.x;
-	battle_result->looser_cords.y = coords.y;
+	battle_result->winner=winner;
+	battle_result->looser = looser;
 
 	GameStateMessagePtr message(battle_result);
 	m_network.SendMessageA(player,message);
@@ -298,23 +297,11 @@ void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 	coordinates where = attack->target;
 
 	EArmyPtr attacker_army(map->getArmyAt(attack->attacker));
-	EArmyPtr enemyarmy(map->getArmyAt(attack->target));
+	EArmyPtr defender_army(map->getArmyAt(attack->target));
 
-	PlayerPtr enemyplayer(container->getPlayerById(map->whoseArmyAt(attack->target)));
+	attackArmy(attacker_army,defender_army);
 
-	if (attacker_army->units.size() > enemyarmy->units.size()) {
-		map->setWalkable(where);
-		enemyplayer->armies.remove(enemyarmy);
-		attacker_army->SetOwner(player->getPlayerId());
-		SendBattleResult(player, attacker_army, where);
-		SendBattleResult(enemyplayer, attacker_army, where);
-	} else {
-		map->setWalkable(attack->attacker);
-		player->armies.remove(attacker_army);
-		enemyarmy->SetOwner(enemyplayer->getPlayerId());
-		SendBattleResult(player, enemyarmy, attack->attacker);
-		SendBattleResult(enemyplayer, enemyarmy, attack->attacker);
-	}
+
 }
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player, ASetAPPtr setAP) {
@@ -381,7 +368,6 @@ void GameEngine::startSession() {
 			for (auto player : *(container->getPlayerListPtr())) {
 				if (counter == i) {
 					player->addLocation(location);
-					//das kann auch in playerfkt addLocation
 					location->owned = true;
 					location->SetOwner(player->getPlayerId());
 					SendSetStartbase(player,location->getCoords());
@@ -395,7 +381,24 @@ void GameEngine::startSession() {
 }
 
 void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
+	for(int i=0;i<3;i++){
+		int damagepoints_defender=(attacker->GetAtk()*10/defender->GetDef());
+		int damagepoints_attacker=(defender->GetAtk()*10/attacker->GetDef());
 
+		std::cout << "Attacker ATK/DEF " << attacker->GetAtk() << "/" << attacker->GetDef() << endl;
+		std::cout << "Defender ATK/DEF " << defender->GetAtk() << "/" << defender->GetDef() << endl;
+
+		std::cout << damagepoints_defender << endl;
+		std::cout << damagepoints_attacker << endl;
+
+		attacker->SetDamagePoints(damagepoints_attacker);
+		defender->SetDamagePoints(damagepoints_defender);
+
+
+	}
+	for(auto player:*(container->getPlayerListPtr())){
+		SendBattleResult(player,attacker,defender);
+	}
 }
 
 void GameEngine::run() {

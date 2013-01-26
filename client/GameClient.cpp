@@ -57,6 +57,7 @@ GameClient::GameClient() :
 	ingame = false;
 
 	font = NULL;
+	font_amount = NULL;
 	 //The color of the font
 	textColor = { 255, 255, 255 };
 	// Initiaize the network and connect the signal handlers

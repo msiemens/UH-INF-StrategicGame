@@ -72,6 +72,9 @@ void GameClient::ShowSelected() {
 						PlaceSelected->town_army->units[i]->getIconPath().c_str());
 				SurfSlotOwns = CSurface::OnLoad(path);
 				CSurface::OnDraw(Surf_Display, SurfSlotOwns,14 + (i * 40), 401);
+
+				amount = TTF_RenderText_Solid( font_amount, getCharArrayByInt(PlaceSelected->town_army->units[i]->GetAmount()) , SDL_Color({ 255, 255, 255 }) );
+				CSurface::OnDraw(Surf_Display, amount,23 + (i * 40),435);
 			}
 		}
 	}
@@ -102,6 +105,9 @@ void GameClient::ShowSelected() {
 			strcpy(path, ArmySelected->units[i]->getIconPath().c_str());
 			SurfSlotOwns = CSurface::OnLoad(path);
 			CSurface::OnDraw(Surf_Display, SurfSlotOwns, 14 + (i * 40), 401);
+
+			amount = TTF_RenderText_Solid( font_amount, getCharArrayByInt(ArmySelected->units[i]->GetAmount()) ,SDL_Color({ 255, 255, 255 }) );
+			CSurface::OnDraw(Surf_Display, amount,23 + (i * 40),435);
 		}
 
 	}
