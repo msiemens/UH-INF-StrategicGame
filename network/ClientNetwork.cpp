@@ -130,7 +130,7 @@ void ClientNetwork::OnMessage(char* msg, int length) {
 			break;
 		}
 		case MESSAGE_STATE: {
-			std::cout << "Got an metamessage" << std::endl;
+			std::cout << "Got an statemessage" << std::endl;
 			GameStateMessagePtr message(new GameStateMessage);
 			archive >> message;
 

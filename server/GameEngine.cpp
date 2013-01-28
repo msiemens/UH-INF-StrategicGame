@@ -123,7 +123,7 @@ void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn) {
 			for (auto players : *(container->getPlayerListPtr())) {
 				if (players->getPlayerIdStr() != player->getPlayerIdStr()) {
 					m_network.SendAction(players, setturn2);
-					//dies funktioniert nur für 2 spieler!
+					//dies funktioniert nur fï¿½r 2 spieler!
 					break;
 				}
 			}
@@ -137,7 +137,7 @@ void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn) {
 			for (auto players : *(container->getPlayerListPtr())) {
 				if (players->getPlayerIdStr() != player->getPlayerIdStr()) {
 					m_network.SendAction(players, setturn2);
-					//dies funktioniert nur für 2 spieler!
+					//dies funktioniert nur fï¿½r 2 spieler!
 					break;
 				}
 			}
@@ -385,14 +385,20 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 		int damagepoints_defender=(attacker->GetAtk()*10/defender->GetDef());
 		int damagepoints_attacker=(defender->GetAtk()*10/attacker->GetDef());
 
+		damagepoints_defender = 10;
+		damagepoints_attacker = 2;
+
 		std::cout << "Attacker ATK/DEF " << attacker->GetAtk() << "/" << attacker->GetDef() << endl;
 		std::cout << "Defender ATK/DEF " << defender->GetAtk() << "/" << defender->GetDef() << endl;
 
 		std::cout << damagepoints_defender << endl;
 		std::cout << damagepoints_attacker << endl;
 
+		std::cout << 1 << std::endl;
 		attacker->SetDamagePoints(damagepoints_attacker);
+		std::cout << 2 << std::endl;
 		defender->SetDamagePoints(damagepoints_defender);
+		std::cout << 3 << std::endl;
 
 
 	}

@@ -5,6 +5,8 @@
  *      Author: Henrik
  */
 
+#include <algorithm>
+
 #include "EArmy.h"
 
 EArmy::EArmy() : m_steps_left_in_round(0) {
@@ -21,16 +23,7 @@ void EArmy::AddUnit(EUnitPtr unit) {
 }
 
 void EArmy::RemoveUnit(EUnitPtr unit) {
-	int counter=0;
-	for(auto u:units){
-		if(u==unit){
-			units.erase(units.begin()+counter);
-			break;
-		}
-		else{
-			counter++;
-		}
-	}
+	units.erase(std::remove(units.begin(), units.end(), unit), units.end());
 }
 
 int EArmy::GetStepsLeft() {
@@ -109,10 +102,16 @@ int EArmy::GetTac() {
 
 void EArmy::SetDamagePoints(int damage) {
 	for(auto unit:units){
-		unit->SetDamagePoints(damage);
+		std::cout << "! 1" << std::endl;
+		if (!!unit) {
+			unit->SetDamagePoints(damage);
+			std::cout << "! 2" << std::endl;
 
-		if(unit->GetAmount()==0){
-			RemoveUnit(unit);
+			if(unit->GetAmount()==0){
+				std::cout << "! 3" << std::endl;
+				RemoveUnit(unit);
+			}
 		}
+		std::cout << "! 4" << std::endl;
 	}
 }
