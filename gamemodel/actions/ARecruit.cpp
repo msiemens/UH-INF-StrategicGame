@@ -7,4 +7,5 @@
 
 #include "ARecruit.h"
 
+ARecruit::ARecruit(): what(new EUnit), base(new ELocation) {}
 ARecruit::~ARecruit() {}

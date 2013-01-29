@@ -133,6 +133,8 @@ void GameClient::ReceiveLogIn(ALogIn* login){
 
 void GameClient::ReceiveMoveArmy(AMove* move){
 //if moveable...move
+
+	cout << "Got a move!" << endl;
 	if(player.onturn){
 		if(map.isWalkable(move->to) == true and map.isPlace(move->to) == false and map.isArmyPositioned(move->to)==false){
 			map.setWalkable(ArmySelected->getCoords());
@@ -154,7 +156,6 @@ void GameClient::ReceiveMoveArmy(AMove* move){
 		ArmySelected->SetStepsLeft( ArmySelected->GetStepsLeft() - move->count);
 	}else if(opponent.onturn){
 		EArmyPtr army(getOpponentArmyByCoords(move->from));
-
 		if(map.isWalkable(move->to) == true and map.isPlace(move->to) == false and map.isArmyPositioned(move->to)==false){
 			map.setWalkable(army->getCoords());
 			army->setCoords(move->to);
