@@ -28,6 +28,7 @@
 #include <network/messages/statemessages/SMUpdateActionsLeft.h>
 #include <network/messages/statemessages/SMBattleResult.h>
 #include <network/messages/statemessages/SMSetLocationOwner.h>
+#include <network/messages/statemessages/SMUpdateArmy.h>
 
 #include <network/ServerNetwork.h>
 
@@ -196,6 +197,14 @@ void GameEngine::SendUpdateRessources(PlayerPtr player) {
 	m_network.SendMessageA(player, message);
 }
 
+void GameEngine::SendUpdateArmy(PlayerPtr player,EArmyPtr army,coordinates deleted_army_coords){
+	SMUpdateArmyPtr updatearmy(new SMUpdateArmy);
+	updatearmy->army = army;
+	updatearmy->deleted_army_coords=deleted_army_coords;
+	GameStateMessagePtr message(updatearmy);
+	m_network.SendMessageA(player,updatearmy);
+}
+
 void GameEngine::onNextTurn() {
 	//reset StepsLeft
 	for (auto player : *(container->getPlayerListPtr())) {
@@ -270,12 +279,28 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					map->setWalkable(from);
 					army->setCoords(to);
 					map->setArmy(to);
+					army->SetStepsLeft(army->GetStepsLeft() - size);
 				} else if (map->isPlace(to) == true) {
 //merge into place
+					EArmyPtr town_army(map->getLocationAt(to)->town_army);
+					for(auto unit:army->units){
+						town_army->AddUnit(unit);
+						army->RemoveUnit(unit);
+					}
+					SendUpdateArmy(player,town_army,army->getCoords());
+					container->removeArmy(army);
+					army->~EArmy();
 				} else if (map->isArmyPositioned(to) == true) {
 //merge into army
+					EArmyPtr army_to(container->getArmyAt(to));
+					for(auto unit:army->units){
+						army_to->AddUnit(unit);
+						army->RemoveUnit(unit);
+					}
+					SendUpdateArmy(player,army_to,army->getCoords());
+					container->removeArmy(army);
+					army->~EArmy();
 				}
-				army->SetStepsLeft(army->GetStepsLeft() - size);
 			}
 		}
 		AMovePtr action(move);

@@ -96,7 +96,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		coordinates to = move->to;
 
 		valid = (map->isWalkable(to) or (map->isArmyPositioned(to) and map->whoseArmyAt(to)==player->getPlayerId()
-		and container->getArmyAt(to)->units.size() < 10)) ? true : false;
+		and container->getArmyAt(to)->units.size() < 12)) ? true : false;
 	}
 //build
 	else if (build != NULL) {
@@ -114,8 +114,10 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		coordinates apcoord(setAP->apcoords);
 		coordinates basecoord(setAP->basecoords);
 
-		valid=((apcoord.x != basecoord.x and apcoord.y != basecoord.y and map->isBlocked(apcoord)==false)
-				or(map->isArmyPositioned(apcoord) == true and map->whoseArmyAt(apcoord) == player->getPlayerId()))?true:false;
+		valid=(((apcoord.x != basecoord.x or apcoord.y != basecoord.y) and map->isBlocked(apcoord)==false and map->isArmyPositioned(apcoord) == false)
+						or (map->isArmyPositioned(apcoord) == true and map->whoseArmyAt(apcoord) == player->getPlayerId()))?true:false;
+
+
 	}
 //setTurn
 	else if (setTurn != NULL) {
