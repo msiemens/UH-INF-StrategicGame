@@ -76,24 +76,24 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	if(battle_result != NULL){
 
 		if(battle_result->winner->GetOwner() == player.getPlayerId()){
-			opponent.armies.remove(getOpponentArmyByCoords(battle_result->looser->getCoords()));
+			opponent.armies.remove(getOpponentArmyByCoords(battle_result->looser_coords));
 			player.armies.remove(getArmyByCoords(battle_result->winner->getCoords()));
-			if(battle_result->looser->units.size() > 0){
-				battle_result->looser->setImgPath("client/gfx/entity/army_opp.png");
-				opponent.addArmy(battle_result->looser);
-			}else{
-				map.setWalkable(battle_result->looser->getCoords());
-			}
+//			if(battle_result->looser->units.size() > 0){
+//				battle_result->looser->setImgPath("client/gfx/entity/army_opp.png");
+//				opponent.addArmy(battle_result->looser);
+//			}else{
+				map.setWalkable(battle_result->looser_coords);
+			//}
 			player.addArmy(battle_result->winner);
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(battle_result->winner->getCoords()));
-			player.armies.remove(getArmyByCoords(battle_result->looser->getCoords()));
+			player.armies.remove(getArmyByCoords(battle_result->looser_coords));
 
-			if(battle_result->looser->units.size() > 0){
-				player.addArmy(battle_result->looser);
-			}else{
-				map.setWalkable(battle_result->looser->getCoords());
-			}
+//			if(battle_result->looser->units.size() > 0){
+//				player.addArmy(battle_result->looser);
+//			}else{
+				map.setWalkable(battle_result->looser_coords);
+			//}
 			battle_result->winner->setImgPath("client/gfx/entity/army_opp.png");
 			opponent.addArmy(battle_result->winner);
 		}

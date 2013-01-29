@@ -16,12 +16,13 @@
 
 #include <network/messages/GameStateMessage.h>
 #include <gamemodel/entities/EArmy.h>
+#include <gamemodel/utils/coordinates.h>
 
 class SMBattleResult: public GameStateMessage {
 public:
 	virtual ~SMBattleResult();
 	EArmyPtr winner;
-	EArmyPtr looser;
+	coordinates looser_coords;
 
 private:
 	friend class boost::serialization::access;
@@ -33,7 +34,7 @@ private:
 
 		ar & boost::serialization::base_object<GameStateMessage>(*this);
 		ar & winner;
-		ar & looser;
+		ar & looser_coords;
 	}
 };
 

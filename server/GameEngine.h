@@ -53,7 +53,7 @@ public:
     void SendUpdateUUID(PlayerPtr player);
     void SendUpdateActionsLeft(PlayerPtr player);
     void SendSetStartbase(PlayerPtr player, coordinates coords);
-    void SendBattleResult(PlayerPtr player, EArmyPtr winner, EArmyPtr looser);
+    void SendBattleResult(PlayerPtr player, EArmyPtr winner, coordinates looser_coords);
 
 	void BroadcastAction(GameActionPtr action);
 

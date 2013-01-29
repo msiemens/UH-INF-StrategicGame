@@ -170,10 +170,10 @@ void GameEngine::SendUpdateUUID(PlayerPtr player) {
 	m_network.SendMessageA(player, message);
 }
 
-void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr winner, EArmyPtr looser){
+void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr winner, coordinates looser_coords){
 	SMBattleResultPtr battle_result(new SMBattleResult);
 	battle_result->winner=winner;
-	battle_result->looser = looser;
+	battle_result->looser_coords = looser_coords;
 
 	GameStateMessagePtr message(battle_result);
 	m_network.SendMessageA(player,message);
@@ -300,8 +300,6 @@ void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 	EArmyPtr defender_army(map->getArmyAt(attack->target));
 
 	attackArmy(attacker_army,defender_army);
-
-
 }
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player, ASetAPPtr setAP) {
@@ -388,22 +386,22 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 		damagepoints_defender = 10;
 		damagepoints_attacker = 2;
 
-		std::cout << "Attacker ATK/DEF " << attacker->GetAtk() << "/" << attacker->GetDef() << endl;
-		std::cout << "Defender ATK/DEF " << defender->GetAtk() << "/" << defender->GetDef() << endl;
-
-		std::cout << damagepoints_defender << endl;
-		std::cout << damagepoints_attacker << endl;
-
-		std::cout << 1 << std::endl;
 		attacker->SetDamagePoints(damagepoints_attacker);
-		std::cout << 2 << std::endl;
 		defender->SetDamagePoints(damagepoints_defender);
-		std::cout << 3 << std::endl;
-
-
 	}
-	for(auto player:*(container->getPlayerListPtr())){
-		SendBattleResult(player,attacker,defender);
+
+	if(attacker->units.size() > defender->units.size()){
+		for(auto player:*(container->getPlayerListPtr())){
+			SendBattleResult(player,attacker,defender->getCoords());
+		}
+		map->setWalkable(defender->getCoords());
+		container->removeArmy(defender);
+	}else{
+		for(auto player:*(container->getPlayerListPtr())){
+			SendBattleResult(player,defender,attacker->getCoords());
+		}
+		map->setWalkable(attacker->getCoords());
+		container->removeArmy(attacker);
 	}
 }
 
