@@ -380,11 +380,13 @@ void GameEngine::startSession() {
 
 void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 	for(int i=0;i<3;i++){
-		int damagepoints_defender=(attacker->GetAtk()*10/defender->GetDef());
-		int damagepoints_attacker=(defender->GetAtk()*10/attacker->GetDef());
+		int damagepoints_defender=(attacker->GetAtk()*10/(defender->GetDef() || 1));
+		int damagepoints_attacker=(defender->GetAtk()*10/(attacker->GetDef() || 1));
 
-		damagepoints_defender = 10;
-		damagepoints_attacker = 2;
+		// damagepoints_defender = 10;
+		// damagepoints_attacker = 2;
+
+		cout << damagepoints_attacker << " vs " << damagepoints_defender << endl;
 
 		attacker->SetDamagePoints(damagepoints_attacker);
 		defender->SetDamagePoints(damagepoints_defender);

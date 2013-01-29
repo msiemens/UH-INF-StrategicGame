@@ -20,6 +20,7 @@
 
 class SMBattleResult: public GameStateMessage {
 public:
+	SMBattleResult();
 	virtual ~SMBattleResult();
 	EArmyPtr winner;
 	coordinates looser_coords;
@@ -29,8 +30,6 @@ private:
 
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
-
-		std::cout << "Serializing BattleResult" << std::endl;
 
 		ar & boost::serialization::base_object<GameStateMessage>(*this);
 		ar & winner;

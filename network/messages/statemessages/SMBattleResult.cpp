@@ -8,6 +8,10 @@
 #include "network/messages/statemessages/SMBattleResult.h"
 
 
+SMBattleResult::SMBattleResult() : winner(new EArmy), looser_coords(){
+
+}
+
 SMBattleResult::~SMBattleResult() {
 	// TODO Auto-generated destructor stub
 }
