@@ -64,7 +64,7 @@ coordinates GameClient::getCoordsByClick(int mX, int mY){
 }
 
 EArmyPtr GameClient::getArmyByCoords(coordinates coords){
-	EArmyPtr armyat(new EArmy);
+	EArmyPtr armyat;
 	for (auto army: player.armies) {
 		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
 			armyat = army;
@@ -75,7 +75,7 @@ EArmyPtr GameClient::getArmyByCoords(coordinates coords){
 }
 
 EArmyPtr GameClient::getOpponentArmyByCoords(coordinates coords){
-	EArmyPtr armyat(new EArmy);
+	EArmyPtr armyat;
 	for (auto army: opponent.armies) {
 		if (army->getCoords().x == coords.x and  army->getCoords().y == coords.y) {
 			armyat = army;

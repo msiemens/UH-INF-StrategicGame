@@ -7,5 +7,4 @@
 
 #include "AMove.h"
 
-AMove::AMove(): what(new GameEntity) {}
 AMove::~AMove() {}
