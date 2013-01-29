@@ -116,6 +116,7 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool
 	if (GS.GET_GameState() == START_SCREEN) {
 		if (mY > 287 && mY < 315) {
 			//Button Start
+			SDL_FreeSurface(SurfButtonSSStart);
 			if (mX > 63 && mX < 152) {
 				SurfButtonSSStart = CSurface::OnLoad(
 						(char*) "client/gfx/gui/menu/buttons/start_hover.png");
@@ -124,6 +125,7 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool
 						(char*) "client/gfx/gui/menu/buttons/start_norm.png");
 			}
 			//Button Option
+			SDL_FreeSurface(SurfButtonSSOption);
 			if (mX > 163 && mX < 252) {
 				SurfButtonSSOption = CSurface::OnLoad(
 						(char*) "client/gfx/gui/menu/buttons/option_hover.png");
@@ -132,6 +134,7 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool
 						(char*) "client/gfx/gui/menu/buttons/option_norm.png");
 			}
 			//Button Server
+			SDL_FreeSurface(SurfButtonSSServer);
 			if (mX > 263 && mX < 352) {
 				SurfButtonSSServer = CSurface::OnLoad(
 						(char*) "client/gfx/gui/menu/buttons/server_hover.png");
@@ -140,6 +143,7 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool
 						(char*) "client/gfx/gui/menu/buttons/server_norm.png");
 			}
 			//Button Exit
+			SDL_FreeSurface(SurfButtonSSExit);
 			if (mX > 363 && mX < 452) {
 				SurfButtonSSExit = CSurface::OnLoad(
 						(char*) "client/gfx/gui/menu/buttons/exit_hover.png");
@@ -148,6 +152,10 @@ void GameClient::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool
 						(char*) "client/gfx/gui/menu/buttons/exit_norm.png");
 			}
 		} else {
+			SDL_FreeSurface(SurfButtonSSStart);
+			SDL_FreeSurface(SurfButtonSSOption);
+			SDL_FreeSurface(SurfButtonSSServer);
+			SDL_FreeSurface(SurfButtonSSExit);
 			//norm all buttons
 			SurfButtonSSStart = CSurface::OnLoad(
 					(char*) "client/gfx/gui/menu/buttons/start_norm.png"); //start button

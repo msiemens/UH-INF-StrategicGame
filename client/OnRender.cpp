@@ -29,12 +29,15 @@ void GameClient::RenderStartScreen() {
 }
 
 void GameClient::RenderRessources() {
+	SDL_FreeSurface(gold);
 	gold = TTF_RenderText_Solid( font, getCharArrayByInt(player.getGold()) , textColor );
 	CSurface::OnDraw(Surf_Display, gold,572,102);
 
+	SDL_FreeSurface(stone);
 	stone = TTF_RenderText_Solid( font, getCharArrayByInt(player.getStone()) , textColor );
 	CSurface::OnDraw(Surf_Display, stone,572,129);
 
+	SDL_FreeSurface(wood);
 	wood = TTF_RenderText_Solid( font, getCharArrayByInt(player.getWood()) , textColor );
 	CSurface::OnDraw(Surf_Display, wood,691,129);
 }
@@ -43,6 +46,7 @@ void GameClient::ShowSelected() {
 	int i=0;
 
 	if (PlaceSelected) {
+		SDL_FreeSurface(SurfSelected);
 		SurfSelected = CSurface::OnLoad(getCharArrayByString(PlaceSelected->getIconPath()));
 		CSurface::OnDraw(Surf_Display, SurfSelected, 608, 347);
 
@@ -67,10 +71,10 @@ void GameClient::ShowSelected() {
 		if (PlaceSelected->town_army) {
 			for (i = 0; i < PlaceSelected->town_army->units.size();
 					i++) {
-				char * path = new char[PlaceSelected->town_army->units[i]->getIconPath().length()];
-				strcpy(path,
-						PlaceSelected->town_army->units[i]->getIconPath().c_str());
-				SurfSlotOwns = CSurface::OnLoad(path);
+				SDL_FreeSurface(SurfSlotOwns);
+				SDL_FreeSurface(amount);
+
+				SurfSlotOwns = CSurface::OnLoad(getCharArrayByString(PlaceSelected->town_army->units[i]->getIconPath()));
 				CSurface::OnDraw(Surf_Display, SurfSlotOwns,14 + (i * 40), 401);
 
 				amount = TTF_RenderText_Solid( font_amount, getCharArrayByInt(PlaceSelected->town_army->units[i]->GetAmount()) , SDL_Color({ 0, 0, 0 }) );
@@ -80,11 +84,8 @@ void GameClient::ShowSelected() {
 	}
 
 	if (ArmySelected) {
-//		char * buffer = new char[ArmySelected->getIconPath().length()];
-//		strcpy(buffer, ArmySelected->getIconPath().c_str());
-		char * buffer = new char[ArmySelected->getImgPath().length()];
-		strcpy(buffer, ArmySelected->getImgPath().c_str());
-		SurfSelected = CSurface::OnLoad(buffer);
+		SDL_FreeSurface(SurfSelected);
+		SurfSelected = CSurface::OnLoad(getCharArrayByString(ArmySelected->getImgPath()));
 		CSurface::OnDraw(Surf_Display, SurfSelected, 608, 347);
 
 		if (ArmySelected->getCoords().x != 0
@@ -100,10 +101,9 @@ void GameClient::ShowSelected() {
 
 		//show located units
 		for (i = 0; i < ArmySelected->units.size(); i++) {
-			char * path =
-					new char[ArmySelected->units[i]->getIconPath().length()];
-			strcpy(path, ArmySelected->units[i]->getIconPath().c_str());
-			SurfSlotOwns = CSurface::OnLoad(path);
+			SDL_FreeSurface(amount);
+			SDL_FreeSurface(SurfSlotOwns);
+			SurfSlotOwns = CSurface::OnLoad(getCharArrayByString(ArmySelected->units[i]->getIconPath()));
 			CSurface::OnDraw(Surf_Display, SurfSlotOwns, 14 + (i * 40), 401);
 
 			amount = TTF_RenderText_Solid( font_amount, getCharArrayByInt(ArmySelected->units[i]->GetAmount()) , SDL_Color({ 255, 255, 255 }) );
@@ -123,6 +123,7 @@ void GameClient::RenderInGame() {
 
 	//show villages
 	for (auto place : map.placeList) {
+	    SDL_FreeSurface(SurfVillage);
 		if(place->GetOwner() == player.getPlayerId()){
 			SurfVillage = CSurface::OnLoad(getCharArrayByString(place->getImgPath()));
 
@@ -137,8 +138,10 @@ void GameClient::RenderInGame() {
 					(place->getCoords().y * 20) - camposy);
 		}
 	}
+
 	//show Troops
 	for (auto army : player.armies) {
+	    SDL_FreeSurface(SurfVillage);
 		SurfVillage = CSurface::OnLoad(getCharArrayByString(army->getImgPath()));
 
 		CSurface::OnDraw(Surf_Display, SurfVillage,
@@ -148,9 +151,8 @@ void GameClient::RenderInGame() {
 
 	//show opponent Troops
 	for (auto army : opponent.armies) {
-		char * path = new char[army->getImgPath().length()];
-		strcpy(path, army->getImgPath().c_str());
-		SurfVillage = CSurface::OnLoad(path);
+	    SDL_FreeSurface(SurfVillage);
+		SurfVillage = CSurface::OnLoad(getCharArrayByString(army->getImgPath()));
 
 		CSurface::OnDraw(Surf_Display, SurfVillage,
 				(army->getCoords().x * TILE_SIZE) - camposx,
@@ -311,6 +313,7 @@ void GameClient::RenderInGame() {
 	RenderRessources();
 
 	// draw actions_left
+    SDL_FreeSurface(actions_left);
 	actions_left = TTF_RenderText_Solid( font, getCharArrayByInt(player.GetActionLeft()) , textColor );
 	CSurface::OnDraw(Surf_Display, actions_left,755,12);
 
