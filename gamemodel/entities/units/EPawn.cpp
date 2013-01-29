@@ -18,7 +18,7 @@ EPawn::EPawn(){
 	cost_gold = 10;
 	cost_stone = 0;
 	cost_wood = 2;
-	setIconPath("client/gfx/entity/icons/pawn.png");
+	setIconPath("client/gfx/entity/icons/unit_pawn.png");
 }
 
 EPawn::~EPawn() {

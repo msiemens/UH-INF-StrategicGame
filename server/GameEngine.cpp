@@ -383,8 +383,8 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 		int damagepoints_defender=(attacker->GetAtk()*10/(defender->GetDef() || 1));
 		int damagepoints_attacker=(defender->GetAtk()*10/(attacker->GetDef() || 1));
 
-		// damagepoints_defender = 10;
-		// damagepoints_attacker = 2;
+		 damagepoints_defender = 10;
+		 damagepoints_attacker = 2;
 
 		cout << damagepoints_attacker << " vs " << damagepoints_defender << endl;
 
