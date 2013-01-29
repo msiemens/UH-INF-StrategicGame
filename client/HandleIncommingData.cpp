@@ -56,6 +56,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMUpdateActionsLeft* updateactionsleft = dynamic_cast<SMUpdateActionsLeft*>(message.get());
 	SMBattleResult* battle_result = dynamic_cast<SMBattleResult*>(message.get());
 	SMSetLocationOwner* set_location_owner = dynamic_cast<SMSetLocationOwner*>(message.get());
+	//SMUpdateArmy* update_army = dynamic_cast<SMUpdateArmy*>(message.get());
 
 	cout << "hier 11111" << endl;
 	if(updateress != NULL){
@@ -102,6 +103,15 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 		ELocationPtr location(map.getPlaceAt(set_location_owner->coords));
 		location->SetOwner(set_location_owner->owner);
 	}
+//	if(update_army != NULL){
+//		if(update_army->army->GetOwner() == player.getPlayerId()){
+//			player.armies.remove(getArmyByCoords(update_army->army->getCoords()));
+//			player.addArmy(update_army->army);
+//		}else{
+//			opponent.armies.remove(getOpponentArmyByCoords(update_army->army->getCoords()));
+//			opponent.addArmy(update_army->army);
+//		}
+//	}
 }
 
 void GameClient::ReceiveSetTurn(bool endturn){
