@@ -77,7 +77,7 @@ void GameClient::ShowSelected() {
 				SurfSlotOwns = CSurface::OnLoad(getCharArrayByString(PlaceSelected->town_army->units[i]->getIconPath()));
 				CSurface::OnDraw(Surf_Display, SurfSlotOwns,14 + (i * 40), 401);
 
-				amount = TTF_RenderText_Solid( font_amount, getCharArrayByInt(PlaceSelected->town_army->units[i]->GetAmount()) , SDL_Color({ 0, 0, 0 }) );
+				amount = TTF_RenderText_Solid( font_amount, getCharArrayByInt(PlaceSelected->town_army->units[i]->GetAmount()) , SDL_Color({ 255, 255, 255  }) );
 				CSurface::OnDraw(Surf_Display, amount,23 + (i * 40),435);
 			}
 		}

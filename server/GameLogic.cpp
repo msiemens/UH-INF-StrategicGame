@@ -114,7 +114,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 		coordinates apcoord(setAP->apcoords);
 		coordinates basecoord(setAP->basecoords);
 
-		valid=((apcoord.x != basecoord.x and apcoord.y != basecoord.y and map->isBlocked(apcoord)==false)
+		valid=(((apcoord.x != basecoord.x or apcoord.y != basecoord.y) and map->isBlocked(apcoord)==false and map->isArmyPositioned(apcoord) == false)
 				or(map->isArmyPositioned(apcoord) == true and map->whoseArmyAt(apcoord) == player->getPlayerId()))?true:false;
 	}
 //setTurn
