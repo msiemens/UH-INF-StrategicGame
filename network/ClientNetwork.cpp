@@ -51,6 +51,13 @@ ClientNetwork::ClientNetwork(string hostname, int port) :
 			boost::bind(&ClientNetwork::OnMessage, this, _1, _2));
 }
 
+ClientNetwork::ClientNetwork(char* hostname, char* port) :
+		m_network(hostname, port) {
+	// Connect OnMessage to recieve messages
+	m_network.ConnectOnMessage(
+			boost::bind(&ClientNetwork::OnMessage, this, _1, _2));
+}
+
 ClientNetwork::~ClientNetwork() {
 }
 

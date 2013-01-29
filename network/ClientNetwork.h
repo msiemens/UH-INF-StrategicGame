@@ -28,6 +28,7 @@ public:
 	typedef boost::signals2::signal<void(GameStateMessagePtr)> signal_state_t;
 
 	ClientNetwork(string hostname, int port);
+	ClientNetwork(char* hostname, char* port);
 	virtual ~ClientNetwork();
 
 	void ConnectOnAction(const signal_action_t::slot_type &subscriber);

@@ -45,10 +45,13 @@ enum{
 class GameClient  : public CEvent{
 public:
 	GameClient();
+	GameClient(char* hostname, char* port);
 	virtual ~GameClient();
 	int OnExecute();
 
 private:
+	void init();
+
 	bool running;
 	bool ingame;
 

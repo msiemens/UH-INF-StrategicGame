@@ -16,6 +16,19 @@ using namespace std;
 
 GameClient::GameClient() :
 	player(),opponent(), network("localhost", 1337) {
+	init();
+}
+
+GameClient::GameClient(char* hostname, char* port) :
+	player(),opponent(), network(hostname, port) {
+	init();
+}
+
+GameClient::~GameClient() {
+	// TODO Auto-generated destructor stub
+}
+
+void GameClient::init() {
 	SurfMap = NULL;
 	Surf_Display = NULL;
 	SurfMain = NULL;
@@ -63,10 +76,6 @@ GameClient::GameClient() :
 	// Initiaize the network and connect the signal handlers
 	network.ConnectOnAction(boost::bind(&GameClient::OnNetworkAction, this, _1));
 	network.ConnectOnMessage(boost::bind(&GameClient::OnNetworkMessage, this, _1));
-}
-
-GameClient::~GameClient() {
-	// TODO Auto-generated destructor stub
 }
 
 void GameClient::CameraOnMove(int x, int y) {
@@ -121,7 +130,17 @@ int GameClient::OnExecute() {
 }
 
 int main(int argc, char* argv[]) {
-	GameClient game;
-	return game.OnExecute();
+	GameClient* game;
+
+	if (argc >= 2 + 1) {
+		game = new GameClient(argv[1], argv[2]);
+	} else {
+		game = new GameClient();
+	}
+
+	int status = game->OnExecute();
+	delete game;
+
+	return status;
 }
 
