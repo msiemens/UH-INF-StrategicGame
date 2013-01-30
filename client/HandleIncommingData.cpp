@@ -21,6 +21,7 @@
 #include "network/messages/statemessages/SMUpdateArmy.h"
 #include "network/messages/statemessages/SMRemoveArmy.h"
 #include "network/messages/statemessages/SMUpdateLocationArmy.h"
+#include "network/messages/statemessages/SMEndGame.h"
 
 #include <iostream>
 #include <list>
@@ -68,6 +69,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMUpdateArmy* update_army = dynamic_cast<SMUpdateArmy*>(message.get());
 	SMRemoveArmy* remove_army = dynamic_cast<SMRemoveArmy*>(message.get());
 	SMUpdateLocationArmy* update_loc_army = dynamic_cast<SMUpdateLocationArmy*>(message.get());
+	SMEndGame* end_game = dynamic_cast<SMEndGame*>(message.get());
 
 	cout << "hier 11111" << endl;
 	if(updateress != NULL){
@@ -151,6 +153,14 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 //				map.getPlaceAt(update_loc_army->coords)->town_army->units.push_back(unit);
 //			}
 //		}
+	}
+	if(end_game != NULL){
+		if(end_game->win){
+			GS.SET_GameState(ENDGAME);
+			subGS.SET_GameState(EG_WIN);
+		}else{
+			GS.SET_GameState(ENDGAME);
+		}
 	}
 }
 

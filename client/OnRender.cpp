@@ -366,6 +366,14 @@ void GameClient::OnRender() {
 		RenderStartScreen();
 	}
 
+	if (GS.GET_GameState() == ENDGAME) {
+	if(subGS.GET_GameState() == EG_WIN){
+		CSurface::OnDraw(Surf_Display, SurfYouWin, 100, 100);
+	}else{
+		CSurface::OnDraw(Surf_Display, SurfYouLose, 0, 0);
+	}
+	}
+
 	if (GS.GET_GameState() == INGAME) {
 		RenderInGame();
 	}
