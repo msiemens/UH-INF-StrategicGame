@@ -50,7 +50,10 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 
 //recruit
 	if (recruit != NULL) {
+		std::cout << "Logic recruit" << endl;
 		if (player->GetActionLeft() > 0) {
+
+			std::cout << "getactionleft > 0" << endl;
 			GameRessourcePtr costs(recruit->costs);
 			EUnitPtr troops(recruit->what);
 			ELocationPtr base(recruit->base);
@@ -58,6 +61,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 			if (player->getGold() >= recruit->what->cost_gold
 					and player->getWood() >= recruit->what->cost_wood
 					and player->getStone() >= recruit->what->cost_stone) {
+				std::cout << "Enough Money" << endl;
 
 				if (recruit->inside) {
 					if (base->town_army->units.size() < 10
@@ -68,18 +72,21 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 						valid = false;
 					}
 				} else { //outside
-					if (map->whosePlace(base->getCoords())
+					if (map->whoseLocationAt(base->getCoords())
 							== player->getPlayerId()) {
+						std::cout << "Is players place" << endl;
 						if (map->isArmyPositioned(
 								base->GetAssemblyPointCoords())
 								and container->getArmyAt(base->GetAssemblyPointCoords())->units.size()
-										< 10
+										< 12
 								and container->getArmyAt(base->GetAssemblyPointCoords())->GetOwner()
 										== player->getPlayerId()) {
+							std::cout << "isArmyPositioned and units size < 12 and owner =player" << endl;
 							valid = true;
 
 						} else if (map->isWalkable(
 								base->GetAssemblyPointCoords())) {
+							std::cout << "isWalkable" << endl;
 							valid = true;
 						}
 					}

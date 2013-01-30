@@ -404,7 +404,7 @@ void GameEngine::startSession() {
 	int counter = 1;
 
 	//for (auto location : *(container->getLocationListPtr())) {
-	for (auto location :map->placeList) {
+	for (auto location :*(container->getLocationListPtr())) {
 
 		if (map->isStartBase(location->getCoords())) {
 			int i = 1;
