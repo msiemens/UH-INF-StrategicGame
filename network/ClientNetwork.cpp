@@ -78,7 +78,7 @@ void ClientNetwork::ConnectOnMessage(const signal_state_t::slot_type &subscriber
 }
 
 void ClientNetwork::SendAction(GameActionPtr action) {
-	std::cout << "Sending Action" << std::endl;
+	std::cout << "Sending action" << std::endl;
 
 	std::stringstream buffer;
 
@@ -98,7 +98,7 @@ void ClientNetwork::SendAction(GameActionPtr action) {
 }
 
 void ClientNetwork::SendMetaMessage(GameMetaMessagePtr message) {
-	std::cout << "Sending MetaMessage" << std::endl;
+	std::cout << "Sending metamessage" << std::endl;
 
 	std::stringstream buffer;
 
