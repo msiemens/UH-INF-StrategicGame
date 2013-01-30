@@ -29,6 +29,7 @@
 #include <network/messages/statemessages/SMBattleResult.h>
 #include <network/messages/statemessages/SMSetLocationOwner.h>
 #include <network/messages/statemessages/SMUpdateArmy.h>
+#include <network/messages/statemessages/SMRemoveArmy.h>
 
 #include <network/ServerNetwork.h>
 
@@ -197,13 +198,22 @@ void GameEngine::SendUpdateRessources(PlayerPtr player) {
 	m_network.SendMessageA(player, message);
 }
 
-void GameEngine::SendUpdateArmy(PlayerPtr player,EArmyPtr army,coordinates deleted_army_coords){
+void GameEngine::SendUpdateArmy(PlayerPtr player,EArmyPtr army){
 	SMUpdateArmyPtr updatearmy(new SMUpdateArmy);
 	updatearmy->army = army;
-	updatearmy->deleted_army_coords=deleted_army_coords;
 	GameStateMessagePtr message(updatearmy);
 	m_network.SendMessageA(player,updatearmy);
 }
+
+void GameEngine::SendRemoveArmy(PlayerPtr player, EArmyPtr army) {
+	SMRemoveArmyPtr removearmy(new SMRemoveArmy);
+	removearmy->coords=army->getCoords();
+	removearmy->owner=player->getPlayerId();
+	GameStateMessagePtr message(removearmy);
+	m_network.SendMessageA(player,removearmy);
+}
+
+
 
 void GameEngine::onNextTurn() {
 	//reset StepsLeft
@@ -273,9 +283,7 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 
 	if (army->GetOwner() == player->getPlayerId()) {
 		if ((army->GetStepsLeft() - size) >= 0) {
-			if (map->isBlocked(to) == false) {
-				if (map->isWalkable(to) == true and map->isPlace(to) == false
-						and map->isArmyPositioned(to) == false) {
+				if (map->isWalkable(to)) {
 					map->setWalkable(from);
 					army->setCoords(to);
 					map->setArmy(to);
@@ -287,7 +295,8 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 						town_army->AddUnit(unit);
 						army->RemoveUnit(unit);
 					}
-					SendUpdateArmy(player,town_army,army->getCoords());
+					SendUpdateArmy(player,town_army);
+					SendRemoveArmy(player,army);
 					container->removeArmy(army);
 					army->~EArmy();
 				} else if (map->isArmyPositioned(to) == true) {
@@ -297,7 +306,8 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 						army_to->AddUnit(unit);
 						army->RemoveUnit(unit);
 					}
-					SendUpdateArmy(player,army_to,army->getCoords());
+					SendUpdateArmy(player,army_to);
+					SendRemoveArmy(player,army);
 					container->removeArmy(army);
 					army->~EArmy();
 				}
@@ -307,7 +317,6 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 		BroadcastAction(action);
 	}
 
-}
 
 GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player, ABuildPtr build) {
 	EBuildingPtr building(build->what);

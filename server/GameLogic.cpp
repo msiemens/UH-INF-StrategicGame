@@ -92,11 +92,14 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 
 //move
 	else if (move != NULL) {
+		std::cout << "Logic move" << endl;
 		GameEntityPtr what(move->what);
+		coordinates from=what->getCoords();
 		coordinates to = move->to;
 
 		valid = (map->isWalkable(to) or (map->isArmyPositioned(to) and map->whoseArmyAt(to)==player->getPlayerId()
-		and container->getArmyAt(to)->units.size() < 12)) ? true : false;
+		and container->getArmyAt(to)->units.size()+container->getArmyAt(from)->units.size() < 12) or (map->isPlace(to) and
+				map->whoseLocationAt(to)==player->getPlayerId() and map->getLocationAt(to)->town_army->units.size()<12)) ? true : false;
 	}
 //build
 	else if (build != NULL) {

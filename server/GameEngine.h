@@ -54,7 +54,8 @@ public:
     void SendUpdateActionsLeft(PlayerPtr player);
     void SendSetStartbase(PlayerPtr player, coordinates coords);
     void SendBattleResult(PlayerPtr player, EArmyPtr winner, coordinates looser_coords);
-    void SendUpdateArmy(PlayerPtr player, EArmyPtr army,coordinates coords);
+    void SendUpdateArmy(PlayerPtr player, EArmyPtr army);
+    void SendRemoveArmy(PlayerPtr player,EArmyPtr army);
 
 	void BroadcastAction(GameActionPtr action);
 
