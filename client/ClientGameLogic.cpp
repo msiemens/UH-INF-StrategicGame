@@ -84,33 +84,3 @@ EArmyPtr GameClient::getOpponentArmyByCoords(coordinates coords){
 	}
 	return armyat;
 }
-
-
-void GameClient::MergeArmyIntoPlace(coordinates coords, EArmyPtr Army){
-	int i=0;
-	ELocationPtr place = map.getPlaceAt(coords);
-	if(10 - place->town_army->units.size() > Army->units.size()){
-		for(i=0; i<Army->units.size(); i++){
-			place->town_army->units.push_back(Army->units[i]);
-		}
-		Army->units.clear();
-		map.setWalkable(ArmySelected->getCoords());
-		ArmySelected.reset();
-		player.armies.remove(Army);
-	}
-}
-
-void GameClient::MergeArmies(coordinates coords, EArmyPtr Army){
-	int i=0;
-	EArmyPtr armyat = getArmyByCoords(coords);
-	if(armyat->units.size() + Army->units.size() <= 10){
-		for(i=0; i<Army->units.size(); i++){
-			armyat->units.push_back(Army->units[i]);
-		}
-		Army->units.clear();
-		map.setWalkable(ArmySelected->getCoords());
-		ArmySelected=armyat;
-		player.armies.remove(Army);
-	}
-}
-

@@ -114,7 +114,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 			player.addArmy(update_army->army);
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(update_army->army->getCoords()));
-			opponent.addArmy(update_army->army);
+			opponent.addArmy(update_army->ar my);
 		}
 	}
 	if(remove_army != NULL){
@@ -163,13 +163,6 @@ void GameClient::ReceiveMoveArmy(AMove* move){
 			if(ArmySelected->GetStepsLeft() == 0){
 				subGS.SET_GameState(SUB_NONE);
 			}
-		}else if(map.isPlace(move->to) == true){
-			//if there is a place, merge into(if possible)
-			MergeArmyIntoPlace(move->to, ArmySelected);
-			subGS.SET_GameState(SUB_NONE);
-		}else if(map.isArmyPositioned(move->to) == true){
-			MergeArmies(move->to, ArmySelected);
-			subGS.SET_GameState(SUB_NONE);
 		}
 
 		//remove Stepsleft
@@ -181,11 +174,6 @@ void GameClient::ReceiveMoveArmy(AMove* move){
 			map.setWalkable(army->getCoords());
 			army->setCoords(move->to);
 			map.setArmy(army->getCoords());
-		}else if(map.isPlace(move->to) == true){
-			//if there is a place, merge into(if possible)
-			MergeArmyIntoPlace(move->to, army);
-		}else if(map.isArmyPositioned(move->to) == true){
-			MergeArmies(move->to, army);
 		}
 
 		//remove Stepsleft
