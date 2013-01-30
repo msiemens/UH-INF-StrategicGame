@@ -202,7 +202,9 @@ void GameEngine::SendUpdateArmy(PlayerPtr player,EArmyPtr army){
 	SMUpdateArmyPtr updatearmy(new SMUpdateArmy);
 	updatearmy->army = army;
 	GameStateMessagePtr message(updatearmy);
-	m_network.SendMessageA(player,updatearmy);
+	for(auto p:*(container->getPlayerListPtr())){
+		m_network.SendMessageA(p,updatearmy);
+	}
 }
 
 void GameEngine::SendRemoveArmy(PlayerPtr player, EArmyPtr army) {
@@ -210,7 +212,9 @@ void GameEngine::SendRemoveArmy(PlayerPtr player, EArmyPtr army) {
 	removearmy->coords=army->getCoords();
 	removearmy->owner=player->getPlayerId();
 	GameStateMessagePtr message(removearmy);
-	m_network.SendMessageA(player,removearmy);
+	for(auto player:*(container->getPlayerListPtr())){
+		m_network.SendMessageA(player,removearmy);
+	}
 }
 
 
