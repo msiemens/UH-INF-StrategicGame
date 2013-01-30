@@ -57,6 +57,7 @@ void GameEngine::onPlayerAction(GameActionPtr action, PlayerPtr player) {
 	if (logic.checkPlayerAction(player, action) == true) {
 		doAction(player, action);
 	} else {
+		std::cout << "Action invalid" << endl;
 	}
 }
 
@@ -219,6 +220,10 @@ void GameEngine::onNextTurn() {
 	//reset StepsLeft
 	for (auto player : *(container->getPlayerListPtr())) {
 		player->SetActionLeft(10);
+		player->setGold(player->getGold()+10);
+		player->setWood(player->getWood()+10);
+		player->setStone(player->getStone()+10);
+		SendUpdateRessources(player);
 		for (auto army : *(container->getArmyListPtr())) {
 			army->SetStepsLeft(2);
 		}
@@ -456,7 +461,7 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 void GameEngine::attackLocation(EArmyPtr attacker, ELocationPtr defenderloc) {
 	EArmyPtr defender(defenderloc->town_army);
 	std::cout << "Location attacker" << endl;
-	if(defender->units.size() >0){
+	if(defender->units.size() > 0){
 		while(attacker->units.size() > 0 and defender->units.size() > 0){
 				int damagepoints_defender=((attacker->GetAtk()+attacker->GetMor()+attacker->GetPac()))-(defender->GetDef());
 				int damagepoints_attacker=((defender->GetAtk()+defender->GetMor()+defender->GetPac()))-(attacker->GetDef());

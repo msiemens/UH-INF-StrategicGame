@@ -65,7 +65,7 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 
 				if (recruit->inside) {
 					if (base->town_army->units.size() < 10
-							and map->whosePlace(base->getCoords())
+							and map->whoseLocationAt(base->getCoords())
 									== player->getPlayerId()) {
 						valid = true;
 					} else {
