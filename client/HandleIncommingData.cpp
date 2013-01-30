@@ -6,6 +6,12 @@
 #include <gamemodel/actions/ASetTurn.h>
 
 
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/bind.hpp>
+
+#include <network/ClientNetwork.h>
+
 #include "network/messages/statemessages/SMUpdateRessources.h"
 #include "network/messages/statemessages/SMUpdateUUID.h"
 #include "network/messages/statemessages/SMSetStartBase.h"
@@ -24,9 +30,9 @@ using namespace std;
 void GameClient::OnNetworkAction(GameActionPtr action){
 	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
 	AMove* move = dynamic_cast<AMove*>(action.get());
-	ASetAP* setAP = dynamic_cast<ASetAP*>(action.get());
 	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
 	ALogIn* login = dynamic_cast<ALogIn*>(action.get());
+	ASetAPPtr setAP2 = boost::dynamic_pointer_cast<ASetAP>(action);
 
 	if (recruit != NULL) {
 		if(recruit->inside == true){
