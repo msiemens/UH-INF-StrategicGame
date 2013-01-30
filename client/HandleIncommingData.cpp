@@ -111,6 +111,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	if(set_location_owner != NULL){
 		ELocationPtr location(map.getPlaceAt(set_location_owner->coords));
 		location->SetOwner(set_location_owner->owner);
+		location->owned = true;
 	}
 
 
