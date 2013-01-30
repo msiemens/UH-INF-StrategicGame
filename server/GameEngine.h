@@ -56,13 +56,14 @@ public:
     void SendBattleResult(PlayerPtr player, EArmyPtr winner, coordinates looser_coords);
     void SendUpdateArmy(PlayerPtr player, EArmyPtr army);
     void SendRemoveArmy(PlayerPtr player,boost::uuids::uuid owner,EArmyPtr army);
+    void SendSetLocationOwner(boost::uuids::uuid owner,ELocationPtr location);
 
 	void BroadcastAction(GameActionPtr action);
 
 	void createArmyAt(coordinates coords,PlayerPtr owner);
 
 	void attackArmy(EArmyPtr attacker,EArmyPtr defender);
-	void attackLocation(EArmyPtr attack,EArmyPtr defender);
+	void attackLocation(EArmyPtr attack,ELocationPtr defender);
 
 	void onNextTurn();
 

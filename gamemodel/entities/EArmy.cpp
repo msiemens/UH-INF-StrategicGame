@@ -17,7 +17,7 @@ EArmy::~EArmy() {
 }
 
 void EArmy::AddUnit(EUnitPtr unit) {
-	if(units.size()<10){
+	if(units.size()<12){
 		units.push_back(unit);
 	}
 }

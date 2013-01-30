@@ -103,6 +103,7 @@ void GameEngine::doAction(PlayerPtr player, GameActionPtr action) {
 
 	std::cout << "\n---------------------------------------------------------------\n";
 }
+
 void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn) {
 	//we need the same ID
 	SendUpdateUUID(player);
@@ -217,8 +218,6 @@ void GameEngine::SendRemoveArmy(PlayerPtr player,boost::uuids::uuid owner, EArmy
 	}
 }
 
-
-
 void GameEngine::onNextTurn() {
 	//reset StepsLeft
 	for (auto player : *(container->getPlayerListPtr())) {
@@ -297,23 +296,24 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					EArmyPtr town_army(map->getLocationAt(to)->town_army);
 					for(auto unit:army->units){
 						town_army->AddUnit(unit);
-						army->RemoveUnit(unit);
 					}
 					SendUpdateArmy(player,town_army);
 					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
+					map->setWalkable(from);
 					army->~EArmy();
 				} else if (map->isArmyPositioned(to) == true ) {
 //merge into army
 					EArmyPtr army_to(container->getArmyAt(to));
 					for(auto unit:army->units){
 						army_to->AddUnit(unit);
-						army->RemoveUnit(unit);
 					}
 					SendUpdateArmy(player,army_to);
 					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
+					map->setWalkable(from);
 					army->~EArmy();
+					std::cout << container->getArmyAt(from)->units.size() << endl;
 				}
 			}
 		}
@@ -334,10 +334,16 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player, ABuildPtr build) {
 void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 	coordinates where = attack->target;
 
-	EArmyPtr attacker_army(map->getArmyAt(attack->attacker));
-	EArmyPtr defender_army(map->getArmyAt(attack->target));
-
-	attackArmy(attacker_army,defender_army);
+	if(map->isArmyPositioned(where)){
+		EArmyPtr attacker_army(map->getArmyAt(attack->attacker));
+		EArmyPtr defender_army(map->getArmyAt(attack->target));
+		attackArmy(attacker_army,defender_army);
+	}
+	else {
+		EArmyPtr attacker_army(map->getArmyAt(attack->attacker));
+		ELocationPtr defender_location(map->getLocationAt(where));
+		attackLocation(attacker_army,defender_location);
+	}
 }
 
 GameActionPtr GameEngine::onPlayerSetAP(PlayerPtr player, ASetAPPtr setAP) {
@@ -421,11 +427,6 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 		int damagepoints_defender=(attacker->GetAtk()*10/(defender->GetDef() || 1));
 		int damagepoints_attacker=(defender->GetAtk()*10/(attacker->GetDef() || 1));
 
-		 damagepoints_defender = 10;
-		 damagepoints_attacker = 2;
-
-		cout << damagepoints_attacker << " vs " << damagepoints_defender << endl;
-
 		attacker->SetDamagePoints(damagepoints_attacker);
 		defender->SetDamagePoints(damagepoints_defender);
 	}
@@ -442,6 +443,33 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 		}
 		map->setWalkable(attacker->getCoords());
 		container->removeArmy(attacker);
+	}
+}
+
+void GameEngine::attackLocation(EArmyPtr attacker, ELocationPtr defenderloc) {
+	EArmyPtr defender(defenderloc->town_army);
+	while(attacker->units.size() != 0 and defender->units.size() != 0){
+		int damagepoints_defender=(attacker->GetAtk()*10/(defender->GetDef() || 1));
+		int damagepoints_attacker=(defender->GetAtk()*10/(attacker->GetDef() || 1));
+
+		attacker->SetDamagePoints(damagepoints_attacker);
+		defender->SetDamagePoints(damagepoints_defender);
+	}
+
+	if(attacker->units.size() != 0){
+		defenderloc->SetOwner(map->whoseArmyAt(attacker->getCoords()));
+		SendSetLocationOwner(map->whoseArmyAt(attacker->getCoords()),defenderloc);
+
+	}
+}
+
+void GameEngine::SendSetLocationOwner(boost::uuids::uuid owner, ELocationPtr location) {
+	SMSetLocationOwnerPtr setlocationowner(new SMSetLocationOwner);
+	setlocationowner->coords=location->getCoords();
+	setlocationowner->owner=owner;
+	GameStateMessagePtr message(setlocationowner);
+	for(auto p:*(container->getPlayerListPtr())){
+		m_network.SendMessageA(p,setlocationowner);
 	}
 }
 

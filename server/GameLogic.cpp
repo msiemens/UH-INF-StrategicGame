@@ -134,6 +134,8 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 						and player->getPlayerId()
 								== map->whoseArmyAt(attack->attacker)) ?
 						true : false;
+			} else if(map->isPlace(attack->target)){
+				valid=(player->getPlayerId() != map->whoseLocationAt(attack->target) and map->whoseArmyAt(attack->attacker)== player->getPlayerId())?true:false;
 			}
 		}
 	}
