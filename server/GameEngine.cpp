@@ -207,10 +207,10 @@ void GameEngine::SendUpdateArmy(PlayerPtr player,EArmyPtr army){
 	}
 }
 
-void GameEngine::SendRemoveArmy(PlayerPtr player, EArmyPtr army) {
+void GameEngine::SendRemoveArmy(PlayerPtr player,boost::uuids::uuid owner, EArmyPtr army) {
 	SMRemoveArmyPtr removearmy(new SMRemoveArmy);
 	removearmy->coords=army->getCoords();
-	removearmy->owner=player->getPlayerId();
+	removearmy->owner=owner;
 	GameStateMessagePtr message(removearmy);
 	for(auto player:*(container->getPlayerListPtr())){
 		m_network.SendMessageA(player,removearmy);
@@ -300,10 +300,10 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 						army->RemoveUnit(unit);
 					}
 					SendUpdateArmy(player,town_army);
-					SendRemoveArmy(player,army);
+					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
 					army->~EArmy();
-				} else if (map->isArmyPositioned(to) == true) {
+				} else if (map->isArmyPositioned(to) == true ) {
 //merge into army
 					EArmyPtr army_to(container->getArmyAt(to));
 					for(auto unit:army->units){
@@ -311,7 +311,7 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 						army->RemoveUnit(unit);
 					}
 					SendUpdateArmy(player,army_to);
-					SendRemoveArmy(player,army);
+					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
 					army->~EArmy();
 				}
