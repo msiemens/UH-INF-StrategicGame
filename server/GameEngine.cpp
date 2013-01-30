@@ -30,6 +30,7 @@
 #include <network/messages/statemessages/SMSetLocationOwner.h>
 #include <network/messages/statemessages/SMUpdateArmy.h>
 #include <network/messages/statemessages/SMRemoveArmy.h>
+#include <network/messages/statemessages/SMUpdateLocationArmy.h>
 
 #include <network/ServerNetwork.h>
 
@@ -476,10 +477,20 @@ void GameEngine::attackLocation(EArmyPtr attacker, ELocationPtr defenderloc) {
 			SendUpdateArmy(container->getPlayerById(attacker->GetOwner()),attacker);
 			defenderloc->SetOwner(map->whoseArmyAt(attacker->getCoords()));
 			SendSetLocationOwner(map->whoseArmyAt(attacker->getCoords()),defenderloc);
+
+			for(auto unit:defender->units){
+				defender->RemoveUnit(unit);
+			}
+			for(auto player:*(container->getPlayerListPtr())){
+				SendUpdateLocationArmy(player,defender,defender->getCoords());
+			}
 		}else{
 			std::cout << "Defender won" << endl;
 			PlayerPtr player(new Player);
 			SendRemoveArmy(player,attacker->GetOwner(),attacker);
+			for(auto player:*(container->getPlayerListPtr())){
+				SendUpdateLocationArmy(player,attacker,attacker->getCoords());
+			}
 			attacker->~EArmy();
 		}
 	} else{
@@ -497,6 +508,14 @@ void GameEngine::SendSetLocationOwner(boost::uuids::uuid owner, ELocationPtr loc
 	for(auto p:*(container->getPlayerListPtr())){
 		m_network.SendMessageA(p,setlocationowner);
 	}
+}
+
+void GameEngine::SendUpdateLocationArmy(PlayerPtr player,EArmyPtr army, coordinates coords) {
+	SMUpdateLocationArmyPtr updatelocarmy(new SMUpdateLocationArmy);
+	updatelocarmy->army=army;
+	updatelocarmy->coords=coords;
+	GameStateMessagePtr message(updatelocarmy);
+	m_network.SendMessageA(player,message);
 }
 
 void GameEngine::run() {

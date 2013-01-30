@@ -57,6 +57,7 @@ public:
     void SendUpdateArmy(PlayerPtr player, EArmyPtr army);
     void SendRemoveArmy(PlayerPtr player,boost::uuids::uuid owner,EArmyPtr army);
     void SendSetLocationOwner(boost::uuids::uuid owner,ELocationPtr location);
+    void SendUpdateLocationArmy(PlayerPtr player,EArmyPtr army,coordinates coords);
 
 	void BroadcastAction(GameActionPtr action);
 
