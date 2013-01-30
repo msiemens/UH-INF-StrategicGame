@@ -58,7 +58,7 @@ void EArmy::Move(int dir, int size) {
 int EArmy::GetAtk() {
 	int atk_ges=0;
 	for(auto unit:units){
-		atk_ges+=(unit->GetAtk()/unit->GetAmount());
+		atk_ges+=(unit->GetAtk());
 	}
 	return atk_ges;
 }
@@ -77,7 +77,7 @@ int EArmy::GetMor() {
 		mor_avg+=unit->GetDef();
 	}
 
-	mor_avg=mor_avg/units.size();
+	mor_avg=mor_avg/(units.size() || 1);
 
 	return mor_avg;
 }
@@ -96,11 +96,14 @@ int EArmy::GetTac() {
 		tac_avg+=unit->GetMor();
 	}
 
-	tac_avg=tac_avg/units.size();
+	tac_avg=tac_avg/(units.size() || 1);
 	return tac_avg;
 }
 
 void EArmy::SetDamagePoints(int damage) {
+	if(damage<0){
+		damage=0;
+	}
 	for(auto unit:units){
 		std::cout << "! 1" << std::endl;
 		if (!!unit) {

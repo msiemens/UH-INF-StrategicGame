@@ -201,10 +201,7 @@ void GameEngine::SendUpdateArmy(PlayerPtr player,EArmyPtr army){
 	SMUpdateArmyPtr updatearmy(new SMUpdateArmy);
 	updatearmy->army = army;
 	GameStateMessagePtr message(updatearmy);
-	//for(auto p:*(container->getPlayerListPtr())){
-	for(int i=0;i<container->getPlayerCount();i++){
-		m_network.SendMessageA(container->getPlayer(i),updatearmy);
-	}
+	m_network.SendMessageA(player,updatearmy);
 }
 
 void GameEngine::SendRemoveArmy(PlayerPtr player,boost::uuids::uuid owner, EArmyPtr army) {
@@ -299,7 +296,9 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					for(auto unit:army->units){
 						town_army->AddUnit(unit);
 					}
-					SendUpdateArmy(player,town_army);
+					for(int i=0;i<container->getPlayerCount();i++){
+						SendUpdateArmy(container->getPlayer(i),town_army);
+					}
 					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
 					map->setWalkable(from);
@@ -310,7 +309,11 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					for(auto unit:army->units){
 						army_to->AddUnit(unit);
 					}
-					SendUpdateArmy(player,army_to);
+
+					for(int i=0;i<container->getPlayerCount();i++){
+						SendUpdateArmy(container->getPlayer(i),army_to);
+					}
+
 					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
 					map->setWalkable(from);
@@ -421,9 +424,12 @@ void GameEngine::startSession() {
 }
 
 void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
-	for(int i=0;i<3;i++){
-		int damagepoints_defender=(attacker->GetAtk()*(attacker->GetMor()+attacker->GetPac()+5)/(defender->GetDef() || 1));
-		int damagepoints_attacker=(defender->GetAtk()*(defender->GetMor()+defender->GetPac()+5)/(attacker->GetDef() || 1));
+ 	while(attacker->units.size() > 0 and defender->units.size() > 0){
+		int damagepoints_defender=((attacker->GetAtk()+attacker->GetMor()+attacker->GetPac()))-(defender->GetDef());
+		int damagepoints_attacker=((defender->GetAtk()+defender->GetMor()+defender->GetPac()))-(attacker->GetDef());
+
+		std::cout << "Damagepoints defender " << damagepoints_defender << endl;
+		std::cout << "Damagepoints attacker " << damagepoints_attacker << endl;
 
 		attacker->SetDamagePoints(damagepoints_attacker);
 		defender->SetDamagePoints(damagepoints_defender);
@@ -445,40 +451,36 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 		map->setWalkable(attacker->getCoords());
 		container->removeArmy(attacker);
 	}
-/*
-	PlayerPtr player(new Player);
-	if(attacker->units.size()==0){
-		SendRemoveArmy(player,attacker->GetOwner(),attacker);
-	}
-	if(defender->units.size()==0){
-		SendRemoveArmy(player,defender->GetOwner(),defender);
-	}
-
-	if(attacker->units.size() > 0 ){
-		SendUpdateArmy(player,attacker);
-	}
-	if(defender->units.size() > 0){
-		SendUpdateArmy(player,defender);
-	}*/
 }
 
 void GameEngine::attackLocation(EArmyPtr attacker, ELocationPtr defenderloc) {
 	EArmyPtr defender(defenderloc->town_army);
-	while(attacker->units.size() != 0 and defender->units.size() != 0){
-		int damagepoints_defender=(attacker->GetAtk()*10/(defender->GetDef() || 1));
-		int damagepoints_attacker=(defender->GetAtk()*10/(attacker->GetDef() || 1));
+	std::cout << "Location attacker" << endl;
+	if(defender->units.size() >0){
+	while(attacker->units.size() > 0 and defender->units.size() > 0){
+			int damagepoints_defender=((attacker->GetAtk()+attacker->GetMor()+attacker->GetPac()))-(defender->GetDef());
+			int damagepoints_attacker=((defender->GetAtk()+defender->GetMor()+defender->GetPac()))-(attacker->GetDef());
+			std::cout << "In while Schleife" << endl;
+			attacker->SetDamagePoints(damagepoints_attacker);
+			defender->SetDamagePoints(damagepoints_defender);
+		}
 
-		damagepoints_defender=10;
-		damagepoints_attacker=15;
-
-		attacker->SetDamagePoints(damagepoints_attacker);
-		defender->SetDamagePoints(damagepoints_defender);
-	}
 
 	if(attacker->units.size() != 0){
+		std::cout << "Attacker won" << endl;
+		SendUpdateArmy(container->getPlayerById(attacker->GetOwner()),attacker);
 		defenderloc->SetOwner(map->whoseArmyAt(attacker->getCoords()));
 		SendSetLocationOwner(map->whoseArmyAt(attacker->getCoords()),defenderloc);
-
+	}else{
+		std::cout << "Defender won" << endl;
+		PlayerPtr player(new Player);
+		SendRemoveArmy(player,attacker->GetOwner(),attacker);
+		attacker->~EArmy();
+	}
+	} else{
+		std::cout << "No town_army" << endl;
+		defenderloc->SetOwner(map->whoseArmyAt(attacker->getCoords()));
+		SendSetLocationOwner(map->whoseArmyAt(attacker->getCoords()),defenderloc);
 	}
 }
 

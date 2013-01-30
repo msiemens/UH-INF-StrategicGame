@@ -9,11 +9,11 @@
 
 ECavalry::ECavalry() {
 	// TODO Auto-generated constructor stub
-	atk=(7);
-	def=(4);
+	atk=(3);
+	def=(1);
 	mor=(4);
-	pac=(10);
-	tac=(2);
+	pac=(6);
+	tac=(1);
 	amount=30;
 	cost_gold = 20;
 	cost_stone = 12;
