@@ -54,6 +54,8 @@ void GameClient::init() {
 	SurfRecruitMenuBackground = NULL;
 	SurfConnection = NULL;
 	SurfSlotOwns = NULL;
+	SurfYouLose = NULL;
+	SurfYouWin = NULL;
 	selected = "";
 	FRAMES_PER_SECOND  = 20;
 	markx = 0;

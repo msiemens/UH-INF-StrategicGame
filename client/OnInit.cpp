@@ -41,6 +41,21 @@ bool GameClient::OnInit() {
 			(char*) "client/gfx/gui/menu/buttons/exit_norm.png")) == NULL) {
 		return false;
 	}
+	//Youwin
+	if ((SurfYouWin = CSurface::OnLoad(
+			(char*) "client/gfx/gui/main/you_win.png")) == NULL) {
+		return false;
+	}
+	//Youwin
+	if ((SurfYouLose = CSurface::OnLoad(
+			(char*) "client/gfx/gui/main/you_lose.png")) == NULL) {
+		return false;
+	}
+	//Button SSExit
+	if ((SurfButtonSSExit = CSurface::OnLoad(
+			(char*) "client/gfx/gui/menu/buttons/exit_norm.png")) == NULL) {
+		return false;
+	}
 	//ingame
 	//load mainbrackground
 	if ((SurfMain = CSurface::OnLoad((char*) "client/gfx/gui/main/main.png")) == NULL) {

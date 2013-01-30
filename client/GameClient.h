@@ -101,6 +101,8 @@ private:
 	SDL_Surface* SurfBlock;
 	SDL_Surface* SurfPlace;
 
+	SDL_Surface* SurfYouLose;
+	SDL_Surface* SurfYouWin;
 
 	string selected;
 	ELocationPtr PlaceSelected;
