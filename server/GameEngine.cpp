@@ -286,7 +286,7 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 	coordinates to = move->to;
 	int size = move->count;
 	EArmyPtr army(container->getArmyAt(from));
-
+	cout << "GOT AN PLAYER MOVE" << endl;
 	if (army->GetOwner() == player->getPlayerId()) {
 		if ((army->GetStepsLeft() - size) >= 0) {
 				if (map->isWalkable(to)) {
@@ -298,6 +298,7 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					BroadcastAction(action);
 				} else if (map->isPlace(to) == true) {
 //merge into place
+					cout << "GOT AN PLAYER MOVE MERGE IN TOWN" << endl;
 					EArmyPtr town_army(map->getLocationAt(to)->town_army);
 					for(auto unit:army->units){
 						town_army->AddUnit(unit);
@@ -348,6 +349,7 @@ void GameEngine::onPlayerAttack(PlayerPtr player, AAttackPtr attack) {
 		attackArmy(attacker_army,defender_army);
 	}
 	else {
+		cout << "GOT AN PLAYER attack TOWN" << endl;
 		EArmyPtr attacker_army(map->getArmyAt(attack->attacker));
 		ELocationPtr defender_location(map->getLocationAt(where));
 		attackLocation(attacker_army,defender_location);

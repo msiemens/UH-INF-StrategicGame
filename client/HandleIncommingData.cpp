@@ -114,6 +114,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 		ELocationPtr location(map.getPlaceAt(set_location_owner->coords));
 		location->SetOwner(set_location_owner->owner);
 		location->owned = true;
+		ArmySelected.reset();
 	}
 
 
@@ -122,7 +123,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 			update_army->army->SetOwner(player.getPlayerId());
 			player.armies.remove(getArmyByCoords(update_army->army->getCoords()));
 			player.addArmy(update_army->army);
-			ArmySelected = getArmyByCoords(update_army->army->getCoords());
+			ArmySelected.reset();// = getArmyByCoords(update_army->army->getCoords());
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(update_army->army->getCoords()));
 			opponent.addArmy(update_army->army);
@@ -130,6 +131,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 		}
 	}
 	if(remove_army != NULL){
+		ArmySelected.reset();
 		if(remove_army->owner == player.getPlayerId()){
 			player.armies.remove(getArmyByCoords(remove_army->coords));
 			map.setWalkable(remove_army->coords);
@@ -139,15 +141,16 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 		}
 	}
 	if(update_loc_army != NULL){
-		if(map.getPlaceAt(update_loc_army->coords)->GetOwner() == player.getPlayerId()){
-			for(auto unit: update_loc_army->army->units){
-				map.getPlaceAt(update_loc_army->coords)->town_army->units.push_back(unit);
-			}
-		}else{
-			for(auto unit: update_loc_army->army->units){
-				map.getPlaceAt(update_loc_army->coords)->town_army->units.push_back(unit);
-			}
-		}
+//		ArmySelected.reset();
+//		if(map.getPlaceAt(update_loc_army->coords)->GetOwner() == player.getPlayerId()){
+//			for(auto unit: update_loc_army->army->units){
+//				map.getPlaceAt(update_loc_army->coords)->town_army->units.push_back(unit);
+//			}
+//		}else{
+//			for(auto unit: update_loc_army->army->units){
+//				map.getPlaceAt(update_loc_army->coords)->town_army->units.push_back(unit);
+//			}
+//		}
 	}
 }
 
