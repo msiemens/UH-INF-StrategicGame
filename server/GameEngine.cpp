@@ -302,7 +302,7 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
 					map->setWalkable(from);
-					army->~EArmy();
+					//army->~EArmy();
 				} else if (map->isArmyPositioned(to) == true ) {
 //merge into army
 					EArmyPtr army_to(container->getArmyAt(to));
@@ -317,7 +317,7 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
 					map->setWalkable(from);
-					army->~EArmy();
+					//army->~EArmy();
 				}
 			}
 		}
