@@ -33,12 +33,9 @@ private:
 
 	template<typename Archive>
 	void serialize(Archive &ar, const unsigned int version) {
-		cout << "(De)serializing ARecruit" << std::endl;
 		ar & boost::serialization::base_object<GameAction>(*this);
 
-		cout << "(De)serializing what" << std::endl;
 		ar & what;
-		// cout << "(De)serializing base" << std::endl;
 		ar & base;
 		ar & inside;
 	}

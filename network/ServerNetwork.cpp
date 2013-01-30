@@ -104,7 +104,7 @@ void ServerNetwork::SendAction(PlayerPtr dest, GameActionPtr action) {
 }
 
 void ServerNetwork::SendMessage(PlayerPtr dest, GameStateMessagePtr message) {
-	std::cout << "Sending Message" << std::endl;
+	std::cout << "Sending statemessage" << std::endl;
 
 	std::stringstream buffer;
 
