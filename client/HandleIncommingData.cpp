@@ -110,11 +110,14 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 
 	if(update_army != NULL){
 		if(update_army->army->GetOwner() == player.getPlayerId()){
+			update_army->army->SetOwner(player.getPlayerId());
 			player.armies.remove(getArmyByCoords(update_army->army->getCoords()));
 			player.addArmy(update_army->army);
+			ArmySelected = getArmyByCoords(update_army->army->getCoords());
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(update_army->army->getCoords()));
 			opponent.addArmy(update_army->army);
+			getOpponentArmyByCoords(update_army->army->getCoords())->SetOwner(opponent.getPlayerId());
 		}
 	}
 	if(remove_army != NULL){

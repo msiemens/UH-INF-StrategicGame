@@ -457,26 +457,26 @@ void GameEngine::attackLocation(EArmyPtr attacker, ELocationPtr defenderloc) {
 	EArmyPtr defender(defenderloc->town_army);
 	std::cout << "Location attacker" << endl;
 	if(defender->units.size() >0){
-	while(attacker->units.size() > 0 and defender->units.size() > 0){
-			int damagepoints_defender=((attacker->GetAtk()+attacker->GetMor()+attacker->GetPac()))-(defender->GetDef());
-			int damagepoints_attacker=((defender->GetAtk()+defender->GetMor()+defender->GetPac()))-(attacker->GetDef());
-			std::cout << "In while Schleife" << endl;
-			attacker->SetDamagePoints(damagepoints_attacker);
-			defender->SetDamagePoints(damagepoints_defender);
+		while(attacker->units.size() > 0 and defender->units.size() > 0){
+				int damagepoints_defender=((attacker->GetAtk()+attacker->GetMor()+attacker->GetPac()))-(defender->GetDef());
+				int damagepoints_attacker=((defender->GetAtk()+defender->GetMor()+defender->GetPac()))-(attacker->GetDef());
+				std::cout << "In while Schleife" << endl;
+				attacker->SetDamagePoints(damagepoints_attacker);
+				defender->SetDamagePoints(damagepoints_defender);
+			}
+
+
+		if(attacker->units.size() != 0){
+			std::cout << "Attacker won" << endl;
+			SendUpdateArmy(container->getPlayerById(attacker->GetOwner()),attacker);
+			defenderloc->SetOwner(map->whoseArmyAt(attacker->getCoords()));
+			SendSetLocationOwner(map->whoseArmyAt(attacker->getCoords()),defenderloc);
+		}else{
+			std::cout << "Defender won" << endl;
+			PlayerPtr player(new Player);
+			SendRemoveArmy(player,attacker->GetOwner(),attacker);
+			attacker->~EArmy();
 		}
-
-
-	if(attacker->units.size() != 0){
-		std::cout << "Attacker won" << endl;
-		SendUpdateArmy(container->getPlayerById(attacker->GetOwner()),attacker);
-		defenderloc->SetOwner(map->whoseArmyAt(attacker->getCoords()));
-		SendSetLocationOwner(map->whoseArmyAt(attacker->getCoords()),defenderloc);
-	}else{
-		std::cout << "Defender won" << endl;
-		PlayerPtr player(new Player);
-		SendRemoveArmy(player,attacker->GetOwner(),attacker);
-		attacker->~EArmy();
-	}
 	} else{
 		std::cout << "No town_army" << endl;
 		defenderloc->SetOwner(map->whoseArmyAt(attacker->getCoords()));

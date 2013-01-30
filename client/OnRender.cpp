@@ -125,14 +125,20 @@ void GameClient::RenderInGame() {
 	for (auto place : map.placeList) {
 	    SDL_FreeSurface(SurfVillage);
 		if(place->GetOwner() == player.getPlayerId()){
-			SurfVillage = CSurface::OnLoad(getCharArrayByString(place->getImgPath()));
-
+			if(place->IsStartBase()){
+				SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/startbase.png"));//place->getImgPath()));
+			}else{
+				SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/village.png"));//place->getImgPath()));
+			}
 			CSurface::OnDraw(Surf_Display, SurfVillage,
 					(place->getCoords().x * TILE_SIZE) - camposx,
 					(place->getCoords().y * 20) - camposy);
 		}else{
-			SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/village_opp.png"));
-
+			if(place->IsStartBase()){
+				SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/startbase_opp.png"));//place->getImgPath()));
+			}else{
+				SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/village_opp.png"));//place->getImgPath()));
+			}
 			CSurface::OnDraw(Surf_Display, SurfVillage,
 					(place->getCoords().x * TILE_SIZE) - camposx,
 					(place->getCoords().y * 20) - camposy);
@@ -142,7 +148,7 @@ void GameClient::RenderInGame() {
 	//show Troops
 	for (auto army : player.armies) {
 	    SDL_FreeSurface(SurfVillage);
-		SurfVillage = CSurface::OnLoad(getCharArrayByString(army->getImgPath()));
+		SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/army.png"));//army->getImgPath()));
 
 		CSurface::OnDraw(Surf_Display, SurfVillage,
 				(army->getCoords().x * TILE_SIZE) - camposx,
@@ -152,7 +158,7 @@ void GameClient::RenderInGame() {
 	//show opponent Troops
 	for (auto army : opponent.armies) {
 	    SDL_FreeSurface(SurfVillage);
-		SurfVillage = CSurface::OnLoad(getCharArrayByString(army->getImgPath()));
+		SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/army_opp.png"));//army->getImgPath()));
 
 		CSurface::OnDraw(Surf_Display, SurfVillage,
 				(army->getCoords().x * TILE_SIZE) - camposx,
