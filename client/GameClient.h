@@ -192,8 +192,8 @@ public:
 //============= Network ================
 //======================================
 	//incomming data
-	void RecruitOutside(ARecruit* action);
-	void RecruitInside(ARecruit* action);
+	void RecruitOutside(ARecruitPtr action);
+	void RecruitInside(ARecruitPtr action);
 	void MergeArmyIntoPlace(coordinates coords, EArmyPtr Army);
 	void MergeArmies(coordinates coords, EArmyPtr Army);
 
@@ -211,8 +211,8 @@ public:
 	void SendRecruitTroopOutside(EUnitPtr unit);
 
 	//receive functions
-	void ReceiveLogIn(ALogIn* login);
-	void ReceiveMoveArmy(AMove* move);
+	void ReceiveLogIn(ALogInPtr login);
+	void ReceiveMoveArmy(AMovePtr move);
 	void ReceiveSetAP(ELocationPtr place, coordinates coords);
 	void ReceiveSetTurn(bool endturn);
 

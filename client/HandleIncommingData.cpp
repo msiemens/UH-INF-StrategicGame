@@ -28,11 +28,11 @@ using namespace std;
 
 // Network listeners
 void GameClient::OnNetworkAction(GameActionPtr action){
-	ARecruit* recruit = dynamic_cast<ARecruit*>(action.get());
-	AMove* move = dynamic_cast<AMove*>(action.get());
-	ASetTurn* setTurn = dynamic_cast<ASetTurn*>(action.get());
-	ALogIn* login = dynamic_cast<ALogIn*>(action.get());
-	ASetAPPtr setAP2 = boost::dynamic_pointer_cast<ASetAP>(action);
+	ASetAPPtr setAP = boost::dynamic_pointer_cast<ASetAP>(action);
+	ARecruitPtr recruit = boost::dynamic_pointer_cast<ARecruit>(action);
+	AMovePtr move = boost::dynamic_pointer_cast<AMove>(action);
+	ASetTurnPtr setTurn = boost::dynamic_pointer_cast<ASetTurn>(action);
+	ALogInPtr login = boost::dynamic_pointer_cast<ALogIn>(action);
 
 	if (recruit != NULL) {
 		if(recruit->inside == true){
@@ -152,7 +152,7 @@ void GameClient::ReceiveSetAP(ELocationPtr place, coordinates coords){
 	place->SetAssemblyPointCoords(coords);
 }
 
-void GameClient::ReceiveLogIn(ALogIn* login){
+void GameClient::ReceiveLogIn(ALogInPtr login){
 	if(login->verified){
 		//if(login->id == player.getPlayerId()){
 			ingame = true;
@@ -164,7 +164,7 @@ void GameClient::ReceiveLogIn(ALogIn* login){
 	}
 }
 
-void GameClient::ReceiveMoveArmy(AMove* move){
+void GameClient::ReceiveMoveArmy(AMovePtr move){
 //if moveable...move
 	if(player.onturn){
 		if(map.isWalkable(move->to) == true and map.isPlace(move->to) == false and map.isArmyPositioned(move->to)==false){
@@ -192,7 +192,7 @@ void GameClient::ReceiveMoveArmy(AMove* move){
 	}
 }
 
-void GameClient::RecruitInside(ARecruit* action){
+void GameClient::RecruitInside(ARecruitPtr action){
 	//Myturn
 	ELocationPtr place = map.getPlaceAt(action->base->getCoords());
 
@@ -209,7 +209,7 @@ void GameClient::RecruitInside(ARecruit* action){
 	}
 }
 
-void GameClient::RecruitOutside(ARecruit* action){
+void GameClient::RecruitOutside(ARecruitPtr action){
 	//Myturn
 	if(player.onturn and action->what->GetOwner() == player.getPlayerId()){ // action->what->GetOwner() == player.getPlayerId() and
 		if (map.isArmyPositioned(action->base->GetAssemblyPointCoords())) {

@@ -137,7 +137,11 @@ void GameClient::RenderInGame() {
 			if(place->IsStartBase()){
 				SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/startbase_opp.png"));//place->getImgPath()));
 			}else{
-				SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/village_opp.png"));//place->getImgPath()));
+				if(place->owned){
+					SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/village_opp.png"));
+				}else{
+					SurfVillage = CSurface::OnLoad(getCharArrayByString("client/gfx/entity/village_free.png"));//place->getImgPath()));
+				}
 			}
 			CSurface::OnDraw(Surf_Display, SurfVillage,
 					(place->getCoords().x * TILE_SIZE) - camposx,
