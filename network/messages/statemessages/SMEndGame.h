@@ -16,6 +16,7 @@
 
 class SMEndGame: public GameStateMessage {
 public:
+	SMEndGame();
 	virtual ~SMEndGame();
 	bool win;
 

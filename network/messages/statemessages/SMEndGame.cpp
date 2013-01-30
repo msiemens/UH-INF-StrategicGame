@@ -7,6 +7,10 @@
 
 #include "network/messages/statemessages/SMEndGame.h"
 
+SMEndGame::SMEndGame():win(false){
+
+}
+
 SMEndGame::~SMEndGame() {
 	// TODO Auto-generated destructor stub
 }

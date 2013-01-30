@@ -31,6 +31,7 @@
 #include <network/messages/statemessages/SMUpdateArmy.h>
 #include <network/messages/statemessages/SMRemoveArmy.h>
 #include <network/messages/statemessages/SMUpdateLocationArmy.h>
+#include <network/messages/statemessages/SMEndGame.h>
 
 #include <network/ServerNetwork.h>
 
@@ -487,6 +488,14 @@ void GameEngine::attackLocation(EArmyPtr attacker, ELocationPtr defenderloc) {
 			for(auto player:*(container->getPlayerListPtr())){
 				SendUpdateLocationArmy(player,defender,defender->getCoords());
 			}
+
+			for(auto p:*(container->getPlayerListPtr())){
+				if(attacker->GetOwner()==p->getPlayerId()){
+					SendWinner(p);
+				}else{
+					SendLoser(p);
+				}
+			}
 		}else{
 			std::cout << "Defender won" << endl;
 			PlayerPtr player(new Player);
@@ -509,7 +518,7 @@ void GameEngine::SendSetLocationOwner(boost::uuids::uuid owner, ELocationPtr loc
 	setlocationowner->owner=owner;
 	GameStateMessagePtr message(setlocationowner);
 	for(auto p:*(container->getPlayerListPtr())){
-		m_network.SendMessageA(p,setlocationowner);
+		m_network.SendMessageA(p,message);
 	}
 }
 
@@ -518,6 +527,20 @@ void GameEngine::SendUpdateLocationArmy(PlayerPtr player,EArmyPtr army, coordina
 	updatelocarmy->army=army;
 	updatelocarmy->coords=coords;
 	GameStateMessagePtr message(updatelocarmy);
+	m_network.SendMessageA(player,message);
+}
+
+void GameEngine::SendWinner(PlayerPtr player) {
+	SMEndGamePtr endgame(new SMEndGame);
+	endgame->win=true;
+	GameStateMessagePtr message(endgame);
+	m_network.SendMessageA(player,message);
+}
+
+void GameEngine::SendLoser(PlayerPtr player) {
+	SMEndGamePtr endgame(new SMEndGame);
+	endgame->win=false;
+	GameStateMessagePtr message(endgame);
 	m_network.SendMessageA(player,message);
 }
 
