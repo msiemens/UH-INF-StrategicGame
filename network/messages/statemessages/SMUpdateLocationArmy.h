@@ -14,6 +14,7 @@
 
 #include <network/messages/GameStateMessage.h>
 #include <gamemodel/utils/coordinates.h>
+#include <gamemodel/entities/EArmy.h>
 
 class SMUpdateLocationArmy: public GameStateMessage {
 public:
