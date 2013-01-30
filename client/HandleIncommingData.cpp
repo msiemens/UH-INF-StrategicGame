@@ -20,6 +20,7 @@
 #include "network/messages/statemessages/SMSetLocationOwner.h"
 #include "network/messages/statemessages/SMUpdateArmy.h"
 #include "network/messages/statemessages/SMRemoveArmy.h"
+#include "network/messages/statemessages/SMUpdateLocationArmy.h"
 
 #include <iostream>
 #include <list>
@@ -66,6 +67,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMSetLocationOwner* set_location_owner = dynamic_cast<SMSetLocationOwner*>(message.get());
 	SMUpdateArmy* update_army = dynamic_cast<SMUpdateArmy*>(message.get());
 	SMRemoveArmy* remove_army = dynamic_cast<SMRemoveArmy*>(message.get());
+	SMUpdateLocationArmy* update_loc_army = dynamic_cast<SMUpdateLocationArmy*>(message.get());
 
 	cout << "hier 11111" << endl;
 	if(updateress != NULL){
@@ -134,6 +136,17 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(remove_army->coords));
 			map.setWalkable(remove_army->coords);
+		}
+	}
+	if(update_loc_army != NULL){
+		if(map.getPlaceAt(update_loc_army->coords)->GetOwner() == player.getPlayerId()){
+			for(auto unit: update_loc_army->army->units){
+				map.getPlaceAt(update_loc_army->coords)->town_army->units.push_back(unit);
+			}
+		}else{
+			for(auto unit: update_loc_army->army->units){
+				map.getPlaceAt(update_loc_army->coords)->town_army->units.push_back(unit);
+			}
 		}
 	}
 }
