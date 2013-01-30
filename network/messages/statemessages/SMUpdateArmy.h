@@ -15,14 +15,12 @@
 #include <network/messages/GameStateMessage.h>
 
 #include <gamemodel/entities/EArmy.h>
-#include <gamemodel/utils/coordinates.h>
 
 class SMUpdateArmy: public GameStateMessage {
 public:
 	SMUpdateArmy();
 	virtual ~SMUpdateArmy();
 	EArmyPtr army;
-	coordinates deleted_army_coords;
 
 private:
 	friend class boost::serialization::access;
@@ -31,7 +29,6 @@ private:
 	void serialize(Archive &ar, const unsigned int version) {
 		ar & boost::serialization::base_object<GameStateMessage>(*this);
 		ar & army;
-		ar & deleted_army_coords;
 	}
 };
 typedef boost::shared_ptr<SMUpdateArmy> SMUpdateArmyPtr;

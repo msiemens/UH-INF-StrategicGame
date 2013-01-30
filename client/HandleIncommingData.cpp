@@ -13,6 +13,7 @@
 #include "network/messages/statemessages/SMBattleResult.h"
 #include "network/messages/statemessages/SMSetLocationOwner.h"
 #include "network/messages/statemessages/SMUpdateArmy.h"
+#include "network/messages/statemessages/SMRemoveArmy.h"
 
 #include <iostream>
 #include <list>
@@ -58,6 +59,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMBattleResult* battle_result = dynamic_cast<SMBattleResult*>(message.get());
 	SMSetLocationOwner* set_location_owner = dynamic_cast<SMSetLocationOwner*>(message.get());
 	SMUpdateArmy* update_army = dynamic_cast<SMUpdateArmy*>(message.get());
+	SMRemoveArmy* remove_army = dynamic_cast<SMRemoveArmy*>(message.get());
 
 	cout << "hier 11111" << endl;
 	if(updateress != NULL){
@@ -104,13 +106,22 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 		ELocationPtr location(map.getPlaceAt(set_location_owner->coords));
 		location->SetOwner(set_location_owner->owner);
 	}
+
+
 	if(update_army != NULL){
 		if(update_army->army->GetOwner() == player.getPlayerId()){
-			player.armies.remove(getArmyByCoords(update_army->deleted_army_coords));
+			player.armies.remove(getArmyByCoords(update_army->army->getCoords()));
 			player.addArmy(update_army->army);
 		}else{
-			opponent.armies.remove(getOpponentArmyByCoords(update_army->deleted_army_coords));
+			opponent.armies.remove(getOpponentArmyByCoords(update_army->army->getCoords()));
 			opponent.addArmy(update_army->army);
+		}
+	}
+	if(remove_army != NULL){
+		if(remove_army->owner == player.getPlayerId()){
+			player.armies.remove(getArmyByCoords(remove_army->coords));
+		}else{
+			opponent.armies.remove(getOpponentArmyByCoords(remove_army->coords));
 		}
 	}
 }

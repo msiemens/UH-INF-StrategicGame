@@ -36,6 +36,7 @@
 #include "messages/statemessages/SMBattleResult.h"
 #include "messages/statemessages/SMSetLocationOwner.h"
 #include "messages/statemessages/SMUpdateArmy.h"
+#include "messages/statemessages/SMRemoveArmy.h"
 
 #include "messages/statemessages/SMTest.h"
 
@@ -233,6 +234,8 @@ void ServerNetwork::registerTypes(boost::archive::text_oarchive* archive) {
 	archive->register_type<SMUpdateActionsLeft>();
 	archive->register_type<SMBattleResult>();
 	archive->register_type<SMSetLocationOwner>();
+	archive->register_type<SMUpdateArmy>();
+	archive->register_type<SMRemoveArmy>();
 
 	archive->register_type<SMTest>();
 }
@@ -266,6 +269,7 @@ void ServerNetwork::registerTypes(boost::archive::text_iarchive* archive) {
 	archive->register_type<SMBattleResult>();
 	archive->register_type<SMSetLocationOwner>();
 	archive->register_type<SMUpdateArmy>();
+	archive->register_type<SMRemoveArmy>();
 
 	archive->register_type<SMTest>();
 }
