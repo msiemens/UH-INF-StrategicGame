@@ -114,7 +114,7 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 			player.addArmy(update_army->army);
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(update_army->army->getCoords()));
-			opponent.addArmy(update_army->ar my);
+			opponent.addArmy(update_army->army);
 		}
 	}
 	if(remove_army != NULL){
