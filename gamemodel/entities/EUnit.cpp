@@ -44,7 +44,8 @@ void EUnit::SetAmount(int amount) {
 }
 
 void EUnit::SetDamagePoints(int damage) {
-	int newamount=GetAmount()-damage;
+	int newamount=GetAmount()-(damage);
+
 	if(newamount<0){
 		SetAmount(0);
 	} else {

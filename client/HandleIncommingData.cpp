@@ -120,8 +120,10 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	if(remove_army != NULL){
 		if(remove_army->owner == player.getPlayerId()){
 			player.armies.remove(getArmyByCoords(remove_army->coords));
+			map.setWalkable(remove_army->coords);
 		}else{
 			opponent.armies.remove(getOpponentArmyByCoords(remove_army->coords));
+			map.setWalkable(remove_army->coords);
 		}
 	}
 }

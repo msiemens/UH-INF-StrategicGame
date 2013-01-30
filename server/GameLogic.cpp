@@ -92,7 +92,6 @@ bool GameLogic::checkPlayerAction(PlayerPtr player, GameActionPtr action) {
 
 //move
 	else if (move != NULL) {
-		std::cout << "Logic move" << endl;
 		GameEntityPtr what(move->what);
 		coordinates from=what->getCoords();
 		coordinates to = move->to;

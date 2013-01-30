@@ -126,7 +126,6 @@ void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn) {
 			for (auto players : *(container->getPlayerListPtr())) {
 				if (players->getPlayerIdStr() != player->getPlayerIdStr()) {
 					m_network.SendAction(players, setturn2);
-					//dies funktioniert nur f�r 2 spieler!
 					break;
 				}
 			}
@@ -140,7 +139,6 @@ void GameEngine::onPlayerLogIn(PlayerPtr player, ALogInPtr logIn) {
 			for (auto players : *(container->getPlayerListPtr())) {
 				if (players->getPlayerIdStr() != player->getPlayerIdStr()) {
 					m_network.SendAction(players, setturn2);
-					//dies funktioniert nur f�r 2 spieler!
 					break;
 				}
 			}
@@ -203,8 +201,9 @@ void GameEngine::SendUpdateArmy(PlayerPtr player,EArmyPtr army){
 	SMUpdateArmyPtr updatearmy(new SMUpdateArmy);
 	updatearmy->army = army;
 	GameStateMessagePtr message(updatearmy);
-	for(auto p:*(container->getPlayerListPtr())){
-		m_network.SendMessageA(p,updatearmy);
+	//for(auto p:*(container->getPlayerListPtr())){
+	for(int i=0;i<container->getPlayerCount();i++){
+		m_network.SendMessageA(container->getPlayer(i),updatearmy);
 	}
 }
 
@@ -213,8 +212,9 @@ void GameEngine::SendRemoveArmy(PlayerPtr player,boost::uuids::uuid owner, EArmy
 	removearmy->coords=army->getCoords();
 	removearmy->owner=owner;
 	GameStateMessagePtr message(removearmy);
-	for(auto player:*(container->getPlayerListPtr())){
-		m_network.SendMessageA(player,removearmy);
+	//for(auto player:*(container->getPlayerListPtr())){
+	for(int i=0;i<container->getPlayerCount();i++){
+		m_network.SendMessageA(container->getPlayer(i),removearmy);
 	}
 }
 
@@ -291,6 +291,8 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					army->setCoords(to);
 					map->setArmy(to);
 					army->SetStepsLeft(army->GetStepsLeft() - size);
+					AMovePtr action(move);
+					BroadcastAction(action);
 				} else if (map->isPlace(to) == true) {
 //merge into place
 					EArmyPtr town_army(map->getLocationAt(to)->town_army);
@@ -313,12 +315,9 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 					container->removeArmy(army);
 					map->setWalkable(from);
 					army->~EArmy();
-					std::cout << container->getArmyAt(from)->units.size() << endl;
 				}
 			}
 		}
-		AMovePtr action(move);
-		BroadcastAction(action);
 	}
 
 
@@ -326,7 +325,6 @@ GameActionPtr GameEngine::onPlayerBuild(PlayerPtr player, ABuildPtr build) {
 	EBuildingPtr building(build->what);
 	ELocationPtr where(build->where);
 	where->addBuilding(building);
-
 	ABuildPtr action(build);
 	return action;
 }
@@ -424,8 +422,8 @@ void GameEngine::startSession() {
 
 void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 	for(int i=0;i<3;i++){
-		int damagepoints_defender=(attacker->GetAtk()*10/(defender->GetDef() || 1));
-		int damagepoints_attacker=(defender->GetAtk()*10/(attacker->GetDef() || 1));
+		int damagepoints_defender=(attacker->GetAtk()*(attacker->GetMor()+attacker->GetPac()+5)/(defender->GetDef() || 1));
+		int damagepoints_attacker=(defender->GetAtk()*(defender->GetMor()+defender->GetPac()+5)/(attacker->GetDef() || 1));
 
 		attacker->SetDamagePoints(damagepoints_attacker);
 		defender->SetDamagePoints(damagepoints_defender);
@@ -435,6 +433,9 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 		for(auto player:*(container->getPlayerListPtr())){
 			SendBattleResult(player,attacker,defender->getCoords());
 		}
+		PlayerPtr player(new Player);
+		SendUpdateArmy(player,attacker);
+		SendUpdateArmy(player,defender);
 		map->setWalkable(defender->getCoords());
 		container->removeArmy(defender);
 	}else{
@@ -444,6 +445,21 @@ void GameEngine::attackArmy(EArmyPtr attacker, EArmyPtr defender) {
 		map->setWalkable(attacker->getCoords());
 		container->removeArmy(attacker);
 	}
+/*
+	PlayerPtr player(new Player);
+	if(attacker->units.size()==0){
+		SendRemoveArmy(player,attacker->GetOwner(),attacker);
+	}
+	if(defender->units.size()==0){
+		SendRemoveArmy(player,defender->GetOwner(),defender);
+	}
+
+	if(attacker->units.size() > 0 ){
+		SendUpdateArmy(player,attacker);
+	}
+	if(defender->units.size() > 0){
+		SendUpdateArmy(player,defender);
+	}*/
 }
 
 void GameEngine::attackLocation(EArmyPtr attacker, ELocationPtr defenderloc) {
@@ -451,6 +467,9 @@ void GameEngine::attackLocation(EArmyPtr attacker, ELocationPtr defenderloc) {
 	while(attacker->units.size() != 0 and defender->units.size() != 0){
 		int damagepoints_defender=(attacker->GetAtk()*10/(defender->GetDef() || 1));
 		int damagepoints_attacker=(defender->GetAtk()*10/(attacker->GetDef() || 1));
+
+		damagepoints_defender=10;
+		damagepoints_attacker=15;
 
 		attacker->SetDamagePoints(damagepoints_attacker);
 		defender->SetDamagePoints(damagepoints_defender);
