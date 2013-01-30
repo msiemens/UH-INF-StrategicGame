@@ -303,7 +303,8 @@ void GameEngine::onPlayerMove(PlayerPtr player, AMovePtr move) {
 						town_army->AddUnit(unit);
 					}
 					for(int i=0;i<container->getPlayerCount();i++){
-						SendUpdateArmy(container->getPlayer(i),town_army);
+						//SendUpdateArmy(container->getPlayer(i),town_army);
+						SendUpdateLocationArmy(player,town_army,town_army->getCoords());
 					}
 					SendRemoveArmy(player,player->getPlayerId(),army);
 					container->removeArmy(army);
