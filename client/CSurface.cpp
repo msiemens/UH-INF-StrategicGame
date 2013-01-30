@@ -27,6 +27,7 @@ SDL_Surface* CSurface::OnLoad(char* File) {
 
     if((Surf_Temp = IMG_Load(File)) == NULL) {
     	cerr << "File not found: " << File << endl;
+	cerr << "Error: " << IMG_GetError() << endl;
         return NULL;
     }
 

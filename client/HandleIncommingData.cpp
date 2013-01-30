@@ -71,7 +71,6 @@ void GameClient::OnNetworkMessage(GameStateMessagePtr message){
 	SMUpdateLocationArmy* update_loc_army = dynamic_cast<SMUpdateLocationArmy*>(message.get());
 	SMEndGame* end_game = dynamic_cast<SMEndGame*>(message.get());
 
-	cout << "hier 11111" << endl;
 	if(updateress != NULL){
 		player.setGold(updateress->gold);
 		player.setWood(updateress->wood);

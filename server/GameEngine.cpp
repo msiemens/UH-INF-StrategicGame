@@ -159,7 +159,7 @@ void GameEngine::SendSetStartbase(PlayerPtr player, coordinates coords) {
 	setstartbase->coords.y = coords.y;
 
 	GameStateMessagePtr message(setstartbase);
-	m_network.SendMessageA(player, message);
+	m_network.SendMessage(player, message);
 
 }
 
@@ -170,7 +170,7 @@ void GameEngine::SendUpdateUUID(PlayerPtr player) {
 	update_id->id = player->getPlayerId();
 
 	GameStateMessagePtr message(update_id);
-	m_network.SendMessageA(player, message);
+	m_network.SendMessage(player, message);
 }
 
 void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr winner, coordinates looser_coords){
@@ -179,14 +179,14 @@ void GameEngine::SendBattleResult(PlayerPtr player, EArmyPtr winner, coordinates
 	battle_result->looser_coords = looser_coords;
 
 	GameStateMessagePtr message(battle_result);
-	m_network.SendMessageA(player,message);
+	m_network.SendMessage(player,message);
 }
 
 void GameEngine::SendUpdateActionsLeft(PlayerPtr player){
 	SMUpdateActionsLeftPtr update_action_left(new SMUpdateActionsLeft);
 	update_action_left->actions_left =player->GetActionLeft();
 	GameStateMessagePtr message(update_action_left);
-	m_network.SendMessageA(player,message);
+	m_network.SendMessage(player,message);
 }
 
 void GameEngine::SendUpdateRessources(PlayerPtr player) {
@@ -196,14 +196,14 @@ void GameEngine::SendUpdateRessources(PlayerPtr player) {
 	updateres->wood = player->getWood();
 	updateres->stone = player->getStone();
 	GameStateMessagePtr message(updateres);
-	m_network.SendMessageA(player, message);
+	m_network.SendMessage(player, message);
 }
 
 void GameEngine::SendUpdateArmy(PlayerPtr player,EArmyPtr army){
 	SMUpdateArmyPtr updatearmy(new SMUpdateArmy);
 	updatearmy->army = army;
 	GameStateMessagePtr message(updatearmy);
-	m_network.SendMessageA(player,updatearmy);
+	m_network.SendMessage(player,updatearmy);
 }
 
 void GameEngine::SendRemoveArmy(PlayerPtr player,boost::uuids::uuid owner, EArmyPtr army) {
@@ -213,7 +213,7 @@ void GameEngine::SendRemoveArmy(PlayerPtr player,boost::uuids::uuid owner, EArmy
 	GameStateMessagePtr message(removearmy);
 	//for(auto player:*(container->getPlayerListPtr())){
 	for(int i=0;i<container->getPlayerCount();i++){
-		m_network.SendMessageA(container->getPlayer(i),removearmy);
+		m_network.SendMessage(container->getPlayer(i),removearmy);
 	}
 }
 
@@ -509,7 +509,7 @@ void GameEngine::SendSetLocationOwner(boost::uuids::uuid owner, ELocationPtr loc
 	setlocationowner->owner=owner;
 	GameStateMessagePtr message(setlocationowner);
 	for(auto p:*(container->getPlayerListPtr())){
-		m_network.SendMessageA(p,setlocationowner);
+		m_network.SendMessage(p,setlocationowner);
 	}
 }
 
@@ -518,7 +518,7 @@ void GameEngine::SendUpdateLocationArmy(PlayerPtr player,EArmyPtr army, coordina
 	updatelocarmy->army=army;
 	updatelocarmy->coords=coords;
 	GameStateMessagePtr message(updatelocarmy);
-	m_network.SendMessageA(player,message);
+	m_network.SendMessage(player,message);
 }
 
 void GameEngine::run() {
